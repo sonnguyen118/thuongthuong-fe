@@ -1,0 +1,8 @@
+.ckeditor__show {
+  .ck.ck-editor__top.ck-reset_all {
+    display: none;
+  }
+  .ck-blurred.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline.ck-read-only.ck-column-resize_disabled {
+    border: none !important;
+  }
+}

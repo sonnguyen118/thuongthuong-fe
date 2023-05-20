@@ -1,0 +1,120 @@
+.navbar__pc {
+  padding: 0.1em 20%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 500;
+  &-logo {
+    &-img {
+      margin-top: 0.3em;
+    }
+  }
+  &-item {
+    font-size: 1.4em;
+    font-weight: 600;
+    height: 2.4em !important;
+    font-family: $font-menu;
+    color: $color-title;
+  }
+
+  &-icon {
+    &::after {
+      display: none;
+    }
+  }
+}
+
+// css phần cart
+.cart {
+  .ant-popover-inner {
+    padding: 0;
+  }
+  &-title {
+    padding: 0.5em 0.8em 0 0.8em;
+    font-family: $font-title;
+    color: $color-title;
+    font-size: 1.1em;
+  }
+  &-list {
+    max-height: 320px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  &-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    &:hover {
+      cursor: pointer;
+      background-color: #ededed;
+      .cart-item-information-text-title {
+        color: $color-primary;
+        transition: all 0.2s ease-in-out;
+      }
+    }
+    &-information {
+      display: flex;
+      align-items: flex-start;
+      &-text {
+        margin-left: 0.8em;
+        &-title {
+          font-size: 1.3em;
+          font-weight: 600;
+          font-family: $font-title;
+        }
+        &-quantity {
+          font-size: 1.1em;
+          font-weight: 500;
+          font-family: $font-document;
+          color: $color-title;
+        }
+      }
+    }
+    &-price {
+      margin-left: 3em;
+      &-text {
+        font-family: $font-document;
+        color: $color-primary;
+        font-weight: 600;
+        font-size: 1.3em;
+      }
+    }
+  }
+  &-btn {
+    text-align: right;
+    &-item {
+      margin: 0.8em 0.8em;
+    }
+  }
+}
+// responsive
+@include responsive_200 {
+}
+@include responsive_280 {
+}
+@include responsive_320 {
+}
+
+@include responsive_375 {
+}
+
+@include responsive_456 {
+}
+
+@include responsive_768 {
+}
+@include responsive_1024 {
+}
+
+@include responsive_1280 {
+  .navbar__pc {
+    padding: 0.1em 5%;
+  }
+}
+@include responsive_1440 {
+}
+@include responsive_1650 {
+}
+@include responsive_1900 {
+}

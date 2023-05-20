@@ -1,0 +1,30 @@
+@import "abstracts/mixins";
+@import "abstracts/variables";
+
+@import "base/base";
+@import "base/utilities";
+@import "base/ant";
+@import "base/reactslick";
+@import "base/ckeditor";
+
+@import "layout/footer";
+@import "layout/navbarmobile";
+@import "layout/navbarpc";
+@import "layout/element";
+@import "layout/navigation";
+
+@import "pages/home";
+@import "pages/about";
+@import "pages/news/listnews";
+@import "pages/news/newsdetail";
+
+@import "pages/products/cardproducts";
+@import "pages/products/listproducts";
+@import "pages/products/productdetail";
+@import "pages/products/cartsproducts";
+
+@import "pages/admin/layout";
+
+@import "admin/login";
+@import "admin/layout";
+@import "admin/pages/main";

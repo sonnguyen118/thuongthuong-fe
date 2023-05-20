@@ -1,0 +1,144 @@
+.footer {
+  background-image: url("/images/home/footer.png");
+  background-color: #cccccc;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 2.5em 20%;
+  &__wrap {
+    padding-bottom: 1.5em;
+    &-item {
+      &-title {
+        text-align: left;
+        position: relative;
+        margin-bottom: 1.7em;
+        color: $color-white;
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: -0.5em;
+          left: 0;
+          height: 0.09em;
+          width: 3.5em;
+          background-color: $color-white;
+        }
+      }
+      a {
+        text-align: left;
+        h3 {
+          color: $color-white;
+          font-weight: 400;
+          margin: 1em 0;
+          &:hover {
+            color: $color-primary;
+          }
+        }
+      }
+      &-infor {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 2em;
+
+        &-icon {
+          font-size: 1.5em;
+          color: $color-white;
+        }
+        &-text {
+          color: $color-white;
+          line-height: 1.3em;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+  &__bottom {
+    border-top: 0.05em solid #333;
+    padding-top: 1.5em;
+  }
+}
+
+// responsive
+@include responsive_200 {
+}
+@include responsive_280 {
+}
+@include responsive_320 {
+}
+
+@include responsive_375 {
+}
+
+@include responsive_456 {
+}
+
+@include responsive_768 {
+}
+@include responsive_1024 {
+}
+
+@include responsive_1280 {
+  .footer {
+    background-image: url("/images/home/footer.png");
+    background-color: #cccccc;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 2.5em 5%;
+    &__wrap {
+      padding-bottom: 1.5em;
+      &-item {
+        &-title {
+          text-align: left;
+          position: relative;
+          margin-bottom: 1.7em;
+          color: $color-white;
+          &::after {
+            content: "";
+            position: absolute;
+            bottom: -0.5em;
+            left: 0;
+            height: 0.09em;
+            width: 3.5em;
+            background-color: $color-white;
+          }
+        }
+        a {
+          text-align: left;
+          h3 {
+            color: $color-white;
+            font-weight: 400;
+            margin: 1em 0;
+            &:hover {
+              color: $color-primary;
+            }
+          }
+        }
+        &-infor {
+          display: flex;
+          align-items: flex-start;
+          margin-bottom: 2em;
+
+          &-icon {
+            font-size: 1.5em;
+            color: $color-white;
+          }
+          &-text {
+            color: $color-white;
+            line-height: 1.3em;
+            font-weight: 400;
+          }
+        }
+      }
+    }
+    &__bottom {
+      border-top: 0.05em solid #333;
+      padding-top: 1.5em;
+    }
+  }
+}
+@include responsive_1440 {
+}
+@include responsive_1650 {
+}
+@include responsive_1900 {
+}

@@ -1,0 +1,52 @@
+.news {
+  margin: 2em 20%;
+  &-navigation {
+    margin-top: 8em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    &-time {
+      font-size: 1.1em;
+      color: $color-title;
+      font-family: $font-document;
+      font-weight: 500;
+    }
+  }
+  &-wrap {
+    margin: 2em 0 1em 0;
+    &-title {
+      font-size: 2.2em;
+      color: $color-title;
+      font-family: $font-title;
+      font-weight: 700;
+      margin-bottom: 0.5em;
+    }
+    &-information {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      &-text {
+        font-family: $font-document;
+        font-size: 1.1em;
+        color: $color-title;
+        &-hightline {
+          font-family: $font-document;
+          font-size: 1.1em;
+          color: $color-primary;
+          &:hover {
+            cursor: pointer;
+            font-weight: 600;
+          }
+        }
+      }
+      &-btn {
+      }
+    }
+  }
+}
+
+@include responsive_1280 {
+  .news {
+    margin: 2em 7%;
+  }
+}

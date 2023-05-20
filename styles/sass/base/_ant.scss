@@ -1,0 +1,62 @@
+.ant-menu-item::after {
+  display: block;
+  content: "";
+  border-bottom: 2px solid $color-primary;
+  transform: scaleX(0);
+  transition: transform 0.4s ease-in-out;
+}
+.ant-menu-item:hover::after,
+.ant-menu-item-active::after {
+  transform: scaleX(1);
+}
+
+.ant-menu-item-selected > .ant-menu-title-content {
+  color: $color-primary !important;
+}
+
+.ant-menu-overflow-item.ant-menu-item.ant-menu-item-only-child {
+  &::after {
+    border-bottom-color: $color-primary !important;
+  }
+}
+.ant-menu-overflow-item.ant-menu-submenu.ant-menu-submenu-horizontal {
+  &::after {
+    display: none;
+  }
+}
+.ant-menu.ant-menu-sub.ant-menu-vertical {
+  .ant-menu-title-content {
+    font-family: $font-menu;
+    font-size: 1.15em;
+    font-weight: 500;
+  }
+}
+
+// đổ lại màu cho btn
+.ant-btn-primary {
+  background-color: $color-primary;
+  &:hover {
+    background-color: $color-second !important;
+  }
+}
+// đổ màu khi forcus input
+:where(.css-dev-only-do-not-override-1e3x2xa).ant-input-affix-wrapper:hover,
+:where(.css-dev-only-do-not-override-1e3x2xa).ant-input-affix-wrapper:focus,
+:where(.css-dev-only-do-not-override-1e3x2xa).ant-input-affix-wrapper-focused,
+:where(.css-dev-only-do-not-override-1e3x2xa).ant-input:hover,
+:where(.css-dev-only-do-not-override-1e3x2xa).ant-input:focus,
+:where(.css-dev-only-do-not-override-1e3x2xa).ant-input-focused {
+  border-color: $color-primary !important;
+}
+
+// đổ màu cho nút pagination
+:where(.css-dev-only-do-not-override-1e3x2xa).ant-pagination
+  .ant-pagination-item-active
+  a {
+  color: $color-primary !important;
+}
+
+:where(.css-dev-only-do-not-override-1e3x2xa).ant-pagination
+  .ant-pagination-item-active {
+  border-color: $color-primary !important;
+}

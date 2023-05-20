@@ -1,0 +1,345 @@
+.products__card {
+  .ant-card-body {
+    padding: 0;
+  }
+  &-img {
+    width: 100%;
+    height: 13em;
+  }
+  &-wrap {
+    position: relative;
+    &:hover {
+      .products__card-modal {
+        opacity: 1;
+        transition: all 0.2s ease-in-out;
+      }
+    }
+  }
+  &-modal {
+    transition: all 0.2s ease-in-out;
+    opacity: 0;
+    position: absolute;
+    z-index: 20;
+    top: 4em;
+    left: 50%;
+    transform: translate(-50%);
+    font-size: 1.6em;
+    padding: 0.4em;
+    border-radius: 50%;
+    background-color: $color-white;
+    &:hover {
+      background-color: $color-primary;
+      color: $color-white;
+      transition: all 0.2s linear;
+    }
+  }
+  &-data {
+    padding: 1em;
+    &:hover {
+      .products__card-title {
+        color: $color-primary;
+        transition: all 0.2s ease-in-out;
+      }
+    }
+  }
+  &-title {
+    font-size: 1.15em;
+    line-height: 1.2em;
+    font-weight: 700;
+    font-family: $font-title;
+    transition: all 0.2s ease-in-out;
+    height: 2.4em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* số dòng tối đa */
+    -webkit-box-orient: vertical;
+  }
+  &-price {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: $color-primary;
+    font-family: $font-document;
+    margin-bottom: 2em;
+  }
+  &-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 88%;
+    position: relative;
+    top: 20.6em;
+    z-index: 100;
+    margin: 0 6%;
+    &-btn {
+      font-family: $font-document;
+      font-size: 0.9em;
+      padding: 0.4em 0.05em;
+      border-radius: 3px;
+      width: 48.5%;
+      text-align: center;
+      color: $color-white;
+      background-color: $color-primary;
+      transition: all 0.2s ease-in-out;
+      &:hover {
+        cursor: pointer;
+        background-color: $color-second;
+        transition: all 0.2s ease-in-out;
+      }
+    }
+  }
+
+  // phần dialog
+  &-dialog {
+    padding: 0.5em;
+    width: 45vw !important;
+    .ant-modal-footer {
+      display: none;
+    }
+    &--wrap {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      &-image {
+        width: 30em;
+        height: 30em;
+      }
+      &-information {
+        margin-left: 2em;
+        &-title {
+          font-family: $font-title;
+          font-size: 2em;
+          color: $color-primary;
+          font-weight: 700;
+        }
+        &-category {
+          font-family: $font-title;
+          font-size: 1.1em;
+          margin: 0.6em 0;
+        }
+        &-price {
+          font-family: $font-title;
+          font-size: 1.6em;
+          font-weight: 800;
+          color: $color-primary;
+          margin-bottom: 0.3em;
+        }
+        &-description {
+          font-family: $font-document;
+          color: $color-description;
+          font-size: 1em;
+          text-align: justify;
+          &-hide {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+          }
+          &-button {
+            font-style: italic;
+            color: #666;
+            font-weight: 600;
+            margin-left: 0.3em;
+            &:hover {
+              cursor: pointer;
+              color: $color-primary;
+            }
+          }
+        }
+        &-sub {
+          font-family: $font-document;
+          font-weight: 600;
+          margin: 0.8em 0;
+          font-size: 1em;
+        }
+        &-inputnumber {
+          &-btn {
+            padding: 0 0.7em !important;
+            &-icon {
+              position: relative;
+              line-height: 0.8em;
+              font-family: $font-title;
+              color: $color-title;
+              font-weight: 600;
+              font-size: 2.2em;
+            }
+          }
+          &-main {
+            font-size: 1.2em;
+            font-family: $font-title;
+            font-weight: 600;
+            width: 4em;
+          }
+        }
+        &-btn {
+          height: 3em;
+          span {
+            font-size: 1.4em;
+            font-family: $font-title;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include responsive_1280 {
+  .products__card {
+    .ant-card-body {
+      padding: 0;
+    }
+    &-img {
+      width: 100%;
+      height: 14em;
+    }
+    &-wrap {
+      position: relative;
+      &:hover {
+        .products__card-modal {
+          opacity: 1;
+          transition: all 0.2s ease-in-out;
+        }
+      }
+    }
+    &-modal {
+      transition: all 0.2s ease-in-out;
+      opacity: 0;
+      position: absolute;
+      z-index: 20;
+      top: 4.5em;
+      left: 50%;
+      transform: translate(-50%);
+      font-size: 1.6em;
+      padding: 0.4em;
+      border-radius: 50%;
+      background-color: $color-white;
+      &:hover {
+        background-color: $color-primary;
+        color: $color-white;
+        transition: all 0.2s linear;
+      }
+    }
+    &-data {
+      padding: 1em;
+      &:hover {
+        .products__card-title {
+          color: $color-primary;
+          transition: all 0.2s ease-in-out;
+        }
+      }
+    }
+    &-title {
+      font-size: 1.15em;
+      line-height: 1.2em;
+      font-weight: 700;
+      font-family: $font-title;
+      transition: all 0.2s ease-in-out;
+      height: 2.4em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* số dòng tối đa */
+      -webkit-box-orient: vertical;
+    }
+    &-price {
+      font-size: 1.2em;
+      font-weight: 600;
+      color: $color-primary;
+      font-family: $font-document;
+      margin-bottom: 2em;
+    }
+    &-group {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 88%;
+      position: relative;
+      top: 22.3em;
+      z-index: 100;
+      margin: 0 5%;
+      &-btn {
+        font-family: $font-title;
+        font-size: 1em;
+        padding: 0.5em 0.1em;
+        border-radius: 3px;
+        width: 48.5%;
+        text-align: center;
+        color: $color-white;
+        background-color: $color-primary;
+        transition: all 0.2s ease-in-out;
+        &:hover {
+          cursor: pointer;
+          background-color: $color-second;
+          transition: all 0.2s ease-in-out;
+        }
+      }
+    }
+
+    // phần dialog
+    &-dialog {
+      padding: 0.5em;
+      width: 68vw !important;
+      .ant-modal-footer {
+        display: none;
+      }
+      &--wrap {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        &-image {
+          width: 30em;
+          height: 30em;
+        }
+        &-information {
+          margin-left: 2em;
+          &-title {
+            font-family: $font-title;
+            font-size: 2em;
+            color: $color-primary;
+            font-weight: 700;
+          }
+          &-category {
+            font-family: $font-title;
+            font-size: 1.1em;
+            margin: 0.6em 0;
+          }
+          &-price {
+            font-family: $font-title;
+            font-size: 1.6em;
+            font-weight: 800;
+            color: $color-primary;
+            margin-bottom: 0.3em;
+          }
+          &-description {
+            font-family: $font-document;
+            color: $color-description;
+            font-size: 1em;
+            text-align: justify;
+            &-hide {
+              display: -webkit-box;
+              -webkit-line-clamp: 3;
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+            }
+            &-button {
+              font-style: italic;
+              color: #666;
+              font-weight: 600;
+              margin-left: 0.3em;
+              &:hover {
+                cursor: pointer;
+                color: $color-primary;
+              }
+            }
+          }
+          &-sub {
+            font-family: $font-document;
+            font-weight: 600;
+            margin: 0.8em 0;
+            font-size: 1em;
+          }
+        }
+      }
+    }
+  }
+}

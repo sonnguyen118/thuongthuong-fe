@@ -1,0 +1,31 @@
+.navigation-top {
+  display: flex;
+  align-items: center;
+  &-text {
+    font-family: $font-title;
+    color: $color-description;
+    font-weight: 600;
+    font-size: 1.1em;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+    &-lastchildren {
+      font-family: $font-title;
+      color: $color-description;
+      font-weight: 700;
+      font-size: 1.1em;
+      transition: all 0.2s ease-in-out;
+      text-decoration: none;
+      pointer-events: none;
+    }
+    &:hover {
+      cursor: pointer;
+      color: $color-primary;
+      transition: all 0.2s ease-in-out;
+    }
+  }
+  &-icon {
+    font-size: 1em;
+    margin: 0 0.6em;
+    color: $color-description;
+  }
+}

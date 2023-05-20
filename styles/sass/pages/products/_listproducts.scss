@@ -1,0 +1,146 @@
+.list-products {
+  margin: 2em 20%;
+  margin-top: 8em;
+  &-wrap {
+    margin: 2em 0;
+    display: flex;
+    justify-content: space-between;
+  }
+  &-left {
+    width: 23%;
+    &-title {
+      font-family: $font-title;
+      font-size: 1.8em;
+      font-weight: 700;
+      margin-bottom: 0.3em;
+    }
+    &-wall {
+      background-color: $color-primary;
+      height: 3px;
+      width: 100%;
+      margin-bottom: 1em;
+    }
+    &-item {
+      &-ul {
+        font-family: $font-title;
+        font-size: 1.3em;
+        font-weight: 600;
+        margin-bottom: 0.3em;
+        padding: 0.5em 0;
+        transition: all 0.2s ease-in-out;
+        border-bottom: 0.5px solid #ededed;
+        &:hover {
+          cursor: pointer;
+          color: $color-primary;
+          transition: all 0.2s ease-in-out;
+        }
+      }
+      &-li {
+        font-family: $font-title;
+        font-size: 1.1em;
+        font-weight: 400;
+        padding: 0.5em 0.7em;
+        transition: all 0.2s ease-in-out;
+        border-bottom: 0.5px solid #ededed;
+        &:hover {
+          cursor: pointer;
+          color: $color-primary;
+          transition: all 0.2s ease-in-out;
+        }
+      }
+    }
+  }
+  &-right {
+    width: calc(77% + 1.5em);
+    margin-right: -3em;
+    &-title {
+      font-family: $font-title;
+      font-size: 1.8em;
+      font-weight: 700;
+      margin-bottom: 0.3em;
+      color: $color-title;
+    }
+    &-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      &-item {
+        margin: 1em 0.4em;
+        width: calc(25% - 0.8em);
+      }
+    }
+  }
+}
+
+@include responsive_1280 {
+  .list-products {
+    margin: 7em 7% 2em 7%;
+    &-wrap {
+      margin: 2em 0;
+      display: flex;
+      justify-content: space-between;
+    }
+    &-left {
+      width: 20%;
+      &-title {
+        font-family: $font-title;
+        font-size: 1.8em;
+        font-weight: 700;
+        margin-bottom: 0.3em;
+      }
+      &-wall {
+        background-color: $color-primary;
+        height: 3px;
+        width: 100%;
+        margin-bottom: 1em;
+      }
+      &-item {
+        &-ul {
+          font-family: $font-title;
+          font-size: 1.3em;
+          font-weight: 600;
+          margin-bottom: 0.3em;
+          padding: 0.5em 0;
+          transition: all 0.2s ease-in-out;
+          border-bottom: 0.5px solid #ededed;
+          &:hover {
+            cursor: pointer;
+            color: $color-primary;
+            transition: all 0.2s ease-in-out;
+          }
+        }
+        &-li {
+          font-family: $font-title;
+          font-size: 1.1em;
+          font-weight: 400;
+          padding: 0.5em 0.7em;
+          transition: all 0.2s ease-in-out;
+          border-bottom: 0.5px solid #ededed;
+          &:hover {
+            cursor: pointer;
+            color: $color-primary;
+            transition: all 0.2s ease-in-out;
+          }
+        }
+      }
+    }
+    &-right {
+      width: calc(80%);
+      margin-right: -3em;
+      &-title {
+        font-family: $font-title;
+        font-size: 1.8em;
+        font-weight: 700;
+        margin-bottom: 0.3em;
+        color: $color-title;
+      }
+      &-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        &-item {
+          margin: 1em 0.4em;
+          width: calc(25% - 0.8em);
+        }
+      }
+    }
+  }
+}

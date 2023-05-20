@@ -1,0 +1,52 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": ["src/components/*"],
+      "@components": ["src/components"],
+      "@public/*": ["public/*"],
+      "@public": ["public"],
+      "@repository/*": ["src/repository/*"],
+      "@repository": ["src/repository"],
+      "@styles/*": ["styles/*"],
+      "@styles": ["styles"],
+      "@utils/*": ["src/utils/*"],
+      "@utils": ["src/utils"],
+      "@hook/*": ["src/hook/*"],
+      "@hook": ["src/hook"],
+      "@languages": ["src/languages"],
+      "@languages/*": ["src/languages/*"],
+      "@store": ["store"],
+      "@slices": ["store/slices"],
+      "@slices/*": ["store/slices/*"],
+      "@configs": ["src/configs"],
+      "@configs/*": ["src/configs/*"],
+      "@api": ["src/api"],
+      "@api/*": ["src/api/*"],
+      "@service": ["src/service"],
+      "@service/*": ["src/service/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "pages/test.tsx",
+    "pages/test.jsx"
+  ],
+  "exclude": ["node_modules"]
+}

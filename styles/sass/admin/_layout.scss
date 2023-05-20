@@ -1,0 +1,182 @@
+.admin__layout {
+  &-dasbroah {
+    display: flex;
+    align-items: flex-start;
+    &-slidebar {
+      &-on {
+        width: 20em;
+      }
+      &-off {
+        width: 6em;
+      }
+      background-color: #001427;
+      transition: all 0.2s linear !important;
+      height: 100vh;
+      position: fixed;
+      z-index: 11;
+      &-header {
+        margin-left: 20px;
+        margin-top: 15px;
+        margin-bottom: 10px;
+        height: 40px;
+        display: block;
+        &-logo {
+        }
+        &-title {
+          font-size: 16px;
+          font-weight: 600;
+          font-family: $font-title;
+          margin-left: 10px;
+          color: rgba(255, 255, 255, 0.65);
+        }
+        &:hover {
+          cursor: pointer;
+          .admin__layout-dasbroah-slidebar-header-title {
+            color: $color-white;
+          }
+        }
+      }
+      &-menu {
+        max-height: calc(90vh - 30px);
+        overflow-y: auto;
+      }
+      &-logout {
+        position: absolute;
+        bottom: 30px;
+        margin-left: 30px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+          "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+        &-icon {
+          font-size: 14px;
+          margin-right: 10px;
+          color: rgba(255, 255, 255, 0.65);
+        }
+        &-text {
+          font-size: 14px;
+          color: rgba(255, 255, 255, 0.65);
+        }
+        &:hover {
+          cursor: pointer;
+          .admin__layout-dasbroah-slidebar-logout-text,
+          .admin__layout-dasbroah-slidebar-logout-icon {
+            color: $color-white;
+          }
+        }
+      }
+    }
+    &-navbar {
+      transition: all 0.2s linear !important;
+      background-color: white;
+      z-index: 10;
+      &-on {
+        width: calc(100vw - 20em);
+      }
+      &-off {
+        width: calc(100vw - 6em);
+      }
+      box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+      position: fixed;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5em 2em;
+      // border-bottom: 1px solid #ededed;
+      &-btn {
+        position: relative;
+        top: 8px;
+      }
+      &-information {
+        display: flex;
+        align-items: center;
+        &-notical {
+          border-bottom: none !important;
+        }
+        &-user {
+          display: flex;
+          align-items: center;
+          width: 290px;
+        }
+        &-avatar {
+          width: 40px;
+          height: 40px;
+          margin: 0 1em;
+        }
+      }
+    }
+    &-wrap {
+      transition: all 0.2s linear !important;
+      &-on {
+        width: calc(100vw - 20em);
+        margin-left: 20em;
+      }
+      &-off {
+        width: calc(100vw - 6em);
+        margin-left: 6em;
+      }
+    }
+  }
+  &-main {
+    position: relative;
+    padding: 80px 20px 20px 20px;
+    background-color: #f0f2f5;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+      "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+    &-loading {
+      position: absolute;
+      background-color: #ffffffb7;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      &-icon {
+        display: block;
+        margin-top: 20%;
+      }
+    }
+  }
+}
+
+.admin__element {
+  &--navigation {
+    display: flex;
+    justify-content: space-between;
+    &-wrap {
+      margin-bottom: 15px;
+    }
+
+    &-title {
+      font-size: 2em;
+      font-weight: 600;
+      color: #001427;
+    }
+    &-fragment {
+      &-icon {
+        font-size: 0.8em;
+        margin: 0 0.6em;
+        color: $color-description;
+      }
+      &-text {
+        font-size: 1.1em;
+        font-weight: 700;
+        color: #001427;
+        &:hover {
+          color: $color-primary;
+        }
+        &-lastchildren {
+          font-size: 1.1em;
+          font-weight: 700;
+          color: #001427;
+          text-decoration: none;
+          pointer-events: none;
+        }
+      }
+    }
+    &-description {
+      font-size: 1.1em;
+      color: $color-title;
+      margin-top: 8px;
+    }
+  }
+}
