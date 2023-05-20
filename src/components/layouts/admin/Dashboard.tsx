@@ -29,12 +29,12 @@ import {
   Dropdown,
   message,
   Space,
-  Spin 
+  Spin,
 } from "antd";
 import Link from "next/link";
 import Image from "next/image";
-import { useSelector, useDispatch } from 'react-redux';
-import { setLoading } from '@slices/loadingState';
+import { useSelector, useDispatch } from "react-redux";
+import { setLoading } from "@slices/loadingState";
 
 type MenuItemRT = Required<MenuProps>["items"][number];
 type NoticeProps = {
@@ -42,25 +42,14 @@ type NoticeProps = {
   title: string;
   time: string;
 };
-type MenuItem = Required<MenuProps>["items"][0] & { to?: string };
-
-function getItem(
-  label: React.ReactNode,
-  key: React.Key,
-  icon?: React.ReactNode,
-  children?: MenuItem[],
-  type?: "group",
-  to?: string
-): MenuItem {
-  return {
-    key,
-    icon,
-    children,
-    label,
-    type,
-    to,
-  };
-}
+type MenuItem = {
+  key: React.Key;
+  icon?: React.ReactNode;
+  children?: MenuItem[];
+  label: React.ReactNode;
+  type?: "group";
+  to?: string;
+};
 
 type LayoutProps = {
   children: ReactNode;
@@ -80,11 +69,11 @@ interface RootState {
 }
 const Dashboard = ({ children }: LayoutProps) => {
   const router = useRouter();
-  // const loading = useSelector((state: RootState) => state);
-  // const dispatch = useDispatch();
-  // const toggleLoading = () => {
-  //   dispatch(setLoading(!loading));
-  // };
+  const loading = useSelector((state: RootState) => state.loading.loading);
+  const dispatch = useDispatch();
+  const toggleLoading = () => {
+    dispatch(setLoading(!loading));
+  };
   const [collapsed, setCollapsed] = useState(false);
   const [searchVisible, setSearchVisible] = useState(false);
   const toggleCollapsed = () => {
@@ -96,19 +85,62 @@ const Dashboard = ({ children }: LayoutProps) => {
   const handleInputClick = (e: any) => {
     e.stopPropagation();
   };
+  // Function to generate menu items
+  function getItem(
+    label: string,
+    key: string,
+    icon?: ReactNode,
+    children?: MenuItem[],
+    to?: string
+  ) {
+    return {
+      key,
+      label,
+      icon,
+      children,
+      to,
+    };
+  }
+  // Render menu item function
+  function renderMenuItem(item: MenuItem) {
+    if (item.children) {
+      return (
+        <Menu.SubMenu key={item.key} icon={item.icon} title={item.label}>
+          {item.children.map(renderMenuItem)}
+        </Menu.SubMenu>
+      );
+    } else if (item.to) {
+      return (
+        <Menu.Item key={item.key} icon={item.icon}>
+          <Link href={item.to}>{item.label}</Link>
+        </Menu.Item>
+      );
+    } else {
+      return (
+        <Menu.Item key={item.key} icon={item.icon}>
+          {item.label}
+        </Menu.Item>
+      );
+    }
+  }
   const items: MenuItem[] = [
-    getItem(
-      "Dashbroad",
-      "1",
-      <PieChartOutlined />,
-      undefined,
-      undefined,
-      "/admin/222"
-    ),
+    getItem("Dashbroad", "1", <PieChartOutlined />, undefined, "/admin"),
     getItem("Đơn Hàng", "sub1", <ShoppingCartOutlined />, [
-      getItem("Đơn Hàng chưa xử lý", "2"),
-      getItem("Đơn Hàng đã xử lý", "3"),
-      getItem("Tất cả Đơn Hàng", "4"),
+      getItem(
+        "Đơn Hàng chưa xử lý",
+        "2",
+        undefined,
+        undefined,
+        "/admin/don-hang/don-hang-chua-xu-ly"
+      ),
+      getItem(
+        "Đơn Hàng đã xử lý",
+        "3",
+        undefined,
+        undefined,
+        "/admin/don-hang/don-hang-da-xu-ly"
+      ),
+      getItem("Tất cả Đơn Hàng", "4", undefined, undefined, "/admin/don-hang"),
     ]),
     getItem("Liên Hệ", "sub2", <MailOutlined />, [
       getItem("Liên Hệ chưa xử lý", "5"),
@@ -239,14 +271,16 @@ const Dashboard = ({ children }: LayoutProps) => {
           )}
         </Link>
         <Menu
-          defaultSelectedKeys={["1"]}
-          defaultOpenKeys={["sub1"]}
           mode="inline"
           theme="dark"
+          defaultSelectedKeys={["1"]}
+          defaultOpenKeys={["sub1"]}
           inlineCollapsed={collapsed}
-          items={items}
           className="admin__layout-dasbroah-slidebar-menu"
-        />
+        >
+          {items.map(renderMenuItem)}
+        </Menu>
+
         <div className="admin__layout-dasbroah-slidebar-logout">
           <LogoutOutlined className="admin__layout-dasbroah-slidebar-logout-icon" />
           {!collapsed && (
@@ -375,8 +409,13 @@ const Dashboard = ({ children }: LayoutProps) => {
             </div>
           </div>
         </div>
-        <div className="admin__layout-main">{children}
-          {/* {loading && <div className="admin__layout-main-loading"><Spin size="large" className="admin__layout-main-loading-icon" /></div>} */}
+        <div className="admin__layout-main">
+          {children}
+          {loading && (
+            <div className="admin__layout-main-loading">
+              <Spin size="large" className="admin__layout-main-loading-icon" />
+            </div>
+          )}
         </div>
       </div>
     </div>

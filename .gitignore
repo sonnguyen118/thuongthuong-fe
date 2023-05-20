@@ -16,7 +16,12 @@
 # production
 /build
 /analyze
-/ckeditor
+/analyze/
+/ckeditor5
+/ckeditor5/
+/ckeditor5
+./ckeditor5
+/ckeditor5
 /.idea
 # misc
 .DS_Store

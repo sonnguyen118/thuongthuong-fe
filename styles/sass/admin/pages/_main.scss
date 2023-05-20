@@ -133,16 +133,55 @@
   &-content {
     margin: 4em 15% 0 15%;
     .ant-table {
-      box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+        rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+      .ant-table-content {
+        table {
+          padding: 0 15px;
+        }
+      }
     }
   }
   &-filter {
     background-color: #ffffff;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+      rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
     border-radius: 5px;
     padding: 10px 20px;
     margin-bottom: 2em;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    &-button {
+      width: 180px;
+      &-dropdown {
+        background-color: #ffffff;
+        width: 260px;
+        padding: 5px 20px 10px 20px;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+          rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+        border-radius: 5px;
+        &-title {
+          width: 100%;
+          border-bottom: 1px solid #ededed;
+          font-weight: 700;
+        }
+        &-body {
+          padding: 5px 0;
+          &-title {
+            margin: 5px 0;
+          }
+          &-btn {
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          }
+        }
+      }
+    }
+    &-input {
+      width: calc(100% - 240px);
+    }
   }
 }
