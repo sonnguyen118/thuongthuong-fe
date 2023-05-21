@@ -385,7 +385,7 @@ const App: React.FC = () => {
                       onChange={onChangeImage}
                       onPreview={onPreview}
                     >
-                      {fileList.length < 1 && "+ Upload"}
+                      {fileList.length < 5 && "+ Upload"}
                     </Upload>
                   </ImgCrop>
                 </div>

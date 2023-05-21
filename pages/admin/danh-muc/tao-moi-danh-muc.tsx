@@ -5,15 +5,50 @@ import { Tabs, Button, Input, Select } from "antd";
 import type { TabsProps } from "antd";
 import { StarFilled } from "@ant-design/icons";
 import { useRouter } from "next/router";
+import { handleCategory } from "@service";
+import { useCookies } from "react-cookie";
+import { toast } from 'react-toastify';
+import { useSelector, useDispatch } from "react-redux";
+import { setLoading } from "@slices/loadingState";
+import { fail } from "assert";
 
+interface RootState {
+  loading: {
+    loading: boolean;
+  };
+}
 interface NavigationProps {
   id: number;
   title: string;
   link: string;
 }
+type LanguageKey = 'VI' | 'EN' | 'FR' | 'PO';
+type NameState = {
+  [key in LanguageKey]: string;
+};
 const App: React.FC = () => {
+  const [name, setName] = useState({
+    VI: "",
+    EN: "",
+    FR: "",
+    PO: ""
+  });
+  const [cookies] = useCookies(['accessToken']);
+  const token = cookies['accessToken'];
+  const [link, setLink] = useState("");
+  const [parent, setParent] = useState("");
+  const loading = useSelector((state: RootState) => state.loading.loading);
+  const dispatch = useDispatch();
   const router = useRouter();
   const [level2, setLevel2] = useState(false);
+  const handleInputChange = (languageKey: LanguageKey) => (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setName((prevName) => ({
+      ...prevName,
+      [languageKey]: event.target.value,
+    }));
+  };
   const options = [
     {
       value: "1",
@@ -94,6 +129,7 @@ const App: React.FC = () => {
           <Input
             placeholder="Nhập và tên danh danh mục tiếng việt"
             size="large"
+            onChange={handleInputChange('VI')}
           />
         </>
       ),
@@ -106,6 +142,7 @@ const App: React.FC = () => {
           <Input
             placeholder="Nhập vào tên danh danh mục tiếng anh"
             size="large"
+            onChange={handleInputChange('EN')}
           />
         </>
       ),
@@ -118,6 +155,7 @@ const App: React.FC = () => {
           <Input
             placeholder="Nhập vào tên danh danh mục tiếng pháp"
             size="large"
+            onChange={handleInputChange('FR')}
           />
         </>
       ),
@@ -130,11 +168,21 @@ const App: React.FC = () => {
           <Input
             placeholder="Nhập vào tên danh danh mục tiêng bồ đào nha"
             size="large"
+            onChange={handleInputChange('PO')}
           />
         </>
       ),
     },
   ];
+  const handleSubmit = () => {
+    dispatch(setLoading(true));
+    handleCategory.handleCreateCategory({name, link, parent}, token);
+    toast.success("Tạo danh mục sản phẩm thành công !", {
+      position: toast.POSITION.TOP_RIGHT
+    });
+    // dispatch(setLoading(false));
+  };
+  console.log(token, "token");
   return (
     <Dashboard>
       <div className="admin__main-wrap">
@@ -187,12 +235,13 @@ const App: React.FC = () => {
               addonBefore={process.env.NEXT_PUBLIC_FULL_URL + "/"}
               placeholder=""
               size="large"
+              onChange={(e)=>setLink(e.target.value)}
             />
           </div>
           <div className="admin__main-save">
             <Button type="default">Hủy</Button>
-            <Button type="primary" style={{ marginLeft: 10 }}>
-              Lưu
+            <Button type="primary" style={{ marginLeft: 10 }} onClick={handleSubmit}>
+              Tạo mới
             </Button>
           </div>
         </div>
