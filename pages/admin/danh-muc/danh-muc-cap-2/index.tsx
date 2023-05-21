@@ -80,7 +80,7 @@ const App: React.FC = () => {
     },
     {
       id: 3,
-      title: `Danh mục cấp 1`,
+      title: `Danh mục cấp 2`,
       link: "/",
     },
   ];
@@ -91,15 +91,15 @@ const App: React.FC = () => {
   const optionsSelector = [
     {
       value: "1",
-      label: "Lọc theo alphabeta",
+      label: "Tranh Giấy",
     },
     {
       value: "2",
-      label: "Lọc theo thời gian tạo",
+      label: "Sơn Mài",
     },
     {
       value: "3",
-      label: "Lọc theo đã ẩn",
+      label: "Đồ Gia Dụng",
     },
   ];
   const rowSelection: TableRowSelection<DataType> = {
@@ -142,16 +142,16 @@ const App: React.FC = () => {
   const button: buttonProps = {
     isButton: true,
     style: "add",
-    title: "Tạo danh mục cấp 1",
-    link: "/admin/danh-muc/tao-moi-danh-muc?level=1",
+    title: "Tạo danh mục cấp 2",
+    link: "/admin/danh-muc/tao-moi-danh-muc?level=2",
   };
   return (
     <Dashboard>
       <div className="admin__main-wrap">
         <NavigationAdmin
-          header={"Danh mục cấp 1"}
+          header={"Danh mục cấp 2"}
           description={
-            "Trang quản lý danh sách danh mục cấp 1 trong hệ thống sản phẩm của bạn"
+            "Trang quản lý danh sách danh mục cấp 2 trong hệ thống sản phẩm của bạn"
           }
           data={navigationData}
         />
@@ -160,7 +160,7 @@ const App: React.FC = () => {
             isSelector={true}
             optionsSelector={optionsSelector}
             isDatepicker={false}
-            titleFilter={"Lựa chọn kiểu lọc"}
+            titleFilter={"Lọc theo danh mục cấp 1"}
             placeholderInput={"Tìm kiếm theo tiêu đề danh mục"}
             button={button}
           />
@@ -171,7 +171,7 @@ const App: React.FC = () => {
             onRow={(record, rowIndex) => {
               return {
                 onClick: (event) => {
-                  router.push(`/admin/danh-muc/danh-muc-cap-1/${record.key}`); // Perform router push on row click
+                  router.push(`/admin/danh-muc/danh-muc-cap-2/${record.key}`); // Perform router push on row click
                 },
               };
             }}
