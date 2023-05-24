@@ -1,19 +1,26 @@
 import { Category } from "@repository/admin";
 
-type language = {
-    VI : string;
-    EN : string;
-    FR : string;
-    PO : string;
-}
+type NameState = {
+  [key: string]: string | undefined;
+};
+
 type bodyCategory = {
-    name: language;
+    name: NameState;
     link: string;
     parent: string | number
 };
+
+type bodyGetAllCategoryprops = {
+  language: string;
+}
 
 const createCategory = (body: bodyCategory, token: string): Promise<any> => {
   return Category.create.post("/category/create", body, token);
 };
 
-export default { createCategory };
+
+const getAllCategory = (bodyGetAllCategory :bodyGetAllCategoryprops, token: string): Promise<any> => {
+  return Category.getAllAdmin.get("/category/admin-get-all", bodyGetAllCategory, token);
+};
+
+export default { createCategory, getAllCategory };

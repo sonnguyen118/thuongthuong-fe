@@ -1,15 +1,15 @@
 import { createCategory } from "@api";
 
-type language = {
-    VI : string;
-    EN : string;
-    FR : string;
-    PO : string;
-}
+type NameState = {
+  [key: string]: string | undefined;
+};
 type bodyCategory = {
-    name: language;
+    name: NameState;
     link: string;
     parent: string | number
+};
+type bodyCategoryGetAdmin = {
+  language: string;
 };
 
 type metaProps = {
@@ -21,6 +21,7 @@ type ResponseData = {
   data: any;
   meta: metaProps;
 };
+
 
 const handleCreateCategory = async (body: bodyCategory, token: string): Promise<ResponseData | Error> => {
   try {
@@ -41,4 +42,23 @@ const handleCreateCategory = async (body: bodyCategory, token: string): Promise<
   }
 };
 
-export default { handleCreateCategory };
+const handleGetAllCategory = async (body: bodyCategoryGetAdmin, token: string): Promise<ResponseData | Error> => {
+  try {
+    const response = await createCategory.getAllCategory(body, token);
+    const { data, meta } = response.data;
+    console.log(response, "response")
+    if (meta.status === 200) {
+      return data;
+    } else {
+      throw new Error(`Unexpected status code: ${meta.status}`);
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      return error;
+    } else {
+      return new Error("Unexpected error");
+    }
+  }
+};
+
+export default { handleCreateCategory, handleGetAllCategory };

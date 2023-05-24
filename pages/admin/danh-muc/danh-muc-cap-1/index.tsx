@@ -1,4 +1,4 @@
-import React, { useState, ReactNode } from "react";
+import React, { useState, ReactNode, useEffect } from "react";
 import { Button, Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import type { TableRowSelection } from "antd/es/table/interface";
@@ -6,11 +6,22 @@ import Dashboard from "@components/layouts/admin/Dashboard";
 import { NavigationAdmin } from "@components/elements/navigation";
 import { FilterAdminTable } from "@components/molecules/FilterAdmin";
 import { useRouter } from "next/router";
+import { handleCategory } from "@service";
+import { useCookies } from "react-cookie";
+import { toast } from "react-toastify";
+import { useSelector, useDispatch } from "react-redux";
+import { setLoading } from "@slices/loadingState";
+
 interface DataType {
+  id: number;
+  description: string;
   key: React.Key;
   name: string;
-  tags: boolean;
+  isActive: boolean;
+  isHighlight: boolean;
+  link: string;
   action: ReactNode;
+  parent: any;
 }
 interface buttonProps {
   isButton: boolean;
@@ -31,11 +42,11 @@ const columns: ColumnsType<DataType> = [
   },
   {
     title: "Trạng thái",
-    key: "tags",
-    dataIndex: "tags",
-    render: (_, { tags }) => (
+    key: "isActive",
+    dataIndex: "isActive",
+    render: (_, { isActive }) => (
       <>
-        {tags ? (
+        {isActive ? (
           <Tag color={"green"}>Hiển thị</Tag>
         ) : (
           <Tag color={"volcano"}>Đang ẩn</Tag>
@@ -43,30 +54,56 @@ const columns: ColumnsType<DataType> = [
       </>
     ),
   },
+  ,
   {
-    title: "Thao tác",
-    dataIndex: "address",
-    render: (text, record) => record.action,
-  },
+    title: "Trạng thái",
+    key: "isActive",
+    dataIndex: "isActive",
+    render: (_, { isActive }) => (
+      <>
+        {isActive ? (
+          <Tag color={"green"}>Hiển thị</Tag>
+        ) : (
+          <Tag color={"volcano"}>Đang ẩn</Tag>
+        )}
+      </>
+    ),
+  }
 ];
 
-const data: DataType[] = [];
-for (let i = 0; i < 46; i++) {
-  data.push({
-    key: i + 1,
-    name: `Edward King ${i}`,
-    tags: true,
-    action: <Button>Xóa</Button>,
-  });
-}
 interface NavigationProps {
   id: number;
   title: string;
   link: string;
 }
 const App: React.FC = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [data, setData] = useState();
+  // lấy dữ liệu
+  const [cookies] = useCookies(["accessToken"]);
+  const token = cookies["accessToken"];
+  useEffect(() => {
+    const body = {
+      language: "VI",
+    };
+    dispatch(setLoading(true));
+    handleCategory
+      .handleGetAllCategory(body, token)
+      .then((result) => {
+        // Xử lý kết quả trả về ở đây
+        console.log(result);
+        setData(result);
+        dispatch(setLoading(false));
+      })
+      .catch((error) => {
+        // Xử lý lỗi ở đây
+        console.log(error);
+        dispatch(setLoading(false));
+      });
+  }, []);
+
   const navigationData: NavigationProps[] = [
     {
       id: 1,

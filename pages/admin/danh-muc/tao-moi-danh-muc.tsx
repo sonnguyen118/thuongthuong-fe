@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Dashboard from "@components/layouts/admin/Dashboard";
 import { NavigationAdmin } from "@components/elements/navigation";
-import { Tabs, Button, Input, Select } from "antd";
+import { Tabs, Button, Input, Select, Form } from "antd";
 import type { TabsProps } from "antd";
 import { StarFilled } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import { handleCategory } from "@service";
 import { useCookies } from "react-cookie";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { setLoading } from "@slices/loadingState";
-import { fail } from "assert";
+import { normalizeString } from "@utils/Mocks";
 
 interface RootState {
   loading: {
@@ -22,33 +22,33 @@ interface NavigationProps {
   title: string;
   link: string;
 }
-type LanguageKey = 'VI' | 'EN' | 'FR' | 'PO';
+type LanguageKey = "VI" | "EN" | "FR" | "PO";
 type NameState = {
-  [key in LanguageKey]: string;
+  [key: string]: string | undefined;
 };
 const App: React.FC = () => {
-  const [name, setName] = useState({
-    VI: "",
-    EN: "",
-    FR: "",
-    PO: ""
+  const [name, setName] = useState<{ [key: string]: string | undefined }>({
+    VI: undefined,
+    EN: undefined,
+    FR: undefined,
+    PO: undefined,
   });
-  const [cookies] = useCookies(['accessToken']);
-  const token = cookies['accessToken'];
+  const [cookies] = useCookies(["accessToken"]);
+  const token = cookies["accessToken"];
   const [link, setLink] = useState("");
   const [parent, setParent] = useState("");
   const loading = useSelector((state: RootState) => state.loading.loading);
   const dispatch = useDispatch();
   const router = useRouter();
   const [level2, setLevel2] = useState(false);
-  const handleInputChange = (languageKey: LanguageKey) => (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setName((prevName) => ({
-      ...prevName,
-      [languageKey]: event.target.value,
-    }));
-  };
+  const handleInputChange =
+    (languageKey: LanguageKey) =>
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setName((prevName) => ({
+        ...prevName,
+        [languageKey]: event.target.value,
+      }));
+    };
   const options = [
     {
       value: "1",
@@ -120,18 +120,37 @@ const App: React.FC = () => {
       link: "/",
     },
   ];
+
+  // hàm lọc title chuyển thành link
+  const handleChangeTitleToLink = (value: string) => {
+    setName((prevName) => ({
+      ...prevName,
+      VI: value,
+    }));
+    const newLink = normalizeString(value);
+    setLink(newLink);
+  };
   const items: TabsProps["items"] = [
     {
       key: "1",
       label: `Tiếng Việt`,
       children: (
-        <>
+        <Form.Item
+          name="name"
+          rules={[
+            {
+              required: true,
+              message: "Không được bỏ trống tiêu đề tiếng việt!",
+            },
+          ]}
+        >
           <Input
             placeholder="Nhập và tên danh danh mục tiếng việt"
             size="large"
-            onChange={handleInputChange('VI')}
+            onChange={(e) => handleChangeTitleToLink(e.target.value)}
+            value={name.VI}
           />
-        </>
+        </Form.Item>
       ),
     },
     {
@@ -142,7 +161,8 @@ const App: React.FC = () => {
           <Input
             placeholder="Nhập vào tên danh danh mục tiếng anh"
             size="large"
-            onChange={handleInputChange('EN')}
+            onChange={handleInputChange("EN")}
+            value={name.EN}
           />
         </>
       ),
@@ -155,7 +175,8 @@ const App: React.FC = () => {
           <Input
             placeholder="Nhập vào tên danh danh mục tiếng pháp"
             size="large"
-            onChange={handleInputChange('FR')}
+            onChange={handleInputChange("FR")}
+            value={name.FR}
           />
         </>
       ),
@@ -168,21 +189,71 @@ const App: React.FC = () => {
           <Input
             placeholder="Nhập vào tên danh danh mục tiêng bồ đào nha"
             size="large"
-            onChange={handleInputChange('PO')}
+            onChange={handleInputChange("PO")}
+            value={name.PO}
           />
         </>
       ),
     },
   ];
-  const handleSubmit = () => {
+
+  const onFinish = (values: any) => {
+    if (link === "") {
+      toast.error("Đường dẫn không được bỏ trống", {
+        position: "top-right",
+        autoClose: 1200,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
     dispatch(setLoading(true));
-    handleCategory.handleCreateCategory({name, link, parent}, token);
+    handleCategory.handleCreateCategory({ name, link, parent }, token);
     toast.success("Tạo danh mục sản phẩm thành công !", {
-      position: toast.POSITION.TOP_RIGHT
+      position: "top-right",
+      autoClose: 1200,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      onClose: () => {
+        setName({
+          VI: undefined as string | undefined,
+          EN: undefined as string | undefined,
+          FR: undefined as string | undefined,
+          PO: undefined as string | undefined,
+        });
+        setLink("");
+        dispatch(setLoading(false));
+      },
     });
-    // dispatch(setLoading(false));
   };
-  console.log(token, "token");
+
+  const onFinishFailed = (errorInfo: any) => {
+    console.log("Failed:", errorInfo.errorFields[0].errors[0]);
+    toast.error(
+      errorInfo.errorFields[0]?.errors[0] ||
+        "Có lỗi xảy ra vui lòng kiểm tra lại trước khi gửi",
+      {
+        position: "top-right",
+        autoClose: 1200,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      }
+    );
+  };
+
+  console.log(link, "linh thay đổi");
   return (
     <Dashboard>
       <div className="admin__main-wrap">
@@ -193,58 +264,70 @@ const App: React.FC = () => {
           }
           data={navigationData}
         />
-        <div className="admin__main-content">
-          <div className="admin__main-cards">
-            <label className="admin__main-label">
-              <StarFilled style={{ marginRight: 5 }} />
-              Tên danh mục
-            </label>
-            <Tabs activeKey={activeTab} items={items} onChange={onChange} />
-            {level2 && (
-              <>
-                <div className="admin__main-wall"></div>
-                <label className="admin__main-label">
-                  <StarFilled style={{ marginRight: 5 }} />
-                  Lựa chọn danh mục cha (Danh mục cấp 1)
-                </label>
-                <Select
-                  showSearch
-                  style={{ width: "100%" }}
-                  placeholder="Gõ phím để tìm kiếm danh mục"
-                  size="large"
-                  optionFilterProp="children"
-                  filterOption={(input, option) =>
-                    (option?.label ?? "").includes(input)
-                  }
-                  filterSort={(optionA, optionB) =>
-                    (optionA?.label ?? "")
-                      .toLowerCase()
-                      .localeCompare((optionB?.label ?? "").toLowerCase())
-                  }
-                  options={options}
-                />
-              </>
-            )}
-            <div className="admin__main-wall"></div>
-            <label className="admin__main-label">
-              <StarFilled style={{ marginRight: 5 }} />
-              Đường dẫn
-            </label>
+        <Form
+          name="basic"
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          autoComplete="off"
+        >
+          <div className="admin__main-content">
+            <div className="admin__main-cards">
+              <label className="admin__main-label">
+                <StarFilled style={{ marginRight: 5 }} />
+                Tên danh mục
+              </label>
+              <Tabs activeKey={activeTab} items={items} onChange={onChange} />
+              {level2 && (
+                <>
+                  <div className="admin__main-wall"></div>
+                  <label className="admin__main-label">
+                    <StarFilled style={{ marginRight: 5 }} />
+                    Lựa chọn danh mục cha (Danh mục cấp 1)
+                  </label>
+                  <Select
+                    showSearch
+                    style={{ width: "100%" }}
+                    placeholder="Gõ phím để tìm kiếm danh mục"
+                    size="large"
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                      (option?.label ?? "").includes(input)
+                    }
+                    filterSort={(optionA, optionB) =>
+                      (optionA?.label ?? "")
+                        .toLowerCase()
+                        .localeCompare((optionB?.label ?? "").toLowerCase())
+                    }
+                    options={options}
+                  />
+                </>
+              )}
+              <div className="admin__main-wall"></div>
+              <label className="admin__main-label">
+                <StarFilled style={{ marginRight: 5 }} />
+                Đường dẫn
+              </label>
 
-            <Input
-              addonBefore={process.env.NEXT_PUBLIC_FULL_URL + "/"}
-              placeholder=""
-              size="large"
-              onChange={(e)=>setLink(e.target.value)}
-            />
+              <Input
+                addonBefore={process.env.NEXT_PUBLIC_FULL_URL + "/"}
+                placeholder=""
+                size="large"
+                onChange={(e) => setLink(e.target.value)}
+                value={link}
+              />
+            </div>
+            <div className="admin__main-save">
+              <Button type="default">Hủy</Button>
+              <Button
+                type="primary"
+                style={{ marginLeft: 10 }}
+                htmlType="submit"
+              >
+                Tạo mới
+              </Button>
+            </div>
           </div>
-          <div className="admin__main-save">
-            <Button type="default">Hủy</Button>
-            <Button type="primary" style={{ marginLeft: 10 }} onClick={handleSubmit}>
-              Tạo mới
-            </Button>
-          </div>
-        </div>
+        </Form>
       </div>
     </Dashboard>
   );

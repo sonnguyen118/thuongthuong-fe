@@ -1,15 +1,16 @@
 import request from "../RequestGlobalConfig";
 
-type language = {
-    VI : string;
-    EN : string;
-    FR : string;
-    PO : string;
-}
+type NameState = {
+  [key: string]: string | undefined;
+};
 type bodyCategory = {
-    name: language;
+    name: NameState;
     link: string;
     parent: string | number
+};
+
+type bodyCategoryGetAdmin = {
+  language: string;
 };
 
 const Category = {
@@ -17,6 +18,19 @@ const Category = {
     post: function (path: string, data: bodyCategory, token: string) {
       return request({
         method: "POST",
+        url: process.env.NEXT_PUBLIC_API_URL + path,
+        data: data,
+        headers: {
+          "Content-type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+      });
+    },
+  },
+  getAllAdmin: {
+    get: function (path: string, data: bodyCategoryGetAdmin, token: string) {
+      return request({
+        method: "GET",
         url: process.env.NEXT_PUBLIC_API_URL + path,
         data: data,
         headers: {
