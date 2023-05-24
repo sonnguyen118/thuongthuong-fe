@@ -1,81 +1,93 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { store } from "@store";
-import viText from "@languages/vie.json";
-import loadLanguageText from "@languages";
-import { CardProduct } from "@components/elements/card";
+import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { store } from '@store'
+import viText from '@languages/vie.json'
+import loadLanguageText from '@languages'
+import { CardProduct } from '@components/elements/card'
+import { Product } from '@components/model/Product'
+import { PaginationDto } from '@components/model/PaginationDto'
+import { Pagination } from 'antd'
+import { GET_PRODUCTS_ENDPOINT } from '@api/endpoint'
+import axios from 'axios'
+import { PAGE_SIZE } from 'src/constant/constant'
 
 interface sliderData {
-  id: number;
-  imageUrl: string;
-  title: string;
-  link: string;
-  price: number;
+  id: number
+  imageUrl: string
+  title: string
+  link: string
+  price: number
 }
 
-const ListProducts = () => {
-  const [t, setText] = useState(viText);
+interface ListProductsProps {
+  products: any
+}
+const ListProducts = (props: any) => {
+  // const { products } = props
+  const [t, setText] = useState(viText)
+  const [products, setProducts] = useState<Product[]>([])
+  const [categoryName, setCategoryName] = useState('')
+  const [categoryId, setCategoryId] = useState('')
+
+  const [pagination, setPagination] = useState<PaginationDto>(
+    new PaginationDto()
+  )
+
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
-  );
+  )
   useEffect(() => {
-    loadLanguageText(lang, setText);
-  }, [lang]);
-  const dataStrings: sliderData[] = [
-    {
-      id: 1,
-      imageUrl: "/images/products.jpg",
-      title: `${t.products.TITLE1}`,
-      link: "/chi-tiet-san-pham/tranh-cuon-giay",
-      price: 0,
-    },
-    {
-      id: 2,
-      imageUrl: "/images/thuongthuong-sanpham-01.jpg",
-      title: `${t.products.TITLE2}`,
-      link: "/chi-tiet-san-pham/tranh-cuon-giay",
-      price: 0,
-    },
-    {
-      id: 3,
-      imageUrl: "/images/thuongthuong-sanpham-02.jpeg",
-      title: `${t.products.TITLE3}`,
-      link: "/chi-tiet-san-pham/tranh-cuon-giay",
-      price: 0,
-    },
-    {
-      id: 4,
-      imageUrl: "/images/thuongthuong-sanpham-03.jpeg",
-      title: `${t.products.TITLE4}`,
-      link: "/chi-tiet-san-pham/tranh-cuon-giay",
-      price: 0,
-    },
-    {
-      id: 5,
-      imageUrl: "/images/thuongthuong-sanpham-04.jpg",
-      title: `${t.products.TITLE5}`,
-      link: "/chi-tiet-san-pham/tranh-cuon-giay",
-      price: 0,
-    },
-    {
-      id: 6,
-      imageUrl: "/images/thuongthuong-sanpham-05.jpg",
-      title: `${t.products.TITLE6}`,
-      link: "/chi-tiet-san-pham/tranh-cuon-giay",
-      price: 0,
-    },
-  ];
+    loadLanguageText(lang, setText)
+    setProducts(props.data?.products)
+    setPagination(props.data?.pagination)
+    setCategoryName(props.data?.category?.name)
+    setCategoryId(props.data?.category?.id)
+  }, [lang, props])
+
+  const getProducts = async () => {
+    const res = await axios.post(GET_PRODUCTS_ENDPOINT, {
+      language: lang,
+      page: pagination?.page,
+      size: pagination?.size,
+      categoryId: categoryId
+    })
+    setProducts(res.data.data.products)
+  }
+
+  const onChangePagination = async (current: number, pageSize: number) => {
+    pagination.page = current
+    pagination.size = pageSize
+    setPagination(pagination)
+    getProducts()
+  }
   return (
-    <div className="list-products-right">
-      <div className="list-products-right-title">{t.list_products.TITLE1}</div>
-      <div className="list-products-right-wrap">
-        {dataStrings.map((data, index) => (
-          <div className="list-products-right-wrap-item" key={index}>
-            <CardProduct props={data} />
-          </div>
-        ))}
+    <div className='list-products-right'>
+      <div className='list-products-right-title'>
+        {categoryName ? categoryName : 'TOÀN BỘ SẢN PHẨM'}
       </div>
+      <div className='list-products-right-wrap'>
+        {products?.length > 0 ? (
+          products.map((data, index) => (
+            <div className='list-products-right-wrap-item' key={index}>
+              <CardProduct props={data} />
+            </div>
+          ))
+        ) : (
+          <div>No products found.</div>
+        )}
+      </div>
+      <Pagination
+        total={pagination?.totalRecords ? pagination?.totalRecords : 10}
+        showTotal={total => `Total ${total} items`}
+        defaultCurrent={1}
+        pageSize={pagination?.size ? pagination?.size : 10}
+        pageSizeOptions={PAGE_SIZE}
+        showPrevNextJumpers
+        showSizeChanger
+        onChange={onChangePagination}
+        onShowSizeChange={onChangePagination}
+      />
     </div>
-  );
-};
-export default ListProducts;
+  )
+}
+export default ListProducts

@@ -1,52 +1,129 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { store } from "@store";
-import viText from "@languages/vie.json";
-import loadLanguageText from "@languages";
+import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { store } from '@store'
+import viText from '@languages/vie.json'
+import loadLanguageText from '@languages'
+import axios from 'axios'
+import { ListProducts } from '../home'
+import Link from 'next/link'
+import { Category } from '@components/model/Category'
+import { SAN_PHAM } from 'src/constant/link-master'
 
-const ListCategory = () => {
-  const [t, setText] = useState(viText);
+// interface Category {
+//   id: number
+//   imageUrl: string
+//   name: string
+//   link: string
+//   price: number
+//   subCategories: Category[]
+// }
+
+// const renderCategories = (categories: Category[]) => {
+//   return (
+//     <div className='list-products-left-item-ul'>
+//       {categories.map((category) => (
+//         <div className='list-products-left-item-li' key={category.id}>
+//           {category.name}
+//           {category.subCategories && category.subCategories.length > 0 && (
+//             renderCategories(category.subCategories)
+//           )}
+//         </div>
+//       ))}
+//     </div>
+//   );
+// };
+
+const ListCategory = (props: any) => {
+  const [t, setText] = useState(viText)
+  const [categories, setCategories] = useState<Category[]>([])
+
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
-  );
+  )
+  // const [categories, setCategories] = useState<any[]>([])
+
   useEffect(() => {
-    loadLanguageText(lang, setText);
-  }, [lang]);
+    setCategories(props.data)
+  }, [props])
+  const renderCategories = (arr: Category[]) => {
+    const categoryElement: any[] = []
+    arr.forEach(e => {
+      categoryElement.push(
+        <div className='list-products-left-item-ul' key={e.id}>
+          <Link
+            href={`${SAN_PHAM}` + e.link}
+            className='home__products-header-btn-text'
+          >
+            {e.name}{' '}
+          </Link>
+        </div>
+      )
+      if (e.subCategories && e.subCategories.length > 0) {
+        const paddingLeft = 0
+        handleSubCate(e.subCategories, categoryElement, paddingLeft)
+      }
+    })
+    return categoryElement
+  }
+  const handleSubCate = (
+    arr: Category[],
+    collector: any[],
+    paddingLeft: number
+  ) => {
+    const cssPadding = paddingLeft + 30
+    const subElementStyle = {
+      paddingLeft: cssPadding // Giá trị padding-left 100px
+    }
+    arr.forEach(sub => {
+      if (sub.subCategories && sub.subCategories.length > 0) {
+        collector.push(
+          <div
+            className='list-products-left-item-li'
+            style={subElementStyle}
+            key={sub.id}
+          >
+            <Link
+              href={`${SAN_PHAM}` + sub.link}
+              className='home__products-header-btn-text'
+            >
+              {sub.name}{' '}
+            </Link>
+          </div>
+        )
+        handleSubCate(sub.subCategories, collector, cssPadding)
+      } else
+        collector.push(
+          <div
+            className='list-products-left-item-li'
+            style={subElementStyle}
+            key={sub.id}
+          >
+            <Link
+              href={`${SAN_PHAM}` + sub.link}
+              className='home__products-header-btn-text'
+            >
+              {sub.name}{' '}
+            </Link>
+          </div>
+        )
+    })
+  }
+  // useEffect(() => {
+  //   loadLanguageText(lang, setText);
+  //   getData();
+
+  // }, [lang]);
+
   return (
-    <div className="list-products-left">
-      <div className="list-products-left-title">{t.list_products.TITLE}</div>
-      <div className="list-products-left-wall"></div>
-      <div className="list-products-left-item">
-        <div className="list-products-left-item-ul">
-          {t.list_products.MENU1}
-        </div>
-        <div className="list-products-left-item-li">{t.list_products.DES1}</div>
-        <div className="list-products-left-item-li">{t.list_products.DES2}</div>
-        <div className="list-products-left-item-li">{t.list_products.DES3}</div>
-        <div className="list-products-left-item-li">{t.list_products.DES4}</div>
-        <div className="list-products-left-item-li">{t.list_products.DES5}</div>
-      </div>
-      <div className="list-products-left-item">
-        <div className="list-products-left-item-ul">
-          {t.list_products.MENU1}
-        </div>
-        <div className="list-products-left-item-li">{t.list_products.DES1}</div>
-        <div className="list-products-left-item-li">{t.list_products.DES2}</div>
-        <div className="list-products-left-item-li">{t.list_products.DES3}</div>
-        <div className="list-products-left-item-li">{t.list_products.DES4}</div>
-        <div className="list-products-left-item-li">{t.list_products.DES5}</div>
-      </div>
-      <div className="list-products-left-item">
-        <div className="list-products-left-item-ul">
-          {t.list_products.MENU1}
-        </div>
-        <div className="list-products-left-item-li">{t.list_products.DES1}</div>
-        <div className="list-products-left-item-li">{t.list_products.DES2}</div>
-        <div className="list-products-left-item-li">{t.list_products.DES3}</div>
-        <div className="list-products-left-item-li">{t.list_products.DES4}</div>
-        <div className="list-products-left-item-li">{t.list_products.DES5}</div>
-      </div>
+    <div className='list-products-left'>
+      <div className='list-products-left-title'>{t.list_products.TITLE}</div>
+      <div className='list-products-left-wall'></div>
+      {categories?.length > 0 ? (
+        renderCategories(categories)
+      ) : (
+        <div>No categories found.</div>
+      )}
     </div>
-  );
-};
-export default ListCategory;
+  )
+}
+export default ListCategory

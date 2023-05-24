@@ -1,84 +1,117 @@
-import React, { useState, useEffect } from "react";
-import HeadSEO from "@components/layouts/header/HeadSEO";
-import Layout from "@components/layouts/layout/LayoutClient";
-import { NavigationTopBar } from "@components/elements/navigation";
-import { ListCategory, ListProducts } from "@components/templates/listproducts";
-import { useSelector } from "react-redux";
-import { store } from "@store";
-import viText from "@languages/vie.json";
-import loadLanguageText from "@languages";
+import React, { useState, useEffect } from 'react'
+import HeadSEO from '@components/layouts/header/HeadSEO'
+import Layout from '@components/layouts/layout/LayoutClient'
+import { NavigationTopBar } from '@components/elements/navigation'
+import { ListCategory, ListProducts } from '@components/templates/listproducts'
+import { useSelector } from 'react-redux'
+import { store } from '@store'
+import viText from '@languages/vie.json'
+import loadLanguageText from '@languages'
+import { useRouter } from 'next/router'
+import axios from 'axios'
+import { Category } from '@components/model/Category'
+import { Product } from '@components/model/Product'
+import { GET_CATEGORIES_ENDPOINT, GET_PRODUCTS_ENDPOINT } from '@api/endpoint'
+import { SAN_PHAM } from 'src/constant/link-master'
+
 interface PageSEOData {
-  name: string;
+  name: string
   pageSEO: {
-    title: string;
-    url: string;
-    keywords: string[];
-    description: string;
-    image: string;
-  };
+    title: string
+    url: string
+    keywords: string[]
+    description: string
+    image: string
+  }
 }
 
 interface listNewsData {
-  id: number;
-  title: string;
-  image: string;
-  descriptions: string;
-  time: string;
-  link: string;
+  id: number
+  title: string
+  image: string
+  descriptions: string
+  time: string
+  link: string
 }
 interface NavigationProps {
-  id: number;
-  title: string;
-  link: string;
+  id: number
+  title: string
+  link: string
 }
 const ListNews: React.FC = () => {
-  const [t, setText] = useState(viText);
-  const lang = useSelector(
-    (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
-  );
-  useEffect(() => {
-    loadLanguageText(lang, setText);
-  }, [lang]);
-  const pageSEOData: PageSEOData = {
-    name: "Thương Thương",
-    pageSEO: {
-      title: "Tin Tức | Thương Thương",
-      url: "https://www.critistudio.top/gioi-thieu",
-      keywords: ["website", "home", "page"],
-      description:
-        "Thuong Thuong tổ chức đào tạo nghề cho đối tượng người khuyết tật và người yếu thế nhằm giảm gánh nặng cho gia đình và xã hội.",
-      image: "https://www.critistudio.top/images/seo.jpg",
-    },
-  };
-  const dataNavigation: NavigationProps[] = [
+  const router = useRouter()
+  const { id } = router.query
+  const [categories, setCategories] = useState(null)
+  const [products, setProducts] = useState(null)
+  const [t, setText] = useState(viText)
+  const initDataNavigation: NavigationProps[] = [
     {
       id: 1,
       title: `${t.navigator.HOME}`,
-      link: "/",
+      link: '/'
     },
     {
       id: 2,
-      title: `${t.navigator.MENU2}`,
-      link: "/",
-    },
-  ];
+      title: `Sản phẩm`,
+      link: `${SAN_PHAM}`
+    }
+  ]
+  const [dataNavigation, setDataNavigation] =
+    useState<NavigationProps[]>(initDataNavigation)
+  const lang = useSelector(
+    (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
+  )
+
+  useEffect(() => {
+    loadLanguageText(lang, setText)
+  }, [lang])
+  useEffect(() => {
+    getCategories()
+    getAllProducts()
+  }, [])
+  const getCategories = async () => {
+    console.log('language: ', lang)
+    const res = await axios.post(GET_CATEGORIES_ENDPOINT, {
+      language: lang
+    })
+    setCategories(res.data.data)
+  }
+  const getAllProducts = async () => {
+    const res = await axios.post(GET_PRODUCTS_ENDPOINT, {
+      language: lang,
+      page: 1,
+      size: 10
+    })
+    setProducts(res.data.data)
+  }
+  const pageSEOData: PageSEOData = {
+    name: 'Thương Thương',
+    pageSEO: {
+      title: 'Tin Tức | Thương Thương',
+      url: 'https://www.critistudio.top/gioi-thieu',
+      keywords: ['website', 'home', 'page'],
+      description:
+        'Thuong Thuong tổ chức đào tạo nghề cho đối tượng người khuyết tật và người yếu thế nhằm giảm gánh nặng cho gia đình và xã hội.',
+      image: 'https://www.critistudio.top/images/seo.jpg'
+    }
+  }
 
   return (
     <>
       <HeadSEO pageSEO={pageSEOData.pageSEO} />
       <Layout>
-        <div className="list-products">
-          <div className="list-products-navigation">
+        <div className='list-products'>
+          <div className='list-products-navigation'>
             <NavigationTopBar data={dataNavigation} />
           </div>
-          <div className="list-products-wrap">
-            <ListCategory />
-            <ListProducts />
+          <div className='list-products-wrap'>
+            <ListCategory data={categories} />
+            <ListProducts data={products} />
           </div>
         </div>
       </Layout>
     </>
-  );
-};
+  )
+}
 
-export default ListNews;
+export default ListNews
