@@ -1,74 +1,74 @@
-import React, { useState, useEffect } from "react";
-import { Menu, Input, Button, Popover, List, Badge } from "antd";
+import React, { useState, useEffect } from 'react'
+import { Menu, Input, Button, Popover, List, Badge } from 'antd'
 // Import thư viện Ant Design
-import Image from "next/image";
-import Link from "next/link";
-import { SearchOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import Image from 'next/image'
+import Link from 'next/link'
+import { SearchOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 // sử dụng redux
-import { useSelector } from "react-redux";
-import { store } from "@store";
-import viText from "@languages/vie.json";
-import loadLanguageText from "@languages";
+import { useSelector } from 'react-redux'
+import { store } from '@store'
+import viText from '@languages/vie.json'
+import loadLanguageText from '@languages'
 interface Product {
-  title: string;
-  description: string;
-  price: number;
+  title: string
+  description: string
+  price: number
 }
 
 const NavbarPC: React.FC = () => {
-  const [t, setText] = useState(viText);
+  const [t, setText] = useState(viText)
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
-  );
+  )
   useEffect(() => {
-    loadLanguageText(lang, setText);
-  }, [lang]);
+    loadLanguageText(lang, setText)
+  }, [lang])
   const cart = useSelector(
     (state: ReturnType<typeof store.getState>) => state.cart.items
-  );
-  const { SubMenu } = Menu;
-  const [searchVisible, setSearchVisible] = useState(false);
-  const [searchText, setSearchText] = useState("");
+  )
+  const { SubMenu } = Menu
+  const [searchVisible, setSearchVisible] = useState(false)
+  const [searchText, setSearchText] = useState('')
   const handleSearch = (e: any) => {
-    setSearchText(e.target.value);
-  };
+    setSearchText(e.target.value)
+  }
 
   const toggleSearchVisible = () => {
-    setSearchVisible(!searchVisible);
-  };
+    setSearchVisible(!searchVisible)
+  }
   const handleInputClick = (e: any) => {
-    e.stopPropagation();
-  };
+    e.stopPropagation()
+  }
   const cartContent = (
     <>
       {cart.length > 0 ? (
         <>
-          <h5 className="cart-title">{t.button.BUTTON8}</h5>
+          <h5 className='cart-title'>{t.button.BUTTON8}</h5>
           <List
-            size="small"
+            size='small'
             dataSource={cart}
-            className="cart-list"
-            renderItem={(item) => (
-              <List.Item className="cart-item">
-                <div className="cart-item-information">
+            className='cart-list'
+            renderItem={item => (
+              <List.Item className='cart-item'>
+                <div className='cart-item-information'>
                   <Image
                     src={item.urlImage}
                     alt={item.title}
-                    className="cart-item-information-img"
+                    className='cart-item-information-img'
                     width={60}
                     height={60}
                   />
-                  <div className="cart-item-information-text">
-                    <h3 className="cart-item-information-text-title">
+                  <div className='cart-item-information-text'>
+                    <h3 className='cart-item-information-text-title'>
                       {item.title}
                     </h3>
-                    <p className="cart-item-information-text-quantity">
+                    <p className='cart-item-information-text-quantity'>
                       {t.products.QUANTITY}: x{item.quantity}
                     </p>
                   </div>
                 </div>
-                <div className="cart-item-price">
-                  <p className="cart-item-price-text">
+                <div className='cart-item-price'>
+                  <p className='cart-item-price-text'>
                     {item.price === 0 ? (
                       <>{t.products.PRICE}</>
                     ) : (
@@ -79,11 +79,11 @@ const NavbarPC: React.FC = () => {
               </List.Item>
             )}
           />
-          <div className="cart-btn">
-            <Link href="/gio-hang">
+          <div className='cart-btn'>
+            <Link href='/gio-hang'>
               <Button
-                type={"primary"}
-                className="btn btn-primary cart-btn-item"
+                type={'primary'}
+                className='btn btn-primary cart-btn-item'
               >
                 {t.button.BUTTON9}
               </Button>
@@ -93,147 +93,147 @@ const NavbarPC: React.FC = () => {
       ) : (
         <>
           <Image
-            src="images/cart_empty.png"
-            alt="Thương Thương giỏ hàng"
-            className="cart-none-image"
+            src='images/cart_empty.png'
+            alt='Thương Thương giỏ hàng'
+            className='cart-none-image'
             width={360}
             height={260}
           />
-          <h3 className="cart-none-text">{t.notical.TITLE1}</h3>
+          <h3 className='cart-none-text'>{t.notical.TITLE1}</h3>
         </>
       )}
     </>
-  );
+  )
   return (
     <>
       <Menu
-        mode="horizontal"
+        mode='horizontal'
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
         }}
-        className="navbar__pc"
+        className='navbar__pc'
         items={[
           {
-            key: "logo",
+            key: 'logo',
             label: (
-              <h1 className="navbar__pc-logo">
-                <Link href="/">
+              <h1 className='navbar__pc-logo'>
+                <Link href='/'>
                   <Image
-                    src="/icon/logo.png"
-                    alt="ThuongThuong"
+                    src='/icon/logo.png'
+                    alt='ThuongThuong'
                     width={70}
                     height={60}
-                    loading="lazy"
-                    className="navbar__pc-logo-img"
+                    loading='lazy'
+                    className='navbar__pc-logo-img'
                   />
                 </Link>
               </h1>
             ),
-            className: "navbar__pc-icon",
+            className: 'navbar__pc-icon'
           },
           {
-            key: "home",
-            label: <Link href={"/"}>{t.menu.MENU1}</Link>,
-            style: { marginLeft: "auto" },
-            className: "navbar__pc-item",
+            key: 'home',
+            label: <Link href={'/'}>{t.menu.MENU1}</Link>,
+            style: { marginLeft: 'auto' },
+            className: 'navbar__pc-item'
           },
           {
-            key: "introduce",
-            label: <Link href={"/gioi-thieu"}>{t.menu.MENU2}</Link>,
-            className: "navbar__pc-item",
+            key: 'introduce',
+            label: <Link href={'/gioi-thieu'}>{t.menu.MENU2}</Link>,
+            className: 'navbar__pc-item'
           },
           {
-            key: "news",
+            key: 'news',
             label: (
-              <Link href={"/tin-tuc/danh-sach?trang=1"}>{t.menu.MENU3}</Link>
+              <Link href={'/tin-tuc/danh-sach?trang=1'}>{t.menu.MENU3}</Link>
             ),
-            className: "navbar__pc-item",
+            className: 'navbar__pc-item'
           },
           {
-            key: "product",
-            label: <Link href={"/san-pham"}>{t.menu.MENU4}</Link>,
-            className: "navbar__pc-item navbar__pc-item-dropdown",
+            key: 'product',
+            label: <Link href={'/san-pham'}>{t.menu.MENU4}</Link>,
+            className: 'navbar__pc-item navbar__pc-item-dropdown',
             children: [
-              { key: "handmade1", label: <>{t.menu.SUBMENU1}</> },
-              { key: "handmade2", label: <>{t.menu.SUBMENU2}</> },
-              { key: "leather", label: <>{t.menu.SUBMENU3}</> },
-              { key: "leather", label: <>{t.menu.SUBMENU4}</> },
-            ],
+              { key: '1', label: <>{t.menu.SUBMENU1}</> },
+              { key: '2', label: <>{t.menu.SUBMENU2}</> },
+              { key: '3', label: <>{t.menu.SUBMENU3}</> },
+              { key: '4', label: <>{t.menu.SUBMENU4}</> }
+            ]
           },
           {
-            key: "recruitment",
-            label: <Link href={"/tuyen-dung"}>{t.menu.MENU5}</Link>,
-            className: "navbar__pc-item",
+            key: 'recruitment',
+            label: <Link href={'/tuyen-dung'}>{t.menu.MENU5}</Link>,
+            className: 'navbar__pc-item'
           },
           {
-            key: "contact",
-            label: <Link href={"/lien-he"}>{t.menu.MENU6}</Link>,
-            className: "navbar__pc-item",
+            key: 'contact',
+            label: <Link href={'/lien-he'}>{t.menu.MENU6}</Link>,
+            className: 'navbar__pc-item'
           },
           {
-            key: "cart",
+            key: 'cart',
             label: (
               <Popover
-                placement="bottom"
+                placement='bottom'
                 content={cartContent}
-                className="cart"
+                className='cart'
               >
                 <Badge
                   count={cart.length}
                   overflowCount={99}
-                  style={{ backgroundColor: "red" }}
+                  style={{ backgroundColor: 'red' }}
                 >
-                  <Link href="/gio-hang">
+                  <Link href='/gio-hang'>
                     <Button
                       icon={
-                        <ShoppingCartOutlined style={{ fontSize: "18px" }} />
+                        <ShoppingCartOutlined style={{ fontSize: '18px' }} />
                       }
                       style={{
-                        border: "none",
-                        textDecoration: "underline",
-                        boxShadow: "none",
+                        border: 'none',
+                        textDecoration: 'underline',
+                        boxShadow: 'none'
                       }}
                     />
                   </Link>
                 </Badge>
               </Popover>
             ),
-            className: "navbar__pc-icon",
+            className: 'navbar__pc-icon'
           },
           {
-            key: "search",
+            key: 'search',
             label: (
-              <div style={{ position: "relative" }}>
-                <SearchOutlined style={{ fontSize: "18px" }} />
+              <div style={{ position: 'relative' }}>
+                <SearchOutlined style={{ fontSize: '18px' }} />
                 {searchVisible && (
                   <div
                     style={{
-                      position: "absolute",
-                      top: "100%",
+                      position: 'absolute',
+                      top: '100%',
                       right: 0,
-                      width: "300px",
-                      zIndex: 1,
+                      width: '300px',
+                      zIndex: 1
                     }}
                   >
                     <Input
                       placeholder={t.label.LABEL5}
                       prefix={<SearchOutlined />}
-                      style={{ width: "100%" }}
+                      style={{ width: '100%' }}
                       onClick={handleInputClick}
                     />
                   </div>
                 )}
               </div>
             ),
-            className: "navbar__pc-icon",
-            onClick: toggleSearchVisible,
-          },
+            className: 'navbar__pc-icon',
+            onClick: toggleSearchVisible
+          }
         ]}
       />
     </>
-  );
-};
+  )
+}
 
-export default NavbarPC;
+export default NavbarPC

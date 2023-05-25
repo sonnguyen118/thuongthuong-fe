@@ -57,7 +57,7 @@ const ListNews: React.FC = () => {
       link: `${SAN_PHAM}`
     },
     {
-      id: 2,
+      id: 3,
       title: `${t.navigator.MENU2}`,
       link: `${SAN_PHAM}`
     }

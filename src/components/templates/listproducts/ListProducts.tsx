@@ -23,7 +23,6 @@ interface ListProductsProps {
   products: any
 }
 const ListProducts = (props: any) => {
-  // const { products } = props
   const [t, setText] = useState(viText)
   const [products, setProducts] = useState<Product[]>([])
   const [categoryName, setCategoryName] = useState('')
@@ -80,6 +79,7 @@ const ListProducts = (props: any) => {
         total={pagination?.totalRecords ? pagination?.totalRecords : 10}
         showTotal={total => `Total ${total} items`}
         defaultCurrent={1}
+        current={pagination?.page ? pagination?.page : 1}
         pageSize={pagination?.size ? pagination?.size : 10}
         pageSizeOptions={PAGE_SIZE}
         showPrevNextJumpers
