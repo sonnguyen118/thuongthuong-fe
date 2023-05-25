@@ -1,7 +1,7 @@
 .admin__main {
   // min-height: calc(100vh - 175px);
   &-wrap {
-    height: 100vh;
+    min-height: 100vh;
   }
   &-card {
     display: flex;
@@ -153,7 +153,7 @@
     align-items: center;
     justify-content: space-between;
     &-button {
-      width: 180px;
+      width: 170px;
       &-dropdown {
         background-color: #ffffff;
         width: 260px;
@@ -181,7 +181,84 @@
       }
     }
     &-input {
-      width: calc(100% - 240px);
+      width: calc(100% - 500px);
+    }
+    &-grbtn {
+    }
+  }
+  &-save {
+    background-color: #fff;
+    text-align: right;
+    margin-top: 20px;
+    padding: 10px 0px;
+    &-products {
+      position: fixed;
+      background-color: #ffffffa2;
+      padding: 10px 0px;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      display: flex;
+      justify-content: right;
+      &-btn-2 {
+        margin-right: calc(15% - 30px);
+      }
+    }
+  }
+  &-label {
+    display: block;
+    font-size: 1.1em;
+    color: $color-title;
+    font-weight: 700;
+    margin-bottom: 12px;
+    margin-top: 10px;
+  }
+  &-wall {
+    background-color: #ededed;
+    height: 1px;
+    width: 100%;
+    margin: 20px 0 10px 0;
+  }
+  &-cards {
+    background-color: #fff;
+    padding: 20px 20px;
+    display: block;
+    &-left {
+      width: 70%;
+    }
+    &-right {
+      width: calc(30% - 20px);
+    }
+    .ant-tabs-tab-btn {
+      font-size: 1.1em;
+      font-weight: 600;
+    }
+    &-title {
+      font-size: 1.2em;
+      font-weight: 700;
+      border-bottom: 1px solid #ededed;
+      padding-bottom: 8px;
+      margin-bottom: 8px;
+    }
+  }
+  &-custom-upload {
+    margin-top: 20px;
+    text-align: center;
+    :where(
+        .css-dev-only-do-not-override-1e3x2xa
+      ).ant-upload-wrapper.ant-upload-picture-card-wrapper
+      .ant-upload.ant-upload-select,
+    :where(
+        .css-dev-only-do-not-override-1e3x2xa
+      ).ant-upload-wrapper.ant-upload-picture-circle-wrapper
+      .ant-upload.ant-upload-select {
+      width: 180px !important;
+      height: 180px !important;
+    }
+    .ant-upload-list-item,
+    .ant-upload-list-item-container {
+      width: 180px !important;
+      height: 180px !important;
     }
   }
 }

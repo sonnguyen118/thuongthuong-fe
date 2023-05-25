@@ -1,4 +1,4 @@
-import React, { useState, ReactNode, useEffect } from "react";
+import React, { useState, ReactNode } from "react";
 import { Button, Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import type { TableRowSelection } from "antd/es/table/interface";
@@ -6,22 +6,11 @@ import Dashboard from "@components/layouts/admin/Dashboard";
 import { NavigationAdmin } from "@components/elements/navigation";
 import { FilterAdminTable } from "@components/molecules/FilterAdmin";
 import { useRouter } from "next/router";
-import { handleCategory } from "@service";
-import { useCookies } from "react-cookie";
-import { toast } from "react-toastify";
-import { useSelector, useDispatch } from "react-redux";
-import { setLoading } from "@slices/loadingState";
-
 interface DataType {
-  id: number;
-  description: string;
   key: React.Key;
   name: string;
-  isActive: boolean;
-  isHighlight: boolean;
-  link: string;
+  tags: boolean;
   action: ReactNode;
-  parent: any;
 }
 interface buttonProps {
   isButton: boolean;
@@ -42,11 +31,11 @@ const columns: ColumnsType<DataType> = [
   },
   {
     title: "Trạng thái",
-    key: "isActive",
-    dataIndex: "isActive",
-    render: (_, { isActive }) => (
+    key: "tags",
+    dataIndex: "tags",
+    render: (_, { tags }) => (
       <>
-        {isActive ? (
+        {tags ? (
           <Tag color={"green"}>Hiển thị</Tag>
         ) : (
           <Tag color={"volcano"}>Đang ẩn</Tag>
@@ -54,56 +43,30 @@ const columns: ColumnsType<DataType> = [
       </>
     ),
   },
-  ,
   {
-    title: "Trạng thái",
-    key: "isActive",
-    dataIndex: "isActive",
-    render: (_, { isActive }) => (
-      <>
-        {isActive ? (
-          <Tag color={"green"}>Hiển thị</Tag>
-        ) : (
-          <Tag color={"volcano"}>Đang ẩn</Tag>
-        )}
-      </>
-    ),
-  }
+    title: "Thao tác",
+    dataIndex: "address",
+    render: (text, record) => record.action,
+  },
 ];
 
+const data: DataType[] = [];
+for (let i = 0; i < 46; i++) {
+  data.push({
+    key: i + 1,
+    name: `Edward King ${i}`,
+    tags: true,
+    action: <Button>Xóa</Button>,
+  });
+}
 interface NavigationProps {
   id: number;
   title: string;
   link: string;
 }
 const App: React.FC = () => {
-  const dispatch = useDispatch();
   const router = useRouter();
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const [data, setData] = useState();
-  // lấy dữ liệu
-  const [cookies] = useCookies(["accessToken"]);
-  const token = cookies["accessToken"];
-  useEffect(() => {
-    const body = {
-      language: "VI",
-    };
-    dispatch(setLoading(true));
-    handleCategory
-      .handleGetAllCategory(body, token)
-      .then((result) => {
-        // Xử lý kết quả trả về ở đây
-        console.log(result);
-        setData(result);
-        dispatch(setLoading(false));
-      })
-      .catch((error) => {
-        // Xử lý lỗi ở đây
-        console.log(error);
-        dispatch(setLoading(false));
-      });
-  }, []);
-
   const navigationData: NavigationProps[] = [
     {
       id: 1,
@@ -117,7 +80,7 @@ const App: React.FC = () => {
     },
     {
       id: 3,
-      title: `Danh mục cấp 1`,
+      title: `Danh mục cấp 2`,
       link: "/",
     },
   ];
@@ -128,15 +91,15 @@ const App: React.FC = () => {
   const optionsSelector = [
     {
       value: "1",
-      label: "Lọc theo alphabeta",
+      label: "Tranh Giấy",
     },
     {
       value: "2",
-      label: "Lọc theo thời gian tạo",
+      label: "Sơn Mài",
     },
     {
       value: "3",
-      label: "Lọc theo đã ẩn",
+      label: "Đồ Gia Dụng",
     },
   ];
   const rowSelection: TableRowSelection<DataType> = {
@@ -179,16 +142,16 @@ const App: React.FC = () => {
   const button: buttonProps = {
     isButton: true,
     style: "add",
-    title: "Tạo danh mục cấp 1",
-    link: "/admin/danh-muc/tao-moi-danh-muc?level=1",
+    title: "Tạo danh mục cấp 2",
+    link: "/admin/danh-muc/tao-moi-danh-muc?level=2",
   };
   return (
     <Dashboard>
       <div className="admin__main-wrap">
         <NavigationAdmin
-          header={"Danh mục cấp 1"}
+          header={"Danh mục cấp 2"}
           description={
-            "Trang quản lý danh sách danh mục cấp 1 trong hệ thống sản phẩm của bạn"
+            "Trang quản lý danh sách danh mục cấp 2 trong hệ thống sản phẩm của bạn"
           }
           data={navigationData}
         />
@@ -197,7 +160,7 @@ const App: React.FC = () => {
             isSelector={true}
             optionsSelector={optionsSelector}
             isDatepicker={false}
-            titleFilter={"Lựa chọn kiểu lọc"}
+            titleFilter={"Lọc theo danh mục cấp 1"}
             placeholderInput={"Tìm kiếm theo tiêu đề danh mục"}
             button={button}
           />
@@ -208,7 +171,7 @@ const App: React.FC = () => {
             onRow={(record, rowIndex) => {
               return {
                 onClick: (event) => {
-                  router.push(`/admin/danh-muc/danh-muc-cap-1/${record.key}`); // Perform router push on row click
+                  router.push(`/admin/danh-muc/danh-muc-cap-2/${record.key}`); // Perform router push on row click
                 },
               };
             }}

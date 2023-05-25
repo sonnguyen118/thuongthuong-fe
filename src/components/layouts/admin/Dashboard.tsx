@@ -143,40 +143,149 @@ const Dashboard = ({ children }: LayoutProps) => {
       getItem("Tất cả Đơn Hàng", "4", undefined, undefined, "/admin/don-hang"),
     ]),
     getItem("Liên Hệ", "sub2", <MailOutlined />, [
-      getItem("Liên Hệ chưa xử lý", "5"),
-      getItem("Liên Hệ đã xử lý", "6"),
-      getItem("Tất cả Liên Hệ", "7"),
+      getItem(
+        "Liên Hệ chưa xử lý",
+        "8",
+        undefined,
+        undefined,
+        "/admin/lien-he/lien-he-da-xu-ly"
+      ),
+      getItem(
+        "Liên Hệ đã xử lý",
+        "9",
+        undefined,
+        undefined,
+        "/admin/lien-he/lien-he-chua-xu-ly"
+      ),
+      getItem("Tất cả Liên Hệ", "10", undefined, undefined, "/admin/lien-he"),
     ]),
     getItem("Danh Mục Sản Phẩm", "sub3", <ShopOutlined />, [
-      getItem("Danh mục cấp 1", "8"),
-      getItem("Danh mục cấp 2", "9"),
-      getItem("Tất cả Danh Mục", "10"),
-      getItem("Tạo mới Danh Mục", "11"),
+      getItem(
+        "Danh mục cấp 1",
+        "13",
+        undefined,
+        undefined,
+        "/admin/danh-muc/danh-muc-cap-1"
+      ),
+      getItem(
+        "Danh mục cấp 2",
+        "14",
+        undefined,
+        undefined,
+        "/admin/danh-muc/danh-muc-cap-2"
+      ),
+      getItem(
+        "Tạo mới Danh Mục cấp 1",
+        "15",
+        undefined,
+        undefined,
+        "/admin/danh-muc/tao-moi-danh-muc?level=1"
+      ),
+      getItem(
+        "Tạo mới Danh Mục cấp 2",
+        "16",
+        undefined,
+        undefined,
+        "/admin/danh-muc/tao-moi-danh-muc?level=2"
+      ),
+      getItem("Tất cả Danh Mục", "10", undefined, undefined, "/admin/danh-muc"),
     ]),
     getItem("Sản Phẩm", "sub4", <InboxOutlined />, [
-      getItem("Sản Phẩm bán chạy", "12"),
-      getItem("Sản Phẩm đã xóa", "13"),
-      getItem("Toàn bộ Sản Phẩm", "14"),
-      getItem("Tạo mới Sản Phẩm", "15"),
+      getItem(
+        "Toàn bộ Sản Phẩm",
+        "21",
+        undefined,
+        undefined,
+        "/admin/san-pham/toan-bo-san-pham"
+      ),
+      getItem(
+        "Sản Phẩm đã ẩn",
+        "20",
+        undefined,
+        undefined,
+        "/admin/san-pham/san-pham-da-an"
+      ),
+      getItem(
+        "Tạo mới Sản Phẩm",
+        "22",
+        undefined,
+        undefined,
+        "/admin/san-pham/tao-moi-san-pham"
+      ),
+      getItem(
+        "Sản Phẩm bán chạy",
+        "19",
+        undefined,
+        undefined,
+        "/admin/san-pham/san-pham-ban-chay"
+      ),
     ]),
     getItem("Layout", "sub5", <DesktopOutlined />, [
-      getItem("Menu", "16"),
-      getItem("Footer", "17"),
+      getItem("Menu", "25", undefined, undefined, "/admin/layout/menu"),
+      getItem("Footer", "26", undefined, undefined, "/admin/layout/footer"),
     ]),
     getItem("Bài viết hệ thống", "sub6", <FileProtectOutlined />, [
-      getItem("Trang chủ", "18"),
-      getItem("Giới Thiệu", "19"),
-      getItem("Tuyển Dụng", "20"),
-      getItem("Liên Hệ", "21"),
+      getItem(
+        "Trang chủ",
+        "29",
+        undefined,
+        undefined,
+        "/admin/he-thong/trang-chu"
+      ),
+      getItem(
+        "Giới Thiệu",
+        "30",
+        undefined,
+        undefined,
+        "/admin/he-thong/gioi-thieu"
+      ),
+      getItem(
+        "Tuyển Dụng",
+        "31",
+        undefined,
+        undefined,
+        "/admin/he-thong/tuyen-dung"
+      ),
+      getItem("Liên Hệ", "32", undefined, undefined, "/admin/he-thong/lien-he"),
     ]),
     getItem("Bài viết tin tức", "sub7", <FileTextOutlined />, [
-      getItem("Toàn bộ bài viết", "22"),
-      getItem("Bài việt đã ẩn", "23"),
-      getItem("Thêm bài viết", "24"),
+      getItem(
+        "Toàn bộ bài viết",
+        "35",
+        undefined,
+        undefined,
+        "/admin/bai-viet"
+      ),
+      getItem(
+        "Bài việt đã ẩn",
+        "36",
+        undefined,
+        undefined,
+        "/admin/bai-viet/bai-viet-bi-an"
+      ),
+      getItem(
+        "Thêm bài viết",
+        "37",
+        undefined,
+        undefined,
+        "/admin/bai-viet/them-bai-viet"
+      ),
     ]),
     getItem("Người Dùng", "sub8", <UserOutlined />, [
-      getItem("Thêm người dùng", "25"),
-      getItem("Danh sách người dùng", "26"),
+      getItem(
+        "Thêm người dùng",
+        "40",
+        undefined,
+        undefined,
+        "/admin/nguoi-dung/them-nguoi-dung"
+      ),
+      getItem(
+        "Danh sách người dùng",
+        "41",
+        undefined,
+        undefined,
+        "/admin/nguoi-dung/danh-sach-nguoi-dung"
+      ),
     ]),
   ];
   const [cookies, setCookie, removeCookie] = useCookies([

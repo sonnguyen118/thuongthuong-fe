@@ -30,7 +30,7 @@ const Ckeditor: React.FC<{ data: string }> = ({ data }) => {
           />
         </div>
       ) : (
-        <Spin tip="Loading..." />
+        <Spin />
       )}
     </div>
   );

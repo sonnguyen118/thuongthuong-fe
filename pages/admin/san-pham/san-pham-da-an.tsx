@@ -1,27 +1,21 @@
-import React, { useState, ReactNode, useEffect } from "react";
-import { Button, Table, Tag } from "antd";
+import React, { useState, ReactNode } from "react";
+import { Button, Table, Tag, Switch } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
 import type { TableRowSelection } from "antd/es/table/interface";
 import Dashboard from "@components/layouts/admin/Dashboard";
 import { NavigationAdmin } from "@components/elements/navigation";
-import { FilterAdminTable } from "@components/molecules/FilterAdmin";
+import { FilterAdminProducts } from "@components/molecules/FilterAdmin";
 import { useRouter } from "next/router";
-import { handleCategory } from "@service";
-import { useCookies } from "react-cookie";
-import { toast } from "react-toastify";
-import { useSelector, useDispatch } from "react-redux";
-import { setLoading } from "@slices/loadingState";
-
+import Image from "next/image";
 interface DataType {
-  id: number;
-  description: string;
   key: React.Key;
+  image: string;
   name: string;
-  isActive: boolean;
-  isHighlight: boolean;
-  link: string;
+  tags: boolean;
+  title1: string;
+  title2: string;
   action: ReactNode;
-  parent: any;
 }
 interface buttonProps {
   isButton: boolean;
@@ -36,74 +30,71 @@ const columns: ColumnsType<DataType> = [
     render: (text) => <>{text}</>,
   },
   {
-    title: "Tiêu đề danh mục",
+    title: "Hình sảnh",
+    dataIndex: "image",
+    render: (text) => (
+      <Image src={text} width={60} height={60} alt="ảnh sản phẩm"></Image>
+    ),
+  },
+  {
+    title: "Tên sản phẩm",
     dataIndex: "name",
     render: (text) => <>{text}</>,
   },
   {
     title: "Trạng thái",
-    key: "isActive",
-    dataIndex: "isActive",
-    render: (_, { isActive }) => (
-      <>
-        {isActive ? (
-          <Tag color={"green"}>Hiển thị</Tag>
-        ) : (
-          <Tag color={"volcano"}>Đang ẩn</Tag>
-        )}
-      </>
+    key: "tags",
+    dataIndex: "tags",
+    render: (_, { tags }) => (
+      <Switch
+        checkedChildren="Tạm ẩn"
+        unCheckedChildren="Bỏ ẩn"
+        defaultChecked={tags}
+      />
     ),
   },
-  ,
   {
-    title: "Trạng thái",
-    key: "isActive",
-    dataIndex: "isActive",
-    render: (_, { isActive }) => (
-      <>
-        {isActive ? (
-          <Tag color={"green"}>Hiển thị</Tag>
-        ) : (
-          <Tag color={"volcano"}>Đang ẩn</Tag>
-        )}
-      </>
+    title: "Danh mục cấp 1",
+    dataIndex: "title1",
+    render: (text) => <>{text}</>,
+  },
+  {
+    title: "Danh mục cấp 2",
+    dataIndex: "title2",
+    render: (text) => <>{text}</>,
+  },
+  {
+    title: "Thao tác",
+    dataIndex: "action",
+    render: (_, { tags }) => (
+      <Button size={"small"}>
+        <DeleteOutlined style={{ marginRight: 4 }} />
+        Xóa
+      </Button>
     ),
-  }
+  },
 ];
 
+const data: DataType[] = [];
+for (let i = 0; i < 46; i++) {
+  data.push({
+    key: i + 1,
+    image: "/images/thuongthuong-sanpham-02.jpeg",
+    name: `Edward King ${i}`,
+    tags: false,
+    title1: "Tranh Giấy",
+    title2: "Tranh Giấy Bóng",
+    action: false,
+  });
+}
 interface NavigationProps {
   id: number;
   title: string;
   link: string;
 }
 const App: React.FC = () => {
-  const dispatch = useDispatch();
   const router = useRouter();
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const [data, setData] = useState();
-  // lấy dữ liệu
-  const [cookies] = useCookies(["accessToken"]);
-  const token = cookies["accessToken"];
-  useEffect(() => {
-    const body = {
-      language: "VI",
-    };
-    dispatch(setLoading(true));
-    handleCategory
-      .handleGetAllCategory(body, token)
-      .then((result) => {
-        // Xử lý kết quả trả về ở đây
-        console.log(result);
-        setData(result);
-        dispatch(setLoading(false));
-      })
-      .catch((error) => {
-        // Xử lý lỗi ở đây
-        console.log(error);
-        dispatch(setLoading(false));
-      });
-  }, []);
-
   const navigationData: NavigationProps[] = [
     {
       id: 1,
@@ -176,31 +167,17 @@ const App: React.FC = () => {
       },
     ],
   };
-  const button: buttonProps = {
-    isButton: true,
-    style: "add",
-    title: "Tạo danh mục cấp 1",
-    link: "/admin/danh-muc/tao-moi-danh-muc?level=1",
-  };
+
   return (
     <Dashboard>
       <div className="admin__main-wrap">
         <NavigationAdmin
-          header={"Danh mục cấp 1"}
-          description={
-            "Trang quản lý danh sách danh mục cấp 1 trong hệ thống sản phẩm của bạn"
-          }
+          header={"Danh sách sản phẩm đã bị ẩn"}
+          description={"Trang quản lý danh sách hệ thống sản phẩm của bạn"}
           data={navigationData}
         />
         <div className="admin__main-content">
-          <FilterAdminTable
-            isSelector={true}
-            optionsSelector={optionsSelector}
-            isDatepicker={false}
-            titleFilter={"Lựa chọn kiểu lọc"}
-            placeholderInput={"Tìm kiếm theo tiêu đề danh mục"}
-            button={button}
-          />
+          <FilterAdminProducts optionsSelector={optionsSelector} />
           <Table
             rowSelection={rowSelection}
             columns={columns}

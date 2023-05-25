@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import Head from "next/head";
+import { Spin } from "antd";
 
 const Ckeditor: React.FC = () => {
   const editorRef = useRef<{ CKEditor: any; ClassicEditor: any }>({
@@ -16,11 +16,9 @@ const Ckeditor: React.FC = () => {
     setEditorLoaded(true);
   }, []);
   const editorConfig = {
-    toolbar: null, // ẩn thanh công cụ
+    height: "500px", // ẩn thanh công cụ
   };
-  const [data, setData] = useState(
-    `<figure class="media"><oembed url="https://www.youtube.com/watch?v=O36r05htZXU"></oembed></figure>`
-  );
+  const [data, setData] = useState(null);
 
   const handleEditorChange = (event: any, editor: any) => {
     const newData = editor.getData();
@@ -28,32 +26,19 @@ const Ckeditor: React.FC = () => {
   };
   console.log(data, "data");
   return (
-    <div>
-      <Head>
-        <title>Ckeditor 5</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <h1>Ckeditor5 Nextjs</h1>
+    <>
       {editorLoaded ? (
         <>
           <editorRef.current.CKEditor
             editor={editorRef.current.ClassicEditor}
             onChange={handleEditorChange}
+            config={editorConfig}
           />
-          <div className="ckeditor__show">
-            <editorRef.current.CKEditor
-              editor={editorRef.current.ClassicEditor}
-              config={editorConfig}
-              data={data}
-              disabled={true}
-            />
-          </div>
         </>
       ) : (
-        "loading..."
+        <Spin />
       )}
-    </div>
+    </>
   );
 };
 

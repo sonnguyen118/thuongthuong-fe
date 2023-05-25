@@ -12,7 +12,12 @@ interface DataType {
   age: number;
   address: string;
 }
-
+interface buttonProps {
+  isButton: boolean;
+  style: string;
+  title: string;
+  link: string;
+}
 const columns: ColumnsType<DataType> = [
   {
     title: "Tên Khách Hàng",
@@ -103,7 +108,18 @@ const App: React.FC = () => {
       },
     ],
   };
-
+  const optionsSelector = [
+    {
+      value: "1",
+      label: "Select",
+    },
+  ];
+  const button: buttonProps = {
+    isButton: false,
+    style: "",
+    title: "",
+    link: "",
+  };
   return (
     <Dashboard>
       <div className="admin__main-wrap">
@@ -113,7 +129,14 @@ const App: React.FC = () => {
           data={navigationData}
         />
         <div className="admin__main-content">
-          <FilterAdminTable placeholderInput={"Tìm kiếm theo tên khách hàng"} />
+          <FilterAdminTable
+            isSelector={false}
+            optionsSelector={optionsSelector}
+            isDatepicker={true}
+            titleFilter={"Hiển thị tất cả đơn hàng từ"}
+            placeholderInput={"Tìm kiếm theo tên khách hàng"}
+            button={button}
+          />
           <Table
             rowSelection={rowSelection}
             columns={columns}
