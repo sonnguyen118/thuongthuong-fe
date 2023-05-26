@@ -1,128 +1,141 @@
-import React, { useState, useEffect } from "react";
-import HeadSEO from "@components/layouts/header/HeadSEO";
-import Layout from "@components/layouts/layout/LayoutClient";
-import { NavigationTopBar } from "@components/elements/navigation";
-import { ProductsContent } from "@components/templates/products";
-import { CkeditorDisable } from "@components/molecules/ckeditor";
-import { ShareAltOutlined } from "@ant-design/icons";
-import { Button } from "antd";
-import { useSelector } from "react-redux";
-import { store } from "@store";
-import viText from "@languages/vie.json";
-import loadLanguageText from "@languages";
+import React, { useState, useEffect } from 'react'
+import HeadSEO from '@components/layouts/header/HeadSEO'
+import Layout from '@components/layouts/layout/LayoutClient'
+import { NavigationTopBar } from '@components/elements/navigation'
+import { ProductsContent } from '@components/templates/products'
+import { CkeditorDisable } from '@components/molecules/ckeditor'
+import { ShareAltOutlined } from '@ant-design/icons'
+import { Button } from 'antd'
+import { useSelector } from 'react-redux'
+import { store } from '@store'
+import viText from '@languages/vie.json'
+import loadLanguageText from '@languages'
+import { useRouter } from 'next/router'
+import axios from 'axios'
+import { GET_ARTICLE_DETAIL_ENDPOINT } from '@api/endpoint'
 interface PageSEOData {
-  name: string;
+  name: string
   pageSEO: {
-    title: string;
-    url: string;
-    keywords: string[];
-    description: string;
-    image: string;
-  };
+    title: string
+    url: string
+    keywords: string[]
+    description: string
+    image: string
+  }
 }
 
 interface NavigationProps {
-  id: number;
-  title: string;
-  link: string;
+  id: number
+  title: string
+  link: string
+}
+
+class ArticleDetail {
+  title: string = ''
+  image: string = ''
+  createdAt: string = ''
+  content: string = ''
+  description: string = ''
 }
 
 const ListNews: React.FC = () => {
-  const [t, setText] = useState(viText);
+  const router = useRouter()
+  const { id } = router.query
+  const [t, setText] = useState(viText)
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
-  );
-  const [data, setData] =
-    useState(`<h3 style=\"text-align:justify;\"><strong>Sản phẩm Tranh Phố Giấy Cuốn</strong></h3><figure class=\"image\"><img src=\"https://vcdn-giadinh.vnecdn.net/2019/10/04/1911983132-w500-4066-1570159649.png\" alt=\"Chàng khuyết tật vẽ tranh bằng miệng - VnExpress Đời sống\"></figure><p style=\"text-align:center;\"><i><strong>Hình ảnh: Người khuyết tật vẽ tranh bằng miệng</strong></i></p><p style=\"text-align:justify;\">Tranh là một hình thức nghệ thuật phổ biến, được yêu thích và trân trọng bởi rất nhiều người trên toàn thế giới. Điều đặc biệt ở đây là cách mà một số người khuyết tật đã sáng tạo và tạo ra những tác phẩm nghệ thuật đầy cảm hứng và tuyệt vời bằng tay của mình.</p><p style=\"text-align:justify;\">Có nhiều cách để làm tranh, tùy thuộc vào phong cách, chủ đề và vật liệu được sử dụng. Với những người khuyết tật, việc làm tranh có thể trở nên khó khăn hơn do những giới hạn về thị giác, khả năng di chuyển, cảm giác về tay và chân, và nhiều yếu tố khác.</p><p style=\"text-align:justify;\">Tuy nhiên, với sự sáng tạo và nỗ lực, những người khuyết tật đã tìm ra những cách riêng để tạo ra những tác phẩm nghệ thuật độc đáo và đẹp mắt. Một trong những cách đó là sử dụng kỹ thuật vẽ bằng miệng hoặc chân.</p><p style=\"text-align:justify;\">Khi vẽ bằng miệng, người khuyết tật sử dụng cánh tay và ngón tay để giữ tay vẽ và dùng miệng để điều khiển việc vẽ. Họ phải đặt tay vẽ vào một vị trí cố định để tạo ra độ chính xác và độ tương phản trong hình ảnh. Việc vẽ bằng miệng yêu cầu sự kiên nhẫn và kỹ năng đặc biệt, và thường mất nhiều thời gian hơn so với việc vẽ bằng tay.</p><p style=\"text-align:justify;\">Ngoài ra, còn có kỹ thuật vẽ bằng chân, khi đó người khuyết tật sử dụng đôi chân để điều khiển việc vẽ. Họ đặt tay vẽ vào một vị trí cố định và sử dụng đôi chân để tạo ra các nét vẽ. Điều này cũng đòi hỏi sự kiên nhẫn và kỹ năng, và cũng có thể mất nhiều thời gian hơn so với việc vẽ bằng tay hoặc miệng.</p><p style=\"text-align:justify;\">Ngoài ra, còn có những người khuyết tật sử dụng những công nghệ trợ giúp để vẽ, như máy tính</p> data\n" +
-"test.tsx:29 <h3 style=\"text-align:justify;\"><strong>Sản phẩm Tranh Phố Giấy Cuốn</strong></h3><figure class=\"image\"><img src=\"https://vcdn-giadinh.vnecdn.net/2019/10/04/1911983132-w500-4066-1570159649.png\" alt=\"Chàng khuyết tật vẽ tranh bằng miệng - VnExpress Đời sống\"></figure><p style=\"text-align:center;\"><i><strong>Hình ảnh: Người khuyết tật vẽ tranh bằng miệng</strong></i></p><p style=\"text-align:justify;\">Tranh là một hình thức nghệ thuật phổ biến, được yêu thích và trân trọng bởi rất nhiều người trên toàn thế giới. Điều đặc biệt ở đây là cách mà một số người khuyết tật đã sáng tạo và tạo ra những tác phẩm nghệ thuật đầy cảm hứng và tuyệt vời bằng tay của mình.</p><p style=\"text-align:justify;\">Có nhiều cách để làm tranh, tùy thuộc vào phong cách, chủ đề và vật liệu được sử dụng. Với những người khuyết tật, việc làm tranh có thể trở nên khó khăn hơn do những giới hạn về thị giác, khả năng di chuyển, cảm giác về tay và chân, và nhiều yếu tố khác.</p><p style=\"text-align:justify;\">&nbsp;</p><p style=\"text-align:justify;\">Tuy nhiên, với sự sáng tạo và nỗ lực, những người khuyết tật đã tìm ra những cách riêng để tạo ra những tác phẩm nghệ thuật độc đáo và đẹp mắt. Một trong những cách đó là sử dụng kỹ thuật vẽ bằng miệng hoặc chân.</p><p style=\"text-align:justify;\">Khi vẽ bằng miệng, người khuyết tật sử dụng cánh tay và ngón tay để giữ tay vẽ và dùng miệng để điều khiển việc vẽ. Họ phải đặt tay vẽ vào một vị trí cố định để tạo ra độ chính xác và độ tương phản trong hình ảnh. Việc vẽ bằng miệng yêu cầu sự kiên nhẫn và kỹ năng đặc biệt, và thường mất nhiều thời gian hơn so với việc vẽ bằng tay.</p><p style=\"text-align:justify;\">Ngoài ra, còn có kỹ thuật vẽ bằng chân, khi đó người khuyết tật sử dụng đôi chân để điều khiển việc vẽ. Họ đặt tay vẽ vào một vị trí cố định và sử dụng đôi chân để tạo ra các nét vẽ. Điều này cũng đòi hỏi sự kiên nhẫn và kỹ năng, và cũng có thể mất nhiều thời gian hơn so với việc vẽ bằng tay hoặc miệng.</p><p style=\"text-align:justify;\">Ngoài ra, còn có những người khuyết tật sử dụng những công nghệ trợ giúp để vẽ, như máy tính</p><figure class=\"image\"><img src=\"https://cdnimg.vietnamplus.vn/t1200/Uploaded/tpuohuo/2022_03_31/cuocthivebanner.jpg\"></figure><p style=\"text-align:justify;\"><br>Những bức tranh của trẻ thơ hứa hẹn sẽ giúp người xem hiểu rằng không ai là hoàn hảo, nhưng mọi người có thể cùng nhau tạo dựng một thế giới tốt đẹp hơn. Cuộc thi vẽ, vì vậy, sử dụng hội họa làm ngôn ngữ chung để tôn vinh những nụ cười, tình bạn, sự thân ái, hòa đồng và sự cảm thông, chia sẻ.</p><p>Một số đề tài mà ban tổ chức gợi ý bao gồm: Tôn trọng sự khác biệt; sự chia sẻ giúp đỡ lẫn nhau; những khả năng đáng khích lệ của trẻ nhỏ, đặc biệt là trẻ khuyết tật; những cảnh vật thể hiện sự thân thiện với người đặc biệt (ví dụ như ngôi nhà có đường lên cho người đi xe lăn)...</p><p>Cuộc thi sẽ trao một giải nhất trị giá 5 triệu đồng, bốn giải nhì trị giá 3 triệu đồng mỗi giải, 10 giải ba trị giá 1 triệu đồng mỗi giải, 30 giải khuyến khích sẽ nhận quà từ ban tổ chức.</p><p>Đối với năm tác phẩm được tương tác, bình chọn nhiều nhất trên trang triển lãm sẽ nhận giải yêu thích của ban tổ chức. Thời gian mở bình chọn được tính từ ngày 8/4 đến 20 giờ ngày 22/4/2022. Kết quả cuộc thi sẽ được công bố ngày 24/4/2022.</p>`);
+  )
+  const [articleDetail, setArticleDetail] = useState<ArticleDetail>(
+    new ArticleDetail()
+  )
 
   useEffect(() => {
-    loadLanguageText(lang, setText);
-    switch (lang) {
-      case "vi":
-        setData(`<h3 style=\"text-align:justify;\"><strong>Sản phẩm Tranh Phố Giấy Cuốn</strong></h3><figure class=\"image\"><img src=\"https://vcdn-giadinh.vnecdn.net/2019/10/04/1911983132-w500-4066-1570159649.png\" alt=\"Chàng khuyết tật vẽ tranh bằng miệng - VnExpress Đời sống\"></figure><p style=\"text-align:center;\"><i><strong>Hình ảnh: Người khuyết tật vẽ tranh bằng miệng</strong></i></p><p style=\"text-align:justify;\">Tranh là một hình thức nghệ thuật phổ biến, được yêu thích và trân trọng bởi rất nhiều người trên toàn thế giới. Điều đặc biệt ở đây là cách mà một số người khuyết tật đã sáng tạo và tạo ra những tác phẩm nghệ thuật đầy cảm hứng và tuyệt vời bằng tay của mình.</p><p style=\"text-align:justify;\">Có nhiều cách để làm tranh, tùy thuộc vào phong cách, chủ đề và vật liệu được sử dụng. Với những người khuyết tật, việc làm tranh có thể trở nên khó khăn hơn do những giới hạn về thị giác, khả năng di chuyển, cảm giác về tay và chân, và nhiều yếu tố khác.</p><p style=\"text-align:justify;\">Tuy nhiên, với sự sáng tạo và nỗ lực, những người khuyết tật đã tìm ra những cách riêng để tạo ra những tác phẩm nghệ thuật độc đáo và đẹp mắt. Một trong những cách đó là sử dụng kỹ thuật vẽ bằng miệng hoặc chân.</p><p style=\"text-align:justify;\">Khi vẽ bằng miệng, người khuyết tật sử dụng cánh tay và ngón tay để giữ tay vẽ và dùng miệng để điều khiển việc vẽ. Họ phải đặt tay vẽ vào một vị trí cố định để tạo ra độ chính xác và độ tương phản trong hình ảnh. Việc vẽ bằng miệng yêu cầu sự kiên nhẫn và kỹ năng đặc biệt, và thường mất nhiều thời gian hơn so với việc vẽ bằng tay.</p><p style=\"text-align:justify;\">Ngoài ra, còn có kỹ thuật vẽ bằng chân, khi đó người khuyết tật sử dụng đôi chân để điều khiển việc vẽ. Họ đặt tay vẽ vào một vị trí cố định và sử dụng đôi chân để tạo ra các nét vẽ. Điều này cũng đòi hỏi sự kiên nhẫn và kỹ năng, và cũng có thể mất nhiều thời gian hơn so với việc vẽ bằng tay hoặc miệng.</p><p style=\"text-align:justify;\">Ngoài ra, còn có những người khuyết tật sử dụng những công nghệ trợ giúp để vẽ, như máy tính</p> data\n" +
-"test.tsx:29 <h3 style=\"text-align:justify;\"><strong>Sản phẩm Tranh Phố Giấy Cuốn</strong></h3><figure class=\"image\"><img src=\"https://vcdn-giadinh.vnecdn.net/2019/10/04/1911983132-w500-4066-1570159649.png\" alt=\"Chàng khuyết tật vẽ tranh bằng miệng - VnExpress Đời sống\"></figure><p style=\"text-align:center;\"><i><strong>Hình ảnh: Người khuyết tật vẽ tranh bằng miệng</strong></i></p><p style=\"text-align:justify;\">Tranh là một hình thức nghệ thuật phổ biến, được yêu thích và trân trọng bởi rất nhiều người trên toàn thế giới. Điều đặc biệt ở đây là cách mà một số người khuyết tật đã sáng tạo và tạo ra những tác phẩm nghệ thuật đầy cảm hứng và tuyệt vời bằng tay của mình.</p><p style=\"text-align:justify;\">Có nhiều cách để làm tranh, tùy thuộc vào phong cách, chủ đề và vật liệu được sử dụng. Với những người khuyết tật, việc làm tranh có thể trở nên khó khăn hơn do những giới hạn về thị giác, khả năng di chuyển, cảm giác về tay và chân, và nhiều yếu tố khác.</p><p style=\"text-align:justify;\">&nbsp;</p><p style=\"text-align:justify;\">Tuy nhiên, với sự sáng tạo và nỗ lực, những người khuyết tật đã tìm ra những cách riêng để tạo ra những tác phẩm nghệ thuật độc đáo và đẹp mắt. Một trong những cách đó là sử dụng kỹ thuật vẽ bằng miệng hoặc chân.</p><p style=\"text-align:justify;\">Khi vẽ bằng miệng, người khuyết tật sử dụng cánh tay và ngón tay để giữ tay vẽ và dùng miệng để điều khiển việc vẽ. Họ phải đặt tay vẽ vào một vị trí cố định để tạo ra độ chính xác và độ tương phản trong hình ảnh. Việc vẽ bằng miệng yêu cầu sự kiên nhẫn và kỹ năng đặc biệt, và thường mất nhiều thời gian hơn so với việc vẽ bằng tay.</p><p style=\"text-align:justify;\">Ngoài ra, còn có kỹ thuật vẽ bằng chân, khi đó người khuyết tật sử dụng đôi chân để điều khiển việc vẽ. Họ đặt tay vẽ vào một vị trí cố định và sử dụng đôi chân để tạo ra các nét vẽ. Điều này cũng đòi hỏi sự kiên nhẫn và kỹ năng, và cũng có thể mất nhiều thời gian hơn so với việc vẽ bằng tay hoặc miệng.</p><p style=\"text-align:justify;\">Ngoài ra, còn có những người khuyết tật sử dụng những công nghệ trợ giúp để vẽ, như máy tính</p><figure class=\"image\"><img src=\"https://cdnimg.vietnamplus.vn/t1200/Uploaded/tpuohuo/2022_03_31/cuocthivebanner.jpg\"></figure><p style=\"text-align:justify;\"><br>Những bức tranh của trẻ thơ hứa hẹn sẽ giúp người xem hiểu rằng không ai là hoàn hảo, nhưng mọi người có thể cùng nhau tạo dựng một thế giới tốt đẹp hơn. Cuộc thi vẽ, vì vậy, sử dụng hội họa làm ngôn ngữ chung để tôn vinh những nụ cười, tình bạn, sự thân ái, hòa đồng và sự cảm thông, chia sẻ.</p><p>Một số đề tài mà ban tổ chức gợi ý bao gồm: Tôn trọng sự khác biệt; sự chia sẻ giúp đỡ lẫn nhau; những khả năng đáng khích lệ của trẻ nhỏ, đặc biệt là trẻ khuyết tật; những cảnh vật thể hiện sự thân thiện với người đặc biệt (ví dụ như ngôi nhà có đường lên cho người đi xe lăn)...</p><p>Cuộc thi sẽ trao một giải nhất trị giá 5 triệu đồng, bốn giải nhì trị giá 3 triệu đồng mỗi giải, 10 giải ba trị giá 1 triệu đồng mỗi giải, 30 giải khuyến khích sẽ nhận quà từ ban tổ chức.</p><p>Đối với năm tác phẩm được tương tác, bình chọn nhiều nhất trên trang triển lãm sẽ nhận giải yêu thích của ban tổ chức. Thời gian mở bình chọn được tính từ ngày 8/4 đến 20 giờ ngày 22/4/2022. Kết quả cuộc thi sẽ được công bố ngày 24/4/2022.</p>`);
-        break;
-      case "en":
-        setData(`<h3 style=\"text-align:justify;\"><strong>Paper Street Painting Products</strong></h3><figure class=\"image\"><img src=\"https ://vcdn-giadinh.vnecdn.net/2019/10/04/1911983132-w500-4066-1570159649.png\" alt=\"Disabled man draws pictures with his mouth - VnExpress Life\"></figure> <p style=\"text-align:center;\"><i><strong>Image: People with disabilities draw pictures with their mouth</strong></i></p><p style=\"text -align:justify;\">Painting is a popular art form, loved and cherished by many people all over the world. What's special here is how some people with disabilities have been creative and created amazing and inspiring works of art with their own hands.</p><p style=\"text-align:justify.</p><p style=\"text-align:justify ;\">There are many ways to make paintings, depending on the style, subject matter and materials used. For people with disabilities, painting can become more difficult due to limitations in vision, mobility, sensation of hands and feet, and many other factors.</p><p style= \"text-align:justify;\">However, with creativity and effort, people with disabilities have found their own ways to create unique and beautiful works of art. One of the ways is to use the mouth or foot drawing technique.</p><p style=\"text-align:justify;\">When drawing with the mouth, people with disabilities use their arms and fingers. to hold the hand to draw and use the mouth to control the drawing. They had to put the hand painted in a fixed position to create precision and contrast in the image. Drawing by mouth requires special patience and skill, and often takes longer than drawing by hand.</p><p style=\"text-align:justify;\">Also , there is also a technique of drawing with feet, in which people with disabilities use their feet to control drawing. They put their hands in a fixed position and use their feet to create strokes. This also requires patience and skill, and can also take longer than drawing with your hands or mouth.</p><p style=\"text-align:justify;\">Also In addition, there are people with disabilities who use assistive technologies to draw, such as computers</p> data\n"
-"test.tsx:29 <h3 style=\"text-align:justify;\"><strong>Paper Street Painting Products</strong></h3><figure class=\"image\"><img src=\"https://vcdn-giadinh.vnecdn.net/2019/10/04/1911983132-w500-4066-1570159649.png\" alt=\"Disabled guy paints with his mouth - VnExpress Life\"></figure><p style=\ "text-align:center;\"><i><strong>Image: People with disabilities draw pictures with their mouth</strong></i></p><p style=\"text-align:justify; \">Painting is a popular art form, loved and appreciated by so many people all over the world. amazing and inspiring art with your own hands.</p><p style=\"text-align:justify;\">There are many ways to make pictures, depending on the style, subject and materials For people with disabilities, painting may become more difficult due to limitations in vision, mobility, sensation of hands and feet, and many other factors.</p> <p style=\"text-align:justify;\">&nbsp;</p><p style=\"text-align:justify;\">However, with creativity and effort, people with disabilities Disabled people have found their own ways to create unique and beautiful works of art. One of the ways is to use the mouth or foot drawing technique.</p><p style=\"text-align:justify;\">When drawing with the mouth, people with disabilities use their arms and fingers. to hold the hand to draw and use the mouth to control the drawing. They had to put the hand painted in a fixed position to create precision and contrast in the image. Drawing by mouth requires special patience and skill, and often takes longer than drawing by hand.</p><p style=\"text-align:justify;\">Also , there is also a technique of drawing with feet, in which people with disabilities use their feet to control drawing. They put their hands in a fixed position and use their feet to create strokes. This also requires patience and skill, and can also take longer than drawing by hand or mouth.</p><p style=\"text-align:justify;\">Other In addition, there are people with disabilities who use assistive technologies to draw, such as computers</p><figure class=\"image\"><img src=\"https://cdnimg.vietnamplus.vn /t1200/Uploaded/tpuohuo/2022_03_31/cuocthivebanner.jpg\"></figure><p style=\"text-align:justify;\"><br>Children's pictures promise to help viewers understand that no one is perfect, but everyone can create together. build a better world. The drawing contest, therefore, uses painting as a common language to honor smiles, friendship, intimacy, sociability and sympathy, sharing.</p><p>Some topics that the organizers suggest include: Respect for differences; mutual help sharing; encouraging abilities of young children, especially children with disabilities; scenes showing special people-friendliness (for example, a house with access to wheelchairs)...</p><p>The contest will award a first prize worth 5 million VND, four second prizes worth 3 million VND each, 10 third prizes worth 1 million VND each, 30 consolation prizes will receive gifts from the organizers.</p><p>For five interactive works, The most votes on the exhibition page will receive the favorite prize of the organizers. Voting opening time is from April 8 to 8:00 p.m. on April 22, 2022. Contest results will be announced on April 24, 2022.</p>`);
-        break;
-      case "fr":
-        setData(`<h3 style=\"text-align:justify;\"><strong>Produits de peinture Paper Street</strong></h3><figure class=\"image\"><img src=\"https :/ /vcdn-giadinh.vnecdn.net/2019/10/04/1911983132-w500-4066-1570159649.png\" alt=\"Un homme handicapé dessine des images avec sa bouche - VnExpress Life\"></figure> <p style =\"text-align:center;\"><i><strong>Image : les personnes handicapées dessinent avec leur bouche</strong></i></p><p style=\"text -align : justifier;\">La peinture est une forme d'art populaire, aimée et chérie par de nombreuses personnes partout dans le monde. Ce qui est spécial ici, c'est la façon dont certaines personnes handicapées ont été créatives et ont créé des œuvres d'art étonnantes et inspirantes de leurs propres mains.</p><p style=\"text-align:justify.</p><p style=\ "text-align:justify ;\">Il existe de nombreuses façons de réaliser des peintures, selon le style, le sujet et les matériaux utilisés. Pour les personnes handicapées, peindre peut devenir plus difficile en raison des limitations de la vision, de la mobilité, de la sensation des mains et des pieds et de nombreux autres facteurs.</p><p style= \"text-align:justify;\">Cependant, avec créativité et effort, les personnes handicapées ont trouvé leurs propres façons de créer des œuvres d'art uniques et magnifiques. L'une des façons consiste à utiliser la technique de dessin de la bouche ou du pied.</p><p style=\"text-align:justify;\">Lorsque vous dessinez avec la bouche, les personnes handicapées utilisent leurs bras et leurs doigts. la main pour dessiner et utiliser la bouche pour contrôler le dessin. Ils devaient placer la main peinte dans une position fixe pour créer de la précision et du contraste dans l'image. Dessiner à la bouche demande une patience et une habileté particulières, et prend souvent plus de temps que de dessiner à la main.</p><p style=\"text-align:justify;\">De plus, il existe aussi une technique de dessin avec les pieds, en où les personnes handicapées utilisent leurs pieds pour contrôler le dessin. Ils placent leurs mains dans une position fixe et utilisent leurs pieds pour créer des coups. Cela nécessite également de la patience et des compétences, et peut également prendre plus de temps que de dessiner à la main ou à la bouche.</p><p style=\"text-align:justify;\">Autre De plus, certaines personnes handicapées utilisent des aides techniques technologies pour dessiner, telles que les données informatiques</p>\n"
-"test.tsx:29 <h3 style=\"text-align:justify;\"><strong>Produits de peinture de rue en papier</strong></h3><figure class=\"image\"><img src= \"https://vcdn-giadinh.vnecdn.net/2019/10/04/1911983132-w500-4066-1570159649.png\" alt=\"Un homme handicapé peint avec sa bouche - VnExpress Life\"></figure><p style=\ "text -align:center;\"><i><strong>Image : les personnes handicapées dessinent avec leur bouche</strong></i></p><p style=\"text-align:justify; \" >La peinture est une forme d'art populaire, aimée et appréciée par tant de personnes partout dans le monde. Un art étonnant et inspirant de vos propres mains.</p><p style=\"text-align:justify;\">Il y a de nombreuses façons de faire des images, selon le style, le sujet et les matériaux Pour les personnes handicapées, la peinture peut devenir plus difficile en raison des limitations de la vision, de la mobilité, de la sensation des mains et des pieds et de nombreux autres facteurs.</p> <p style =\"text-align:justify;\">&nbsp;</p><p style=\"text-align:justify;\">Cependant, avec créativité et effort, les personnes handicapées ont trouvé leur propre voie pour créer des œuvres d'art uniques et magnifiques. L'une des façons consiste à utiliser la technique de dessin de la bouche ou du pied.</p><p style=\"text-align:justify;\">Lorsque vous dessinez avec la bouche, les personnes handicapées utilisent leurs bras et leurs doigts. la main pour dessiner et utiliser la bouche pour contrôler le dessin. Ils devaient placer la main peinte dans une position fixe pour créer de la précision et du contraste dans l'image. Dessiner à la bouche demande une patience et une habileté particulières, et prend souvent plus de temps que de dessiner à la main.</p><p style=\"text-align:justify;\">De plus, il existe aussi une technique de dessin avec les pieds, en où les personnes handicapées utilisent leurs pieds pour contrôler le dessin. Ils placent leurs mains dans une position fixe et utilisent leurs pieds pour créer des coups. Cela nécessite également de la patience et des compétences, et peut également prendre plus de temps que de dessiner à la main ou à la bouche.</p><p style=\"text-align:justify;\">Autre De plus, certaines personnes handicapées utilisent des aides techniques technologies pour dessiner, comme les ordinateurs</p><figure class=\"image\"><img src=\"https://cdnimg.vietnamplus.vn /t1200/Uploaded/tpuohuo/2022_03_31/cuocthivebanner.jpg\" ></figure><p style=\"text-align:justify;\"><br>Les images des enfants promettent d'aider les téléspectateurs à comprendre que personne n'est parfait, mais que tout le monde peut créer ensemble. construire un monde meilleur. Le concours de dessin utilise donc la peinture comme langage commun pour honorer les sourires, l'amitié, l'intimité, la sociabilité et la sympathie, le partage.</p><p>Certains sujets que les organisateurs proposent incluent : le respect des différences ; partage d'entraide; encourager les capacités des jeunes enfants, en particulier des enfants handicapés ; scènes montrant une convivialité particulière (par exemple, une maison avec accès aux fauteuils roulants)...</p><p>Le concours décernera un premier prix d'une valeur de 5 millions de VND, quatre deuxièmes prix d'une valeur de 3 millions de VND chacun, 10 troisièmes prix d'une valeur de 1 million de VND chacun, 30 prix de consolation recevront des cadeaux des organisateurs.</p><p>Pour cinq œuvres interactives, le plus de votes sur la page de l'exposition recevra le prix préféré des organisateurs. L'heure d'ouverture du vote est du 8 avril à 20h00 le 22 avril 2022. Les résultats du concours seront annoncés le 24 avril 2022.</p>`);
-        break;
-      case "por":
-        setData(`<h3 style=\"text-align:justify;\"><strong>Produtos de pintura de rua em papel</strong></h3><figure class=\"image\"><img src=\"https :/ /vcdn-giadinh.vnecdn.net/2019/10/04/1911983132-w500-4066-1570159649.png\" alt=\"Homem deficiente desenha com a boca - VnExpress Life\"></figure> <p style =\"text-align:center;\"><i><strong>Imagem: Pessoas com deficiência fazem desenhos com a boca</strong></i></p><p style=\"text -align: justificar;\">A pintura é uma forma de arte popular, amada e apreciada por muitas pessoas em todo o mundo. O que é especial aqui é como algumas pessoas com deficiência foram criativas e criaram obras de arte incríveis e inspiradoras com as próprias mãos.</p><p style=\"text-align:justify.</p><p style=\ "text-align:justify ;\">Existem muitas maneiras de fazer pinturas, dependendo do estilo, assunto e materiais usados. Para pessoas com deficiência, a pintura pode se tornar mais difícil devido a limitações de visão, mobilidade, sensação de mãos e pés e muitos outros fatores.</p><p style= \"text-align:justify;\">No entanto, com criatividade e esforço, as pessoas com deficiência encontraram suas próprias maneiras de criar obras de arte únicas e belas. Uma das maneiras é usar a técnica de desenho da boca ou do pé.</p><p style=\"text-align:justify;\">Ao desenhar com a boca, as pessoas com deficiência usam os braços e os dedos para segurar a mão para desenhar e usar a boca para controlar o desenho. Eles tiveram que colocar a mão pintada em uma posição fixa para criar precisão e contraste na imagem. Desenhar com a boca requer paciência e habilidade especiais e geralmente leva mais tempo do que desenhar à mão.</p><p style=\"text-align:justify;\">Além disso, existe também uma técnica de desenho com os pés, em qual as pessoas com deficiência usam os pés para controlar o desenho. Eles colocam as mãos em uma posição fixa e usam os pés para criar golpes. Isso também requer paciência e habilidade e também pode levar mais tempo do que desenhar à mão ou com a boca.</p><p style=\"text-align:justify;\">Outros Além disso, existem pessoas com deficiência que usam recursos assistivos tecnologias para desenhar, como computadores</p> dados\n"
-"test.tsx:29 <h3 style=\"text-align:justify;\"><strong>Produtos de pintura de rua em papel</strong></h3><figure class=\"image\"><img src= \"https://vcdn-giadinh.vnecdn.net/2019/10/04/1911983132-w500-4066-1570159649.png\" alt=\"Cara deficiente pinta com a boca - VnExpress Life\"></figure><p style=\ "text -align:center;\"><i><strong>Imagem: Pessoas com deficiência fazem desenhos com a boca</strong></i></p><p style=\"text-align:justify; \" >A pintura é uma forma de arte popular, amada e apreciada por tantas pessoas em todo o mundo. Arte incrível e inspiradora com suas próprias mãos.</p><p style=\"text-align:justify;\">Existem muitas maneiras de fazer imagens, dependendo do estilo, assunto e materiais Para pessoas com deficiência, a pintura pode se tornar mais difícil devido a limitações de visão, mobilidade, sensação de mãos e pés e muitos outros fatores.</p> <p estilo =\"text-align:justify;\">&nbsp;</p><p style=\"text-align:justify;\">No entanto, com criatividade e esforço, pessoas com deficiência Pessoas com deficiência encontraram seus próprios caminhos para criar obras de arte únicas e belas. Uma das maneiras é usar a técnica de desenho da boca ou do pé.</p><p style=\"text-align:justify;\">Ao desenhar com a boca, as pessoas com deficiência usam os braços e os dedos para segurar a mão para desenhar e usar a boca para controlar o desenho. Eles tiveram que colocar a mão pintada em uma posição fixa para criar precisão e contraste na imagem. Desenhar com a boca requer paciência e habilidade especiais e geralmente leva mais tempo do que desenhar à mão.</p><p style=\"text-align:justify;\">Além disso, existe também uma técnica de desenho com os pés, em qual as pessoas com deficiência usam os pés para controlar o desenho. Eles colocam as mãos em uma posição fixa e usam os pés para criar golpes. Isso também requer paciência e habilidade e também pode levar mais tempo do que desenhar à mão ou com a boca.</p><p style=\"text-align:justify;\">Outros Além disso, existem pessoas com deficiência que usam recursos assistivos tecnologias para desenhar, como computadores</p><figure class=\"image\"><img src=\"https://cdnimg.vietnamplus.vn /t1200/Uploaded/tpuohuo/2022_03_31/cuocthivebanner.jpg\" ></figure><p style=\"text-align:justify;\"><br>As fotos infantis prometem ajudar os espectadores a entender que ninguém é perfeito, mas todos podem criar juntos. construir um mundo melhor. O concurso de desenho, portanto, usa a pintura como linguagem comum para homenagear sorrisos, amizade, intimidade, sociabilidade e simpatia, partilha.</p><p>Alguns temas que os organizadores sugerem incluem: Respeito pelas diferenças; compartilhamento de ajuda mútua; encorajar as habilidades de crianças pequenas, especialmente crianças com deficiências; cenas que mostrem simpatia especial pelas pessoas (por exemplo, uma casa com acesso a cadeiras de rodas)...</p><p>O concurso irá atribuir um primeiro prémio no valor de 5 milhões de VND, quatro segundos prémios no valor de 3 milhões de VND cada, 10 terceiros prêmios no valor de 1 milhão de VND cada, 30 prêmios de consolação receberão brindes dos organizadores.</p><p>Para cinco trabalhos interativos, o mais votado na página da exposição receberá o prêmio favorito dos organizadores. O horário de abertura da votação é de 8 de abril às 20h do dia 22 de abril de 2022. Os resultados do concurso serão anunciados em 24 de abril de 2022.</p>`);
-        break;
-      default:
-        setData(`<h3 style=\"text-align:justify;\"><strong>Sản phẩm Tranh Phố Giấy Cuốn</strong></h3><figure class=\"image\"><img src=\"https://vcdn-giadinh.vnecdn.net/2019/10/04/1911983132-w500-4066-1570159649.png\" alt=\"Chàng khuyết tật vẽ tranh bằng miệng - VnExpress Đời sống\"></figure><p style=\"text-align:center;\"><i><strong>Hình ảnh: Người khuyết tật vẽ tranh bằng miệng</strong></i></p><p style=\"text-align:justify;\">Tranh là một hình thức nghệ thuật phổ biến, được yêu thích và trân trọng bởi rất nhiều người trên toàn thế giới. Điều đặc biệt ở đây là cách mà một số người khuyết tật đã sáng tạo và tạo ra những tác phẩm nghệ thuật đầy cảm hứng và tuyệt vời bằng tay của mình.</p><p style=\"text-align:justify;\">Có nhiều cách để làm tranh, tùy thuộc vào phong cách, chủ đề và vật liệu được sử dụng. Với những người khuyết tật, việc làm tranh có thể trở nên khó khăn hơn do những giới hạn về thị giác, khả năng di chuyển, cảm giác về tay và chân, và nhiều yếu tố khác.</p><p style=\"text-align:justify;\">Tuy nhiên, với sự sáng tạo và nỗ lực, những người khuyết tật đã tìm ra những cách riêng để tạo ra những tác phẩm nghệ thuật độc đáo và đẹp mắt. Một trong những cách đó là sử dụng kỹ thuật vẽ bằng miệng hoặc chân.</p><p style=\"text-align:justify;\">Khi vẽ bằng miệng, người khuyết tật sử dụng cánh tay và ngón tay để giữ tay vẽ và dùng miệng để điều khiển việc vẽ. Họ phải đặt tay vẽ vào một vị trí cố định để tạo ra độ chính xác và độ tương phản trong hình ảnh. Việc vẽ bằng miệng yêu cầu sự kiên nhẫn và kỹ năng đặc biệt, và thường mất nhiều thời gian hơn so với việc vẽ bằng tay.</p><p style=\"text-align:justify;\">Ngoài ra, còn có kỹ thuật vẽ bằng chân, khi đó người khuyết tật sử dụng đôi chân để điều khiển việc vẽ. Họ đặt tay vẽ vào một vị trí cố định và sử dụng đôi chân để tạo ra các nét vẽ. Điều này cũng đòi hỏi sự kiên nhẫn và kỹ năng, và cũng có thể mất nhiều thời gian hơn so với việc vẽ bằng tay hoặc miệng.</p><p style=\"text-align:justify;\">Ngoài ra, còn có những người khuyết tật sử dụng những công nghệ trợ giúp để vẽ, như máy tính</p> data\n" +
-"test.tsx:29 <h3 style=\"text-align:justify;\"><strong>Sản phẩm Tranh Phố Giấy Cuốn</strong></h3><figure class=\"image\"><img src=\"https://vcdn-giadinh.vnecdn.net/2019/10/04/1911983132-w500-4066-1570159649.png\" alt=\"Chàng khuyết tật vẽ tranh bằng miệng - VnExpress Đời sống\"></figure><p style=\"text-align:center;\"><i><strong>Hình ảnh: Người khuyết tật vẽ tranh bằng miệng</strong></i></p><p style=\"text-align:justify;\">Tranh là một hình thức nghệ thuật phổ biến, được yêu thích và trân trọng bởi rất nhiều người trên toàn thế giới. Điều đặc biệt ở đây là cách mà một số người khuyết tật đã sáng tạo và tạo ra những tác phẩm nghệ thuật đầy cảm hứng và tuyệt vời bằng tay của mình.</p><p style=\"text-align:justify;\">Có nhiều cách để làm tranh, tùy thuộc vào phong cách, chủ đề và vật liệu được sử dụng. Với những người khuyết tật, việc làm tranh có thể trở nên khó khăn hơn do những giới hạn về thị giác, khả năng di chuyển, cảm giác về tay và chân, và nhiều yếu tố khác.</p><p style=\"text-align:justify;\">&nbsp;</p><p style=\"text-align:justify;\">Tuy nhiên, với sự sáng tạo và nỗ lực, những người khuyết tật đã tìm ra những cách riêng để tạo ra những tác phẩm nghệ thuật độc đáo và đẹp mắt. Một trong những cách đó là sử dụng kỹ thuật vẽ bằng miệng hoặc chân.</p><p style=\"text-align:justify;\">Khi vẽ bằng miệng, người khuyết tật sử dụng cánh tay và ngón tay để giữ tay vẽ và dùng miệng để điều khiển việc vẽ. Họ phải đặt tay vẽ vào một vị trí cố định để tạo ra độ chính xác và độ tương phản trong hình ảnh. Việc vẽ bằng miệng yêu cầu sự kiên nhẫn và kỹ năng đặc biệt, và thường mất nhiều thời gian hơn so với việc vẽ bằng tay.</p><p style=\"text-align:justify;\">Ngoài ra, còn có kỹ thuật vẽ bằng chân, khi đó người khuyết tật sử dụng đôi chân để điều khiển việc vẽ. Họ đặt tay vẽ vào một vị trí cố định và sử dụng đôi chân để tạo ra các nét vẽ. Điều này cũng đòi hỏi sự kiên nhẫn và kỹ năng, và cũng có thể mất nhiều thời gian hơn so với việc vẽ bằng tay hoặc miệng.</p><p style=\"text-align:justify;\">Ngoài ra, còn có những người khuyết tật sử dụng những công nghệ trợ giúp để vẽ, như máy tính</p><figure class=\"image\"><img src=\"https://cdnimg.vietnamplus.vn/t1200/Uploaded/tpuohuo/2022_03_31/cuocthivebanner.jpg\"></figure><p style=\"text-align:justify;\"><br>Những bức tranh của trẻ thơ hứa hẹn sẽ giúp người xem hiểu rằng không ai là hoàn hảo, nhưng mọi người có thể cùng nhau tạo dựng một thế giới tốt đẹp hơn. Cuộc thi vẽ, vì vậy, sử dụng hội họa làm ngôn ngữ chung để tôn vinh những nụ cười, tình bạn, sự thân ái, hòa đồng và sự cảm thông, chia sẻ.</p><p>Một số đề tài mà ban tổ chức gợi ý bao gồm: Tôn trọng sự khác biệt; sự chia sẻ giúp đỡ lẫn nhau; những khả năng đáng khích lệ của trẻ nhỏ, đặc biệt là trẻ khuyết tật; những cảnh vật thể hiện sự thân thiện với người đặc biệt (ví dụ như ngôi nhà có đường lên cho người đi xe lăn)...</p><p>Cuộc thi sẽ trao một giải nhất trị giá 5 triệu đồng, bốn giải nhì trị giá 3 triệu đồng mỗi giải, 10 giải ba trị giá 1 triệu đồng mỗi giải, 30 giải khuyến khích sẽ nhận quà từ ban tổ chức.</p><p>Đối với năm tác phẩm được tương tác, bình chọn nhiều nhất trên trang triển lãm sẽ nhận giải yêu thích của ban tổ chức. Thời gian mở bình chọn được tính từ ngày 8/4 đến 20 giờ ngày 22/4/2022. Kết quả cuộc thi sẽ được công bố ngày 24/4/2022.</p>`);
-
-        break;
+    loadLanguageText(lang, setText)
+    if (id) {
+      getArticleDetail()
     }
-  }, [lang]);
+    console.log('danh sach tin tuc')
+  }, [id, lang])
+
+  const getArticleDetail = async () => {
+    const res = await axios.post(GET_ARTICLE_DETAIL_ENDPOINT, {
+      link: `/${id}`,
+      language: lang,
+    })
+    const data = res?.data?.data
+
+    const detail: ArticleDetail = {
+      title: data?.name,
+      image: data?.image,
+      content: data?.content,
+      description: data?.description,
+      createdAt: data?.createdAt
+    }
+    setArticleDetail(detail)
+  }
   const pageSEOData: PageSEOData = {
-    name: "Thương Thương",
+    name: 'Thương Thương',
     pageSEO: {
-      title: "Tin Tức Nổi Bật | Thương Thương",
-      url: "https://www.critistudio.top/gioi-thieu",
-      keywords: ["website", "home", "page"],
+      title: 'Tin Tức Nổi Bật | Thương Thương',
+      url: 'https://www.critistudio.top/gioi-thieu',
+      keywords: ['website', 'home', 'page'],
       description:
-        "Thuong Thuong tổ chức đào tạo nghề cho đối tượng người khuyết tật và người yếu thế nhằm giảm gánh nặng cho gia đình và xã hội.",
-      image: "https://www.critistudio.top/images/seo.jpg",
-    },
-  };
+        'Thuong Thuong tổ chức đào tạo nghề cho đối tượng người khuyết tật và người yếu thế nhằm giảm gánh nặng cho gia đình và xã hội.',
+      image: 'https://www.critistudio.top/images/seo.jpg'
+    }
+  }
   const dataNavigation: NavigationProps[] = [
     {
       id: 1,
       title: `${t.navigator.HOME}`,
-      link: "/",
+      link: '/'
     },
     {
       id: 2,
       title: `${t.navigator.MENU7}`,
-      link: "/tin-tuc/danh-sach?trang=1",
+      link: '/tin-tuc/danh-sach?trang=1'
     },
     {
       id: 3,
       title: `${t.navigator.MENU8}`,
-      link: "/tin-tuc/tin-tuc-test",
-    },
-  ];
+      link: `/tin-tuc/${id}`
+    }
+  ]
 
   return (
     <>
       <HeadSEO pageSEO={pageSEOData.pageSEO} />
       <Layout>
-        <div className="news">
-          <div className="news-navigation">
+        <div className='news'>
+          <div className='news-navigation'>
             <NavigationTopBar data={dataNavigation} />
-            <div className="news-navigation-time">{t.list_news.TIME}</div>
+            <div className='news-navigation-time'>
+              {articleDetail.createdAt}
+            </div>
           </div>
-          <div className="news-wrap">
-            <h1 className="news-wrap-title">{t.news.TITLE}</h1>
-            <div className="news-wrap-information">
-              <span className="news-wrap-information-text">
+          <div className='news-wrap'>
+            <h1 className='news-wrap-title'>{articleDetail.title}</h1>
+            <div className='news-wrap-information'>
+              <span className='news-wrap-information-text'>
                 {t.news.MENU}:
-                <span className="news-wrap-information-text-hightline">
+                <span className='news-wrap-information-text-hightline'>
                   {t.news.SUB1}
-                </span>{" "}
-                |{" "}
-                <span className="news-wrap-information-text-hightline">
+                </span>{' '}
+                |{' '}
+                <span className='news-wrap-information-text-hightline'>
                   {t.news.SUB2}
                 </span>
               </span>
-              <Button type="primary" className="news-wrap-information-btn">
+              <Button type='primary' className='news-wrap-information-btn'>
                 <ShareAltOutlined /> {t.button.BUTTON7}
               </Button>
             </div>
-            <CkeditorDisable data={data} />
+            <CkeditorDisable data={articleDetail.content} />
           </div>
         </div>
       </Layout>
     </>
-  );
-};
+  )
+}
 
-export default ListNews;
+export default ListNews
