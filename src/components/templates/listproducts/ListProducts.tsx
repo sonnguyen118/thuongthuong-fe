@@ -6,10 +6,11 @@ import loadLanguageText from '@languages'
 import { CardProduct } from '@components/elements/card'
 import { Product } from '@components/model/Product'
 import { PaginationDto } from '@components/model/PaginationDto'
-import { Pagination } from 'antd'
+import { Input, Pagination } from 'antd'
 import { GET_PRODUCTS_ENDPOINT } from '@api/endpoint'
 import axios from 'axios'
 import { PAGE_SIZE } from 'src/constant/constant'
+import { SearchOutlined } from '@ant-design/icons'
 
 interface sliderData {
   id: number
@@ -27,7 +28,7 @@ const ListProducts = (props: any) => {
   const [products, setProducts] = useState<Product[]>([])
   const [categoryName, setCategoryName] = useState('')
   const [categoryId, setCategoryId] = useState('')
-
+  const [searchVisible, setSearchVisible] = useState(false)
   const [pagination, setPagination] = useState<PaginationDto>(
     new PaginationDto()
   )
@@ -59,6 +60,9 @@ const ListProducts = (props: any) => {
     setPagination(pagination)
     getProducts()
   }
+  const handleInputClick = (e: any) => {
+    e.stopPropagation()
+  }
   return (
     <div className='list-products-right'>
       <div className='list-products-right-title'>
@@ -66,27 +70,30 @@ const ListProducts = (props: any) => {
       </div>
       <div className='list-products-right-wrap'>
         {products?.length > 0 ? (
-          products.map((data, index) => (
-            <div className='list-products-right-wrap-item' key={index}>
-              <CardProduct props={data} />
-            </div>
-          ))
+          <>
+            {products.map((data, index) => (
+              <div className='list-products-right-wrap-item' key={index}>
+                <CardProduct props={data} />
+              </div>
+            ))}
+            <Pagination
+              total={pagination?.totalRecords ? pagination?.totalRecords : 10}
+              showTotal={total => `Tổng ${total} sản phẩm`}
+              defaultCurrent={1}
+              current={pagination?.page ? pagination?.page : 1}
+              pageSize={pagination?.size ? pagination?.size : 10}
+              pageSizeOptions={PAGE_SIZE}
+              showPrevNextJumpers
+              showSizeChanger
+              onChange={onChangePagination}
+              onShowSizeChange={onChangePagination}
+              className='list-news-pagination'
+            />
+          </>
         ) : (
           <div>No products found.</div>
         )}
       </div>
-      <Pagination
-        total={pagination?.totalRecords ? pagination?.totalRecords : 10}
-        showTotal={total => `Total ${total} items`}
-        defaultCurrent={1}
-        current={pagination?.page ? pagination?.page : 1}
-        pageSize={pagination?.size ? pagination?.size : 10}
-        pageSizeOptions={PAGE_SIZE}
-        showPrevNextJumpers
-        showSizeChanger
-        onChange={onChangePagination}
-        onShowSizeChange={onChangePagination}
-      />
     </div>
   )
 }
