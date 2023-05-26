@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HeadSEO from "@components/layouts/header/HeadSEO";
 import Dashboard from "@components/layouts/admin/Dashboard";
 import { NavigationAdmin } from "@components/elements/navigation";
@@ -16,6 +16,10 @@ import type { MenuProps } from "antd";
 import { Menu, DatePicker } from "antd";
 import Image from "next/image";
 import { CardStatisticalAdmin } from "@components/elements/card";
+import { useRouter } from "next/router";
+import { useCookies } from "react-cookie";
+import classes from "./admin.module.css";
+
 interface PageSEOData {
   name: string;
   pageSEO: {
@@ -88,8 +92,24 @@ const items: MenuProps["items"] = [
     key: "3",
   },
 ];
-
 const AdminMain: React.FC = () => {
+  const [current, setCurrent] = useState("mail");
+  const router = useRouter();
+  const [cookies] = useCookies(['accessToken']);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (!cookies.accessToken) {
+      router.push('/login');
+    } else {
+      setIsLoading(false);
+    }
+  }, [cookies, router]);
+
+  if (isLoading) {
+    return <div className={classes.loader}></div>;
+  }
+
   const pageSEOData: PageSEOData = {
     name: "Thương Thương",
     pageSEO: {
@@ -114,12 +134,12 @@ const AdminMain: React.FC = () => {
       link: "/",
     },
   ];
-  const [current, setCurrent] = useState("mail");
 
   const onClick: MenuProps["onClick"] = (e) => {
     console.log("click ", e);
     setCurrent(e.key);
   };
+
   return (
     <>
       <HeadSEO pageSEO={pageSEOData.pageSEO} />
