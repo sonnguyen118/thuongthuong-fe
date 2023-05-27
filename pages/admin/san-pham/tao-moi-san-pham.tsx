@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Dashboard from "@components/layouts/admin/Dashboard";
 import { NavigationAdmin } from "@components/elements/navigation";
 import { Tabs, Button, Input, Select, Upload } from "antd";
@@ -8,6 +8,13 @@ import { useRouter } from "next/router";
 import ImgCrop from "antd-img-crop";
 import type { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface";
 import { CkeditorEnable } from "@components/molecules/ckeditor";
+import {handleCategoryClient} from "@service"
+import { useSelector, useDispatch } from "react-redux";
+import { setLoading } from "@slices/loadingState";
+import { useCookies } from "react-cookie";
+import { normalizeString } from "@utils/Mocks";
+import { handleProducts } from "@service";
+import { toast } from "react-toastify";
 
 const { TextArea } = Input;
 interface NavigationProps {
@@ -15,34 +22,16 @@ interface NavigationProps {
   title: string;
   link: string;
 }
+type bodyCategoryGetAdmin = {
+  language: string;
+};
+type LanguageKey = "VI" | "EN" | "FR" | "PO";
+
 const App: React.FC = () => {
   const router = useRouter();
-  const options = [
-    {
-      value: "1",
-      label: "Not Identified",
-    },
-    {
-      value: "2",
-      label: "Closed",
-    },
-    {
-      value: "3",
-      label: "Communicated",
-    },
-    {
-      value: "4",
-      label: "Identified",
-    },
-    {
-      value: "5",
-      label: "Resolved",
-    },
-    {
-      value: "6",
-      label: "Cancelled",
-    },
-  ];
+  const dispatch = useDispatch();
+  const [cookies] = useCookies(["accessToken"]);
+  const token = cookies["accessToken"];
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const onChangeImage: UploadProps["onChange"] = ({
     fileList: newFileList,
@@ -66,6 +55,104 @@ const App: React.FC = () => {
   };
 
   const [activeTab, setActiveTab] = useState("1");
+  const [dataCategory, setDataCategory] = useState([]);
+  const [selector1, setSelector1] = useState<any>();
+  const [selector2, setSelector2] = useState<any>();
+  const [options, setOptions] = useState([]);
+  const [options2, setOptions2] = useState([]);
+  const [title, setTitle] = useState<{ [key: string]: string | undefined }>({
+    VI: undefined,
+    EN: undefined,
+    FR: undefined,
+    PO: undefined,
+  });
+  const [link, setLink] = useState();
+  const [description, setDescription] = useState<{ [key: string]: string | undefined }>({
+    VI: undefined,
+    EN: undefined,
+    FR: undefined,
+    PO: undefined,
+  });
+  const [contentVI, setContentVI] = useState<string | undefined>();
+  const [contentEN, setContentEN] = useState<string | undefined>();
+  const [contentFR, setContentFR] = useState<string | undefined>();
+  const [contentPO, setContentPO] = useState<string | undefined>();
+  const [image, setImage] = useState();
+  const handleTitleChange =
+  (languageKey: LanguageKey) =>
+  (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle((prevName) => ({
+      ...prevName,
+      [languageKey]: event.target.value,
+    }));
+  };
+  const handleDescriptionChange =
+  (languageKey: LanguageKey) =>
+  (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDescription((prevName) => ({
+      ...prevName,
+      [languageKey]: event.target.value,
+    }));
+  };
+
+  // hàm lọc title chuyển thành link
+  const handleChangeTitleToLink = (value: string) => {
+    setTitle((prevName) => ({
+      ...prevName,
+      VI: value,
+    }));
+    const newLink = normalizeString(value);
+    setLink(newLink);
+  };
+  // lấy dữ liệu danh mục
+  useMemo(()=> {
+    dispatch(setLoading(true));
+    const body :bodyCategoryGetAdmin = {
+      language: "VI"
+    }
+    handleCategoryClient.handleGetAllCategory("language=VI")
+    .then ((result:any) => {
+      setDataCategory(result);
+      dispatch(setLoading(false));
+    })
+    .catch((error) => {
+      console.log(error);
+      dispatch(setLoading(false));
+    });
+  }, [])
+
+  useEffect(()=> {
+    if(dataCategory) {
+      const myoptions : any = dataCategory.map((item:any) => {
+        return {
+            value: item.id,
+            label: item.name
+        };
+    });
+    setOptions(myoptions);
+    console.log(dataCategory, "dataCategory");
+    }
+  },[dataCategory]);
+  useEffect(()=> {
+    if(selector1) {
+      const item:any = dataCategory.find((item :any) => item.id === selector1);
+      let optionsts = [];
+      if (item && item.subCategories.length > 0) {
+        optionsts = item.subCategories.map((subItem:any) => {
+            return {
+                value: subItem.id,
+                label: subItem.name
+            };
+        });
+        setOptions2(optionsts);
+      } else {
+        setSelector2(null);
+        setOptions2([]);
+      }
+
+    }
+  },[selector1]);
+  console.log(dataCategory, "datacategory");
   const onChange = (key: string) => {
     setActiveTab(key);
   };
@@ -96,6 +183,8 @@ const App: React.FC = () => {
           <Input
             placeholder="Nhập và tên danh danh mục tiếng việt"
             size="large"
+            onChange={(e) => handleChangeTitleToLink(e.target.value)}
+            value={title.VI}
           />
         </>
       ),
@@ -108,6 +197,8 @@ const App: React.FC = () => {
           <Input
             placeholder="Nhập vào tên danh danh mục tiếng anh"
             size="large"
+            onChange={handleTitleChange("EN")}
+            value={title.EN}
           />
         </>
       ),
@@ -120,6 +211,8 @@ const App: React.FC = () => {
           <Input
             placeholder="Nhập vào tên danh danh mục tiếng pháp"
             size="large"
+            onChange={handleTitleChange("FR")}
+            value={title.FR}
           />
         </>
       ),
@@ -132,6 +225,8 @@ const App: React.FC = () => {
           <Input
             placeholder="Nhập vào tên danh danh mục tiêng bồ đào nha"
             size="large"
+            onChange={handleTitleChange("PO")}
+            value={title.PO}
           />
         </>
       ),
@@ -151,8 +246,9 @@ const App: React.FC = () => {
           showCount
           maxLength={100}
           style={{ height: 120, marginBottom: 24 }}
-          onChange={onChangeTextarea}
           placeholder="Nhập mô tả ngắn về sản phẩm"
+          onChange={handleDescriptionChange("VI")}
+          value={title.VI}
         />
       ),
     },
@@ -164,7 +260,8 @@ const App: React.FC = () => {
           showCount
           maxLength={100}
           style={{ height: 120, marginBottom: 24 }}
-          onChange={onChangeTextarea}
+          onChange={handleDescriptionChange("EN")}
+          value={title.EN}
           placeholder="Nhập mô tả ngắn về sản phẩm"
         />
       ),
@@ -177,7 +274,8 @@ const App: React.FC = () => {
           showCount
           maxLength={100}
           style={{ height: 120, marginBottom: 24 }}
-          onChange={onChangeTextarea}
+          onChange={handleDescriptionChange("FR")}
+          value={title.FR}
           placeholder="Nhập mô tả ngắn về sản phẩm"
         />
       ),
@@ -190,7 +288,8 @@ const App: React.FC = () => {
           showCount
           maxLength={100}
           style={{ height: 120, marginBottom: 24 }}
-          onChange={onChangeTextarea}
+          onChange={handleDescriptionChange("PO")}
+          value={title.PO}
           placeholder="Nhập mô tả ngắn về sản phẩm"
         />
       ),
@@ -200,24 +299,81 @@ const App: React.FC = () => {
     {
       key: "1",
       label: `Tiếng Việt`,
-      children: <CkeditorEnable />,
+      children: <CkeditorEnable data={contentVI} setData={setContentVI}/>,
     },
     {
       key: "2",
       label: `Tiếng Anh`,
-      children: <CkeditorEnable />,
+      children: <CkeditorEnable data={contentEN} setData={setContentEN}/>,
     },
     {
       key: "3",
       label: `Tiếng Pháp`,
-      children: <CkeditorEnable />,
+      children: <CkeditorEnable data={contentFR} setData={setContentFR}/>,
     },
     {
       key: "4",
       label: `Tiếng Bồ Đào Nha`,
-      children: <CkeditorEnable />,
+      children: <CkeditorEnable data={contentPO} setData={setContentPO}/>,
     },
   ];
+const handleSubmit =()=> {
+  dispatch(setLoading(true));
+  let body = {
+    link : link,
+    imgLink: "/",
+    categoryId: selector2,
+    content: [
+{
+  name: title.VI,
+  language: "VI",
+  content: contentVI,
+  description: description.VI
+},
+{
+  name: title.EN,
+  language: "EN",
+  content: contentEN,
+  description: description.EN
+},
+{
+  name: title.FR,
+  language: "FR",
+  content: contentFR,
+  description: description.FR
+},
+{
+  name: title.PO,
+  language: "PO",
+  content: contentPO,
+  description: description.PO
+},
+    ],
+
+  }
+  console.log(body, "body");
+  handleProducts.handleCreateProducts(body , token)
+  .then((result: any) => {
+    console.log(result, "result");
+    toast.success("Tạo danh mục sản phẩm thành công !", {
+      position: "top-right",
+      autoClose: 1200,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      onClose: () => {
+        router.push("/admin/san-pham/toan-bo-san-pham");
+      },
+    });
+  })
+.catch((error)=> {
+console.log(error);
+});
+
+}
   return (
     <Dashboard>
       <div className="admin__main-wrap">
@@ -260,6 +416,8 @@ const App: React.FC = () => {
                   }
                   placeholder=""
                   size="large"
+                  value={link}
+                  onChange={(e)=> setLink(e.target.value)}
                 />
               </div>
               <div
@@ -343,15 +501,18 @@ const App: React.FC = () => {
                   placeholder="Gõ phím để tìm kiếm danh mục"
                   size="large"
                   optionFilterProp="children"
-                  filterOption={(input, option) =>
+                  filterOption={(input, option:any) =>
                     (option?.label ?? "").includes(input)
                   }
-                  filterSort={(optionA, optionB) =>
+                  filterSort={(optionA:any, optionB:any) =>
                     (optionA?.label ?? "")
                       .toLowerCase()
                       .localeCompare((optionB?.label ?? "").toLowerCase())
                   }
+                  value={selector1}
                   options={options}
+                  onChange={(e)=> setSelector1(e)}
+                  disabled={typeof(dataCategory) === "string"}
                 />
                 <label className="admin__main-label">
                   <StarFilled style={{ marginRight: 5 }} />
@@ -363,15 +524,18 @@ const App: React.FC = () => {
                   placeholder="Gõ phím để tìm kiếm danh mục"
                   size="large"
                   optionFilterProp="children"
-                  filterOption={(input, option) =>
+                  filterOption={(input, option:any) =>
                     (option?.label ?? "").includes(input)
                   }
-                  filterSort={(optionA, optionB) =>
+                  filterSort={(optionA:any, optionB:any) =>
                     (optionA?.label ?? "")
                       .toLowerCase()
                       .localeCompare((optionB?.label ?? "").toLowerCase())
                   }
-                  options={options}
+                  value={selector2}
+                  options={options2}
+                  onChange={(e)=> setSelector2(e)}
+                  disabled={!selector1}
                 />
               </div>
               <div className="admin__main-cards">
@@ -385,7 +549,7 @@ const App: React.FC = () => {
                       onChange={onChangeImage}
                       onPreview={onPreview}
                     >
-                      {fileList.length < 5 && "+ Upload"}
+                      {fileList.length < 1 && "+ Tải Ảnh"}
                     </Upload>
                   </ImgCrop>
                 </div>
@@ -405,6 +569,7 @@ const App: React.FC = () => {
               size="large"
               style={{ marginLeft: 10 }}
               className="admin__main-save-products-btn-2"
+              onClick={handleSubmit}
             >
               Tạo sản phẩm
             </Button>

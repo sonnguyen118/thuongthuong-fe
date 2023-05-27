@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Spin } from "antd";
 
-const Ckeditor: React.FC = () => {
+type Props = {
+  data: string | undefined; // cho phép `data` có thể là `undefined`
+  setData: React.Dispatch<React.SetStateAction<string | undefined>>; // cho phép giá trị mới có thể là `undefined`
+};
+
+const Ckeditor  = ({data, setData} : Props) => {
   const editorRef = useRef<{ CKEditor: any; ClassicEditor: any }>({
     CKEditor: null,
     ClassicEditor: null,
@@ -18,12 +23,12 @@ const Ckeditor: React.FC = () => {
   const editorConfig = {
     height: "500px", // ẩn thanh công cụ
   };
-  const [data, setData] = useState(null);
 
   const handleEditorChange = (event: any, editor: any) => {
     const newData = editor.getData();
     setData(newData);
   };
+  
   console.log(data, "data");
   return (
     <>

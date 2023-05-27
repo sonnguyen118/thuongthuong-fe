@@ -1,25 +1,17 @@
-import React, { useState, ReactNode, useMemo, useEffect } from "react";
-import { Button, Table, Tag, Switch } from "antd";
+import React, { useState, ReactNode } from "react";
+import { Button, Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import type { TableRowSelection } from "antd/es/table/interface";
 import Dashboard from "@components/layouts/admin/Dashboard";
 import { NavigationAdmin } from "@components/elements/navigation";
-import { FilterAdminProducts } from "@components/molecules/FilterAdmin";
+import { FilterAdminTable } from "@components/molecules/FilterAdmin";
 import { useRouter } from "next/router";
-import Image from "next/image";
-import {handleProducts} from "@service";
-import { useCookies } from "react-cookie";
-import { toast } from "react-toastify";
-import { useSelector, useDispatch } from "react-redux";
-import { setLoading } from "@slices/loadingState";
+
 interface DataType {
   key: React.Key;
-  image: string;
   name: string;
-  tags: boolean;
-  title1: string;
-  title2: string;
-  action: ReactNode;
+  isActivate: boolean;
+  link: string;
 }
 interface buttonProps {
   isButton: boolean;
@@ -31,27 +23,25 @@ const columns: ColumnsType<DataType> = [
   {
     title: "STT",
     dataIndex: "key",
-    render: (text, index) => <>{text}</>,
+    render: (text) => <>{text}</>,
   },
   {
-    title: "Hình ảnh",
-    dataIndex: "image",
-    render: (text) => (
-      <Image src={text} width={60} height={60} alt="ảnh sản phẩm"></Image>
-    ),
-  },
-  {
-    title: "Tên sản phẩm",
+    title: "Tiêu đề",
     dataIndex: "name",
     render: (text) => <>{text}</>,
   },
   {
+    title: "Đường dẫn",
+    dataIndex: "link",
+    render: (text) => <>{process.env.NEXT_PUBLIC_FULL_URL + text}</>,
+  },
+  {
     title: "Trạng thái",
-    key: "tags",
-    dataIndex: "isActive",
-    render: (_, { isActive }) => (
+    key: "isActivate",
+    dataIndex: "isActivate",
+    render: (_, { isActivate }) => (
       <>
-        {isActive ? (
+        {isActivate ? (
           <Tag color={"green"}>Hiển thị</Tag>
         ) : (
           <Tag color={"volcano"}>Đang ẩn</Tag>
@@ -60,26 +50,49 @@ const columns: ColumnsType<DataType> = [
     ),
   },
   {
-    title: "Danh mục cấp 1",
-    dataIndex: "title1",
-    render: (text) => <>{text}</>,
-  },
-  {
-    title: "Danh mục cấp 2",
-    dataIndex: "title2",
-    render: (text) => <>{text}</>,
-  },
-  {
     title: "Thao tác",
-    dataIndex: "action",
-    render: (_, { tags }) => (
-      <Switch
-        checkedChildren="Tạm ẩn"
-        unCheckedChildren="Bỏ ẩn"
-        defaultChecked={tags}
-      />
-    ),
+    dataIndex: "address",
+    render: (text, record) => record.action,
   },
+];
+
+const data: DataType[] = [
+{
+    key: 1,
+    name: "Trang Chủ",
+    isActivate: true,
+    link: "/"
+},
+{
+    key: 2,
+    name: "Giới Thiệu",
+    isActivate: true,
+    link: "/gioi-thieu"
+},
+{
+    key: 3,
+    name: "Tin Tức",
+    isActivate: true,
+    link: "/tin-tuc"
+},
+{
+    key: 1,
+    name: "Sản Phẩm",
+    isActivate: true,
+    link: "/san-pham"
+},
+{
+    key: 4,
+    name: "Tuyển Dụng",
+    isActivate: true,
+    link: "/tuyen-dung"
+},
+{
+    key: 5,
+    name: "Liên Hệ",
+    isActivate: true,
+    link: "/lien-he"
+},
 ];
 
 interface NavigationProps {
@@ -89,27 +102,7 @@ interface NavigationProps {
 }
 const App: React.FC = () => {
   const router = useRouter();
-  const [cookies] = useCookies(["accessToken"]);
-  const token = cookies["accessToken"];
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const [dataProducts, setDataProducts] = useState([]);
-  // lấy dữ liệu
-  useMemo(()=>{
-    const body = {
-      language: "VI",
-      page: 1,
-      size: 50
-  }
-    handleProducts.handleGetAllProducts(body, token)
-    .then((result:any)=>{
-      const {meta, data} = result;
-      setDataProducts(data.products);
-      console.log(result, "result");
-    })
-    .catch((error) => {
-      console.log(error, "error");
-    })
-  },[]);
   const navigationData: NavigationProps[] = [
     {
       id: 1,
@@ -118,12 +111,12 @@ const App: React.FC = () => {
     },
     {
       id: 2,
-      title: `Danh mục`,
-      link: "/admin/danh-muc",
+      title: `Layout`,
+      link: "/admin/layout",
     },
     {
       id: 3,
-      title: `Danh mục cấp 1`,
+      title: `Danh sách menu`,
       link: "/",
     },
   ];
@@ -134,15 +127,15 @@ const App: React.FC = () => {
   const optionsSelector = [
     {
       value: "1",
-      label: "Lọc theo alphabeta",
+      label: "Tranh Giấy",
     },
     {
       value: "2",
-      label: "Lọc theo thời gian tạo",
+      label: "Sơn Mài",
     },
     {
       value: "3",
-      label: "Lọc theo đã ẩn",
+      label: "Đồ Gia Dụng",
     },
   ];
   const rowSelection: TableRowSelection<DataType> = {
@@ -185,27 +178,36 @@ const App: React.FC = () => {
   const button: buttonProps = {
     isButton: true,
     style: "add",
-    title: "Tạo danh mục cấp 1",
-    link: "/admin/danh-muc/tao-moi-danh-muc?level=1",
+    title: "Tạo menu",
+    link: "/admin/layout/menu/tao-moi",
   };
   return (
     <Dashboard>
       <div className="admin__main-wrap">
         <NavigationAdmin
-          header={"Toàn bộ danh sách sản phẩm"}
-          description={"Trang quản lý danh sách hệ thống sản phẩm của bạn"}
+          header={"Danh sách Menu - Navbar"}
+          description={
+            "Trang quản lý danh sách menu - navbar"
+          }
           data={navigationData}
         />
         <div className="admin__main-content">
-          <FilterAdminProducts optionsSelector={optionsSelector} />
+          <FilterAdminTable
+            isSelector={true}
+            optionsSelector={optionsSelector}
+            isDatepicker={false}
+            titleFilter={"Lọc theo danh mục cấp 1"}
+            placeholderInput={"Tìm kiếm theo tiêu đề danh mục"}
+            button={button}
+          />
           <Table
             rowSelection={rowSelection}
             columns={columns}
-            dataSource={dataProducts}
+            dataSource={data}
             onRow={(record, rowIndex) => {
               return {
                 onClick: (event) => {
-                  router.push(`/admin/danh-muc/danh-muc-cap-1/${record.key}`); // Perform router push on row click
+                  router.push(`/admin/danh-muc/danh-muc-cap-2/${record.key}`); // Perform router push on row click
                 },
               };
             }}
