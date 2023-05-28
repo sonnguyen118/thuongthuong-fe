@@ -71,9 +71,7 @@ const ListNews: React.FC = () => {
   }, [])
   const getCategories = async () => {
     console.log('language: ', lang)
-    const res = await axios.post(GET_CATEGORIES_ENDPOINT, {
-      language: lang
-    })
+    const res = await axios.get(`${GET_CATEGORIES_ENDPOINT}?language=${lang}`)
     setCategories(res.data.data)
   }
   const getAllProducts = async () => {
