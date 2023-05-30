@@ -1,8 +1,8 @@
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 
-const API_URL = "http://localhost:8080";
-const UPLOAD_ENDPOINT = "upload_files";
+const API_URL = "http://localhost:3001";
+const UPLOAD_ENDPOINT = "api/product/admin/upload";
 
 export default function TextEditor({ handleChange, ...props }) {
 
@@ -13,7 +13,7 @@ export default function TextEditor({ handleChange, ...props }) {
             console.log('before body');
           const body = new FormData();
           loader.file.then((file) => {
-            body.append("files", file);
+            body.append("upload", file);
             // let headers = new Headers();
             // headers.append("Origin", "http://localhost:3000");
             fetch(`${API_URL}/${UPLOAD_ENDPOINT}`, {
@@ -25,7 +25,7 @@ export default function TextEditor({ handleChange, ...props }) {
                 return res.json()})
               .then((res) => {
                 resolve({
-                  default: `${API_URL}/${res.filename}`
+                  default: `${API_URL}/${res.path}`
                 });
               })
               .catch((err) => {
