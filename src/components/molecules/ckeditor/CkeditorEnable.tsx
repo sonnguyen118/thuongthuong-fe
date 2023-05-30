@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Spin } from "antd";
+import {handleCKEditor} from "@service"
+import { useCookies } from "react-cookie";
 
 type Props = {
   data: string | undefined; // cho phép `data` có thể là `undefined`
@@ -7,6 +9,8 @@ type Props = {
 };
 
 const Ckeditor  = ({data, setData} : Props) => {
+  const [cookies] = useCookies(["accessToken"]);
+  const token = cookies["accessToken"];
   const editorRef = useRef<{ CKEditor: any; ClassicEditor: any }>({
     CKEditor: null,
     ClassicEditor: null,
@@ -20,16 +24,16 @@ const Ckeditor  = ({data, setData} : Props) => {
     };
     setEditorLoaded(true);
   }, []);
-  const editorConfig = {
-    height: "500px", // ẩn thanh công cụ
-  };
 
   const handleEditorChange = (event: any, editor: any) => {
     const newData = editor.getData();
     setData(newData);
   };
-  
-  console.log(data, "data");
+  function uploadPlugin(editor:any) {
+    editor.plugins.get("FileRepository").createUploadAdapter = (loader:any) => {
+      return handleCKEditor.uploadAdapter(loader,token);
+    };
+  }
   return (
     <>
       {editorLoaded ? (
@@ -37,7 +41,9 @@ const Ckeditor  = ({data, setData} : Props) => {
           <editorRef.current.CKEditor
             editor={editorRef.current.ClassicEditor}
             onChange={handleEditorChange}
-            config={editorConfig}
+            config={{
+              extraPlugins: [uploadPlugin]
+            }}
           />
         </>
       ) : (

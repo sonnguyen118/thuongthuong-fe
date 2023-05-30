@@ -11,7 +11,8 @@ interface contentProps {
 interface bodyProducts {
   link: string,
   imgLink: string,
-  categoryId: number,
+  categoryLevel1Id : number,
+  categoryLevel2Id : number,
   content: contentProps[]
 }
 interface bodyProductsGetAll {
@@ -29,7 +30,7 @@ type ResponseData = {
   meta: metaProps;
 };
 
-const handleCreateProducts = async (body: bodyProducts, token: string): Promise<ResponseData | Error> => {
+const handleCreateProducts = async (body: any, token: string): Promise<ResponseData | Error> => {
   try {
     const response = await Products.createProducts(body, token);
     const { data, meta } = response.data;
