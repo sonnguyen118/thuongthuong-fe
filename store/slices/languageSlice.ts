@@ -6,7 +6,7 @@ interface LanguageState {
 }
 
 const initialState: LanguageState = {
-  currentLanguage: "vi",
+  currentLanguage: "VI",
   titleLanguage: "Tiếng Việt",
 };
 
