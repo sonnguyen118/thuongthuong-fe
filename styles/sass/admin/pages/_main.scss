@@ -262,3 +262,18 @@
     }
   }
 }
+@include responsive_1440 {
+  .admin__main {
+    &-content {
+      margin: 4em 3% 0 3%;
+    }
+  }
+}
+
+@include responsive_1650 {
+  .admin__main {
+    &-content {
+      margin: 4em 7% 0 7%;
+    }
+  }
+}

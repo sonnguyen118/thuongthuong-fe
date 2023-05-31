@@ -1,7 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Spin } from "antd";
+import {handleCKEditor} from "@service"
+import { useCookies } from "react-cookie";
 
-const Ckeditor: React.FC = () => {
+type Props = {
+  data: string | undefined; // cho phép `data` có thể là `undefined`
+  setData: React.Dispatch<React.SetStateAction<string | undefined>>; // cho phép giá trị mới có thể là `undefined`
+};
+
+const Ckeditor  = ({data, setData} : Props) => {
+  const [cookies] = useCookies(["accessToken"]);
+  const token = cookies["accessToken"];
   const editorRef = useRef<{ CKEditor: any; ClassicEditor: any }>({
     CKEditor: null,
     ClassicEditor: null,
@@ -15,16 +24,16 @@ const Ckeditor: React.FC = () => {
     };
     setEditorLoaded(true);
   }, []);
-  const editorConfig = {
-    height: "500px", // ẩn thanh công cụ
-  };
-  const [data, setData] = useState(null);
 
   const handleEditorChange = (event: any, editor: any) => {
     const newData = editor.getData();
     setData(newData);
   };
-  console.log(data, "data");
+  function uploadPlugin(editor:any) {
+    editor.plugins.get("FileRepository").createUploadAdapter = (loader:any) => {
+      return handleCKEditor.uploadAdapter(loader,token);
+    };
+  }
   return (
     <>
       {editorLoaded ? (
@@ -32,7 +41,9 @@ const Ckeditor: React.FC = () => {
           <editorRef.current.CKEditor
             editor={editorRef.current.ClassicEditor}
             onChange={handleEditorChange}
-            config={editorConfig}
+            config={{
+              extraPlugins: [uploadPlugin]
+            }}
           />
         </>
       ) : (
