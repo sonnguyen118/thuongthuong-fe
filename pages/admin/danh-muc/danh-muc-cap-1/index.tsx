@@ -1,5 +1,5 @@
 import React, { useState, ReactNode, useEffect } from "react";
-import { Button, Table, Tag } from "antd";
+import { Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import type { TableRowSelection } from "antd/es/table/interface";
 import Dashboard from "@components/layouts/admin/Dashboard";
@@ -7,9 +7,8 @@ import { NavigationAdmin } from "@components/elements/navigation";
 import { FilterAdminTable } from "@components/molecules/FilterAdmin";
 import { useRouter } from "next/router";
 import { handleCategory } from "@service";
-import { useCookies } from "react-cookie";
-import { toast } from "react-toastify";
-import { useSelector, useDispatch } from "react-redux";
+
+import { useDispatch } from "react-redux";
 import { setLoading } from "@slices/loadingState";
 
 interface DataType {
@@ -54,7 +53,6 @@ const columns: ColumnsType<DataType> = [
       </>
     ),
   },
-  ,
   {
     title: "Trạng thái",
     key: "isActive",
@@ -81,19 +79,15 @@ const App: React.FC = () => {
   const router = useRouter();
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [data, setData] = useState();
-  // lấy dữ liệu
-  const [cookies] = useCookies(["accessToken"]);
-  const token = cookies["accessToken"];
   useEffect(() => {
     const body = {
       language: "VI",
     };
     dispatch(setLoading(true));
     handleCategory
-      .handleGetAllCategory(body, token)
-      .then((result) => {
+      .handleGetAllCategory(body)
+      .then((result:any) => {
         // Xử lý kết quả trả về ở đây
-        console.log(result);
         setData(result);
         dispatch(setLoading(false));
       })

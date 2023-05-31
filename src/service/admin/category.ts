@@ -1,5 +1,6 @@
 import { createCategory } from "@api";
 
+
 type NameState = {
   [key: string]: string | undefined;
 };
@@ -23,9 +24,9 @@ type ResponseData = {
 };
 
 
-const handleCreateCategory = async (body: bodyCategory, token: string): Promise<ResponseData | Error> => {
+const handleCreateCategory = async (body: bodyCategory): Promise<ResponseData | Error> => {
   try {
-    const response = await createCategory.createCategory(body, token);
+    const response =  await createCategory.createCategory(body);
     const { data, meta } = response.data;
     if (meta.status === 200) {
       const resData: ResponseData = { meta: meta, data: data };
@@ -42,9 +43,9 @@ const handleCreateCategory = async (body: bodyCategory, token: string): Promise<
   }
 };
 
-const handleGetAllCategory = async (body: bodyCategoryGetAdmin, token: string): Promise<ResponseData | Error> => {
+const handleGetAllCategory = async (body: bodyCategoryGetAdmin) => {
   try {
-    const response = await createCategory.getAllCategory(body, token);
+    const response = await createCategory.getAllCategory(body);
     const { data, meta } = response.data;
     console.log(response, "response")
     if (meta.status === 200) {
@@ -61,4 +62,4 @@ const handleGetAllCategory = async (body: bodyCategoryGetAdmin, token: string): 
   }
 };
 
-export default { handleCreateCategory, handleGetAllCategory };
+export default { handleGetAllCategory, handleCreateCategory };

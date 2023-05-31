@@ -1,4 +1,5 @@
 import request from "../RequestGlobalConfig";
+import {axiosInstanceAuthorization, axiosInstanceClient}  from "../AxiosInterceptor"
 
 type NameState = {
   [key: string]: string | undefined;
@@ -15,27 +16,26 @@ type bodyCategoryGetAdmin = {
 
 const Category = {
   create: {
-    post: function (path: string, data: bodyCategory, token: string) {
+    post: function (path: string, data: bodyCategory) {
+
       return request({
         method: "POST",
         url: process.env.NEXT_PUBLIC_API_URL + path,
         data: data,
         headers: {
           "Content-type": "application/json",
-          "Authorization": `Bearer ${token}`
         },
       });
     },
   },
   getAllAdmin: {
-    get: function (path: string, data: bodyCategoryGetAdmin, token: string) {
+    get: function (path: string, data: bodyCategoryGetAdmin) {
       return request({
         method: "GET",
         url: process.env.NEXT_PUBLIC_API_URL + path,
         data: data,
         headers: {
           "Content-type": "application/json",
-          "Authorization": `Bearer ${token}`
         },
       });
     },
