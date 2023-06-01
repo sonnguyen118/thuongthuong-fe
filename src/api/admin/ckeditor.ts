@@ -1,13 +1,8 @@
-import { CKEditor } from "@repository/admin";
+import {axiosInstanceAuthorization} from "@api/AxiosInterceptor";
 
 
-const ckeditorUploadImages = (file: any, token: string): Promise<any> => {
-  console.log(file, "file")
-  return CKEditor.upload.post("/product/admin/upload", file, token);
+const ckeditorUploadImages = (file: any): Promise<any> => {
+  return axiosInstanceAuthorization.post(process.env.NEXT_PUBLIC_API_URL +"/product/admin/upload ", file);
 };
-
-
-
-
 
 export default { ckeditorUploadImages };

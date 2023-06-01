@@ -5,8 +5,7 @@ const  uploadAdapter= (loader : any, token : string)=> {
     upload: () => {
       return new Promise((resolve:any, reject:any) => {
         loader.file.then((file:any) => {
-          console.log(file, "file")
-         const response =  Ckeditor.ckeditorUploadImages(file, token)
+         const response =  Ckeditor.ckeditorUploadImages(file)
             .then((res) => {
               if(res.status === 201) {
                 console.log(response,"response")

@@ -354,7 +354,7 @@ const App: React.FC = () => {
 
 		}
 		console.log(body, "body");
-		handleProducts.handleCreateProducts(body, token)
+		handleProducts.handleCreateProducts(body)
 			.then((result: any) => {
 				console.log(result, "result");
 				toast.success("Tạo danh mục sản phẩm thành công !", {
@@ -545,7 +545,7 @@ const App: React.FC = () => {
 								<div className="admin__main-custom-upload">
 									<ImgCrop rotationSlider>
 										<Upload
-											action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+											customRequest={handleProducts.handleUploadImageProducts}
 											listType="picture-card"
 											fileList={fileList}
 											onChange={onChangeImage}

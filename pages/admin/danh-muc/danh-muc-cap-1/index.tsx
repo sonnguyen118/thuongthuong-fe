@@ -85,7 +85,7 @@ const App: React.FC = () => {
     };
     dispatch(setLoading(true));
     handleCategory
-      .handleGetAllCategory(body)
+      .handleGetAllCategory()
       .then((result:any) => {
         // Xử lý kết quả trả về ở đây
         setData(result);

@@ -1,10 +1,10 @@
-import { Category } from "@repository/client";
+import {axiosInstanceAuthorization, axiosInstanceClient} from "@api/AxiosInterceptor";
 
 
 
 
-const getAllCategory = (param :string ): Promise<any> => {
-  return Category.getAll.get("/category", param);
+const getAllCategory = ( ): Promise<any> => {
+  return axiosInstanceClient.get(process.env.NEXT_PUBLIC_API_URL+ "/category");
 };
 
 export default { getAllCategory };

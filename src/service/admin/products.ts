@@ -30,9 +30,9 @@ type ResponseData = {
   meta: metaProps;
 };
 
-const handleCreateProducts = async (body: any, token: string): Promise<ResponseData | Error> => {
+const handleCreateProducts = async (body: any): Promise<ResponseData | Error> => {
   try {
-    const response = await Products.createProducts(body, token);
+    const response = await Products.createProducts(body);
     const { data, meta } = response.data;
     if (meta.status === 200) {
       const resData: ResponseData = { meta: meta, data: data };
@@ -49,9 +49,32 @@ const handleCreateProducts = async (body: any, token: string): Promise<ResponseD
   }
 };
 
-const handleGetAllProducts = async (body: bodyProductsGetAll, token: string): Promise<ResponseData | Error> => {
+const handleUploadImageProducts = async ( file:any ): Promise<ResponseData | Error> => {
+
+  const formData = new FormData();
+  formData.append('upload', file.file);
+  console.log(formData, "formData")
   try {
-    const response = await Products.getAllProducts(body, token);
+    const response = await Products.uploadImagesProduct(formData);
+    const { data, meta } = response.data;
+    if (meta.status === 200) {
+      const resData: ResponseData = { meta: meta, data: data };
+      return resData;
+    } else {
+      throw new Error(`Unexpected status code: ${meta.status}`);
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      return error;
+    } else {
+      return new Error("Unexpected error");
+    }
+  }
+};
+
+const handleGetAllProducts = async (body: bodyProductsGetAll): Promise<ResponseData | Error> => {
+  try {
+    const response = await Products.getAllProducts(body);
     const { data, meta } = response.data;
     if (meta.status === 200) {
       const resData: ResponseData = { meta: meta, data: data };
@@ -70,4 +93,4 @@ const handleGetAllProducts = async (body: bodyProductsGetAll, token: string): Pr
 
 
 
-export default { handleCreateProducts, handleGetAllProducts};
+export default { handleCreateProducts, handleUploadImageProducts, handleGetAllProducts};

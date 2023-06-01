@@ -43,9 +43,9 @@ const handleCreateCategory = async (body: bodyCategory): Promise<ResponseData | 
   }
 };
 
-const handleGetAllCategory = async (body: bodyCategoryGetAdmin) => {
+const handleGetAllCategory = async () => {
   try {
-    const response = await createCategory.getAllCategory(body);
+    const response = await createCategory.getAllCategory();
     const { data, meta } = response.data;
     console.log(response, "response")
     if (meta.status === 200) {

@@ -1,4 +1,4 @@
-import { Products } from "@repository/admin";
+import {axiosInstanceAuthorization, axiosInstanceClient} from "@api/AxiosInterceptor";
 
 
 interface contentProps {
@@ -20,15 +20,17 @@ interface bodyProductsGetAll {
   size: number
 }
 
-const createProducts = (body: bodyProducts, token: string): Promise<any> => {
-  return Products.create.post("/product/admin/create", body, token);
+const createProducts = (body: bodyProducts): Promise<any> => {
+  return axiosInstanceAuthorization.post(process.env.NEXT_PUBLIC_API_URL + "/product/admin/create", body);
 };
 
-const getAllProducts = (body: bodyProductsGetAll, token: string): Promise<any> => {
-  return Products.getAll.post("/product/admin/get-products", body, token);
+const uploadImagesProduct = (formData: any): Promise<any> => {
+  return axiosInstanceAuthorization.post(process.env.NEXT_PUBLIC_API_URL + "/product/upload", formData);
+};
+
+const getAllProducts = (body: bodyProductsGetAll): Promise<any> => {
+  return axiosInstanceAuthorization.post(process.env.NEXT_PUBLIC_API_URL + "/product/admin/get-products", body);
 };
 
 
-
-
-export default { createProducts, getAllProducts };
+export default { createProducts, uploadImagesProduct, getAllProducts };
