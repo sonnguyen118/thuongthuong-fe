@@ -3,7 +3,7 @@ import Dashboard from "@components/layouts/admin/Dashboard";
 import { NavigationAdmin } from "@components/elements/navigation";
 import { Tabs, Button, Input, Select, Form } from "antd";
 import type { TabsProps } from "antd";
-import { StarFilled } from "@ant-design/icons";
+import { StarFilled , DeleteOutlined, MailOutlined, PhoneOutlined, EnvironmentOutlined} from "@ant-design/icons";
 import { useRouter } from "next/router";
 import { handleCategory } from "@service";
 import { useCookies } from "react-cookie";
@@ -26,6 +26,11 @@ type LanguageKey = "VI" | "EN" | "FR" | "PO";
 type NameState = {
   [key: string]: string | undefined;
 };
+type menuProps = {
+  key: number;
+  title: string;
+  link: string;
+}
 const App: React.FC = () => {
   const [name, setName] = useState<{ [key: string]: string | undefined }>({
     VI: undefined,
@@ -40,7 +45,56 @@ const App: React.FC = () => {
   const loading = useSelector((state: RootState) => state.loading.loading);
   const dispatch = useDispatch();
   const router = useRouter();
-  const [level2, setLevel2] = useState(false);
+
+  // khai báo 3 state đại diện cho số lượng con của 3 blobk
+  const [dataBlock1, setDataBlock1] = useState<menuProps[]>([
+    {
+      key: 1,
+      title: "",
+      link: "",
+    }
+  ]);
+  const [dataBlock2, setDataBlock2] = useState<menuProps[]>([
+    {
+      key: 1,
+      title: "",
+      link: "",
+    }
+  ]);
+
+  // định nghia hàm thêm và xóa
+  const handleAddMenu1 = () => {
+    console.log("đang thêm menu");
+    let datafromState = [...dataBlock1]; // Tạo một bản sao của mảng dataBlock1
+    datafromState.push({
+      key: 1,
+      title: "",
+      link: "",
+    });
+    setDataBlock1(datafromState); // Cập nhật state với bản sao mới
+  };
+  const handleAddMenu2 = () => {
+    console.log("đang thêm menu");
+    let datafromState = [...dataBlock1]; // Tạo một bản sao của mảng dataBlock1
+    datafromState.push({
+      key: 1,
+      title: "",
+      link: "",
+    });
+    setDataBlock2(datafromState); // Cập nhật state với bản sao mới
+  };
+
+  const handleDeleteMenu1 = () => {
+    let datafromState = dataBlock1;
+    datafromState.push(
+      {
+        key: 1,
+        title: "",
+        link: "",
+      }
+    );
+    setDataBlock1(datafromState);
+  }
   const handleInputChange =
     (languageKey: LanguageKey) =>
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,22 +129,7 @@ const App: React.FC = () => {
       label: "Cancelled",
     },
   ];
-  useEffect(() => {
-    // console.log(router.query.level);
-    if (router.query.level) {
-      switch (router.query.level) {
-        case "1":
-          setLevel2(false);
-          break;
-        case "2":
-          setLevel2(true);
-          break;
-        default:
-          setLevel2(false);
-          break;
-      }
-    }
-  }, [router.query.level]);
+
   const [activeTab, setActiveTab] = useState("1");
   const onChange = (key: string) => {
     setActiveTab(key);
@@ -123,11 +162,16 @@ const App: React.FC = () => {
     const newLink = normalizeString(value);
     setLink(newLink);
   };
-  const items: TabsProps["items"] = [
+  const [ item, setItem] = useState< TabsProps["items"]>( [
     {
       key: "1",
       label: `Tiếng Việt`,
       children: (
+        <>
+          <label className="admin__main-label">
+            <StarFilled style={{ marginRight: 5 }} />
+            Tiêu đề đầu block dữ liệu 1
+          </label>
         <Form.Item
           name="name"
           rules={[
@@ -144,6 +188,36 @@ const App: React.FC = () => {
             value={name.VI}
           />
         </Form.Item>
+          <div>
+            <label className="admin__main-label">
+              <StarFilled style={{ marginRight: 5 }} />
+              Tạo danh sách menu con
+            </label>
+            {dataBlock1.map((data: menuProps, index: number)=> (
+              <div className="admin__main-footer-group" key={data.key}>
+                <Input
+                  placeholder="Nhập và tên danh danh mục tiếng việt"
+                  size="large"
+                  onChange={(e) => handleChangeTitleToLink(e.target.value)}
+                  value={name.VI}
+                  id={`block1_title_${index}`}
+                  className="admin__main-footer-group-item"
+                />
+                <Input
+                  addonBefore={process.env.NEXT_PUBLIC_FULL_URL + "/"}
+                  placeholder=""
+                  size="large"
+                  onChange={(e) => setLink(e.target.value)}
+                  value={link}
+                  id={`block1_link_${index}`}
+                  className="admin__main-footer-group-item"
+                />
+                <Button type="default"><DeleteOutlined /></Button>
+              </div>
+            ))}
+            <div className="admin__main-footer-group-btn" onClick={(e) => handleAddMenu1()}>Thêm Menu</div>
+          </div>
+          </>
       ),
     },
     {
@@ -188,8 +262,177 @@ const App: React.FC = () => {
         </>
       ),
     },
-  ];
+  ]);
 
+  useEffect(()=> {
+    setItem ( [
+      {
+        key: "1",
+        label: `Tiếng Việt`,
+        children: (
+          <>
+            <label className="admin__main-label">
+              <StarFilled style={{ marginRight: 5 }} />
+              Tiêu đề đầu block dữ liệu 1
+            </label>
+            <Form.Item
+              name="name"
+              rules={[
+                {
+                  required: true,
+                  message: "Không được bỏ trống tiêu đề tiếng việt!",
+                },
+              ]}
+            >
+              <Input
+                placeholder="Nhập và tên danh danh mục tiếng việt"
+                size="large"
+                onChange={(e) => handleChangeTitleToLink(e.target.value)}
+                value={name.VI}
+              />
+            </Form.Item>
+            <div>
+
+              <label className="admin__main-label">
+                Tạo danh sách menu con
+              </label>
+              {dataBlock1.map((data: menuProps, index: number)=> (
+                <div className="admin__main-footer-group" key={data.key}>
+                  <Input
+                    placeholder="Nhập và tên danh danh mục tiếng việt"
+                    size="large"
+                    onChange={(e) => handleChangeTitleToLink(e.target.value)}
+                    value={name.VI}
+                    id={`block1_title_${index}`}
+                    className="admin__main-footer-group-item"
+                  />
+                  <Input
+                    addonBefore={process.env.NEXT_PUBLIC_FULL_URL + "/"}
+                    placeholder=""
+                    size="large"
+                    onChange={(e) => setLink(e.target.value)}
+                    value={link}
+                    id={`block1_link_${index}`}
+                    className="admin__main-footer-group-item"
+                  />
+                  <Button type="default"><DeleteOutlined /></Button>
+                </div>
+              ))}
+              <div className="admin__main-footer-group-btn" onClick={(e) => handleAddMenu1()}>+ Thêm Menu</div>
+            </div>
+            <div className="admin__main-wall"></div>
+            <div className="admin__main-wall"></div>
+            <label className="admin__main-label">
+              <StarFilled style={{ marginRight: 5 }} />
+              Tiêu đề đầu block dữ liệu 2
+            </label>
+            <Form.Item
+              name="name"
+              rules={[
+                {
+                  required: true,
+                  message: "Không được bỏ trống tiêu đề tiếng việt!",
+                },
+              ]}
+            >
+              <Input
+                placeholder="Nhập và tên danh danh mục tiếng việt"
+                size="large"
+                onChange={(e) => handleChangeTitleToLink(e.target.value)}
+                value={name.VI}
+              />
+            </Form.Item>
+            <div>
+              <label className="admin__main-label">
+                Tạo danh sách menu con
+              </label>
+              {dataBlock2.map((data: menuProps, index: number)=> (
+                <div className="admin__main-footer-group" key={data.key}>
+                  <Input
+                    placeholder="Nhập và tên danh danh mục tiếng việt"
+                    size="large"
+                    onChange={(e) => handleChangeTitleToLink(e.target.value)}
+                    value={name.VI}
+                    id={`block1_title_${index}`}
+                    className="admin__main-footer-group-item"
+                  />
+                  <Input
+                    addonBefore={process.env.NEXT_PUBLIC_FULL_URL + "/"}
+                    placeholder=""
+                    size="large"
+                    onChange={(e) => setLink(e.target.value)}
+                    value={link}
+                    id={`block1_link_${index}`}
+                    className="admin__main-footer-group-item"
+                  />
+                  <Button type="default"><DeleteOutlined /></Button>
+                </div>
+              ))}
+              <div className="admin__main-footer-group-btn" onClick={(e) => handleAddMenu2()}>+ Thêm Menu</div>
+              <div className="admin__main-wall"></div>
+              <div className="admin__main-wall"></div>
+              <label className="admin__main-label">
+                <StarFilled style={{ marginRight: 5 }} />
+               Thông tin địa chỉ liên hệ
+              </label>
+              <Input size="large" placeholder="Nhập vào địa chỉ công ty" prefix={<EnvironmentOutlined />} style={{marginBottom: 15}} />
+              <Input size="large" placeholder="Nhập vào Hotline công ty" prefix={<PhoneOutlined />} style={{marginBottom: 15}}  />
+              <Input size="large" placeholder="Nhập vào Email công ty" prefix={<MailOutlined />} style={{marginBottom: 15}}  />
+              <div className="admin__main-wall"></div>
+              <div className="admin__main-wall"></div>
+              <label className="admin__main-label">
+                <StarFilled style={{ marginRight: 5 }} />
+                Bản quyền đăng ký: Copyright
+              </label>
+              <Input size="large" placeholder="Bản quyền thuộc về thuongthuong ...." style={{marginBottom: 15}}  />
+            </div>
+          </>
+        ),
+      },
+      {
+        key: "2",
+        label: `Tiếng Anh`,
+        children: (
+          <>
+            <Input
+              placeholder="Nhập vào tên danh danh mục tiếng anh"
+              size="large"
+              onChange={handleInputChange("EN")}
+              value={name.EN}
+            />
+          </>
+        ),
+      },
+      {
+        key: "3",
+        label: `Tiếng Pháp`,
+        children: (
+          <>
+            <Input
+              placeholder="Nhập vào tên danh danh mục tiếng pháp"
+              size="large"
+              onChange={handleInputChange("FR")}
+              value={name.FR}
+            />
+          </>
+        ),
+      },
+      {
+        key: "4",
+        label: `Tiếng Bồ Đào Nha`,
+        children: (
+          <>
+            <Input
+              placeholder="Nhập vào tên danh danh mục tiêng bồ đào nha"
+              size="large"
+              onChange={handleInputChange("PO")}
+              value={name.PO}
+            />
+          </>
+        ),
+      },
+    ]);
+  },[dataBlock1, dataBlock2])
   const onFinish = (values: any) => {
     if (link === "") {
       toast.error("Đường dẫn không được bỏ trống", {
@@ -205,7 +448,7 @@ const App: React.FC = () => {
       return;
     }
     dispatch(setLoading(true));
-    handleCategory.handleCreateCategory({ name, link, parent }, token);
+    handleCategory.handleCreateCategory({ name, link, parent });
     toast.success("Tạo danh mục sản phẩm thành công !", {
       position: "top-right",
       autoClose: 1200,
@@ -245,15 +488,16 @@ const App: React.FC = () => {
       }
     );
   };
+const handleSubmit = () => {
 
-  console.log(link, "linh thay đổi");
+}
   return (
     <Dashboard>
       <div className="admin__main-wrap">
         <NavigationAdmin
-          header={"Danh sách Menu - Navbar"}
+          header={"Dữ liệu chân trang - Footer"}
           description={
-            "Trang quản lý -  tạo - thêm mới menu cho thanh Navbar của bạn"
+            "Gồm 2 block dữ liệu có thể thêm mới nhiều, bảng thông tin đại chỉ điền sẵn, Link mạng xã hội & bản quyền copyright"
           }
           data={navigationData}
         />
@@ -265,58 +509,85 @@ const App: React.FC = () => {
         >
           <div className="admin__main-content">
             <div className="admin__main-cards">
-              <label className="admin__main-label">
-                <StarFilled style={{ marginRight: 5 }} />
-                Tên danh mục
-              </label>
-              <Tabs activeKey={activeTab} items={items} onChange={onChange} />
-              {level2 && (
-                <>
-                  <div className="admin__main-wall"></div>
-                  <label className="admin__main-label">
-                    <StarFilled style={{ marginRight: 5 }} />
-                    Lựa chọn danh mục cha (Danh mục cấp 1)
-                  </label>
-                  <Select
-                    showSearch
-                    style={{ width: "100%" }}
-                    placeholder="Gõ phím để tìm kiếm danh mục"
-                    size="large"
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                      (option?.label ?? "").includes(input)
-                    }
-                    filterSort={(optionA, optionB) =>
-                      (optionA?.label ?? "")
-                        .toLowerCase()
-                        .localeCompare((optionB?.label ?? "").toLowerCase())
-                    }
-                    options={options}
-                  />
-                </>
-              )}
+              <Tabs activeKey={activeTab} items={item} onChange={onChange} />
               <div className="admin__main-wall"></div>
               <label className="admin__main-label">
                 <StarFilled style={{ marginRight: 5 }} />
-                Đường dẫn
+                Đường dẫn mạng xã hội (lưu ý chỉ điền thì icon mới xuất hiện)
               </label>
-
+              <div className="admin__main-footer-group" style={{flexWrap: "wrap", paddingBottom: 30}}>
               <Input
-                addonBefore={process.env.NEXT_PUBLIC_FULL_URL + "/"}
-                placeholder=""
+                addonBefore={"Link Facebook"}
+                placeholder="Nhập vào Link Facebook của công ty"
                 size="large"
                 onChange={(e) => setLink(e.target.value)}
                 value={link}
+                style={{marginBottom: 15}}
+                className="admin__main-footer-group-item"
               />
+              <Input
+                addonBefore={"Link Youtube"}
+                placeholder="Nhập vào Link Youtube của công ty"
+                size="large"
+                onChange={(e) => setLink(e.target.value)}
+                value={link}
+                style={{marginBottom: 15}}
+                className="admin__main-footer-group-item"
+              />
+              <Input
+                addonBefore={"Link TikTok"}
+                placeholder="Nhập vào Link TikTok của công ty"
+                size="large"
+                onChange={(e) => setLink(e.target.value)}
+                value={link}
+                style={{marginBottom: 15}}
+                className="admin__main-footer-group-item"
+              />
+              <Input
+                addonBefore={"Link Instagram"}
+                placeholder="Nhập vào Link Instagram của công ty"
+                size="large"
+                onChange={(e) => setLink(e.target.value)}
+                value={link}
+                style={{marginBottom: 15}}
+                className="admin__main-footer-group-item"
+              />
+              <Input
+                addonBefore={"Link Google"}
+                placeholder="Nhập vào Link Google của công ty"
+                size="large"
+                onChange={(e) => setLink(e.target.value)}
+                value={link}
+                style={{marginBottom: 15}}
+                className="admin__main-footer-group-item"
+              />
+              <Input
+                addonBefore={"Link Twiter"}
+                placeholder="Nhập vào Link Twiter của công ty"
+                size="large"
+                onChange={(e) => setLink(e.target.value)}
+                value={link}
+                style={{marginBottom: 15}}
+                className="admin__main-footer-group-item"
+              />
+              </div>
             </div>
-            <div className="admin__main-save">
-              <Button type="default">Hủy</Button>
+            <div className="admin__main-save-products">
+              <Button
+                size="large"
+                type="default"
+                className="admin__main-save-products-btn"
+              >
+                Hủy bỏ
+              </Button>
               <Button
                 type="primary"
-                style={{ marginLeft: 10 }}
-                htmlType="submit"
+                size="large"
+                style={{marginLeft: 10}}
+                className="admin__main-save-products-btn-2"
+                onClick={handleSubmit}
               >
-                Tạo mới
+                Cập nhật dữ liệu
               </Button>
             </div>
           </div>
