@@ -175,64 +175,6 @@ const App: React.FC = () => {
 			link: "/",
 		},
 	];
-	const items: TabsProps["items"] = [
-		{
-			key: "1",
-			label: `Tiếng Việt`,
-			children: (
-				<>
-					<Input
-						placeholder="Nhập và tên danh danh mục tiếng việt"
-						size="large"
-						onChange={(e) => handleChangeTitleToLink(e.target.value)}
-						value={title.VI}
-					/>
-				</>
-			),
-		},
-		{
-			key: "2",
-			label: `Tiếng Anh`,
-			children: (
-				<>
-					<Input
-						placeholder="Nhập vào tên danh danh mục tiếng anh"
-						size="large"
-						onChange={handleTitleChange("EN")}
-						value={title.EN}
-					/>
-				</>
-			),
-		},
-		{
-			key: "3",
-			label: `Tiếng Pháp`,
-			children: (
-				<>
-					<Input
-						placeholder="Nhập vào tên danh danh mục tiếng pháp"
-						size="large"
-						onChange={handleTitleChange("FR")}
-						value={title.FR}
-					/>
-				</>
-			),
-		},
-		{
-			key: "4",
-			label: `Tiếng Bồ Đào Nha`,
-			children: (
-				<>
-					<Input
-						placeholder="Nhập vào tên danh danh mục tiêng bồ đào nha"
-						size="large"
-						onChange={handleTitleChange("PO")}
-						value={title.PO}
-					/>
-				</>
-			),
-		},
-	];
 	const onChangeTextarea = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
@@ -244,29 +186,70 @@ const App: React.FC = () => {
 			label: `Tiếng Việt`,
 			children: (
 				<>
-					<TextArea
-						showCount
-						maxLength={400}
-						style={{height: 80, marginBottom: 24}}
-						placeholder="Nhập mô tả ngắn về sản phẩm"
-						onChange={(e) => handleDescriptionChange("VI")}
-						value={description.VI}
+					<Input
+						addonBefore={"Điện thoại"}
+						placeholder="Nhập vào Link Twiter của công ty"
+						size="large"
+						onChange={(e) => setLink(e.target.value)}
+						value={link}
+						style={{marginBottom: 15, width: "100%"}}
+						className="admin__main-footer-group-item"
 					/>
-					<TextArea
-						showCount
-						maxLength={400}
-						style={{height: 80, marginBottom: 24}}
-						placeholder="Nhập mô tả ngắn về sản phẩm"
-						onChange={(e) => handleDescriptionChange("VI")}
-						value={description.VI}
+					<Input
+						addonBefore={"Hotline"}
+						placeholder="Nhập vào Link Twiter của công ty"
+						size="large"
+						onChange={(e) => setLink(e.target.value)}
+						value={link}
+						style={{marginBottom: 15, width: "100%"}}
+						className="admin__main-footer-group-item"
 					/>
+					<Input
+						addonBefore={"Email"}
+						placeholder="Nhập vào Link Twiter của công ty"
+						size="large"
+						onChange={(e) => setLink(e.target.value)}
+						value={link}
+						style={{marginBottom: 15, width: "100%"}}
+						className="admin__main-footer-group-item"
+					/>
+					<Input
+						addonBefore={"Địa chỉ"}
+						placeholder="Nhập vào Link Twiter của công ty"
+						size="large"
+						onChange={(e) => setLink(e.target.value)}
+						value={link}
+						style={{marginBottom: 15, width: "100%"}}
+						className="admin__main-footer-group-item"
+					/>
+					<Input
+						addonBefore={"Địa chỉ"}
+						placeholder="Nhập vào Link Twiter của công ty"
+						size="large"
+						onChange={(e) => setLink(e.target.value)}
+						value={link}
+						style={{marginBottom: 15, width: "100%"}}
+						className="admin__main-footer-group-item"
+					/>
+					<Input
+						addonBefore={"Địa chỉ"}
+						placeholder="Nhập vào Link Twiter của công ty"
+						size="large"
+						onChange={(e) => setLink(e.target.value)}
+						value={link}
+						style={{marginBottom: 15, width: "100%"}}
+						className="admin__main-footer-group-item"
+					/>
+					<label className="admin__main-label">
+						Mô tả
+					</label>
 					<TextArea
 						showCount
-						maxLength={400}
-						style={{height: 80, marginBottom: 24}}
+						maxLength={600}
+						style={{height: 120, marginBottom: 24}}
+						onChange={(e) => handleDescriptionChange("EN")}
+						value={description.EN}
 						placeholder="Nhập mô tả ngắn về sản phẩm"
-						onChange={(e) => handleDescriptionChange("VI")}
-						value={description.VI}
 					/>
 				</>
 			),
@@ -400,15 +383,16 @@ const App: React.FC = () => {
 	const handleAddMenu = () => {
 
 	}
-	const onChangeInputNumber = () => {
-
-	}
+	const [isReversed, setIsReversed] = useState(false);
+	const toggleFlexDirection = () => {
+		setIsReversed(!isReversed);
+	};
 	return (
 		<Dashboard>
 			<div className="admin__main-wrap">
 				<NavigationAdmin
-					header={"Dữ liệu Trang Chủ"}
-					description={"Trang quản lý - Dữ liệu trang chủ"}
+					header={"Dữ liệu Trang Liên Hệ"}
+					description={"Thay đổi thông tin tin liên hệ của công ty"}
 					data={navigationData}
 				/>
 				<div className="admin__main-content">
@@ -418,163 +402,27 @@ const App: React.FC = () => {
 					>
 						<label className="admin__main-label">
 							<StarFilled style={{marginRight: 5}}/>
-							Tải ảnh slider baner <Switch checkedChildren="Hiển thị" unCheckedChildren="Tạm ẩn" defaultChecked
-																					 style={{marginLeft: 15}}/>
+							Nhúng  bản đồ
 						</label>
-						<Upload
-							customRequest={handleProducts.handleUploadImageProducts}
-							listType="picture-card"
-							fileList={fileList}
-							onChange={onChangeImage}
-							onPreview={onPreview}
-						>
-							{fileList.length < 5 && "+ Tải Ảnh"}
-						</Upload>
-					</div>
-
-					<div
-						className="admin__main-cards"
-						style={{marginBottom: "20px"}}
-					>
-						<label className="admin__main-label">
-							<StarFilled style={{marginRight: 5}}/>
-							Block 1 (những mảnh ghép) <Switch checkedChildren="Hiển thị" unCheckedChildren="Tạm ẩn" defaultChecked
-																								style={{marginLeft: 15}}/>
-						</label>
-						<div style={{display: "flex", alignItems: "center"}}>
-							<div style={{width: "20%"}}>
-								<Upload>
-									<Button icon={<UploadOutlined/>}>Tải ảnh icon</Button>
-								</Upload>
-								<Switch checkedChildren="có gạch chân tiêu đề" unCheckedChildren="ẩn gạch chân tiêu đề" defaultChecked
-												style={{marginTop: 15, marginBottom: 15}}/>
-								<Upload
-									customRequest={handleProducts.handleUploadImageProducts}
-									listType="picture-card"
-									fileList={fileList}
-									onChange={onChangeImage}
-									onPreview={onPreview}
-								>
-									{fileList.length < 1 && "+ Tải Ảnh"}
-								</Upload>
-							</div>
-							<div style={{width: "80%"}}>
-								<Tabs activeKey={activeTab} items={items} onChange={onChange}/>
-								<label className="admin__main-label">
-									<StarFilled style={{marginRight: 5}}/>
-									Mô tả ngắn
-								</label>
-								<Tabs
-									activeKey={activeTab}
-									items={itemDecription}
-									onChange={onChange}
-								/>
-							</div>
-						</div>
-
-
-					</div>
-					<div
-						className="admin__main-cards"
-						style={{marginBottom: "20px"}}
-					>
-						<label className="admin__main-label">
-							<StarFilled style={{marginRight: 5}}/>
-							Tải ảnh slider cho Block 3 (sản phẩm thay lời nói) <Switch checkedChildren="Hiển thị"
-																																				 unCheckedChildren="Tạm ẩn" defaultChecked
-																																				 style={{marginLeft: 15}}/>
-						</label>
-						<div style={{display: "flex", alignItems: "center"}}>
-							<div style={{width: "20%"}}>
-								<Upload>
-									<Button icon={<UploadOutlined/>}>Tải ảnh icon</Button>
-								</Upload>
-								<Switch checkedChildren="có gạch chân tiêu đề" unCheckedChildren="ẩn gạch chân tiêu đề" defaultChecked
-												style={{marginTop: 15, marginBottom: 15}}/>
-							</div>
-							<div style={{width: "80%"}}>
-								<div style={{marginBottom: 15}}>
-									<Tabs activeKey={activeTab} items={items} onChange={onChange}/>
-								</div>
-
-								<Upload
-									customRequest={handleProducts.handleUploadImageProducts}
-									listType="picture-card"
-									fileList={fileList}
-									onChange={onChangeImage}
-									onPreview={onPreview}
-								>
-									{fileList.length < 20 && "Tải Ảnh Slider"}
-								</Upload>
-							</div>
-						</div>
-					</div>
-					<div
-						className="admin__main-cards"
-						style={{marginBottom: "20px"}}
-					>
-						<label className="admin__main-label">
-							<StarFilled style={{marginRight: 5}}/>
-							Sản phẩm ( mặc định luôn có sản phẩm mới)
-						</label>
-						<label className="admin__main-label">
-							Lựa chọn danh mục cấp 1 và kiểm soát số lượng sản phẩm hiển thị ra
-						</label>
-						<div style={{display: "flex", alignItems: "center"}}><Select
-							showSearch
-							style={{width: 200}}
-							placeholder="Search to Select"
-							optionFilterProp="children"
-							filterOption={(input: any, option: any) => (option?.label ?? '').includes(input)}
-							filterSort={(optionA: any, optionB: any) =>
-								(optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-							}
-							options={listCategory1}
+						<TextArea
+							showCount
+							maxLength={500}
+							style={{height: 80, marginBottom: 24}}
+							placeholder="Nhúng đường dẫn bản đồ vào đây"
+							onChange={(e) => handleDescriptionChange("VI")}
+							value={description.VI}
 						/>
-							<span style={{marginLeft: 30}}>Số lượng sp hiển thị</span>
-							<div style={{marginLeft: 20, marginRight: 20}}>
-								<InputNumber min={"1"} max={"0"} defaultValue={"3"} onChange={onChangeInputNumber}/>
-							</div>
-							<Button type="default"><DeleteOutlined/></Button>
-						</div>
-						<div className="admin__main-footer-group-btn" style={{marginTop: 15}} onClick={(e) => handleAddMenu()}>+
-							Thêm
-						</div>
-					</div>
-					<div
-						className="admin__main-cards"
-						style={{marginBottom: "20px"}}
-					>
 						<label className="admin__main-label">
 							<StarFilled style={{marginRight: 5}}/>
-							Tải ảnh ảnh đối tác của bạn <Switch checkedChildren="Hiển thị" unCheckedChildren="Tạm ẩn" defaultChecked
-																									style={{marginLeft: 15}}/>
+							Nội dung
 						</label>
-						<div style={{display: "flex", alignItems: "center"}}>
-							<div style={{width: "20%"}}>
-								<Upload>
-									<Button icon={<UploadOutlined/>}>Tải ảnh icon</Button>
-								</Upload>
-								<Switch checkedChildren="có gạch chân tiêu đề" unCheckedChildren="ẩn gạch chân tiêu đề" defaultChecked
-												style={{marginTop: 15, marginBottom: 15}}/>
-							</div>
-							<div style={{width: "80%"}}>
-								<div style={{marginBottom: 15}}>
-									<Tabs activeKey={activeTab} items={items} onChange={onChange}/>
-								</div>
-
-								<Upload
-									customRequest={handleProducts.handleUploadImageProducts}
-									listType="picture-card"
-									fileList={fileList}
-									onChange={onChangeImage}
-									onPreview={onPreview}
-								>
-									{fileList.length < 20 && "Tải Ảnh Slider"}
-								</Upload>
-							</div>
-						</div>
+						<Tabs
+							activeKey={activeTab}
+							items={itemDecription}
+							onChange={onChange}
+						/>
 					</div>
+
 					<div
 						className="admin__main-cards"
 						style={{marginBottom: "60px"}}

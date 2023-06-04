@@ -35,6 +35,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useSelector, useDispatch } from "react-redux";
 import { setLoading } from "@slices/loadingState";
+import {DasbroahAdmin}  from "@utils/Functions";
 
 type MenuItemRT = Required<MenuProps>["items"][number];
 type NoticeProps = {
@@ -56,7 +57,6 @@ type LayoutProps = {
 };
 
 const notice: NoticeProps[] = [
-  { link: "/admin", title: "Thông báo 1", time: "8:00 thứ 6 22/05/2023" },
   { link: "/admin", title: "Thông báo 1", time: "8:00 thứ 6 22/05/2023" },
   { link: "/admin", title: "Thông báo 1", time: "8:00 thứ 6 22/05/2023" },
   { link: "/admin", title: "Thông báo 1", time: "8:00 thứ 6 22/05/2023" },
@@ -148,14 +148,14 @@ const Dashboard = ({ children }: LayoutProps) => {
         "8",
         undefined,
         undefined,
-        "/admin/lien-he/lien-he-da-xu-ly"
+        "/admin/lien-he/lien-he-chua-xu-ly"
       ),
       getItem(
         "Liên Hệ đã xử lý",
         "9",
         undefined,
         undefined,
-        "/admin/lien-he/lien-he-chua-xu-ly"
+        "/admin/lien-he/lien-he-da-xu-ly"
       ),
       getItem("Tất cả Liên Hệ", "10", undefined, undefined, "/admin/lien-he"),
     ]),
@@ -188,7 +188,7 @@ const Dashboard = ({ children }: LayoutProps) => {
         undefined,
         "/admin/danh-muc/tao-moi-danh-muc?level=2"
       ),
-      getItem("Tất cả Danh Mục", "10", undefined, undefined, "/admin/danh-muc"),
+      getItem("Tất cả Danh Mục", "12", undefined, undefined, "/admin/danh-muc"),
     ]),
     getItem("Sản Phẩm", "sub4", <InboxOutlined />, [
       getItem(
@@ -273,19 +273,19 @@ const Dashboard = ({ children }: LayoutProps) => {
     ]),
     getItem("Người Dùng", "sub8", <UserOutlined />, [
       getItem(
-        "Thêm người dùng",
+        "Danh sách người dùng",
         "40",
         undefined,
         undefined,
-        "/admin/nguoi-dung/them-nguoi-dung"
+        "/admin/user/list"
       ),
       getItem(
-        "Danh sách người dùng",
+        "Thêm người dùng",
         "41",
         undefined,
         undefined,
-        "/admin/nguoi-dung/danh-sach-nguoi-dung"
-      ),
+        "/admin/user/add"
+      )
     ]),
   ];
   const [cookies, setCookie, removeCookie] = useCookies([
@@ -307,6 +307,17 @@ const Dashboard = ({ children }: LayoutProps) => {
     removeCookie("refreshToken");
     router.push("/login");
   };
+  // hàm kiểm tra và check đang ở menu nào
+  const [selectedKeys, setSelectedKeys] = useState(["1"]);
+  const [openKeys, setOpenKeys] = useState([""]);
+
+  useEffect(() => {
+    const url = router.route;
+    const level = router.query.level;
+   const slectorKeys:any =  DasbroahAdmin.getSelectKeys(url, level);
+    setOpenKeys([slectorKeys.openKeys]);
+    setSelectedKeys([slectorKeys.selectedKeys]);
+  }, [router.route, router.query]);
 
   const cartContent = (
     <>
@@ -353,6 +364,9 @@ const Dashboard = ({ children }: LayoutProps) => {
     items: itemsLogout,
     onClick: handleMenuClick,
   };
+  const handleMenuOpenChange = (keys: any) => {
+    setOpenKeys(keys.length > 0 ? keys : "");
+  };
   return (
     <div className="admin__layout-dasbroah">
       <div
@@ -382,8 +396,9 @@ const Dashboard = ({ children }: LayoutProps) => {
         <Menu
           mode="inline"
           theme="dark"
-          defaultSelectedKeys={["1"]}
-          defaultOpenKeys={["sub1"]}
+          selectedKeys={selectedKeys}
+          openKeys={openKeys}
+          onOpenChange={handleMenuOpenChange}
           inlineCollapsed={collapsed}
           className="admin__layout-dasbroah-slidebar-menu"
         >
