@@ -41,5 +41,23 @@ const handleCreateWebInformation = async (body: createWebInformationBody): Promi
 		}
 	}
 };
+const handleUpdateWebInformation = async (body: createWebInformationBody): Promise<ResponseData | Error> => {
+	try {
+		const response = await WebInformation.updateWebInformation(body);
+		const { data, meta } = response.data;
+		if (meta.status === 200) {
+			const resData: ResponseData = { meta: meta, data: data };
+			return resData;
+		} else {
+			throw new Error(`Unexpected status code: ${meta.status}`);
+		}
+	} catch (error) {
+		if (error instanceof Error) {
+			return error;
+		} else {
+			return new Error("Unexpected error");
+		}
+	}
+};
 
-export default { handleCreateWebInformation };
+export default { handleCreateWebInformation, handleUpdateWebInformation };

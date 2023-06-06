@@ -76,12 +76,13 @@ const App: React.FC = () => {
 			link: "",
 		}
 	]);
- //Lấy dữ liệu ban đầu
+	//Lấy dữ liệu ban đầu
 	useMemo(()=> {
-		webInformationClient.handleGetWebInformation("2")
+		webInformationClient.handleGetWebInformation("3")
 			.then((res:any) => {
 				// Xử lý kết quả thành công
-				const datarex = JSON.parse(res.description);
+				const datarex = JSON.parse(res.value);
+				console.log(datarex, "data");
 				if(datarex) {
 					setTitleVi1(datarex.title1);
 					setTitleVi2(datarex.title2);
@@ -197,158 +198,19 @@ const App: React.FC = () => {
 	]);
 
 	useEffect(() => {
-		console.log(titleVI1, "titleVI1")
 		setItem([
 			{
 				key: "1",
 				label: `Tiếng Việt`,
 				children: (
-					<>
-						<label className="admin__main-label">
-							<StarFilled style={{marginRight: 5}}/>
-							Tiêu đề đầu block dữ liệu 1
-						</label>
-
-							<Input
-								placeholder="Nhập và tiêu đề Block1 tiếng việt"
-								size="large"
-								onChange={(e) => setTitleVi1(e.target.value)}
-								value={titleVI1}
-							/>
-						<div>
-							<label className="admin__main-label">
-								<StarFilled style={{marginRight: 5}}/>
-								Tạo danh sách menu con
-							</label>
-							{dataBlock1.map((data: menuProps, index: number) => (
-								<div className="admin__main-footer-group" key={data.key}>
-									<Input
-										placeholder="Nhập và tiêu đề menu con block1"
-										size="large"
-										id={`block1_title_VI${index}`}
-										className="admin__main-footer-group-item"
-										value={data.title}
-										onChange={(event) => handleInputChange1(event, index, "title")}
-									/>
-									<Input
-										addonBefore={process.env.NEXT_PUBLIC_FULL_URL + "/"}
-										placeholder=""
-										size="large"
-										id={`block1_link${index}`}
-										className="admin__main-footer-group-item"
-										defaultValue={data.link}
-										onChange={(event) => handleInputChange1(event, index, "link")}
-									/>
-									<Button type="default" onClick={(e) => handleDeleteMenu1(data.key)}><DeleteOutlined/></Button>
-								</div>
-							))}
-							<div className="admin__main-footer-group-btn" onClick={(e) => handleAddMenu1()}>Thêm Menu</div>
-						</div>
-						<label className="admin__main-label">
-							<StarFilled style={{marginRight: 5}}/>
-							Tiêu đề đầu block dữ liệu 2
-						</label>
-
-							<Input
-								placeholder="Nhập và tiêu đề Block2 tiếng việt"
-								size="large"
-								onChange={(e) => setTitleVi2(e.target.value)}
-								value={titleVI2}
-							/>
-						<div>
-							<label className="admin__main-label">
-								<StarFilled style={{marginRight: 5}}/>
-								Tạo danh sách menu con
-							</label>
-							{dataBlock2.map((data: menuProps, index: number) => (
-								<div className="admin__main-footer-group" key={data.key}>
-									<Input
-										placeholder="Nhập và tiêu đề menu con block2"
-										size="large"
-										id={`block2_title_VI${index}`}
-										className="admin__main-footer-group-item"
-										value={data.title}
-										onChange={(event) => handleInputChange2(event, index, "title")}
-									/>
-									<Input
-										addonBefore={process.env.NEXT_PUBLIC_FULL_URL + "/"}
-										placeholder=""
-										size="large"
-										id={`block2_link${index}`}
-										className="admin__main-footer-group-item"
-										defaultValue={data.link}
-										onChange={(event) => handleInputChange2(event, index, "link")}
-									/>
-									<Button type="default" onClick={(e) => handleDeleteMenu2(data.key)}><DeleteOutlined/></Button>
-								</div>
-							))}
-							<div className="admin__main-footer-group-btn" onClick={(e) => handleAddMenu2()}>Thêm Menu</div>
-						</div>
-					</>
+					<></>
 				),
 			},
 			{
 				key: "2",
 				label: `Tiếng Anh`,
 				children: (
-					<>
-						<label className="admin__main-label">
-							<StarFilled style={{marginRight: 5}}/>
-							Tiêu đề đầu block dữ liệu 1
-						</label>
-							<Input
-								placeholder="Nhập và tiêu đề Block1 tiếng anh"
-								size="large"
-								onChange={(e) => setTitleEN1(e.target.value)}
-								value={titleEN1}
-							/>
-						<div>
-							<label className="admin__main-label">
-								<StarFilled style={{marginRight: 5}}/>
-								Tạo danh sách menu con
-							</label>
-							{dataBlock1.map((data: menuProps, index: number) => (
-								<div className="admin__main-footer-group" key={data.key}>
-									<Input
-										placeholder="Nhập và tiêu đề menu con block1"
-										size="large"
-										id={`block1_title_EN${index}`}
-										className="admin__main-footer-group-item"
-									/>
-									<Button type="default" onClick={(e) => handleDeleteMenu1(data.key)}><DeleteOutlined/></Button>
-								</div>
-							))}
-							<div className="admin__main-footer-group-btn" onClick={(e) => handleAddMenu1()}>Thêm Menu</div>
-						</div>
-						<label className="admin__main-label">
-							<StarFilled style={{marginRight: 5}}/>
-							Tiêu đề đầu block dữ liệu 2
-						</label>
-							<Input
-								placeholder="Nhập và tiêu đề Block2 tiếng anh"
-								size="large"
-								onChange={(e) => setTitleEN2(e.target.value)}
-								value={titleEN2}
-							/>
-						<div>
-							<label className="admin__main-label">
-								<StarFilled style={{marginRight: 5}}/>
-								Tạo danh sách menu con
-							</label>
-							{dataBlock2.map((data: menuProps, index: number) => (
-								<div className="admin__main-footer-group" key={data.key}>
-									<Input
-										placeholder="Nhập và tiêu đề menu con block2"
-										size="large"
-										id={`block2_title_EN${index}`}
-										className="admin__main-footer-group-item"
-									/>
-									<Button type="default" onClick={(e) => handleDeleteMenu2(data.key)}><DeleteOutlined/></Button>
-								</div>
-							))}
-							<div className="admin__main-footer-group-btn" onClick={(e) => handleAddMenu2()}>Thêm Menu</div>
-						</div>
-					</>
+					<></>
 				),
 			}
 		]);
@@ -357,7 +219,7 @@ const App: React.FC = () => {
 
 	const handleSubmit = () => {
 		// lấy dữ liệu menu con block 1
-
+		dispatch(setLoading(true));
 		let subMenu2VI = [];
 		let subMenu2EN = [];
 		let j = 0;
@@ -394,16 +256,29 @@ const App: React.FC = () => {
 			linkSocical: linkSocical
 		}
 		const body1 = {
+			id:3,
 			key: "FOOTER_VI",
-			description: JSON.stringify(dataVI),
-			value: "dữ liệu chân trang - footer tiếng việt"
+			value: JSON.stringify(dataVI),
+			description: "dữ liệu chân trang - footer tiếng việt"
 		}
 		console.log(body1, "body")
 		if(dataVI) {
-			const res = webInformation.handleCreateWebInformation(body1);
+			webInformation.handleUpdateWebInformation(body1)
+				.then((result: any) => {
+					console.log(result.meta)
+					if(result.meta.status === 200) {
+
+					} else  {
+
+					}
+					dispatch(setLoading(false));
+				})
+				.catch((err:any) => {
+
+				})
 		}
 		console.log(dataVI,dataEN, "dataVI")
-		dispatch(setLoading(true));
+
 	}
 	return (
 		<Dashboard>
@@ -415,121 +290,264 @@ const App: React.FC = () => {
 					}
 					data={navigationData}
 				/>
-					<div className="admin__main-content">
-						<div className="admin__main-cards" style={{marginBottom: 15}}>
-							<Tabs activeKey={activeTab} items={item} onChange={onChange}/>
-						</div>
-						<div className="admin__main-cards" style={{marginBottom: 15}}>
-							<label className="admin__main-label">
-								<StarFilled style={{marginRight: 5}}/>
+				<div className="admin__main-content">
+					<div className="admin__main-cards" style={{marginBottom: 15}}>
+						<Tabs activeKey={activeTab} items={item} onChange={onChange}/>
+						{activeTab === "2" ? (
+							<>
+								<label className="admin__main-label">
+									<StarFilled style={{marginRight: 5}}/>
+									Tiêu đề đầu block dữ liệu 1
+								</label>
+								<Input
+									placeholder="Nhập và tiêu đề Block1 tiếng anh"
+									size="large"
+									onChange={(e) => setTitleEN1(e.target.value)}
+									value={titleEN1}
+								/>
+								<div>
+									<label className="admin__main-label">
+										<StarFilled style={{marginRight: 5}}/>
+										Tạo danh sách menu con
+									</label>
+									{dataBlock1.map((data: menuProps, index: number) => (
+										<div className="admin__main-footer-group" key={data.key}>
+											<Input
+												placeholder="Nhập và tiêu đề menu con block1"
+												size="large"
+												id={`block1_title_EN${index}`}
+												className="admin__main-footer-group-item"
+											/>
+											<Button type="default" onClick={(e) => handleDeleteMenu1(data.key)}><DeleteOutlined/></Button>
+										</div>
+									))}
+									<div className="admin__main-footer-group-btn" onClick={(e) => handleAddMenu1()}>Thêm Menu</div>
+								</div>
+								<label className="admin__main-label">
+									<StarFilled style={{marginRight: 5}}/>
+									Tiêu đề đầu block dữ liệu 2
+								</label>
+								<Input
+									placeholder="Nhập và tiêu đề Block2 tiếng anh"
+									size="large"
+									onChange={(e) => setTitleEN2(e.target.value)}
+									value={titleEN2}
+								/>
+								<div>
+									<label className="admin__main-label">
+										<StarFilled style={{marginRight: 5}}/>
+										Tạo danh sách menu con
+									</label>
+									{dataBlock2.map((data: menuProps, index: number) => (
+										<div className="admin__main-footer-group" key={data.key}>
+											<Input
+												placeholder="Nhập và tiêu đề menu con block2"
+												size="large"
+												id={`block2_title_EN${index}`}
+												className="admin__main-footer-group-item"
+											/>
+											<Button type="default" onClick={(e) => handleDeleteMenu2(data.key)}><DeleteOutlined/></Button>
+										</div>
+									))}
+									<div className="admin__main-footer-group-btn" onClick={(e) => handleAddMenu2()}>Thêm Menu</div>
+								</div>
+							</>
+						):(
+							<>
+								<label className="admin__main-label">
+									<StarFilled style={{marginRight: 5}}/>
+									Tiêu đề đầu block dữ liệu 1
+								</label>
+
+								<Input
+									placeholder="Nhập và tiêu đề Block1 tiếng việt"
+									size="large"
+									onChange={(e) => setTitleVi1(e.target.value)}
+									value={titleVI1}
+								/>
+								<div>
+									<label className="admin__main-label">
+										<StarFilled style={{marginRight: 5}}/>
+										Tạo danh sách menu con
+									</label>
+									{dataBlock1.map((data: menuProps, index: number) => (
+										<div className="admin__main-footer-group" key={data.key}>
+											<Input
+												placeholder="Nhập và tiêu đề menu con block1"
+												size="large"
+												id={`block1_title_VI${index}`}
+												className="admin__main-footer-group-item"
+												value={data.title}
+												onChange={(event) => handleInputChange1(event, index, "title")}
+											/>
+											<Input
+												addonBefore={process.env.NEXT_PUBLIC_FULL_URL + "/"}
+												placeholder=""
+												size="large"
+												id={`block1_link${index}`}
+												className="admin__main-footer-group-item"
+												value={data.link}
+												onChange={(event) => handleInputChange1(event, index, "link")}
+											/>
+											<Button type="default" onClick={(e) => handleDeleteMenu1(data.key)}><DeleteOutlined/></Button>
+										</div>
+									))}
+									<div className="admin__main-footer-group-btn" onClick={(e) => handleAddMenu1()}>Thêm Menu</div>
+								</div>
+								<label className="admin__main-label">
+									<StarFilled style={{marginRight: 5}}/>
+									Tiêu đề đầu block dữ liệu 2
+								</label>
+
+								<Input
+									placeholder="Nhập và tiêu đề Block2 tiếng việt"
+									size="large"
+									onChange={(e) => setTitleVi2(e.target.value)}
+									value={titleVI2}
+								/>
+								<div>
+									<label className="admin__main-label">
+										<StarFilled style={{marginRight: 5}}/>
+										Tạo danh sách menu con
+									</label>
+									{dataBlock2.map((data: menuProps, index: number) => (
+										<div className="admin__main-footer-group" key={data.key}>
+											<Input
+												placeholder="Nhập và tiêu đề menu con block2"
+												size="large"
+												id={`block2_title_VI${index}`}
+												className="admin__main-footer-group-item"
+												value={data.title}
+												onChange={(event) => handleInputChange2(event, index, "title")}
+											/>
+											<Input
+												addonBefore={process.env.NEXT_PUBLIC_FULL_URL + "/"}
+												placeholder=""
+												size="large"
+												id={`block2_link${index}`}
+												className="admin__main-footer-group-item"
+												defaultValue={data.link}
+												onChange={(event) => handleInputChange2(event, index, "link")}
+											/>
+											<Button type="default" onClick={(e) => handleDeleteMenu2(data.key)}><DeleteOutlined/></Button>
+										</div>
+									))}
+									<div className="admin__main-footer-group-btn" onClick={(e) => handleAddMenu2()}>Thêm Menu</div>
+								</div>
+							</>
+						)}
+					</div>
+					<div className="admin__main-cards" style={{marginBottom: 15}}>
+						<label className="admin__main-label">
+							<StarFilled style={{marginRight: 5}}/>
 							Thêm thông tin cho block Liên hệ
-							</label>
+						</label>
+						<Input
+							addonBefore={"Địa chỉ"}
+							placeholder="Nhập vào Địa chỉ của công ty"
+							size="large"
+							onChange={(e)=> setAddres(e.target.value)}
+							value={adress}
+							style={{marginBottom: 15}}
+						/>
+						<Input
+							addonBefore={"Hotline"}
+							placeholder="Nhập vào Hotline của công ty"
+							size="large"
+							onChange={(e)=> setHotLine(e.target.value)}
+							value={hotLine}
+							style={{marginBottom: 15}}
+						/>
+						<Input
+							addonBefore={"Email"}
+							placeholder="Nhập vào Email của công ty"
+							size="large"
+							onChange={(e)=> setEmail(e.target.value)}
+							value={email}
+							style={{marginBottom: 15}}
+						/>
+					</div>
+					<div className="admin__main-cards">
+						<label className="admin__main-label">
+							<StarFilled style={{marginRight: 5}}/>
+							Đường dẫn mạng xã hội (lưu ý chỉ điền thì icon mới xuất hiện)
+						</label>
+						<div className="admin__main-footer-group" style={{flexWrap: "wrap", paddingBottom: 30}}>
 							<Input
-								addonBefore={"Địa chỉ"}
-								placeholder="Nhập vào Địa chỉ của công ty"
+								addonBefore={"Link Facebook"}
+								placeholder="Nhập vào Link Facebook của công ty"
 								size="large"
-								onChange={(e)=> setAddres(e.target.value)}
-								value={adress}
+								onChange={handleInputChangeSocial("facebook")}
+								value={linkSocical.facebook}
 								style={{marginBottom: 15}}
+								className="admin__main-footer-group-item"
 							/>
 							<Input
-								addonBefore={"Hotline"}
-								placeholder="Nhập vào Hotline của công ty"
+								addonBefore={"Link Youtube"}
+								placeholder="Nhập vào Link Youtube của công ty"
 								size="large"
-								onChange={(e)=> setHotLine(e.target.value)}
-								value={hotLine}
+								onChange={handleInputChangeSocial("youtube")}
+								value={linkSocical.youtube}
 								style={{marginBottom: 15}}
+								className="admin__main-footer-group-item"
 							/>
 							<Input
-								addonBefore={"Email"}
-								placeholder="Nhập vào Email của công ty"
+								addonBefore={"Link TikTok"}
+								placeholder="Nhập vào Link TikTok của công ty"
 								size="large"
-								onChange={(e)=> setEmail(e.target.value)}
-								value={email}
+								onChange={handleInputChangeSocial("tiktok")}
+								value={linkSocical.tiktok}
 								style={{marginBottom: 15}}
+								className="admin__main-footer-group-item"
 							/>
-						</div>
-						<div className="admin__main-cards">
-							<label className="admin__main-label">
-								<StarFilled style={{marginRight: 5}}/>
-								Đường dẫn mạng xã hội (lưu ý chỉ điền thì icon mới xuất hiện)
-							</label>
-							<div className="admin__main-footer-group" style={{flexWrap: "wrap", paddingBottom: 30}}>
-								<Input
-									addonBefore={"Link Facebook"}
-									placeholder="Nhập vào Link Facebook của công ty"
-									size="large"
-									onChange={handleInputChangeSocial("facebook")}
-									value={linkSocical.facebook}
-									style={{marginBottom: 15}}
-									className="admin__main-footer-group-item"
-								/>
-								<Input
-									addonBefore={"Link Youtube"}
-									placeholder="Nhập vào Link Youtube của công ty"
-									size="large"
-									onChange={handleInputChangeSocial("youtube")}
-									value={linkSocical.youtube}
-									style={{marginBottom: 15}}
-									className="admin__main-footer-group-item"
-								/>
-								<Input
-									addonBefore={"Link TikTok"}
-									placeholder="Nhập vào Link TikTok của công ty"
-									size="large"
-									onChange={handleInputChangeSocial("tiktok")}
-									value={linkSocical.tiktok}
-									style={{marginBottom: 15}}
-									className="admin__main-footer-group-item"
-								/>
-								<Input
-									addonBefore={"Link Instagram"}
-									placeholder="Nhập vào Link Instagram của công ty"
-									size="large"
-									onChange={handleInputChangeSocial("instagram")}
-									value={linkSocical.instagram}
-									style={{marginBottom: 15}}
-									className="admin__main-footer-group-item"
-								/>
-								<Input
-									addonBefore={"Link Google"}
-									placeholder="Nhập vào Link Google của công ty"
-									size="large"
-									onChange={handleInputChangeSocial("google")}
-									value={linkSocical.google}
-									style={{marginBottom: 15}}
-									className="admin__main-footer-group-item"
-								/>
-								<Input
-									addonBefore={"Link Twiter"}
-									placeholder="Nhập vào Link Twiter của công ty"
-									size="large"
-									onChange={handleInputChangeSocial("twiter")}
-									value={linkSocical.twiter}
-									style={{marginBottom: 15}}
-									className="admin__main-footer-group-item"
-								/>
-							</div>
-						</div>
-						<div className="admin__main-save-products">
-							<Button
+							<Input
+								addonBefore={"Link Instagram"}
+								placeholder="Nhập vào Link Instagram của công ty"
 								size="large"
-								type="default"
-								className="admin__main-save-products-btn"
-							>
-								Hủy bỏ
-							</Button>
-							<Button
-								type="primary"
+								onChange={handleInputChangeSocial("instagram")}
+								value={linkSocical.instagram}
+								style={{marginBottom: 15}}
+								className="admin__main-footer-group-item"
+							/>
+							<Input
+								addonBefore={"Link Google"}
+								placeholder="Nhập vào Link Google của công ty"
 								size="large"
-								style={{marginLeft: 10}}
-								className="admin__main-save-products-btn-2"
-								onClick={handleSubmit}
-							>
-								Cập nhật dữ liệu
-							</Button>
+								onChange={handleInputChangeSocial("google")}
+								value={linkSocical.google}
+								style={{marginBottom: 15}}
+								className="admin__main-footer-group-item"
+							/>
+							<Input
+								addonBefore={"Link Twiter"}
+								placeholder="Nhập vào Link Twiter của công ty"
+								size="large"
+								onChange={handleInputChangeSocial("twiter")}
+								value={linkSocical.twiter}
+								style={{marginBottom: 15}}
+								className="admin__main-footer-group-item"
+							/>
 						</div>
 					</div>
+					<div className="admin__main-save-products">
+						<Button
+							size="large"
+							type="default"
+							className="admin__main-save-products-btn"
+						>
+							Hủy bỏ
+						</Button>
+						<Button
+							type="primary"
+							size="large"
+							style={{marginLeft: 10}}
+							className="admin__main-save-products-btn-2"
+							onClick={handleSubmit}
+						>
+							Cập nhật dữ liệu
+						</Button>
+					</div>
+				</div>
 
 			</div>
 		</Dashboard>
