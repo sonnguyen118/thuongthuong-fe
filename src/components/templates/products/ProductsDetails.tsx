@@ -56,12 +56,12 @@ const ProductsDetails = (props: any) => {
       </div>
       <div className='products-detail'>
         <h1 className='products-detail-title'>{productDetail?.title}</h1>
-        <div className='products-detail-category'>
+        {/* <div className='products-detail-category'>
           {t.products.CATEGORY}:{' '}
           <span className='products-detail-category-text'>
             {productDetail?.category.name}
           </span>
-        </div>
+        </div> */}
         <div className='products-detail-price'>{t.products.PRICE}</div>
         <div
           className='products-detail-selector'

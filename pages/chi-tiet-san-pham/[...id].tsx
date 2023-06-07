@@ -15,6 +15,8 @@ import { useRouter } from 'next/router'
 import axios from 'axios'
 import { GET_PRODUCTS_DETAIL_ENDPOINT } from '@api/endpoint'
 import { SAN_PHAM } from 'src/constant/link-master'
+import { productClient } from '@api'
+import { bread_crumb } from 'src/constant/constant'
 
 interface PageSEOData {
   name: string
@@ -33,10 +35,32 @@ interface NavigationProps {
   link: string
 }
 
-const ListNews: React.FC = () => {
+export async function getServerSideProps ({
+  params,
+  query
+}: {
+  params: any
+  query: any
+}) {
+  const { id } = params
+  let { language } = query
+  language = language == undefined ? 'VI' : language
+  const product = await productClient
+    .getDetailProduct(id, language)
+    .then(res => res.data.data)
+  // Pass data to the page via props
+  return {
+    props: { product, id }
+  }
+}
+
+const ListNews: React.FC<any> = props => {
   const router = useRouter()
-  const { id } = router.query
+  const { id, language } = router.query
   const [t, setText] = useState(viText)
+  const lang = useSelector(
+    (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
+  )
   const initDataNavigation: NavigationProps[] = [
     {
       id: 1,
@@ -45,41 +69,57 @@ const ListNews: React.FC = () => {
     },
     {
       id: 2,
-      title: `Sản phẩm`,
-      link: `${SAN_PHAM}`
-    },
-    {
-      id: 3,
-      title: ``,
-      link: '/'
+      title: `${t.menu.MENU4}`,
+      link: `${SAN_PHAM}?language=${lang}`
     }
   ]
   const [dataNavigation, setDataNavigation] =
     useState<NavigationProps[]>(initDataNavigation)
-
-  const lang = useSelector(
-    (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
-  )
   const [productDetail, setProductDetail] = useState()
 
   useEffect(() => {
     loadLanguageText(lang, setText)
-    if (id) {
-      getProductDetail()
-    }
-  }, [lang, id])
+    getProductDetail()
+    setBreadCrumb()
+  }, [lang, language, id])
 
-  const getProductDetail = async () => {
-    const res = await axios.post(GET_PRODUCTS_DETAIL_ENDPOINT, {
-      language: lang,
-      productLink: `/${id}`
-    })
-    setProductDetail(res.data.data)
-    initDataNavigation[2].title = res.data.data.category.name
-    initDataNavigation[2].link = res.data.data.category.link
+  const setBreadCrumb = async () => {
+    const languageFromURL = language?.toString().toUpperCase()
+    if (languageFromURL == 'VI') {
+      initDataNavigation[0].title = bread_crumb.home.VI
+      initDataNavigation[1].title = bread_crumb.product.VI
+    }
+    if (languageFromURL == 'EN') {
+      initDataNavigation[0].title = bread_crumb.home.EN
+      initDataNavigation[1].title = bread_crumb.product.EN
+    }
+    const detailProduct = props.product
+    const danhMuc1 = {
+      id: 3,
+      title: `${detailProduct.danhMuc1.name}`,
+      link: `${SAN_PHAM}${detailProduct.danhMuc1.link}?language=${lang}`
+    }
+    initDataNavigation.push(danhMuc1)
+    if (detailProduct.danhMuc2) {
+      const danhMuc2 = {
+        id: 4,
+        title: `${detailProduct.danhMuc2.name}`,
+        link: `${SAN_PHAM}${detailProduct.danhMuc2.link}?language=${lang}`
+      }
+      initDataNavigation.push(danhMuc2)
+    }
+    const product = {
+      id: 5,
+      title: `${detailProduct.name}`,
+      link: `${detailProduct.link}?language=${lang}`
+    }
+    initDataNavigation.push(product)
+    console.log(initDataNavigation)
     setDataNavigation(initDataNavigation)
   }
-
+  const getProductDetail = async () => {
+    setProductDetail(props.product)
+  }
   const pageSEOData: PageSEOData = {
     name: 'Thương Thương',
     pageSEO: {

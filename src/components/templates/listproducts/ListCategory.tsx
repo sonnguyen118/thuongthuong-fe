@@ -9,30 +9,6 @@ import Link from 'next/link'
 import { Category } from '@components/model/Category'
 import { SAN_PHAM } from 'src/constant/link-master'
 
-// interface Category {
-//   id: number
-//   imageUrl: string
-//   name: string
-//   link: string
-//   price: number
-//   subCategories: Category[]
-// }
-
-// const renderCategories = (categories: Category[]) => {
-//   return (
-//     <div className='list-products-left-item-ul'>
-//       {categories.map((category) => (
-//         <div className='list-products-left-item-li' key={category.id}>
-//           {category.name}
-//           {category.subCategories && category.subCategories.length > 0 && (
-//             renderCategories(category.subCategories)
-//           )}
-//         </div>
-//       ))}
-//     </div>
-//   );
-// };
-
 const ListCategory = (props: any) => {
   const [t, setText] = useState(viText)
   const [categories, setCategories] = useState<Category[]>([])
@@ -40,7 +16,6 @@ const ListCategory = (props: any) => {
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
   )
-  // const [categories, setCategories] = useState<any[]>([])
 
   useEffect(() => {
     setCategories(props.data)
@@ -51,7 +26,7 @@ const ListCategory = (props: any) => {
       categoryElement.push(
         <div className='list-products-left-item-ul' key={e.id}>
           <Link
-            href={`${SAN_PHAM}` + e.link}
+            href={`${SAN_PHAM}${e.link}?language=${lang}`}
             className='home__products-header-btn-text'
           >
             {e.name}{' '}
@@ -83,7 +58,7 @@ const ListCategory = (props: any) => {
             key={sub.id}
           >
             <Link
-              href={`${SAN_PHAM}` + sub.link}
+              href={`${SAN_PHAM}${sub.link}?language=${lang}`}
               className='home__products-header-btn-text'
             >
               {sub.name}{' '}
@@ -99,7 +74,7 @@ const ListCategory = (props: any) => {
             key={sub.id}
           >
             <Link
-              href={`${SAN_PHAM}` + sub.link}
+              href={`${SAN_PHAM}${sub.link}?language=${lang}`}
               className='home__products-header-btn-text'
             >
               {sub.name}{' '}

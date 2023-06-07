@@ -8,9 +8,10 @@ import { store } from '@store'
 import viText from '@languages/vie.json'
 import loadLanguageText from '@languages'
 import { useRouter } from 'next/router'
-import axios from 'axios'
-import { GET_CATEGORIES_ENDPOINT, GET_PRODUCTS_ENDPOINT } from '@api/endpoint'
 import { SAN_PHAM } from 'src/constant/link-master'
+import { categoryClient, productClient } from '@api'
+import { bread_crumb } from 'src/constant/constant'
+
 interface PageSEOData {
   name: string
   pageSEO: {
@@ -36,9 +37,46 @@ interface NavigationProps {
   link: string
 }
 
-const ListNews: React.FC = () => {
+export async function getServerSideProps ({
+  params,
+  query
+}: {
+  params: any
+  query: any
+}) {
+  const { id } = params
+  let { language } = query
+
+  const page = 1
+  const size = 20
+  const categories = await categoryClient
+    .getAllCategoryClient(language, page, size)
+    .then(res => res.data.data)
+  const products = await getProductsByCategory(
+    id.join('/'),
+    language,
+    page,
+    size
+  )
+  // Pass data to the page via props
+  return {
+    props: { categories, products, id, language: language || 'VI' }
+  }
+}
+
+const getProductsByCategory = async (
+  categoryLink: string,
+  language: string,
+  page: number,
+  size: number
+) => {
+  return await productClient
+    .getProductByCategoryLink(categoryLink, language, page, size)
+    .then(res => res.data.data)
+}
+const ListNews: React.FC<any> = props => {
   const router = useRouter()
-  const { id } = router.query
+  const { id, language } = router.query
   const [categories, setCategories] = useState(null)
   const [products, setProducts] = useState(null)
   const [t, setText] = useState(viText)
@@ -53,51 +91,60 @@ const ListNews: React.FC = () => {
     },
     {
       id: 2,
-      title: `Sản phẩm`,
-      link: `${SAN_PHAM}`
-    },
-    {
-      id: 3,
-      title: `${t.navigator.MENU2}`,
-      link: `${SAN_PHAM}`
+      title: `${t.menu.MENU4}`,
+      link: `${SAN_PHAM}?language=${lang}`
     }
   ]
   const [dataNavigation, setDataNavigation] =
     useState<NavigationProps[]>(initDataNavigation)
-
   useEffect(() => {
-    if (!categories) {
-      getCategories()
-    }
+    loadLanguageText(lang, setText)
+    getCategories()
     getProducts()
-  }, [id])
+    setBreadCrumb()
+  }, [id, lang])
+  const setBreadCrumb = async () => {
+    const languageFromURL = language?.toString().toUpperCase()
+    console.log(languageFromURL)
+    if (languageFromURL == 'VI') {
+      initDataNavigation[0].title = bread_crumb.home.VI
+      initDataNavigation[1].title = bread_crumb.product.VI
+    }
+    if (languageFromURL == 'EN') {
+      initDataNavigation[0].title = bread_crumb.home.EN
+      initDataNavigation[1].title = bread_crumb.product.EN
+    }
+    setDataNavigation(initDataNavigation)
+  }
   const getCategories = async () => {
-    const res = await axios.post(GET_CATEGORIES_ENDPOINT, {
-      language: lang,
-      page: 1,
-      size: 10
-    })
-    setCategories(res.data.data)
+    setCategories(props.categories)
   }
   const getProducts = async () => {
-    const res = await axios.post(GET_PRODUCTS_ENDPOINT, {
-      categoryLink: id,
-      language: lang,
-      page: 1,
-      size: 2
-    })
-    const data = res.data.data
+    const data = props.products
     setProducts(data)
-    initDataNavigation[2].link = data?.category?.link ? data?.category.link : ''
-    initDataNavigation[2].title = data?.category?.name
-      ? data?.category.name
-      : ''
+    handleBreadCrumb(data)
+  }
+  const handleBreadCrumb = (data: any) => {
+    const category = data?.category
+    const parent = category?.parentCategory
+    if (parent) {
+      const breadCrumbParent = {
+        id: 3,
+        title: `${parent?.name}`,
+        link: `/san-pham${parent?.link}?language=${lang}`
+      }
+      initDataNavigation.push(breadCrumbParent)
+    }
+    const breadCrumbObj = {
+      id: 4,
+      title: `${category?.name}`,
+      link: `${category?.link}?language=${lang}`
+    }
+    console.log(initDataNavigation)
+    initDataNavigation.push(breadCrumbObj)
     setDataNavigation(initDataNavigation)
   }
 
-  useEffect(() => {
-    loadLanguageText(lang, setText)
-  }, [lang])
   const pageSEOData: PageSEOData = {
     name: 'Thương Thương',
     pageSEO: {

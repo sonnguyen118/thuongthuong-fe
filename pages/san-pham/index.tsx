@@ -8,11 +8,11 @@ import { store } from '@store'
 import viText from '@languages/vie.json'
 import loadLanguageText from '@languages'
 import { useRouter } from 'next/router'
-import axios from 'axios'
-import { Category } from '@components/model/Category'
-import { Product } from '@components/model/Product'
-import { GET_CATEGORIES_ENDPOINT, GET_PRODUCTS_ENDPOINT } from '@api/endpoint'
 import { SAN_PHAM } from 'src/constant/link-master'
+import { categoryClient } from '@api'
+import { productClient } from '@api'
+import { GetServerSideProps } from 'next'
+import { bread_crumb } from 'src/constant/constant'
 
 interface PageSEOData {
   name: string
@@ -33,17 +33,37 @@ interface listNewsData {
   time: string
   link: string
 }
-interface NavigationProps {
+export interface NavigationProps {
   id: number
   title: string
   link: string
 }
-const ListNews: React.FC = () => {
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const url = new URL(req.url as string, `http://${req.headers.host}`)
+  const language = url.searchParams.get('language') || 'VI'
+  const page = 1
+  const size = 20
+  const categories = await categoryClient
+    .getAllCategoryClient(language, page, size)
+    .then(res => res.data.data)
+  const products = await productClient
+    .getAllProductClient(language, page, size)
+    .then(res => res.data.data)
+  // Pass data to the page via props
+  return { props: { categories, products, language } }
+}
+
+const ListNews: React.FC<any> = props => {
   const router = useRouter()
-  const { id } = router.query
+  const currentUrl = router.asPath
+  const { id, language } = router.query
   const [categories, setCategories] = useState(null)
   const [products, setProducts] = useState(null)
   const [t, setText] = useState(viText)
+  const lang = useSelector(
+    (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
+  )
   const initDataNavigation: NavigationProps[] = [
     {
       id: 1,
@@ -52,37 +72,38 @@ const ListNews: React.FC = () => {
     },
     {
       id: 2,
-      title: `Sản phẩm`,
-      link: `${SAN_PHAM}`
+      title: `${t.menu.MENU4}`,
+      link: `${SAN_PHAM}?language=${lang}`
     }
   ]
   const [dataNavigation, setDataNavigation] =
     useState<NavigationProps[]>(initDataNavigation)
-  const lang = useSelector(
-    (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
-  )
 
   useEffect(() => {
     loadLanguageText(lang, setText)
-  }, [lang])
-  useEffect(() => {
     getCategories()
     getAllProducts()
-  }, [])
+    setBreadCrumb()
+    console.log('language')
+  }, [language, lang])
+
   const getCategories = async () => {
-    console.log('language: ', lang)
-    const res = await axios.post(GET_CATEGORIES_ENDPOINT, {
-      language: lang
-    })
-    setCategories(res.data.data)
+    setCategories(props.categories)
   }
   const getAllProducts = async () => {
-    const res = await axios.post(GET_PRODUCTS_ENDPOINT, {
-      language: lang,
-      page: 1,
-      size: 10
-    })
-    setProducts(res.data.data)
+    setProducts(props.products)
+  }
+  const setBreadCrumb = async () => {
+    const languageFromURL = language?.toString().toUpperCase()
+    if (languageFromURL == 'VI') {
+      initDataNavigation[0].title = bread_crumb.home.VI
+      initDataNavigation[1].title = bread_crumb.product.VI
+    }
+    if (languageFromURL == 'EN') {
+      initDataNavigation[0].title = bread_crumb.home.EN
+      initDataNavigation[1].title = bread_crumb.product.EN
+    }
+    setDataNavigation(initDataNavigation)
   }
   const pageSEOData: PageSEOData = {
     name: 'Thương Thương',

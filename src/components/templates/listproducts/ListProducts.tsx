@@ -11,6 +11,7 @@ import { GET_PRODUCTS_ENDPOINT } from '@api/endpoint'
 import axios from 'axios'
 import { PAGE_SIZE } from 'src/constant/constant'
 import { SearchOutlined } from '@ant-design/icons'
+import { productClient } from '@api'
 
 interface sliderData {
   id: number
@@ -23,6 +24,7 @@ interface sliderData {
 interface ListProductsProps {
   products: any
 }
+
 const ListProducts = (props: any) => {
   const [t, setText] = useState(viText)
   const [products, setProducts] = useState<Product[]>([])
@@ -36,6 +38,7 @@ const ListProducts = (props: any) => {
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
   )
+
   useEffect(() => {
     loadLanguageText(lang, setText)
     setProducts(props.data?.products)
@@ -45,12 +48,12 @@ const ListProducts = (props: any) => {
   }, [lang, props])
 
   const getProducts = async () => {
-    const res = await axios.post(GET_PRODUCTS_ENDPOINT, {
-      language: lang,
-      page: pagination?.page,
-      size: pagination?.size,
-      categoryId: categoryId
-    })
+    const res = await productClient.getProductByCategoryId(
+      categoryId,
+      lang,
+      pagination?.page,
+      pagination?.size
+    )
     setProducts(res.data.data.products)
   }
 
@@ -77,6 +80,7 @@ const ListProducts = (props: any) => {
               </div>
             ))}
             <Pagination
+              style={{ display: 'inline' }}
               total={pagination?.totalRecords ? pagination?.totalRecords : 10}
               showTotal={total => `Tổng ${total} sản phẩm`}
               defaultCurrent={1}

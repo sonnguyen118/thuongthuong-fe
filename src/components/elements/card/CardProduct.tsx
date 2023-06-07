@@ -69,7 +69,7 @@ const CardProduct: React.FC<{ props: CardProductProps }> = ({ props }) => {
   }
   const handleCardClick = () => {
     console.log('card', props)
-    router.push(`${CHI_TIET_SAN_PHAM}/${props.link}`)
+    router.push(`${CHI_TIET_SAN_PHAM}/${props.link}?language=${lang}`)
   }
 
   const handleAddItem = () => {
