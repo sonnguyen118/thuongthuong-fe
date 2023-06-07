@@ -96,7 +96,15 @@
     "DESCRIPTION2_4": "Other ...",
     "TITLE3": "Order Notes",
     "DESCRIPTION3": "Message for the seller",
-    "TITLE4": "LIST OF PRODUCTS"
+    "TITLE4": "LIST OF PRODUCTS",
+    "TITLE5": "Full name",
+    "TITLE6": "Phone number",
+    "TITLE7": "Email",
+    "TITLE8": "Address",
+    "TITLE9": "Successfully placed the order!",
+    "TITLE10": "Failed to place the order!",
+    "TITLE11": "Home page",
+    "TITLE12": "Try again"
   },
   "footer": {
     "TITLE1": "Category",

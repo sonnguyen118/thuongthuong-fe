@@ -96,7 +96,14 @@
     "DESCRIPTION2_4": "Khác ...",
     "TITLE3": "Ghi Chú Đơn Hàng",
     "DESCRIPTION3": "Lời nhắn cho người bán",
-    "TITLE4": "DANH SÁCH SẢN PHẨM"
+    "TITLE5": "Họ tên",
+    "TITLE6": "Số điện thoại",
+    "TITLE7": "Email",
+    "TITLE8": "Địa chỉ",
+    "TITLE9": "Đặt hàng thành công!",
+    "TITLE10": "Đặt hàng thất bại!",
+    "TITLE11": "Quay về trang chủ",
+    "TITLE12": "Thử lại"
   },
   "footer": {
     "TITLE1": "Danh Mục",
