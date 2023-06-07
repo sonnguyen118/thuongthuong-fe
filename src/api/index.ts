@@ -10,3 +10,4 @@ export { default as WebInformation } from "./admin/webinformation";
 // Với phía client sử dụng các api này
 export { default as getAllCategory } from "./client/category";
 export { default as WebInformationClient } from "./client/webinformation";
+export { default as placeOrder } from "./client/orders";
