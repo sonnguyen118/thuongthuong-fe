@@ -1,54 +1,124 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface CartState {
-  items: {
-    id: number;
-    urlImage: string;
-    title: string;
-    price: number;
-    quantity: number;
-    total: number;
-  }[];
+export interface Product {
+  id: number;
+  imageUrl: string;
+  title: string;
+  price: number;
+  quantity: number;
+  selected: boolean;
+}
+
+export interface CartState {
+  items: Product[];
+  totalQuantity: number;
+  changed: boolean;
+  allSelected: boolean;
 }
 
 const initialState: CartState = {
   items: [],
+  totalQuantity: 0,
+  changed: false,
+  allSelected: false,
 };
 
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addItem: (state, action: PayloadAction<CartState["items"][0]>) => {
-      const index = state.items.findIndex(
-        (item) => item.id === action.payload.id
-      );
-      if (index >= 0) {
-        state.items[index].quantity += action.payload.quantity;
-        state.items[index].total += action.payload.total;
+    toggleSelected(state) {
+      state.allSelected = !state.allSelected;
+    },
+
+    replaceCart(state, action: PayloadAction<CartState>) {
+      state.items = action.payload.items;
+      state.items.forEach((item) => {
+        if (item.selected) {
+          item.selected = false;
+        }
+      });
+      state.totalQuantity = action.payload.totalQuantity;
+      state.allSelected = action.payload.allSelected;
+    },
+
+    checkItem(state, action: PayloadAction<number>) {
+      const selectedId = action.payload;
+      const selectedItem = state.items.find((item) => item.id === selectedId);
+      if (selectedItem) {
+        selectedItem.selected = !selectedItem.selected;
+        const checkedType = selectedItem.selected;
+        if (state.allSelected && !checkedType) {
+          state.allSelected = false;
+        } else if (!state.allSelected && checkedType) {
+          if (state.items.every((item) => item.selected)) {
+            state.allSelected = true;
+          }
+        }
+      }
+    },
+
+    checkAllItems(state) {
+      const isAllSelected = state.allSelected;
+      state.items.forEach((item) => {
+        item.selected = isAllSelected ? false : true;
+      });
+      state.allSelected = !isAllSelected;
+    },
+
+    addItemToCart(state, action: PayloadAction<Product>) {
+      const newItem = action.payload;
+      const existingItem = state.items.find((item) => item.id === newItem.id);
+      state.totalQuantity++;
+      state.changed = true;
+
+      if (!existingItem) {
+        state.items.push({
+          id: newItem.id,
+          price: newItem.price,
+          quantity: 1,
+          title: newItem.title,
+          imageUrl: newItem.imageUrl,
+          selected: newItem.selected,
+        });
+        state.allSelected = false;
       } else {
-        state.items.push(action.payload);
+        existingItem.selected = existingItem.selected ? true : newItem.selected;
+        existingItem.quantity++;
       }
     },
-    removeItem: (state, action: PayloadAction<number>) => {
-      state.items = state.items.filter((item) => item.id !== action.payload);
-    },
-    updateItemQuantity: (
-      state,
-      action: PayloadAction<{ urlImage: string; quantity: number }>
-    ) => {
-      const index = state.items.findIndex(
-        (item) => item.urlImage === action.payload.urlImage
-      );
-      if (index >= 0) {
-        state.items[index].quantity = action.payload.quantity;
-        state.items[index].total =
-          state.items[index].price * action.payload.quantity;
+
+    decreaseItemQuantity(state, action: PayloadAction<number>) {
+      const id = action.payload;
+      const existingItem = state.items.find((item) => item.id === id);
+      if (!existingItem) {
+        return;
       }
+
+      if (existingItem.quantity === 1) {
+        state.items = state.items.filter((item) => item.id !== id);
+      } else {
+        existingItem.quantity--;
+      }
+      state.totalQuantity--;
+      state.changed = true;
+    },
+
+    removeItemFromCart(state, action: PayloadAction<number[]>) {
+      const ids = action.payload;
+      ids.forEach(id => {
+        const existingItem = state.items.find((item) => item.id === id);
+        if (!existingItem) {
+          return;
+        }
+        state.items = state.items.filter((item) => item.id !== id);
+        state.totalQuantity -= existingItem.quantity;
+      })
+      state.changed = true;
     },
   },
 });
 
-export const { addItem, removeItem, updateItemQuantity } = cartSlice.actions;
+export const cartActions = cartSlice.actions;
 
 export default cartSlice;

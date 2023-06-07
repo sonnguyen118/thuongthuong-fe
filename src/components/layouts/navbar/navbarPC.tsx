@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux'
 import { store } from '@store'
 import viText from '@languages/vie.json'
 import loadLanguageText from '@languages'
+import classes from './Nav.module.css'
 interface Product {
   title: string
   description: string
@@ -16,19 +17,46 @@ interface Product {
 }
 
 const NavbarPC: React.FC = () => {
+  const [isBtnHighlighted, setIsBtnHighlighted] = useState(false);
   const [t, setText] = useState(viText)
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
   )
+
   useEffect(() => {
     loadLanguageText(lang, setText)
   }, [lang])
-  const cart = useSelector(
+
+  const cartItems = useSelector(
     (state: ReturnType<typeof store.getState>) => state.cart.items
   )
+  
+  const totalQuantity = useSelector(
+    (state: ReturnType<typeof store.getState>) => state.cart.totalQuantity
+  )
+  
   const { SubMenu } = Menu
   const [searchVisible, setSearchVisible] = useState(false)
   const [searchText, setSearchText] = useState('')
+  const numberOfCartItems = cartItems.reduce((currNumber, item) => {
+    return currNumber + item.quantity;
+  }, 0);
+
+  const btnClasses = `"cart" ${ isBtnHighlighted ? classes.bump : ""}`;
+
+  useEffect(() => {
+    setIsBtnHighlighted(true);
+
+    const timer = setTimeout(() => {
+      setIsBtnHighlighted(false);
+    }, 300);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [totalQuantity]);
+
+
   const handleSearch = (e: any) => {
     setSearchText(e.target.value)
   }
@@ -36,23 +64,25 @@ const NavbarPC: React.FC = () => {
   const toggleSearchVisible = () => {
     setSearchVisible(!searchVisible)
   }
+
   const handleInputClick = (e: any) => {
     e.stopPropagation()
   }
+
   const cartContent = (
     <>
-      {cart.length > 0 ? (
+      {cartItems.length > 0 ? (
         <>
           <h5 className='cart-title'>{t.button.BUTTON8}</h5>
           <List
             size='small'
-            dataSource={cart}
+            dataSource={cartItems}
             className='cart-list'
             renderItem={item => (
               <List.Item className='cart-item'>
                 <div className='cart-item-information'>
                   <Image
-                    src={item.urlImage}
+                    src={item.imageUrl}
                     alt={item.title}
                     className='cart-item-information-img'
                     width={60}
@@ -178,10 +208,10 @@ const NavbarPC: React.FC = () => {
               <Popover
                 placement='bottom'
                 content={cartContent}
-                className='cart'
+                className={btnClasses}
               >
                 <Badge
-                  count={cart.length}
+                  count={numberOfCartItems}
                   overflowCount={99}
                   style={{ backgroundColor: 'red' }}
                 >

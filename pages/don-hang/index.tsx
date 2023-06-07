@@ -8,11 +8,12 @@ import { ProductsSeems } from "@components/templates/products";
 import { DeleteOutlined, WarningOutlined } from "@ant-design/icons";
 // sử dụng redux
 import { useSelector, useDispatch } from "react-redux";
-import { removeItem } from "@slices/cartSlice";
+import { Product, cartActions } from "@slices/cartSlice";
 import { store } from "@store";
 import { Button, Modal, Input, Radio } from "antd";
 import Image from "next/image";
 import type { RadioChangeEvent } from "antd";
+import Cart from "@components/elements/cart/Cart";
 
 interface PageSEOData {
   name: string;
@@ -25,15 +26,6 @@ interface PageSEOData {
   };
 }
 
-interface CartsProps {
-  id: number;
-  price: number;
-  quantity: number;
-  title: string;
-  total: number;
-  urlImage: string;
-}
-
 interface NavigationProps {
   id: number;
   title: string;
@@ -41,6 +33,9 @@ interface NavigationProps {
 }
 
 const OrdersCart: React.FC = () => {
+  const cartItems = useSelector(
+    (state: ReturnType<typeof store.getState>) => state.cart.items
+  );
   const [t, setText] = useState(viText);
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
@@ -62,15 +57,15 @@ const OrdersCart: React.FC = () => {
     },
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [value, setValue] = useState(1);
   const [orderdata, setOrderData] = useState({ id: 0, title: "" });
   const [values, setValues] = useState(1);
   const onChange = (e: RadioChangeEvent) => {
     console.log("radio checked", e.target.value);
     setValues(e.target.value);
   };
+
   const handleOk = () => {
-    dispatch(removeItem(orderdata.id));
+    dispatch(cartActions.decreaseItemQuantity(orderdata.id));
     setIsModalOpen(false);
   };
 
@@ -78,9 +73,6 @@ const OrdersCart: React.FC = () => {
     setOrderData({ ...orderdata, id: 0, title: "" });
     setIsModalOpen(false);
   };
-  const cart = useSelector(
-    (state: ReturnType<typeof store.getState>) => state.cart.items
-  );
 
   type DataItem = {
     id: number;
@@ -101,65 +93,14 @@ const OrdersCart: React.FC = () => {
       link: "/",
     },
   ];
-  const [data, setData] = useState<DataItem[]>([
-    { id: 1, product: "Product 1", price: 10, quantity: 2, selected: false },
-    { id: 2, product: "Product 2", price: 20, quantity: 1, selected: false },
-    { id: 3, product: "Product 3", price: 5, quantity: 4, selected: false },
-  ]);
-  const handleCheckboxChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    id: number
-  ) => {
-    const newData = data.map((item: any) => {
-      if (item.id === id) {
-        return {
-          ...item,
-          selected: event.target.checked,
-        };
-      }
-      return item;
-    });
-    setData(newData);
-  };
 
-  const handleOnChange = (newValue: number | null) => {
-    if (newValue === null) {
-      setValue(1);
-    } else {
-      setValue(newValue);
-    }
-  };
-  const handleDeleteModal = (id: number, title: string) => {
-    setOrderData({ ...orderdata, id: id, title: title });
-    setIsModalOpen(true);
-  };
-  const renderTableData = () => {
-    return cart.map((item: CartsProps) => {
-      return (
-        <tr key={item.id} className="products-cart-table-body-item">
-          <td className="products-cart-table-body-item-1">
-            <Image
-              src={item.urlImage}
-              alt={item.title}
-              width={80}
-              height={80}
-              className="products-cart-table-body-item-1-img"
-            />
-            <span className="products-cart-table-body-item-1-title">
-              {item.title}
-            </span>
-          </td>
-          <td className="products-cart-table-body-item-2">
-            {item.price === 0 ? t.products.PRICE : item.price}
-          </td>
-          <td className="products-cart-table-body-item-3">{item.quantity}</td>
-          <td className="products-cart-table-body-item-4">
-            {item.price === 0 ? t.products.PRICE : item.price * item.quantity}
-          </td>
-        </tr>
-      );
-    });
-  };
+  const confirmOrderHandler = () => {};
+  const selectedItems = cartItems.filter((item) => item.selected);
+
+  const totalOrderItems = selectedItems.reduce(
+    (currNumber, item) => currNumber + item.quantity,
+    0
+  );
 
   return (
     <>
@@ -271,16 +212,7 @@ const OrdersCart: React.FC = () => {
                   className="products-bill-block-b3-textarea"
                 />
               </div>
-              <div className="products-bill-block-b1 products-bill-block-b4">
-                <div className="products-bill-block-b1-title-text">
-                  {t.bills.TITLE4}
-                </div>
-                <table className="products-bill-block-b4-table">
-                  <tbody className="products-cart-table-body">
-                    {renderTableData()}
-                  </tbody>
-                </table>
-              </div>
+              <Cart items={selectedItems} showCheckbox={false} />
             </div>
             <div className="products-cart-infor">
               <div className="products-cart-infor-header">
@@ -289,7 +221,7 @@ const OrdersCart: React.FC = () => {
                   <div className="products-cart-infor-block-title">
                     {t.carts.LABEL1}{" "}
                     <span className="products-cart-infor-block-title-s">
-                      ({cart.length} {t.carts.LABEL2})
+                      ({totalOrderItems} {t.carts.LABEL2})
                     </span>
                   </div>
                   <div className="products-cart-infor-block-number">
@@ -307,18 +239,13 @@ const OrdersCart: React.FC = () => {
                 <div className="products-cart-infor-sub">{t.carts.LABEL4}</div>
               </div>
               <div
-                className={
-                  cart.length > 0
-                    ? "products-cart-infor-btn"
-                    : "products-cart-infor-btn-dis"
-                }
+                className="products-cart-infor-btn"
+                onClick={confirmOrderHandler}
               >
                 {t.carts.NOTICAL3}
               </div>
             </div>
           </div>
-
-          <ProductsSeems title={t.products.HEADER3} />
         </div>
       </Layout>
     </>
