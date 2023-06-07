@@ -45,20 +45,7 @@ const columns: ColumnsType<DataType> = [
     dataIndex: "name",
     render: (text) => <>{text}</>,
   },
-  {
-    title: "Trạng thái",
-    key: "tags",
-    dataIndex: "isActive",
-    render: (_, { isActive }) => (
-      <>
-        {isActive ? (
-          <Tag color={"green"}>Hiển thị</Tag>
-        ) : (
-          <Tag color={"volcano"}>Đang ẩn</Tag>
-        )}
-      </>
-    ),
-  },
+  
   {
     title: "Danh mục cấp 1",
     dataIndex: "title1",
@@ -100,7 +87,7 @@ const App: React.FC = () => {
       page: 1,
       size: 50
   }
-    handleProducts.handleGetAllProducts(body, token)
+    handleProducts.handleGetAllProducts(body)
     .then((result:any)=>{
       const {meta, data} = result;
       setDataProducts(data.products);

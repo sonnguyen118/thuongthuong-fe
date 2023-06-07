@@ -205,7 +205,7 @@ const App: React.FC = () => {
       return;
     }
     dispatch(setLoading(true));
-    handleCategory.handleCreateCategory({ name, link, parent }, token);
+    handleCategory.handleCreateCategory({ name, link, parent });
     toast.success("Tạo danh mục sản phẩm thành công !", {
       position: "top-right",
       autoClose: 1200,
