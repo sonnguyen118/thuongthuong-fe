@@ -14,7 +14,7 @@ type ResponseData = {
 
 const handleGetAllCategory = async (param: string): Promise<ResponseData | Error> => {
   try {
-    const response = await getAllCategory.getAllCategory(param);
+    const response = await getAllCategory.getAllCategory();
     const { data, meta } = response.data;
     if (meta.status === 200) {
       return data;
