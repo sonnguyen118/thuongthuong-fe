@@ -38,34 +38,6 @@ const columns: ColumnsType<DataType> = [
 		title: "Tiêu đề danh mục",
 		dataIndex: "name",
 		render: (text) => <>{text}</>,
-	},
-	{
-		title: "Trạng thái",
-		key: "isActive",
-		dataIndex: "isActive",
-		render: (_, { isActive }) => (
-			<>
-				{isActive ? (
-					<Tag color={"green"}>Hiển thị</Tag>
-				) : (
-					<Tag color={"volcano"}>Đang ẩn</Tag>
-				)}
-			</>
-		),
-	},
-	{
-		title: "Trạng thái",
-		key: "isActive",
-		dataIndex: "isActive",
-		render: (_, { isActive }) => (
-			<>
-				{isActive ? (
-					<Tag color={"green"}>Hiển thị</Tag>
-				) : (
-					<Tag color={"volcano"}>Đang ẩn</Tag>
-				)}
-			</>
-		),
 	}
 ];
 

@@ -12,3 +12,4 @@ export { default as categoryClient } from "./client/category";
 export { default as productClient } from "./client/product";
 
 export { default as WebInformationClient } from "./client/webinformation";
+export { default as placeOrder } from "./client/orders";
