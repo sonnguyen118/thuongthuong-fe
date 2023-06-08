@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { store } from '@store'
-import viText from '@languages/vie.json'
-import loadLanguageText from '@languages'
-import axios from 'axios'
-import { ListProducts } from '../home'
-import Link from 'next/link'
-import { Category } from '@components/model/Category'
-import { SAN_PHAM } from 'src/constant/link-master'
+import React, { useState, useEffect } from "react"
+import { useSelector } from "react-redux"
+import { store } from "@store"
+import viText from "@languages/vie.json"
+import loadLanguageText from "@languages"
+import axios from "axios"
+import { ListProducts } from "../home"
+import Link from "next/link"
+import { Category } from "@components/model/Category"
+import { SAN_PHAM } from "src/constant/link-master"
 
 const ListCategory = (props: any) => {
   const [t, setText] = useState(viText)
@@ -20,6 +20,9 @@ const ListCategory = (props: any) => {
   useEffect(() => {
     setCategories(props.data)
   }, [props])
+  useEffect(() => {
+    loadLanguageText(lang, setText)
+  }, [lang])
   const renderCategories = (arr: Category[]) => {
     const categoryElement: any[] = []
     arr.forEach(e => {
@@ -29,7 +32,7 @@ const ListCategory = (props: any) => {
             href={`${SAN_PHAM}${e.link}?language=${lang}`}
             className='home__products-header-btn-text'
           >
-            {e.name}{' '}
+            {e.name}{" "}
           </Link>
         </div>
       )
@@ -61,7 +64,7 @@ const ListCategory = (props: any) => {
               href={`${SAN_PHAM}${sub.link}?language=${lang}`}
               className='home__products-header-btn-text'
             >
-              {sub.name}{' '}
+              {sub.name}{" "}
             </Link>
           </div>
         )
@@ -77,17 +80,12 @@ const ListCategory = (props: any) => {
               href={`${SAN_PHAM}${sub.link}?language=${lang}`}
               className='home__products-header-btn-text'
             >
-              {sub.name}{' '}
+              {sub.name}{" "}
             </Link>
           </div>
         )
     })
   }
-  // useEffect(() => {
-  //   loadLanguageText(lang, setText);
-  //   getData();
-
-  // }, [lang]);
 
   return (
     <div className='list-products-left'>
