@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLanguage } from '@slices/languageSlice'
 import { useRouter } from 'next/router'
+import Cookies from 'js-cookie'
 
 const ButtonLanguage: React.FC = () => {
   const dispatch = useDispatch()
@@ -24,6 +25,7 @@ const ButtonLanguage: React.FC = () => {
     dispatch(setLanguage({ current: newLang, title: newTitleLang }))
     const currentUrl = router.asPath
     const currentLang = router.query['language']
+    Cookies.set('language', newLang)
     let newUrl = currentUrl
     if (currentLang) {
       newUrl = currentUrl.replace(

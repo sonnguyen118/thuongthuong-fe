@@ -13,6 +13,19 @@ const getAllProductClient = (
   )
 }
 
+const searchProductClient = (
+  language: string,
+  page: number,
+  size: number,
+  categoryId: string,
+  name: string
+): Promise<any> => {
+  const params = { language, page, size, categoryId, name }
+  return axiosInstanceClient.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/product/get-all`,
+    { params }
+  )
+}
 const getProductByCategoryLink = (
   categoryLink: string,
   language: string,
@@ -28,20 +41,27 @@ const getProductByCategoryId = (
   categoryId: string,
   language: string,
   page: number,
-  size: number
+  size: number,
+  productName?: string
 ): Promise<any> => {
   return axiosInstanceClient.post(
     `${process.env.NEXT_PUBLIC_API_URL}/product`,
-    { categoryId, language, page, size }
+    { categoryId, language, page, size, productName }
   )
 }
 const getDetailProduct = (
   productLink: string,
-  language: string,
+  language: string
 ): Promise<any> => {
   return axiosInstanceClient.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/product/detail?productLink=${productLink}&language=${language}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/product/detail?productLink=${productLink}&language=${language}`
   )
 }
 
-export default { getAllProductClient, getProductByCategoryLink, getProductByCategoryId, getDetailProduct }
+export default {
+  getAllProductClient,
+  getProductByCategoryLink,
+  getProductByCategoryId,
+  getDetailProduct,
+  searchProductClient
+}

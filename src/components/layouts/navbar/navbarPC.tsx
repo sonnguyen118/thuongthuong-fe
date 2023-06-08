@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react'
-import { Menu, Input, Button, Popover, List, Badge } from 'antd'
+import React, { useState, useEffect } from "react"
+import { Menu, Input, Button, Popover, List, Badge } from "antd"
 // Import thư viện Ant Design
-import Image from 'next/image'
-import Link from 'next/link'
-import { SearchOutlined, ShoppingCartOutlined } from '@ant-design/icons'
+import Image from "next/image"
+import Link from "next/link"
+import { SearchOutlined, ShoppingCartOutlined } from "@ant-design/icons"
 // sử dụng redux
-import { useSelector } from 'react-redux'
-import { store } from '@store'
-import viText from '@languages/vie.json'
-import loadLanguageText from '@languages'
-import classes from './Nav.module.css'
+import { useSelector } from "react-redux"
+import { store } from "@store"
+import viText from "@languages/vie.json"
+import loadLanguageText from "@languages"
+import classes from "./Nav.module.css"
 interface Product {
   title: string
   description: string
@@ -17,7 +17,7 @@ interface Product {
 }
 
 const NavbarPC: React.FC = () => {
-  const [isBtnHighlighted, setIsBtnHighlighted] = useState(false);
+  const [isBtnHighlighted, setIsBtnHighlighted] = useState(false)
   const [t, setText] = useState(viText)
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
@@ -30,32 +30,31 @@ const NavbarPC: React.FC = () => {
   const cartItems = useSelector(
     (state: ReturnType<typeof store.getState>) => state.cart.items
   )
-  
+
   const totalQuantity = useSelector(
     (state: ReturnType<typeof store.getState>) => state.cart.totalQuantity
   )
-  
+
   const { SubMenu } = Menu
   const [searchVisible, setSearchVisible] = useState(false)
-  const [searchText, setSearchText] = useState('')
+  const [searchText, setSearchText] = useState("")
   const numberOfCartItems = cartItems.reduce((currNumber, item) => {
-    return currNumber + item.quantity;
-  }, 0);
+    return currNumber + item.quantity
+  }, 0)
 
-  const btnClasses = `"cart" ${ isBtnHighlighted ? classes.bump : ""}`;
+  const btnClasses = `"cart" ${isBtnHighlighted ? classes.bump : ""}`
 
   useEffect(() => {
-    setIsBtnHighlighted(true);
+    setIsBtnHighlighted(true)
 
     const timer = setTimeout(() => {
-      setIsBtnHighlighted(false);
-    }, 300);
+      setIsBtnHighlighted(false)
+    }, 300)
 
     return () => {
-      clearTimeout(timer);
-    };
-  }, [totalQuantity]);
-
+      clearTimeout(timer)
+    }
+  }, [totalQuantity])
 
   const handleSearch = (e: any) => {
     setSearchText(e.target.value)
@@ -112,7 +111,7 @@ const NavbarPC: React.FC = () => {
           <div className='cart-btn'>
             <Link href='/gio-hang'>
               <Button
-                type={'primary'}
+                type={"primary"}
                 className='btn btn-primary cart-btn-item'
               >
                 {t.button.BUTTON9}
@@ -139,14 +138,14 @@ const NavbarPC: React.FC = () => {
       <Menu
         mode='horizontal'
         style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center"
         }}
         className='navbar__pc'
         items={[
           {
-            key: 'logo',
+            key: "logo",
             label: (
               <h1 className='navbar__pc-logo'>
                 <Link href='/'>
@@ -161,49 +160,49 @@ const NavbarPC: React.FC = () => {
                 </Link>
               </h1>
             ),
-            className: 'navbar__pc-icon'
+            className: "navbar__pc-icon"
           },
           {
-            key: 'home',
-            label: <Link href={'/'}>{t.menu.MENU1}</Link>,
-            style: { marginLeft: 'auto' },
-            className: 'navbar__pc-item'
+            key: "home",
+            label: <Link href={"/"}>{t.menu.MENU1}</Link>,
+            style: { marginLeft: "auto" },
+            className: "navbar__pc-item"
           },
           {
-            key: 'introduce',
-            label: <Link href={'/gioi-thieu'}>{t.menu.MENU2}</Link>,
-            className: 'navbar__pc-item'
+            key: "introduce",
+            label: <Link href={"/gioi-thieu"}>{t.menu.MENU2}</Link>,
+            className: "navbar__pc-item"
           },
           {
-            key: 'news',
+            key: "news",
+            label: <Link href={"/tin-tuc"}>{t.menu.MENU3}</Link>,
+            className: "navbar__pc-item"
+          },
+          {
+            key: "product",
             label: (
-              <Link href={'/tin-tuc/danh-sach?trang=1'}>{t.menu.MENU3}</Link>
+              <Link href={`/san-pham?language=${lang}`}>{t.menu.MENU4}</Link>
             ),
-            className: 'navbar__pc-item'
-          },
-          {
-            key: 'product',
-            label: <Link href={'/san-pham'}>{t.menu.MENU4}</Link>,
-            className: 'navbar__pc-item navbar__pc-item-dropdown',
+            className: "navbar__pc-item navbar__pc-item-dropdown",
             children: [
-              { key: '1', label: <>{t.menu.SUBMENU1}</> },
-              { key: '2', label: <>{t.menu.SUBMENU2}</> },
-              { key: '3', label: <>{t.menu.SUBMENU3}</> },
-              { key: '4', label: <>{t.menu.SUBMENU4}</> }
+              { key: "1", label: <>{t.menu.SUBMENU1}</> },
+              { key: "2", label: <>{t.menu.SUBMENU2}</> },
+              { key: "3", label: <>{t.menu.SUBMENU3}</> },
+              { key: "4", label: <>{t.menu.SUBMENU4}</> }
             ]
           },
           {
-            key: 'recruitment',
-            label: <Link href={'/tuyen-dung'}>{t.menu.MENU5}</Link>,
-            className: 'navbar__pc-item'
+            key: "recruitment",
+            label: <Link href={"/tuyen-dung"}>{t.menu.MENU5}</Link>,
+            className: "navbar__pc-item"
           },
           {
-            key: 'contact',
-            label: <Link href={'/lien-he'}>{t.menu.MENU6}</Link>,
-            className: 'navbar__pc-item'
+            key: "contact",
+            label: <Link href={"/lien-he"}>{t.menu.MENU6}</Link>,
+            className: "navbar__pc-item"
           },
           {
-            key: 'cart',
+            key: "cart",
             label: (
               <Popover
                 placement='bottom'
@@ -213,51 +212,51 @@ const NavbarPC: React.FC = () => {
                 <Badge
                   count={numberOfCartItems}
                   overflowCount={99}
-                  style={{ backgroundColor: 'red' }}
+                  style={{ backgroundColor: "red" }}
                 >
                   <Link href='/gio-hang'>
                     <Button
                       icon={
-                        <ShoppingCartOutlined style={{ fontSize: '18px' }} />
+                        <ShoppingCartOutlined style={{ fontSize: "18px" }} />
                       }
                       style={{
-                        border: 'none',
-                        textDecoration: 'underline',
-                        boxShadow: 'none'
+                        border: "none",
+                        textDecoration: "underline",
+                        boxShadow: "none"
                       }}
                     />
                   </Link>
                 </Badge>
               </Popover>
             ),
-            className: 'navbar__pc-icon'
+            className: "navbar__pc-icon"
           },
           {
-            key: 'search',
+            key: "search",
             label: (
-              <div style={{ position: 'relative' }}>
-                <SearchOutlined style={{ fontSize: '18px' }} />
+              <div style={{ position: "relative" }}>
+                <SearchOutlined style={{ fontSize: "18px" }} />
                 {searchVisible && (
                   <div
                     style={{
-                      position: 'absolute',
-                      top: '100%',
+                      position: "absolute",
+                      top: "100%",
                       right: 0,
-                      width: '300px',
+                      width: "300px",
                       zIndex: 1
                     }}
                   >
                     <Input
                       placeholder={t.label.LABEL5}
                       prefix={<SearchOutlined />}
-                      style={{ width: '100%' }}
+                      style={{ width: "100%" }}
                       onClick={handleInputClick}
                     />
                   </div>
                 )}
               </div>
             ),
-            className: 'navbar__pc-icon',
+            className: "navbar__pc-icon",
             onClick: toggleSearchVisible
           }
         ]}

@@ -11,8 +11,11 @@ import { store } from '@store'
 import viText from '@languages/vie.json'
 import loadLanguageText from '@languages'
 import { useRouter } from 'next/router'
-import axios from 'axios'
-import { GET_ARTICLE_DETAIL_ENDPOINT } from '@api/endpoint'
+import { GetServerSideProps } from 'next'
+import * as cookie from 'cookie'
+import { articleClient } from '@api'
+import { useCookies } from 'react-cookie'
+
 interface PageSEOData {
   name: string
   pageSEO: {
@@ -36,11 +39,21 @@ class ArticleDetail {
   createdAt: string = ''
   content: string = ''
   description: string = ''
+  breadCrumb: any[] = []
+}
+export const getServerSideProps: GetServerSideProps = async context => {
+  const cookieValue = cookie.parse(context.req.headers.cookie as string)
+  let language = cookieValue['language']
+  const { id } = context.query
+  const article = await articleClient
+    .getArticleDetail(language, id as string)
+    .then(res => res.data.data)
+  return { props: { article } }
 }
 
-const ListNews: React.FC = () => {
+const ListNews: React.FC<any> = props => {
   const router = useRouter()
-  const { id } = router.query
+  const { id, language } = router.query
   const [t, setText] = useState(viText)
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
@@ -48,31 +61,6 @@ const ListNews: React.FC = () => {
   const [articleDetail, setArticleDetail] = useState<ArticleDetail>(
     new ArticleDetail()
   )
-
-  useEffect(() => {
-    loadLanguageText(lang, setText)
-    if (id) {
-      getArticleDetail()
-    }
-    console.log('danh sach tin tuc')
-  }, [id, lang])
-
-  const getArticleDetail = async () => {
-    const res = await axios.post(GET_ARTICLE_DETAIL_ENDPOINT, {
-      link: `/${id}`,
-      language: lang,
-    })
-    const data = res?.data?.data
-
-    const detail: ArticleDetail = {
-      title: data?.name,
-      image: data?.image,
-      content: data?.content,
-      description: data?.description,
-      createdAt: data?.createdAt
-    }
-    setArticleDetail(detail)
-  }
   const pageSEOData: PageSEOData = {
     name: 'Thương Thương',
     pageSEO: {
@@ -84,7 +72,8 @@ const ListNews: React.FC = () => {
       image: 'https://www.critistudio.top/images/seo.jpg'
     }
   }
-  const dataNavigation: NavigationProps[] = [
+
+  let initDataNavigation: NavigationProps[] = [
     {
       id: 1,
       title: `${t.navigator.HOME}`,
@@ -93,14 +82,45 @@ const ListNews: React.FC = () => {
     {
       id: 2,
       title: `${t.navigator.MENU7}`,
-      link: '/tin-tuc/danh-sach?trang=1'
-    },
-    {
-      id: 3,
-      title: `${t.navigator.MENU8}`,
-      link: `/tin-tuc/${id}`
+      link: '/tin-tuc'
     }
   ]
+  const [dataNavigation, setDataNavigation] =
+    useState<NavigationProps[]>(initDataNavigation)
+
+  useEffect(() => {
+    loadLanguageText(lang, setText)
+    getArticleDetail()
+  }, [id, lang, language])
+
+  const getArticleDetail = async () => {
+    const data = props.article
+    const detail: ArticleDetail = {
+      title: data?.name,
+      image: data?.image,
+      content: data?.content,
+      description: data?.description,
+      createdAt: data?.createdAt,
+      breadCrumb: data?.breadCrumb
+    }
+    setArticleDetail(detail)
+    setBreadCrumb(detail)
+  }
+  const setBreadCrumb = async (detail: ArticleDetail) => {
+    // if (detail?.breadCrumb) {
+    //   const breadCrumb = detail?.breadCrumb.map(obj => {
+    //     return { id: obj.id, link: `/tin-tuc${obj.link}`, title: obj.menu }
+    //   })
+    //   initDataNavigation = [...dataNavigation, ...breadCrumb]
+    // }
+    const artBreadCrumb = {
+      id: 10,
+      link: '',
+      title: detail.title
+    }
+    initDataNavigation.push(artBreadCrumb)
+    setDataNavigation(initDataNavigation)
+  }
 
   return (
     <>

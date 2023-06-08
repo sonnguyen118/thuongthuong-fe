@@ -13,7 +13,7 @@ import { categoryClient } from '@api'
 import { productClient } from '@api'
 import { GetServerSideProps } from 'next'
 import { bread_crumb } from 'src/constant/constant'
-
+import * as cookie from 'cookie'
 interface PageSEOData {
   name: string
   pageSEO: {
@@ -39,9 +39,9 @@ export interface NavigationProps {
   link: string
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const url = new URL(req.url as string, `http://${req.headers.host}`)
-  const language = url.searchParams.get('language') || 'VI'
+export const getServerSideProps: GetServerSideProps = async context => {
+  const cookieValue = cookie.parse(context.req.headers.cookie as string)
+  const language = cookieValue['language']
   const page = 1
   const size = 20
   const categories = await categoryClient
@@ -84,7 +84,6 @@ const ListNews: React.FC<any> = props => {
     getCategories()
     getAllProducts()
     setBreadCrumb()
-    console.log('language')
   }, [language, lang])
 
   const getCategories = async () => {
