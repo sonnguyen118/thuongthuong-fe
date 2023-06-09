@@ -1,5 +1,5 @@
 import React, {useState, ReactNode} from "react";
-import {Button, Table, Tag} from "antd";
+import {Button, Table, Tag, Input} from "antd";
 import type {ColumnsType} from "antd/es/table";
 import type {TableRowSelection} from "antd/es/table/interface";
 import Dashboard from "@components/layouts/admin/Dashboard";
@@ -8,7 +8,7 @@ import {FilterAdminTable} from "@components/molecules/FilterAdmin";
 import {useRouter} from "next/router";
 import {useDrag, useDrop, DndProvider} from 'react-dnd';
 import {HTML5Backend} from 'react-dnd-html5-backend';
-import {EditOutlined} from "@ant-design/icons";
+import {EditOutlined, PlusOutlined} from "@ant-design/icons";
 
 interface DataType {
 	id: number;
@@ -167,7 +167,8 @@ const App: React.FC = () => {
 			link: "/lien-he"
 		},
 	]);
-	const [isChange, setChange] = useState<boolean>(false)
+	const [isChange, setChange] = useState<boolean>(false);
+	const [addMenu, setAddMenu] = useState(false);
 	const navigationData: NavigationProps[] = [
 		{
 			id: 1,
@@ -241,7 +242,7 @@ const App: React.FC = () => {
 		],
 	};
 	const button: buttonProps = {
-		isButton: true,
+		isButton: false,
 		style: "add",
 		title: "Tạo menu",
 		link: "/admin/layout/menu/tao-moi",
@@ -266,6 +267,12 @@ const App: React.FC = () => {
 		setChange(false);
 		// setData([])
 	}
+	const handleChangeAddMenu = () => {
+		setAddMenu(true);
+	}
+	const handleAddmenu = () => {
+
+	}
 	return (
 		<Dashboard>
 			<div className="admin__main-wrap">
@@ -279,14 +286,14 @@ const App: React.FC = () => {
 				{!isChange ? (
 					<div className="admin__main-content">
 						<Button type={"primary"} onClick={()=> handleChangePosition()} style={{marginBottom: 15}}><EditOutlined style={{marginRight: 5}}/>Sửa vị trí</Button>
-						<FilterAdminTable
-							isSelector={true}
-							optionsSelector={optionsSelector}
-							isDatepicker={false}
-							titleFilter={"Lọc theo danh mục cấp 1"}
-							placeholderInput={"Tìm kiếm theo tiêu đề danh mục"}
-							button={button}
-						/>
+						<Button type={"primary"} style={{marginLeft: 20, marginBottom: 15}} onClick={()=> handleChangeAddMenu()}><PlusOutlined style={{marginRight: 5}}/>Thêm Menu</Button>
+						{addMenu && (
+							<div style={{display: "flex", alignItems: "center", marginBottom: 30}}>
+								<Input size="large" placeholder="Nhập vào tiêu đề cho menu" onChange={handleAddmenu} />
+								<Input size="large"  placeholder="Nhập vào đường dẫn" style={{marginLeft: 20, marginRight: 20}}  addonBefore={process.env.NEXT_PUBLIC_FULL_URL + "/"} />
+								<Button type="primary" onClick={handleAddmenu}>Tạo mới</Button>
+							</div>
+						)}
 						<Table
 							rowSelection={rowSelection}
 							columns={columns}
