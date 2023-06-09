@@ -86,8 +86,13 @@ const App: React.FC = () => {
 				if(datarex) {
 					setTitleVi1(datarex.title1);
 					setTitleVi2(datarex.title2);
+					setAddres(datarex.adress);
+					setHotLine(datarex.hotLine);
+					setEmail(datarex.email);
 					let memory1 = datarex.subMenu1.map((obj:any, index:any) => ({ ...obj, key: index + 1 }));
+					let memory2 = datarex.subMenu2.map((obj:any, index:any) => ({ ...obj, key: index + 1 }));
 					setDataBlock1(memory1);
+					setDataBlock2(memory2);
 				}
 				console.log(datarex);
 			})
@@ -246,6 +251,9 @@ const App: React.FC = () => {
 			title2: titleVI2,
 			subMenu1: dataBlock1,
 			subMenu2: dataBlock2,
+			adress: adress,
+			hotLine: hotLine,
+			email: email,
 			linkSocical: linkSocical
 		}
 		const dataEN = {
