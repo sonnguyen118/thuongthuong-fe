@@ -10,7 +10,6 @@ export const bread_crumb = {
     EN: 'Products'
   }
 }
-
 export const home = {
   VI: 'VI',
   EN: 'EN'
