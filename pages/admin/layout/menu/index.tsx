@@ -1,4 +1,4 @@
-import React, {useState, ReactNode} from "react";
+import React, {useState, ReactNode, useMemo} from "react";
 import {Button, Table, Tag, Input} from "antd";
 import type {ColumnsType} from "antd/es/table";
 import type {TableRowSelection} from "antd/es/table/interface";
@@ -8,12 +8,13 @@ import {FilterAdminTable} from "@components/molecules/FilterAdmin";
 import {useRouter} from "next/router";
 import {useDrag, useDrop, DndProvider} from 'react-dnd';
 import {HTML5Backend} from 'react-dnd-html5-backend';
-import {EditOutlined, PlusOutlined} from "@ant-design/icons";
-
+import {DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
+import {setLoading} from "@slices/loadingState";
+import { useDispatch} from "react-redux";
+import {webInformationClient} from "@service";
 interface DataType {
-	id: number;
 	key: number;
-	name: string;
+	title: string;
 	isActivate: boolean;
 	link: string;
 }
@@ -121,52 +122,67 @@ const DraggableDiv = (props:DraggableDivProps ) => {
 
 
 const App: React.FC = () => {
+	const dispatch = useDispatch();
 	const router = useRouter();
 	const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 	const [data, setData] = useState<DataType[]>([
 		{
-			id: 1,
 			key: 1,
-			name: "Trang Chủ",
+			title: "Trang Chủ",
 			isActivate: true,
 			link: "/"
 		},
 		{
-			id: 1,
 			key: 2,
-			name: "Giới Thiệu",
+			title: "Giới Thiệu",
 			isActivate: true,
 			link: "/gioi-thieu"
 		},
 		{
-			id: 1,
 			key: 3,
-			name: "Tin Tức",
+			title: "Tin Tức",
 			isActivate: true,
 			link: "/tin-tuc"
 		},
 		{
-			id: 1,
 			key: 4,
-			name: "Sản Phẩm",
+			title: "Sản Phẩm",
 			isActivate: true,
 			link: "/san-pham"
 		},
 		{
-			id: 1,
 			key: 5,
-			name: "Tuyển Dụng",
+			title: "Tuyển Dụng",
 			isActivate: true,
 			link: "/tuyen-dung"
 		},
 		{
-			id: 1,
 			key: 6,
-			name: "Liên Hệ",
+			title: "Liên Hệ",
 			isActivate: true,
 			link: "/lien-he"
 		},
 	]);
+	//Lấy dữ liệu ban đầu
+	useMemo(()=> {
+		dispatch(setLoading(true));
+		try {
+			webInformationClient.handleGetWebInformation("2")
+				.then((res:any) => {
+					// Xử lý kết quả thành công
+					const dataString = JSON.parse(res.value);
+					console.log(dataString, "dataString");
+					dispatch(setLoading(false));
+					if(dataString) {
+					}
+				})
+				.catch((error) => {
+					// Xử lý lỗi
+					console.error(error);
+				});
+		} catch ( error) {
+		}
+	}, []);
 	const [isChange, setChange] = useState<boolean>(false);
 	const [addMenu, setAddMenu] = useState(false);
 	const navigationData: NavigationProps[] = [
@@ -273,6 +289,34 @@ const App: React.FC = () => {
 	const handleAddmenu = () => {
 
 	}
+	const handleAddMenu  = () => {
+		let datafromState = [...data];
+		let lastItem = datafromState[datafromState.length - 1];
+		let newKey = lastItem ? lastItem.key + 1 : 1;
+		datafromState.push({
+			key: newKey,
+			title: "",
+			isActivate: true,
+			link: ""
+		});
+		setData(datafromState);
+	};
+	// hàm thay đổi giá trị của các menu
+	const handleInputChange = (event:any, index:any, field:any) => {
+		const { value } = event.target;
+		setData((prevData) => {
+			const newData:any = [...prevData];
+			newData[index][field] = value;
+			return newData;
+		});
+	};
+	const handleDeleteMenu = (key: number) => {
+		let datafromState = data.filter((item) => item.key !== key);
+		setData(datafromState);
+	}
+	const handleSubmit = () => {
+
+	}
 	return (
 		<Dashboard>
 			<div className="admin__main-wrap">
@@ -286,26 +330,23 @@ const App: React.FC = () => {
 				{!isChange ? (
 					<div className="admin__main-content">
 						<Button type={"primary"} onClick={()=> handleChangePosition()} style={{marginBottom: 15}}><EditOutlined style={{marginRight: 5}}/>Sửa vị trí</Button>
-						<Button type={"primary"} style={{marginLeft: 20, marginBottom: 15}} onClick={()=> handleChangeAddMenu()}><PlusOutlined style={{marginRight: 5}}/>Thêm Menu</Button>
-						{addMenu && (
-							<div style={{display: "flex", alignItems: "center", marginBottom: 30}}>
-								<Input size="large" placeholder="Nhập vào tiêu đề cho menu" onChange={handleAddmenu} />
-								<Input size="large"  placeholder="Nhập vào đường dẫn" style={{marginLeft: 20, marginRight: 20}}  addonBefore={process.env.NEXT_PUBLIC_FULL_URL + "/"} />
-								<Button type="primary" onClick={handleAddmenu}>Tạo mới</Button>
+						<div className="admin__main-cards">
+						{data.map((item, index)=> (
+							<div style={{display: "flex", alignItems: "center", marginBottom: 30}} key={item.key}>
+								<span style={{marginRight: 20, fontStyle: "16px", fontWeight: 500}}>{item.key}</span>
+								<Input size="large" placeholder="Nhập vào tiêu đề cho menu"
+											 onChange={(event) => handleInputChange(event, index, "title")}
+											 value={item.title}/>
+								<Input size="large"  placeholder="Nhập vào đường dẫn" style={{marginLeft: 20, marginRight: 20}}
+											 onChange={(event) => handleInputChange(event, index, "link")}
+											 value={item.link}
+											 addonBefore={process.env.NEXT_PUBLIC_FULL_URL + "/"} />
+								<Button type="default" onClick={(e) => handleDeleteMenu(item.key)}><DeleteOutlined/></Button>
 							</div>
-						)}
-						<Table
-							rowSelection={rowSelection}
-							columns={columns}
-							dataSource={data}
-							onRow={(record, rowIndex) => {
-								return {
-									onClick: (event) => {
-										router.push(`/admin/danh-muc/danh-muc-cap-2/${record.key}`); // Perform router push on row click
-									},
-								};
-							}}
-						/>
+						))}
+						</div>
+						<Button type={"primary"} style={{marginTop: 20}} onClick={()=> handleAddMenu()}><PlusOutlined style={{marginRight: 5}}/>Thêm Menu</Button>
+						<Button type={"primary"} style={{marginTop: 20, marginLeft: 20}} onClick={()=> handleSubmit()}>Cập nhật</Button>
 					</div>
 				):(
 					<div className="admin__main-content">
@@ -317,7 +358,7 @@ const App: React.FC = () => {
 						<div className="">
 							<h2>Kéo thả thẻ menu</h2>
 							{data.map((div:DataType, index:number) => (
-								<DraggableDiv key={div.key} id={div.id} title={div.name} link={div.link} isActive={div.isActivate} index={index} moveDiv={moveDiv}/>
+								<DraggableDiv key={div.key} id={div.key} title={div.title} link={div.link} isActive={div.isActivate} index={index} moveDiv={moveDiv}/>
 							))}
 						</div>
 					</DndProvider>
