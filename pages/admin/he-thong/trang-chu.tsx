@@ -32,8 +32,6 @@ type LanguageKey = "VI" | "EN" | "FR" | "PO";
 const App: React.FC = () => {
 	const router = useRouter();
 	const dispatch = useDispatch();
-	const [cookies] = useCookies(["accessToken"]);
-	const token = cookies["accessToken"];
 	const [fileList, setFileList] = useState<UploadFile[]>([]);
 	const onChangeImage: UploadProps["onChange"] = ({
 																										fileList: newFileList,
@@ -109,12 +107,9 @@ const App: React.FC = () => {
 	// lấy dữ liệu danh mục
 	useMemo(() => {
 		dispatch(setLoading(true));
-		const body: bodyCategoryGetAdmin = {
-			language: "VI"
-		}
-		handleCategoryClient.handleGetAllCategory("language=VI")
+		handleCategoryClient.handleGetAllCategory("VI")
 			.then((result: any) => {
-				// setDataCategory(result);
+				setDataCategory(result);
 				console.log(result)
 				dispatch(setLoading(false));
 			})
@@ -527,11 +522,11 @@ const App: React.FC = () => {
 							style={{width: 200}}
 							placeholder="Search to Select"
 							optionFilterProp="children"
-							filterOption={(input: any, option: any) => (option?.label ?? '').includes(input)}
+							filterOption={(input: any, option: any) => (option?.name ?? '').includes(input)}
 							filterSort={(optionA: any, optionB: any) =>
-								(optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+								(optionA?.name ?? '').toLowerCase().localeCompare((optionB?.name ?? '').toLowerCase())
 							}
-							options={listCategory1}
+							options={dataCategory}
 						/>
 							<span style={{marginLeft: 30}}>Số lượng sp hiển thị</span>
 							<div style={{marginLeft: 20, marginRight: 20}}>
