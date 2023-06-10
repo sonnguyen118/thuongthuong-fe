@@ -46,6 +46,7 @@
     "eslint-config-next": "13.2.4",
     "faker": "^5.5.3",
     "fs": "^0.0.1-security",
+    "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "next": "13.2.4",
