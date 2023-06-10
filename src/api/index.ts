@@ -2,9 +2,12 @@
 export { default as Login } from './admin/login'
 
 export { default as createCategory } from './admin/category'
+export { default as getAllCategory } from './admin/category'
 export { default as Products } from './admin/products'
-export { default as Ckeditor } from './admin/ckeditor'
+export { default as Ckeditor2 } from './admin/ckeditor-phe'
 export { default as WebInformation } from './admin/webinformation'
+export { default as menuAdmin } from './admin/menu'
+export { default as articleAdmin } from './admin/articles'
 
 // Với phía client sử dụng các api này
 export { default as categoryClient } from './client/category'

@@ -1,32 +1,43 @@
-import {Ckeditor} from "@api";
+import { Diacritic } from '@utils/Functions'
 
-const  uploadAdapter= (loader : any, token : string)=> {
+const API_URL = process.env.NEXT_PUBLIC_API_URL
+const UPLOAD_ENDPOINT = 'product/admin/upload'
+const uploadAdapter = (loader: any) => {
   return {
     upload: () => {
-      return new Promise((resolve:any, reject:any) => {
-        loader.file.then((file:any) => {
-         const response =  Ckeditor.ckeditorUploadImages(file)
-            .then((res) => {
-              if(res.status === 201) {
-                console.log(response,"response")
-                console.log(res,"res")
-                resolve({
-                  default: `${process.env.NEXT_PUBLIC_API_URL}/${res.data.path}`
-                });
-              } else {
-                console.log("Tải ảnh thất bại")
-              }
+      return new Promise((resolve: any, reject: any) => {
+        loader.file.then((file: any) => {
+          const body = new FormData()
+          console.log('test file')
+          console.log(file)
+          const fileName = (Date.now() +
+            '-' +
+            Diacritic.convertValueWithDashes(file.name)) as string
+          console.log(fileName)
+          body.append('upload', file)
+          // let headers = new Headers();
+          // headers.append("Origin", "http://localhost:3000");
+          fetch(`${API_URL}/${UPLOAD_ENDPOINT}`, {
+            method: 'post',
+            body: body
+            // mode: "no-cors"
+          })
+            .then(res => {
+              return res.json()
             })
-            .catch((err) => {
-              console.log(err);
-              reject(err);
-            });
-        });
-      });
+            .then(res => {
+              resolve({
+                default: `${API_URL}/${res.path}`
+              })
+            })
+            .catch(err => {
+              console.log(err)
+              reject(err)
+            })
+        })
+      })
     }
-  };
+  }
 }
 
-
-
-export default { uploadAdapter };
+export default { uploadAdapter }
