@@ -12,5 +12,12 @@ const getAllCategoryClient = (
     `${process.env.NEXT_PUBLIC_API_URL}/category?language=${language}&page=${page}&size=${size}`
   )
 }
+const getAllFullCategoryClient = (
+  language: string,
+): Promise<any> => {
+  return axiosInstanceClient.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/category?language=${language}`
+  )
+}
 
-export default { getAllCategoryClient }
+export default { getAllCategoryClient , getAllFullCategoryClient}

@@ -1,5 +1,5 @@
 import React, {useState, ReactNode, useMemo} from "react";
-import {Button, Table, Tag, Input} from "antd";
+import {Button, Table, Tag, Input, Tabs, TabsProps, notification} from "antd";
 import type {ColumnsType} from "antd/es/table";
 import type {TableRowSelection} from "antd/es/table/interface";
 import Dashboard from "@components/layouts/admin/Dashboard";
@@ -11,7 +11,7 @@ import {HTML5Backend} from 'react-dnd-html5-backend';
 import {DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
 import {setLoading} from "@slices/loadingState";
 import { useDispatch} from "react-redux";
-import {webInformationClient} from "@service";
+import {webInformation, webInformationClient} from "@service";
 interface DataType {
 	key: number;
 	title: string;
@@ -124,67 +124,41 @@ const DraggableDiv = (props:DraggableDivProps ) => {
 const App: React.FC = () => {
 	const dispatch = useDispatch();
 	const router = useRouter();
-	const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-	const [data, setData] = useState<DataType[]>([
-		{
-			key: 1,
-			title: "Trang Chủ",
-			isActivate: true,
-			link: "/"
-		},
-		{
-			key: 2,
-			title: "Giới Thiệu",
-			isActivate: true,
-			link: "/gioi-thieu"
-		},
-		{
-			key: 3,
-			title: "Tin Tức",
-			isActivate: true,
-			link: "/tin-tuc"
-		},
-		{
-			key: 4,
-			title: "Sản Phẩm",
-			isActivate: true,
-			link: "/san-pham"
-		},
-		{
-			key: 5,
-			title: "Tuyển Dụng",
-			isActivate: true,
-			link: "/tuyen-dung"
-		},
-		{
-			key: 6,
-			title: "Liên Hệ",
-			isActivate: true,
-			link: "/lien-he"
-		},
-	]);
+	const [data, setData] = useState<DataType[]>([]);
+	const [dataEN, setDataEN] = useState<DataType[]>([]);
 	//Lấy dữ liệu ban đầu
 	useMemo(()=> {
 		dispatch(setLoading(true));
-		try {
-			webInformationClient.handleGetWebInformation("2")
-				.then((res:any) => {
-					// Xử lý kết quả thành công
-					const dataString = JSON.parse(res.value);
-					console.log(dataString, "dataString");
-					dispatch(setLoading(false));
-					if(dataString) {
-					}
-				})
-				.catch((error) => {
-					// Xử lý lỗi
-					console.error(error);
-				});
-		} catch ( error) {
-		}
+		webInformationClient.handleGetWebInformation("3")
+			.then((res:any) => {
+				// Xử lý kết quả thành công
+				const dataString = JSON.parse(res.value);
+				console.log(dataString, "dataString");
+				dispatch(setLoading(false));
+				if(dataString) {
+					setData(dataString)
+				}
+			})
+			.catch((error) => {
+				// Xử lý lỗi
+				console.error(error);
+			});
+		webInformationClient.handleGetWebInformation("4")
+			.then((res:any) => {
+				// Xử lý kết quả thành công
+				const dataString = JSON.parse(res.value);
+				console.log(dataString, "dataString");
+				dispatch(setLoading(false));
+				if(dataString) {
+					setDataEN(dataString)
+				}
+			})
+			.catch((error) => {
+				// Xử lý lỗi
+				console.error(error);
+			});
 	}, []);
 	const [isChange, setChange] = useState<boolean>(false);
-	const [addMenu, setAddMenu] = useState(false);
 	const navigationData: NavigationProps[] = [
 		{
 			id: 1,
@@ -202,67 +176,6 @@ const App: React.FC = () => {
 			link: "/",
 		},
 	];
-	const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-		console.log("selectedRowKeys changed: ", newSelectedRowKeys);
-		setSelectedRowKeys(newSelectedRowKeys);
-	};
-	const optionsSelector = [
-		{
-			value: "1",
-			label: "Tranh Giấy",
-		},
-		{
-			value: "2",
-			label: "Sơn Mài",
-		},
-		{
-			value: "3",
-			label: "Đồ Gia Dụng",
-		},
-	];
-	const rowSelection: TableRowSelection<DataType> = {
-		selectedRowKeys,
-		onChange: onSelectChange,
-		selections: [
-			Table.SELECTION_ALL,
-			Table.SELECTION_INVERT,
-			Table.SELECTION_NONE,
-			{
-				key: "odd",
-				text: "Select Odd Row",
-				onSelect: (changeableRowKeys) => {
-					let newSelectedRowKeys = [];
-					newSelectedRowKeys = changeableRowKeys.filter((_, index) => {
-						if (index % 2 !== 0) {
-							return false;
-						}
-						return true;
-					});
-					setSelectedRowKeys(newSelectedRowKeys);
-				},
-			},
-			{
-				key: "even",
-				text: "Select Even Row",
-				onSelect: (changeableRowKeys) => {
-					let newSelectedRowKeys = [];
-					newSelectedRowKeys = changeableRowKeys.filter((_, index) => {
-						if (index % 2 !== 0) {
-							return true;
-						}
-						return false;
-					});
-					setSelectedRowKeys(newSelectedRowKeys);
-				},
-			},
-		],
-	};
-	const button: buttonProps = {
-		isButton: false,
-		style: "add",
-		title: "Tạo menu",
-		link: "/admin/layout/menu/tao-moi",
-	};
 
 	const moveDiv = (startIndex: any, endIndex: any) => {
 		const updatedDivs = [...data];
@@ -271,7 +184,6 @@ const App: React.FC = () => {
 		updatedDivs.splice(endIndex, 0, draggedDiv);
 		setData(updatedDivs);
 	};
-	console.log(data)
 	const handleChangePosition = () => {
 		setChange(true);
 	}
@@ -279,16 +191,26 @@ const App: React.FC = () => {
 		setChange(false);
 		// setData([])
 	}
-	const handleSubmitChangePosition = () => {
-		setChange(false);
-		// setData([])
-	}
-	const handleChangeAddMenu = () => {
-		setAddMenu(true);
-	}
-	const handleAddmenu = () => {
-
-	}
+	const [activeTab, setActiveTab] = useState("1");
+	const onChange = (key: string) => {
+		setActiveTab(key);
+	};
+	const [item, setItem] = useState<TabsProps["items"]>([
+		{
+			key: "1",
+			label: `Tiếng Việt`,
+			children: (
+				<></>
+			),
+		},
+		{
+			key: "2",
+			label: `Tiếng Anh`,
+			children: (
+				<></>
+			),
+		}
+	]);
 	const handleAddMenu  = () => {
 		let datafromState = [...data];
 		let lastItem = datafromState[datafromState.length - 1];
@@ -310,12 +232,88 @@ const App: React.FC = () => {
 			return newData;
 		});
 	};
+	const handleInputChangeEN  = (event:any, index:any, field:any) => {
+		const { value } = event.target;
+		setDataEN((prevData) => {
+			const newData:any = [...prevData];
+			newData[index][field] = value;
+			return newData;
+		});
+	};
 	const handleDeleteMenu = (key: number) => {
 		let datafromState = data.filter((item) => item.key !== key);
 		setData(datafromState);
 	}
 	const handleSubmit = () => {
+		dispatch(setLoading(true));
+		data.forEach(function(item, index) {
+			item.key = index + 1;
+		});
+		// Sử dụng map để tạo một mảng mới với giá trị "key" được cập nhật
+		var newData = data.map(function(item, index) {
+			return { ...item, key: index + 1 };
+		});
+		console.log(newData);
+		const promises = [];
+		// thực hiện hành động gửi dữ liệu
+		const body = {
+			id: 3,
+			key: "MENU_VI",
+			value: JSON.stringify(data),
+			description: "dữ liệu menu - tv"
+		}
+		const bodyEN = {
+			id: 4,
+			key: "MENU_EN",
+			value: JSON.stringify(dataEN),
+			description: "dữ liệu menu - ta"
+		}
+		if (body) {
+			const promiseVI = webInformation.handleUpdateWebInformation(body);
+			promises.push(promiseVI);
+		}
+		if (bodyEN) {
+			const promiseEN = webInformation.handleUpdateWebInformation(bodyEN);
+			promises.push(promiseEN);
+		}
+		Promise.all(promises)
+			.then((results: any) => {
+				if(results[0].meta.status !== 200) {
+					notification.success({
+						message: "Cập nhật dữ liệu thất bại",
+						description: "Đã có lỗi xảy ra trong quá trình cập nhật dữ liệu tiếng việt",
+						duration: 1.5,
+						onClose: () => {
+							dispatch(setLoading(false));
+						},
+					});
+					return;
+				}
+				if(results[1].meta.status !== 200) {
+					notification.success({
+						message: "Cập nhật dữ liệu thất bại",
+						description: "Đã có lỗi xảy ra trong quá trình cập nhật dữ liệu tiếng anh",
+						duration: 1.5,
+						onClose: () => {
+							dispatch(setLoading(false));
+						},
+					});
+					return;
+				}
+				notification.success({
+					message: 'Cập nhật dữ liệu thành công',
+					description: 'Bạn đã thành công cập nhật dữ liệu menu',
+					duration: 1.5,
+					onClose: () => {
+						dispatch(setLoading(false));
+						router.reload();
+					},
+				});
 
+			})
+			.catch((error) => {
+				// Xử lý khi có lỗi xảy ra
+			});
 	}
 	return (
 		<Dashboard>
@@ -330,20 +328,42 @@ const App: React.FC = () => {
 				{!isChange ? (
 					<div className="admin__main-content">
 						<Button type={"primary"} onClick={()=> handleChangePosition()} style={{marginBottom: 15}}><EditOutlined style={{marginRight: 5}}/>Sửa vị trí</Button>
+						<Tabs activeKey={activeTab} items={item} onChange={onChange}/>
 						<div className="admin__main-cards">
-						{data.map((item, index)=> (
-							<div style={{display: "flex", alignItems: "center", marginBottom: 30}} key={item.key}>
-								<span style={{marginRight: 20, fontStyle: "16px", fontWeight: 500}}>{item.key}</span>
-								<Input size="large" placeholder="Nhập vào tiêu đề cho menu"
-											 onChange={(event) => handleInputChange(event, index, "title")}
-											 value={item.title}/>
-								<Input size="large"  placeholder="Nhập vào đường dẫn" style={{marginLeft: 20, marginRight: 20}}
-											 onChange={(event) => handleInputChange(event, index, "link")}
-											 value={item.link}
-											 addonBefore={process.env.NEXT_PUBLIC_FULL_URL + "/"} />
-								<Button type="default" onClick={(e) => handleDeleteMenu(item.key)}><DeleteOutlined/></Button>
-							</div>
-						))}
+							{activeTab === "1" ? (
+								<>
+									{data.map((item, index)=> (
+										<div style={{display: "flex", alignItems: "center", marginBottom: 30}} key={item.key}>
+											<span style={{marginRight: 20, fontStyle: "16px", fontWeight: 500}}>{item.key}</span>
+											<Input size="large" placeholder="Nhập vào tiêu đề cho menu"
+														 onChange={(event) => handleInputChange(event, index, "title")}
+														 value={item.title}/>
+											<Input size="large"  placeholder="Nhập vào đường dẫn" style={{marginLeft: 20, marginRight: 20}}
+														 onChange={(event) => handleInputChange(event, index, "link")}
+														 value={item.link}
+														 addonBefore={process.env.NEXT_PUBLIC_FULL_URL + "/"} />
+											<Button type="default" onClick={(e) => handleDeleteMenu(item.key)}><DeleteOutlined/></Button>
+										</div>
+									))}
+								</>
+								) : (
+								<>
+									{dataEN.map((item, index)=> (
+										<div style={{display: "flex", alignItems: "center", marginBottom: 30}} key={item.key}>
+											<span style={{marginRight: 20, fontStyle: "16px", fontWeight: 500}}>{item.key}</span>
+											<Input size="large" placeholder="Nhập vào tiêu đề cho menu"
+														 onChange={(event) => handleInputChangeEN(event, index, "title")}
+														 value={item.title}/>
+											<Input size="large"  placeholder="Nhập vào đường dẫn" style={{marginLeft: 20, marginRight: 20}}
+														 onChange={(event) => handleInputChangeEN(event, index, "link")}
+														 value={item.link}
+														 addonBefore={process.env.NEXT_PUBLIC_FULL_URL + "/"} />
+											<Button type="default" onClick={(e) => handleDeleteMenu(item.key)}><DeleteOutlined/></Button>
+										</div>
+									))}
+								</>
+							)}
+
 						</div>
 						<Button type={"primary"} style={{marginTop: 20}} onClick={()=> handleAddMenu()}><PlusOutlined style={{marginRight: 5}}/>Thêm Menu</Button>
 						<Button type={"primary"} style={{marginTop: 20, marginLeft: 20}} onClick={()=> handleSubmit()}>Cập nhật</Button>
@@ -352,7 +372,7 @@ const App: React.FC = () => {
 					<div className="admin__main-content">
 						<div style={{marginBottom: 15}}>
 							<Button type={"default"} onClick={()=> handleCancleChangePosition()}>Hủy bỏ</Button>
-							<Button type={"primary"} onClick={()=> handleSubmitChangePosition()} style={{marginLeft: 10}}>Cập nhật</Button>
+							<Button type={"primary"} onClick={()=> handleSubmit()} style={{marginLeft: 10}}>Cập nhật</Button>
 						</div>
 					<DndProvider backend={HTML5Backend}>
 						<div className="">

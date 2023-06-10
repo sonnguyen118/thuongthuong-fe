@@ -1,4 +1,4 @@
-import { getAllCategory } from "@api";
+import { categoryClient } from "@api";
 
 
 type metaProps = {
@@ -12,9 +12,9 @@ type ResponseData = {
 };
 
 
-const handleGetAllCategory = async (param: string): Promise<ResponseData | Error> => {
+const handleGetAllCategory = async (language: string): Promise<ResponseData | Error> => {
   try {
-    const response = await getAllCategory.getAllCategory();
+    const response = await categoryClient.getAllFullCategoryClient(language);
     const { data, meta } = response.data;
     if (meta.status === 200) {
       return data;
