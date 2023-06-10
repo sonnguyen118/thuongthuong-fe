@@ -31,7 +31,7 @@ const Ckeditor  = ({data, setData} : Props) => {
   };
   function uploadPlugin(editor:any) {
     editor.plugins.get("FileRepository").createUploadAdapter = (loader:any) => {
-      return handleCKEditor.uploadAdapter(loader,token);
+      return handleCKEditor.uploadAdapter(loader);
     };
   }
   return (

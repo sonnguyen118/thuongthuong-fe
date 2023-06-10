@@ -2,7 +2,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 
 const API_URL = "http://localhost:3001";
-const UPLOAD_ENDPOINT = "api/product/admin/upload";
+const UPLOAD_ENDPOINT = "product/admin/upload";
 
 export default function TextEditor({ handleChange, ...props }) {
 

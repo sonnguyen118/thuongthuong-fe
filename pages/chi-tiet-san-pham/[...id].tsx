@@ -9,11 +9,8 @@ import { NavigationTopBar } from '@components/elements/navigation'
 import {
   ProductsDetails,
   ProductsSeems,
-  ProductsContent
 } from '@components/templates/products'
 import { useRouter } from 'next/router'
-import axios from 'axios'
-import { GET_PRODUCTS_DETAIL_ENDPOINT } from '@api/endpoint'
 import { SAN_PHAM } from 'src/constant/link-master'
 import { productClient } from '@api'
 import { bread_crumb } from 'src/constant/constant'

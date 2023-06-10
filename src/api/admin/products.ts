@@ -1,4 +1,4 @@
-import {axiosInstanceAuthorization, axiosInstanceClient} from "@api/AxiosInterceptor";
+import {axiosInstanceAuthorization, axiosInstanceAuthorizationUpload} from "@api/AxiosInterceptor";
 
 
 interface contentProps {
@@ -25,7 +25,7 @@ const createProducts = (body: bodyProducts): Promise<any> => {
 };
 
 const uploadImagesProduct = (formData: any): Promise<any> => {
-  return axiosInstanceAuthorization.post(process.env.NEXT_PUBLIC_API_URL + "/product/upload", formData);
+  return axiosInstanceAuthorizationUpload.post(process.env.NEXT_PUBLIC_API_URL + "/product/admin/upload", formData);
 };
 
 const getAllProducts = (body: bodyProductsGetAll): Promise<any> => {
