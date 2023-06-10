@@ -1,4 +1,5 @@
 import { axiosInstanceAuthorization } from '@api/AxiosInterceptor'
+import { GetArticleDto } from 'pages/admin/bai-viet'
 import { CreateArticleDto } from 'pages/admin/bai-viet/them-bai-viet'
 
 type NameState = {
@@ -27,5 +28,6 @@ const adminGetAllMenu = (): Promise<any> => {
     process.env.NEXT_PUBLIC_API_URL + '/menu/admin-get-all'
   )
 }
+
 
 export default { adminGetAllMenu, createArticle }

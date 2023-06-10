@@ -131,7 +131,6 @@ const ListProducts = (props: any) => {
               current={pagination?.page ? pagination?.page : 1}
               pageSize={pagination?.size ? pagination?.size : 10}
               pageSizeOptions={PAGE_SIZE}
-              showPrevNextJumpers
               showSizeChanger
               onChange={onChangePagination}
               onShowSizeChange={onChangePagination}
