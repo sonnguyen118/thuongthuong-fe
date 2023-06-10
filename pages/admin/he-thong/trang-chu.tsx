@@ -114,7 +114,8 @@ const App: React.FC = () => {
 		}
 		handleCategoryClient.handleGetAllCategory("language=VI")
 			.then((result: any) => {
-				setDataCategory(result);
+				// setDataCategory(result);
+				console.log(result)
 				dispatch(setLoading(false));
 			})
 			.catch((error) => {
@@ -123,17 +124,18 @@ const App: React.FC = () => {
 			});
 	}, [])
 
-	useEffect(() => {
-		if (dataCategory) {
-			const myoptions: any = dataCategory.map((item: any) => {
-				return {
-					value: item.id,
-					label: item.name
-				};
-			});
-			setOptions(myoptions);
-		}
-	}, [dataCategory]);
+	// useEffect(() => {
+	// 	if (dataCategory) {
+	// 		const myoptions: any =
+	// 		.map((item: any) => {
+	// 			return {
+	// 				value: item.id,
+	// 				label: item.name
+	// 			};
+	// 		});
+	// 		setOptions(myoptions);
+	// 	}
+	// }, [dataCategory]);
 	useEffect(() => {
 		if (selector1) {
 			const item: any = dataCategory.find((item: any) => item.id === selector1);
