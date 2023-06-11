@@ -309,8 +309,8 @@ const Dashboard = ({ children }: LayoutProps) => {
     const url = router.route
     const level = router.query.level
     const slectorKeys: any = DasbroahAdmin.getSelectKeys(url, level)
-    // setOpenKeys([slectorKeys.openKeys]);
-    // setSelectedKeys([slectorKeys.selectedKeys])
+    setOpenKeys([slectorKeys.openKeys]);
+    setSelectedKeys([slectorKeys.selectedKeys])
   }, [router.route, router.query])
 
   const cartContent = (
