@@ -44,6 +44,7 @@ const Ckeditor  = ({data, setData} : Props) => {
             config={{
               extraPlugins: [uploadPlugin]
             }}
+            data={data}
           />
         </>
       ) : (
