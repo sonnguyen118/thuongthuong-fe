@@ -38,6 +38,7 @@
     "ckeditor5-custom-build": "file:ckeditor5",
     "cookie": "^0.5.0",
     "cookies-next": "^2.1.1",
+    "date-fns": "^2.30.0",
     "dayjs": "^1.11.7",
     "diacritic": "^0.0.2",
     "dotenv": "^16.0.3",

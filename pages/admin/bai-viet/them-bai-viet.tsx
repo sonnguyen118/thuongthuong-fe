@@ -58,8 +58,7 @@ const App: React.FC = () => {
 
   let [createDto, setCeateDto] = useState<any>(null)
   // let menuData: any
-  let [menuData, setMenuData] = useState<any>(null)
-
+  const [menuData, setMenuData] = useState<any>(null)
   const [menuCap1, setMenuCap1] = useState<any>(null)
   const [menuCap2, setMenuCap2] = useState<any>(null)
   const [menuCap2Value, setMenuCap2Value] = useState<any>(null)
@@ -76,11 +75,12 @@ const App: React.FC = () => {
     const data = await menuAdmin.adminGetAllMenu().then(res => res.data.data)
     const initMenu = transferMenuToSelect(data)
     setMenuCap1(initMenu)
-    menuData = data.reduce((acc: any, obj: any) => {
-      acc[obj.id] = obj
-      return acc
-    }, {})
-    setMenuData(menuData)
+    setMenuData(
+      data.reduce((acc: any, obj: any) => {
+        acc[obj.id] = obj
+        return acc
+      }, {})
+    )
   }
   const transferMenuToSelect = (data: any) => {
     return data.map((e: { id: number; name: string }) => {
@@ -135,11 +135,6 @@ const App: React.FC = () => {
     setMenuCap2Value(selectedMenu.label)
   }
 
-  const getUseRef = (language: string) => {
-    const obj = contentDto.current.find(dto => dto.language == language)
-    obj?.name
-  }
-  const re = () => {}
   let itemCKeditor: TabsProps['items'] = languageObject.map(obj => {
     const tab = {
       key: obj.key,
