@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useMemo } from "react";
 import { Menu, Input, Button, Popover, List, Badge } from "antd"
 // Import thư viện Ant Design
 import Image from "next/image"
@@ -10,13 +10,13 @@ import { store } from "@store"
 import viText from "@languages/vie.json"
 import loadLanguageText from "@languages"
 import classes from "./Nav.module.css"
-interface Product {
-  title: string
-  description: string
-  price: number
-}
 
-const NavbarPC: React.FC = () => {
+interface NavbarProps {
+  data: any;
+}
+const NavbarPC = ( props: NavbarProps) => {
+  const { data} = props;
+  console.log(data)
   const [isBtnHighlighted, setIsBtnHighlighted] = useState(false)
   const [t, setText] = useState(viText)
   const lang = useSelector(
@@ -67,7 +67,12 @@ const NavbarPC: React.FC = () => {
   const handleInputClick = (e: any) => {
     e.stopPropagation()
   }
+const itemMenus = useState([]);
+  useMemo(()=> {
+    if(data) {
 
+    }
+  },[data]);
   const cartContent = (
     <>
       {cartItems.length > 0 ? (
@@ -132,7 +137,108 @@ const NavbarPC: React.FC = () => {
         </>
       )}
     </>
-  )
+  );
+  const additionalLogo = [
+    {
+        key: "logo",
+        label: (
+          <h1 className='navbar__pc-logo'>
+            <Link href='/'>
+              <Image
+                src='/icon/logo.png'
+                alt='ThuongThuong'
+                width={70}
+                height={60}
+                loading='lazy'
+                className='navbar__pc-logo-img'
+              />
+            </Link>
+          </h1>
+        ),
+        className: "navbar__pc-icon"
+      },
+  ];
+  const additionalItems = [
+    {
+      key: 'cart',
+      label: (
+        <Popover
+          placement='bottom'
+          content={cartContent}
+          className={btnClasses}
+        >
+          <Badge
+            count={numberOfCartItems}
+            overflowCount={99}
+            style={{ backgroundColor: 'red' }}
+          >
+            <Link href='/gio-hang'>
+              <Button
+                icon={<ShoppingCartOutlined style={{ fontSize: '18px' }} />}
+                style={{
+                  border: 'none',
+                  textDecoration: 'underline',
+                  boxShadow: 'none',
+                }}
+              />
+            </Link>
+          </Badge>
+        </Popover>
+      ),
+      className: 'navbar__pc-icon',
+    },
+    {
+      key: 'search',
+      label: (
+        <div style={{ position: 'relative' }}>
+          <SearchOutlined style={{ fontSize: '18px' }} />
+          {searchVisible && (
+            <div
+              style={{
+                position: 'absolute',
+                top: '100%',
+                right: 0,
+                width: '300px',
+                zIndex: 1,
+              }}
+            >
+              <Input
+                placeholder={t.label.LABEL5}
+                prefix={<SearchOutlined />}
+                style={{ width: '100%' }}
+                onClick={handleInputClick}
+              />
+            </div>
+          )}
+        </div>
+      ),
+      className: 'navbar__pc-icon',
+      onClick: toggleSearchVisible,
+    },
+  ];
+  const getMenuItems = (menuItems:any) => {
+    return menuItems.map((item:any) => (
+      <Menu.Item key={item.key} className="navbar__pc-item">
+        <Link href={item.link}>{item.title}</Link>
+      </Menu.Item>
+    ));
+  };
+
+  const getAdditionalItems = (additionalItems:any) => {
+    return additionalItems.map((item:any) => (
+      <Menu.Item key={item.key} className={item.className}>
+        {item.label}
+      </Menu.Item>
+    ));
+  };
+  const renderLogo = (additionalLogo:any) => {
+    return additionalLogo.map((item:any) => (
+      <Menu.Item key={item.key} className={item.className}>
+        {item.label}
+      </Menu.Item>
+    ));
+  };
+
   return (
     <>
       <Menu
@@ -143,124 +249,128 @@ const NavbarPC: React.FC = () => {
           alignItems: "center"
         }}
         className='navbar__pc'
-        items={[
-          {
-            key: "logo",
-            label: (
-              <h1 className='navbar__pc-logo'>
-                <Link href='/'>
-                  <Image
-                    src='/icon/logo.png'
-                    alt='ThuongThuong'
-                    width={70}
-                    height={60}
-                    loading='lazy'
-                    className='navbar__pc-logo-img'
-                  />
-                </Link>
-              </h1>
-            ),
-            className: "navbar__pc-icon"
-          },
-          {
-            key: "home",
-            label: <Link href={"/"}>{t.menu.MENU1}</Link>,
-            style: { marginLeft: "auto" },
-            className: "navbar__pc-item"
-          },
-          {
-            key: "introduce",
-            label: <Link href={"/gioi-thieu"}>{t.menu.MENU2}</Link>,
-            className: "navbar__pc-item"
-          },
-          {
-            key: "news",
-            label: <Link href={"/tin-tuc"}>{t.menu.MENU3}</Link>,
-            className: "navbar__pc-item"
-          },
-          {
-            key: "product",
-            label: (
-              <Link href={`/san-pham?language=${lang}`}>{t.menu.MENU4}</Link>
-            ),
-            className: "navbar__pc-item navbar__pc-item-dropdown",
-            children: [
-              { key: "1", label: <>{t.menu.SUBMENU1}</> },
-              { key: "2", label: <>{t.menu.SUBMENU2}</> },
-              { key: "3", label: <>{t.menu.SUBMENU3}</> },
-              { key: "4", label: <>{t.menu.SUBMENU4}</> }
-            ]
-          },
-          {
-            key: "recruitment",
-            label: <Link href={"/tuyen-dung"}>{t.menu.MENU5}</Link>,
-            className: "navbar__pc-item"
-          },
-          {
-            key: "contact",
-            label: <Link href={"/lien-he"}>{t.menu.MENU6}</Link>,
-            className: "navbar__pc-item"
-          },
-          {
-            key: "cart",
-            label: (
-              <Popover
-                placement='bottom'
-                content={cartContent}
-                className={btnClasses}
-              >
-                <Badge
-                  count={numberOfCartItems}
-                  overflowCount={99}
-                  style={{ backgroundColor: "red" }}
-                >
-                  <Link href='/gio-hang'>
-                    <Button
-                      icon={
-                        <ShoppingCartOutlined style={{ fontSize: "18px" }} />
-                      }
-                      style={{
-                        border: "none",
-                        textDecoration: "underline",
-                        boxShadow: "none"
-                      }}
-                    />
-                  </Link>
-                </Badge>
-              </Popover>
-            ),
-            className: "navbar__pc-icon"
-          },
-          {
-            key: "search",
-            label: (
-              <div style={{ position: "relative" }}>
-                <SearchOutlined style={{ fontSize: "18px" }} />
-                {searchVisible && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: "100%",
-                      right: 0,
-                      width: "300px",
-                      zIndex: 1
-                    }}
-                  >
-                    <Input
-                      placeholder={t.label.LABEL5}
-                      prefix={<SearchOutlined />}
-                      style={{ width: "100%" }}
-                      onClick={handleInputClick}
-                    />
-                  </div>
-                )}
-              </div>
-            ),
-            className: "navbar__pc-icon",
-            onClick: toggleSearchVisible
-          }
-        ]}
-      />
+        // items={[
+        //   {
+        //     key: "logo",
+        //     label: (
+        //       <h1 className='navbar__pc-logo'>
+        //         <Link href='/'>
+        //           <Image
+        //             src='/icon/logo.png'
+        //             alt='ThuongThuong'
+        //             width={70}
+        //             height={60}
+        //             loading='lazy'
+        //             className='navbar__pc-logo-img'
+        //           />
+        //         </Link>
+        //       </h1>
+        //     ),
+        //     className: "navbar__pc-icon"
+        //   },
+        //   {
+        //     key: "home",
+        //     label: <Link href={"/"}>{t.menu.MENU1}</Link>,
+        //     style: { marginLeft: "auto" },
+        //     className: "navbar__pc-item"
+        //   },
+        //   {
+        //     key: "introduce",
+        //     label: <Link href={"/gioi-thieu"}>{t.menu.MENU2}</Link>,
+        //     className: "navbar__pc-item"
+        //   },
+        //   {
+        //     key: "news",
+        //     label: <Link href={"/tin-tuc"}>{t.menu.MENU3}</Link>,
+        //     className: "navbar__pc-item"
+        //   },
+        //   {
+        //     key: "product",
+        //     label: (
+        //       <Link href={`/san-pham?language=${lang}`}>{t.menu.MENU4}</Link>
+        //     ),
+        //     className: "navbar__pc-item navbar__pc-item-dropdown",
+        //     children: [
+        //       { key: "1", label: <>{t.menu.SUBMENU1}</> },
+        //       { key: "2", label: <>{t.menu.SUBMENU2}</> },
+        //       { key: "3", label: <>{t.menu.SUBMENU3}</> },
+        //       { key: "4", label: <>{t.menu.SUBMENU4}</> }
+        //     ]
+        //   },
+        //   {
+        //     key: "recruitment",
+        //     label: <Link href={"/tuyen-dung"}>{t.menu.MENU5}</Link>,
+        //     className: "navbar__pc-item"
+        //   },
+        //   {
+        //     key: "contact",
+        //     label: <Link href={"/lien-he"}>{t.menu.MENU6}</Link>,
+        //     className: "navbar__pc-item"
+        //   },
+        //   {
+        //     key: "cart",
+        //     label: (
+        //       <Popover
+        //         placement='bottom'
+        //         content={cartContent}
+        //         className={btnClasses}
+        //       >
+        //         <Badge
+        //           count={numberOfCartItems}
+        //           overflowCount={99}
+        //           style={{ backgroundColor: "red" }}
+        //         >
+        //           <Link href='/gio-hang'>
+        //             <Button
+        //               icon={
+        //                 <ShoppingCartOutlined style={{ fontSize: "18px" }} />
+        //               }
+        //               style={{
+        //                 border: "none",
+        //                 textDecoration: "underline",
+        //                 boxShadow: "none"
+        //               }}
+        //             />
+        //           </Link>
+        //         </Badge>
+        //       </Popover>
+        //     ),
+        //     className: "navbar__pc-icon"
+        //   },
+        //   {
+        //     key: "search",
+        //     label: (
+        //       <div style={{ position: "relative" }}>
+        //         <SearchOutlined style={{ fontSize: "18px" }} />
+        //         {searchVisible && (
+        //           <div
+        //             style={{
+        //               position: "absolute",
+        //               top: "100%",
+        //               right: 0,
+        //               width: "300px",
+        //               zIndex: 1
+        //             }}
+        //           >
+        //             <Input
+        //               placeholder={t.label.LABEL5}
+        //               prefix={<SearchOutlined />}
+        //               style={{ width: "100%" }}
+        //               onClick={handleInputClick}
+        //             />
+        //           </div>
+        //         )}
+        //       </div>
+        //     ),
+        //     className: "navbar__pc-icon",
+        //     onClick: toggleSearchVisible
+        //   }
+        // ]}
+      >
+        {renderLogo(additionalLogo)}
+        {getMenuItems(data)}
+        {getAdditionalItems(additionalItems)}
+      </Menu>
     </>
   )
 }

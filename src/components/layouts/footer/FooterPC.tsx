@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ReactNode } from "react";
 import { Row, Col } from "antd";
 import {
   EnvironmentOutlined,
@@ -10,7 +10,11 @@ import { store } from "@store";
 import viText from "@languages/vie.json";
 import loadLanguageText from "@languages";
 
-const Footer: React.FC = () => {
+interface FooterProps {
+  data: any;
+}
+const Footer = ( props: FooterProps) => {
+  const { data} = props;
   const [t, setText] = useState(viText);
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage

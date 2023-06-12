@@ -16,6 +16,9 @@ import { useSelector } from "react-redux";
 import { store } from "@store";
 import viText from "@languages/vie.json";
 import loadLanguageText from "@languages";
+import { webInformationClient } from "@service";
+import { setLoading } from "@slices/loadingState";
+import { notification } from "antd";
 interface PageSEOData {
   name: string;
   pageSEO: {
@@ -31,7 +34,13 @@ interface ListNewsProps {
   description: string;
   imageSrc: string;
 }
-const Home: React.FC = () => {
+interface HomeProps {
+  dataPages: any;
+  dataMenu: any;
+  dataFooter: any;
+}
+const Home: React.FC<HomeProps> = (props: HomeProps) => {
+  const {dataPages, dataMenu, dataFooter} = props;
   const [t, setText] = useState(viText);
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
@@ -68,7 +77,7 @@ const Home: React.FC = () => {
   return (
     <>
       <HeadSEO pageSEO={pageSEOData.pageSEO} />
-      <Layout>
+      <Layout dataMenu={dataMenu} dataFooter={dataFooter}>
         <SlideBarsHome />
         {/* <PrinciplesHome /> */}
         <PiecesPuzzleHome />
@@ -90,4 +99,24 @@ const Home: React.FC = () => {
   );
 };
 
+export async function getServerSideProps(context: any) {
+  try {
+    const promiseDatapageVI :any = await webInformationClient.handleGetWebInformation("6");
+    const promiseMenuVI : any = await  webInformationClient.handleGetWebInformation("4");
+    const promiseFooterVI:any = await webInformationClient.handleGetWebInformation("2");
+
+    console.log(promiseDatapageVI, "promiseDatapageVI")
+
+    return {
+      props: {
+        dataPages: JSON.parse(promiseDatapageVI.value) || {},
+        dataMenu:  JSON.parse(promiseMenuVI.value) || {},
+        dataFooter: JSON.parse(promiseFooterVI.value) || {},
+      },
+    };
+
+  } catch (e) {
+    return { props: {} };
+  }
+}
 export default Home;

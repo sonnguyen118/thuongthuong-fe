@@ -2,16 +2,20 @@ import NavbarPC from "../navbar/navbarPC";
 import Footer from "../footer/FooterPC";
 import { ReactNode } from "react";
 import { ButtonLanguage } from "@components/elements/button";
-type LayoutProps = {
+
+interface LayoutProps {
+  dataMenu: any;
+  dataFooter: any;
   children: ReactNode;
-};
-const Layout = ({ children }: LayoutProps) => {
+}
+const Layout = ( props: LayoutProps) => {
+  const { dataMenu, dataFooter, children } = props;
   return (
     <>
-      <NavbarPC />
+      <NavbarPC data={dataMenu}/>
       <div>{children}</div>
       <ButtonLanguage />
-      <Footer />
+      <Footer data={dataFooter}/>
     </>
   );
 };
