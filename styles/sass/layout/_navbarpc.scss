@@ -5,17 +5,37 @@
   right: 0;
   left: 0;
   z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   &-logo {
     &-img {
       margin-top: 0.3em;
     }
   }
+  &-menu {
+    display: flex;
+    align-items: center;
+    width: 70%;
+    justify-content: space-between;
+    :where(.css-dev-only-do-not-override-1e3x2xa).ant-menu-horizontal {
+      border-bottom: none;
+    }
+  }
   &-item {
     font-size: 1.4em;
     font-weight: 600;
-    height: 2.4em !important;
     font-family: $font-menu;
-    color: $color-title;
+    a {
+      color: $color-title;
+    }
+    &-active {
+      font-size: 1.4em;
+      font-weight: 600;
+      height: 2.4em !important;
+      font-family: $font-menu;
+      color: $color-primary;
+    }
   }
 
   &-icon {
