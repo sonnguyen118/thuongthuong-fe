@@ -257,14 +257,7 @@ const Dashboard = ({ children }: LayoutProps) => {
         '/admin/bai-viet'
       ),
       getItem(
-        'Bài việt đã ẩn',
-        '36',
-        undefined,
-        undefined,
-        '/admin/bai-viet/bai-viet-bi-an'
-      ),
-      getItem(
-        'Thêm bài viết',
+        'Tạo bài viết',
         '37',
         undefined,
         undefined,

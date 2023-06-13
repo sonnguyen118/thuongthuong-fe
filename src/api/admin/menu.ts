@@ -16,12 +16,7 @@ type bodyGetAllCategoryprops = {
   language: string
 }
 
-const createArticle = (body: CreateArticleDto): Promise<any> => {
-  return axiosInstanceAuthorization.post(
-    process.env.NEXT_PUBLIC_API_URL + '/article/create',
-    body
-  )
-}
+
 
 const adminGetAllMenu = (): Promise<any> => {
   return axiosInstanceAuthorization.get(
@@ -30,4 +25,4 @@ const adminGetAllMenu = (): Promise<any> => {
 }
 
 
-export default { adminGetAllMenu, createArticle }
+export default { adminGetAllMenu }

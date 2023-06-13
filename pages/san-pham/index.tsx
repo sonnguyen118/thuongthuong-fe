@@ -40,18 +40,24 @@ export interface NavigationProps {
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  const cookieValue = cookie.parse(context.req.headers.cookie as string)
-  const language = cookieValue['language']
-  const page = 1
-  const size = 20
-  const categories = await categoryClient
-    .getAllCategoryClient(language, page, size)
-    .then(res => res.data.data)
-  const products = await productClient
-    .getAllProductClient(language, page, size)
-    .then(res => res.data.data)
-  // Pass data to the page via props
-  return { props: { categories, products, language } }
+  try {
+    const cookieValue = cookie.parse(context.req.headers.cookie as string)
+    const language = cookieValue['language']
+    const page = 1
+    const size = 20
+    const categories = await categoryClient
+      .getAllCategoryClient(language, page, size)
+      .then(res => res.data.data)
+    const products = await productClient
+      .getAllProductClient(language, page, size)
+      .then(res => res.data.data)
+    // Pass data to the page via props
+    return { props: { categories, products, language } }
+  } catch (error) {
+    return {
+      notFound: true
+    }
+  }
 }
 
 const ListNews: React.FC<any> = props => {
