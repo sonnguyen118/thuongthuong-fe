@@ -18,7 +18,7 @@ const TitleBlock: React.FC<TitleBlockProps> = ({ title, urlImage, underlined }) 
           loading="lazy"
         />
         <h2 className="home__title-text">{title}</h2>
-        {underlined && <div className="home__title-wall"></div>}
+        {underlined && <div className="home__title-wall"> </div>}
       </div>) : (
         <></>
       )}
