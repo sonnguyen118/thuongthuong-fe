@@ -124,7 +124,7 @@ const ListProducts = (props: any) => {
               total={pagination?.totalRecords ? pagination?.totalRecords : 10}
               showTotal={total =>
                 lang.toUpperCase() == 'VI'
-                  ? `Tổng ${total} sản phẩm`
+                  ? `Có ${total} sản phẩm`
                   : `Total ${total} products`
               }
               defaultCurrent={1}

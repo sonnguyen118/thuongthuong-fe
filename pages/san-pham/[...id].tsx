@@ -44,23 +44,27 @@ export async function getServerSideProps ({
   params: any
   query: any
 }) {
-  const { id } = params
-  let { language } = query
-
-  const page = 1
-  const size = 20
-  const categories = await categoryClient
-    .getAllCategoryClient(language, page, size)
-    .then(res => res.data.data)
-  const products = await getProductsByCategory(
-    id.join('/'),
-    language,
-    page,
-    size
-  )
-  // Pass data to the page via props
-  return {
-    props: { categories, products, id, language: language || 'VI' }
+  try {
+    const { id } = params
+    let { language } = query
+    const page = 1
+    const size = 20
+    const categories = await categoryClient
+      .getAllCategoryClient(language, page, size)
+      .then(res => res.data.data)
+    const products = await getProductsByCategory(
+      id.join('/'),
+      language,
+      page,
+      size
+    )
+    return {
+      props: { categories, products, id, language: language || 'VI' }
+    }
+  } catch (error) {
+    return {
+      notFound: true
+    }
   }
 }
 

@@ -3,20 +3,35 @@ import { Upload, message } from 'antd'
 import ImgCrop from 'antd-img-crop'
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface'
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 interface ImageUploadProps {
   linkUpload: string
   data: any
+  initImg?: string
 }
-
+const URL = `${process.env.NEXT_PUBLIC_API_URL}`
 const ImageUpload: React.FC<ImageUploadProps> = props => {
   const { linkUpload, data } = props
   const [fileList, setFileList] = useState<UploadFile[]>([])
   const [errorMessage, setErrorMessage] = useState<string>('')
   const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
+    // setErrorMessage('')
     setFileList(newFileList)
   }
+  useEffect(() => {
+    if (props?.data?.imageUrl) {
+      const initialFileList: UploadFile[] = [
+        {
+          uid: '-1',
+          name: 'image.jpg',
+          status: 'done',
+          url: `${process.env.NEXT_PUBLIC_API_URL}/${props.data.imageUrl}`
+        }
+      ]
+      setFileList(initialFileList)
+    }
+  }, [props?.data])
 
   const onPreview = async (file: UploadFile) => {
     let src = file.url as string
@@ -41,13 +56,16 @@ const ImageUpload: React.FC<ImageUploadProps> = props => {
         file,
         Diacritic.convertValueWithDashes(file.name) as string
       )
-      const response = await axios.post(linkUpload, body)
-      props.data.imageUrl = response.data.path
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}${linkUpload}`,
+        body
+      )
+      props.data.imageUrl = `${response.data.path}`
       setErrorMessage('')
       onSuccess(response.data, file)
-    } catch (error) {
+    } catch (error: any) {
       // Xử lý lỗi nếu có
-      setErrorMessage('Tải ảnh thất bại')
+      setErrorMessage('Tải ảnh thất bại: ' + error?.response?.data?.message)
       onError(error)
     }
   }

@@ -1,16 +1,4 @@
-export const languageObject = [
-  {
-    key: '1',
-    language: 'VI',
-    label: 'Tiếng Việt',
-    placeholderTitle: 'Tên bài viết bằng tiếng Việt',
-    placeholderDescription: 'Mô tả ngắn về sản phẩm'
-  },
-  {
-    key: '2',
-    language: 'EN',
-    label: 'Tiếng Anh',
-    placeholderTitle: 'Tên bài viết bằng tiếng Anh',
-    placeholderDescription: 'Mô tả ngắn bài viết tiếng Anh'
-  }
+export const LANGUAGE_TABS = [
+  { id: 1, key: 'tab1', language: 'VI', label: 'Tiếng Việt' },
+  { id: 2, key: 'tab2', language: 'EN', label: 'Tiếng Anh' }
 ]

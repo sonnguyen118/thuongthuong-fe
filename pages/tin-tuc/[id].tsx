@@ -42,13 +42,19 @@ class ArticleDetail {
   breadCrumb: any[] = []
 }
 export const getServerSideProps: GetServerSideProps = async context => {
-  const cookieValue = cookie.parse(context.req.headers.cookie as string)
-  let language = cookieValue['language']
-  const { id } = context.query
-  const article = await articleClient
-    .getArticleDetail(language, id as string)
-    .then(res => res.data.data)
-  return { props: { article } }
+  try {
+    const cookieValue = cookie.parse(context.req.headers.cookie as string)
+    let language = cookieValue['language']
+    const { id } = context.query
+    const article = await articleClient
+      .getArticleDetail(language, id as string)
+      .then(res => res.data.data)
+    return { props: { article } }
+  } catch (error) {
+    return {
+      notFound: true
+    }
+  }
 }
 
 const ListNews: React.FC<any> = props => {
