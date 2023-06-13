@@ -17,15 +17,15 @@ interface IFrameProps
 
 interface PiecesPuzzleProps {
   isShow: boolean;
-  uderlineBlock2: boolean;
-  iconBlock2: Array<string>;
-  titleBlock2: string;
-  listSliderBlock2: Array<string>;
-  contentBlock2: any;
+  uderlineBlock: boolean;
+  iconBlock: Array<string>;
+  titleBlock: string;
+  listSliderBlock: Array<string>;
+  contentBlock: any;
 }
 
 const PiecesPuzzle: React.FC<PiecesPuzzleProps> = ( props) => {
-  const { isShow, iconBlock2, titleBlock2, listSliderBlock2, contentBlock2 } = props;
+  const { isShow, iconBlock, titleBlock, listSliderBlock, contentBlock } = props;
   const [t, setText] = useState(viText);
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
@@ -37,13 +37,13 @@ const PiecesPuzzle: React.FC<PiecesPuzzleProps> = ( props) => {
     <div className="home__principles">
       <TitleBlock
         title={null}
-        urlImage={iconBlock2[0]}
+        urlImage={iconBlock[0]}
         underlined={true}
       />
       <Row className="home__principles-puzzle">
         <Col className="home__principles-puzzle-image">
           <Image
-            src={process.env.NEXT_PUBLIC_API_URL +"/" +listSliderBlock2[0]}
+            src={process.env.NEXT_PUBLIC_API_URL +"/" +listSliderBlock[0]}
             alt="My Image"
             width={800}
             height={600}
@@ -53,14 +53,14 @@ const PiecesPuzzle: React.FC<PiecesPuzzleProps> = ( props) => {
         <Col className="home__principles-puzzle-infor">
           <div>
             <Title level={2} className="home__principles-puzzle-infor-title">
-              {titleBlock2}
+              {titleBlock}
             </Title>
             <Text className="home__principles-puzzle-infor-text">
-              {contentBlock2.content1}
+              {contentBlock.content1}
               <br></br>
-              {contentBlock2.content2}
+              {contentBlock.content2}
               <br></br>
-              {contentBlock2.content3}
+              {contentBlock.content3}
             </Text>
           </div>
           <Button type="primary" className="home__principles-puzzle-infor-btn">

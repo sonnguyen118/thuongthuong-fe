@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { SlideBarsImageProductsHome } from "@components/elements/Slider";
 import { TitleBlock } from "@components/elements/block";
 // language
@@ -7,7 +7,16 @@ import { store } from "@store";
 import viText from "@languages/vie.json";
 import loadLanguageText from "@languages";
 
-const ListProducts = () => {
+interface ListProductsProps {
+  isShow: boolean;
+  uderlineBlock: boolean;
+  iconBlock: Array<string>;
+  titleBlock: string;
+  listSliderBlock: Array<string>;
+}
+
+const ListProducts: React.FC<ListProductsProps> = (props) => {
+  const { isShow, uderlineBlock, iconBlock, titleBlock, listSliderBlock } = props;
   const [t, setText] = useState(viText);
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
@@ -16,14 +25,17 @@ const ListProducts = () => {
     loadLanguageText(lang, setText);
   }, [lang]);
   return (
-    <div className="home__listproducts">
-      <TitleBlock
-        title={t.home.HEADER2}
-        urlImage={"/images/home/iconnho021.png"}
-        underlined={false}
-      />
-      <SlideBarsImageProductsHome />
-    </div>
+    <>
+      {isShow && <div className="home__listproducts">
+        <TitleBlock
+          title={titleBlock}
+          urlImage={iconBlock[0]}
+          underlined={uderlineBlock}
+        />
+        <SlideBarsImageProductsHome listSlider={listSliderBlock}/>
+      </div>}
+    </>
+
   );
 };
 export default ListProducts;

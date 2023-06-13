@@ -42,7 +42,6 @@ interface HomeProps {
 }
 const Home: React.FC<HomeProps> = (props: HomeProps) => {
   const {dataPages, dataMenu, dataFooter, dataContact} = props;
-  console.log(dataPages, "dataPages");
   const [t, setText] = useState(viText);
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
@@ -68,9 +67,9 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
       <Layout dataMenu={dataMenu} dataFooter={dataFooter}>
         <SlideBarsHome isShow={dataPages.showBlock1} dataSlider={dataPages.listSliderBlock1}/>
         {/* <PrinciplesHome /> */}
-        <PiecesPuzzleHome isShow={dataPages.showBlock2} uderlineBlock2={dataPages.uderlineBlock2} iconBlock2={dataPages.iconBlock2} titleBlock2={dataPages.titleBlock2} listSliderBlock2={dataPages.listSliderBlock2} contentBlock2={dataPages.contentBlock2}/>
+        <PiecesPuzzleHome isShow={dataPages.showBlock2} uderlineBlock={dataPages.uderlineBlock2} iconBlock={dataPages.iconBlock2} titleBlock={dataPages.titleBlock2} listSliderBlock={dataPages.listSliderBlock2} contentBlock={dataPages.contentBlock2}/>
         {/* <CardTabs /> */}
-        <ListProducts />
+        <ListProducts isShow={dataPages.showBlock3} uderlineBlock={dataPages.uderlineBlock3} iconBlock={dataPages.iconBlock3} titleBlock={dataPages.titleBlock3} listSliderBlock={dataPages.listSliderBlock3}/>
         <BlockProducts />
         {/*<EventNews*/}
         {/*  cardTitle={t.home.TITLE4_1}*/}

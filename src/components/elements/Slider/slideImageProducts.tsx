@@ -1,60 +1,19 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Slider, { Settings } from "react-slick";
 import { RightCircleOutlined, LeftCircleOutlined } from "@ant-design/icons";
 import { Image } from "antd";
+import ListProducts from "../../templates/home/ListProducts";
 interface sliderData {
   id: string;
   imageUrl: string;
 }
-
-export default function SliderSync() {
+interface listSliderProps {
+  listSlider: Array<string>;
+}
+const SliderSync: React.FC<listSliderProps> = (props) => {
+  const { listSlider } = props;
   // dữ liệu data
-  const dataSlider: sliderData[] = [
-    {
-      id: "1",
-      imageUrl: "/images/home/slider/Screen1.png",
-    },
-    {
-      id: "2",
-      imageUrl: "/images/home/slider/Screen2.png",
-    },
-    {
-      id: "3",
-      imageUrl: "/images/home/slider/Screen3.png",
-    },
-    {
-      id: "4",
-      imageUrl: "/images/home/slider/Screen4.png",
-    },
-    {
-      id: "5",
-      imageUrl: "/images/home/slider/Screen5.png",
-    },
-    {
-      id: "6",
-      imageUrl: "/images/home/slider/Screen6.png",
-    },
-    {
-      id: "31c27",
-      imageUrl: "/images/home/slider/Screen7.png",
-    },
-    {
-      id: "31c271",
-      imageUrl: "/images/home/slider/Screen7.png",
-    },
-    {
-      id: "31c272",
-      imageUrl: "/images/home/slider/Screen7.png",
-    },
-    {
-      id: "31c273",
-      imageUrl: "/images/home/slider/Screen7.png",
-    },
-    {
-      id: "31c274",
-      imageUrl: "/images/home/slider/Screen7.png",
-    },
-  ];
+
   const slider1Ref = useRef<Slider>(null);
   const slider2Ref = useRef<Slider>(null);
   const [nav1, setNav1] = useState<Slider | undefined>(undefined);
@@ -103,9 +62,9 @@ export default function SliderSync() {
           <LeftCircleOutlined className="home__listproducts-slider-big-btn2-icon" />
         </div>
         <Slider {...settings1} ref={slider1Ref}>
-          {dataSlider.map((data, i) => (
+          {listSlider.map((data, i) => (
             <div
-              key={data.id}
+              key={i}
               className="home__listproducts-slider-big-item-wrap"
             >
               {/* <div
@@ -120,12 +79,12 @@ export default function SliderSync() {
               <Image
                 className="home__listproducts-slider-big-item"
                 style={{
-                  backgroundImage: `url(${data.imageUrl})`,
+                  backgroundImage: `url(${process.env.NEXT_PUBLIC_API_URL + "/" + data})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat",
                 }}
-                src={data.imageUrl}
+                src={process.env.NEXT_PUBLIC_API_URL + "/" +data}
                 alt="Thương Thương"
               />
             </div>
@@ -143,15 +102,15 @@ export default function SliderSync() {
           <LeftCircleOutlined className="home__listproducts-slider-small-btn2-icon" />
         </div>
         <Slider {...settings2} ref={slider2Ref}>
-          {dataSlider.map((data, i) => (
+          {listSlider.map((data, i) => (
             <div
-              key={data.id}
+              key={i}
               className="home__listproducts-slider-small-item-wrap"
             >
               <div
                 className="home__listproducts-slider-small-item"
                 style={{
-                  backgroundImage: `url(${data.imageUrl})`,
+                  backgroundImage: `url(${process.env.NEXT_PUBLIC_API_URL + "/" + data})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat",
@@ -164,3 +123,4 @@ export default function SliderSync() {
     </div>
   );
 }
+export default SliderSync;
