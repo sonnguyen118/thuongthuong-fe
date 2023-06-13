@@ -16,6 +16,18 @@ axiosInstanceAuthorization.interceptors.request.use(
 		return Promise.reject(error);
 	}
 );
+const axiosInstanceAuthorizationUpload: AxiosInstance = axios.create();
+axiosInstanceAuthorizationUpload.interceptors.request.use(
+	(config) => {
+		const token: string = Cookie.getAccessTokenFromCookie();
+		config.headers["Content-Type"] = "multipart/form-data";
+		config.headers["Authorization"] = `Bearer ${token}`;
+		return config;
+	},
+	(error) => {
+		return Promise.reject(error);
+	}
+);
 
 // Tạo một instance mới của Axios không có cấu hình interceptor
 // Tạo một instance mới của Axios với cấu hình interceptor
@@ -27,4 +39,4 @@ axiosInstanceClient.interceptors.request.use((config) => {
 	return config;
 });
 
-export {axiosInstanceAuthorization, axiosInstanceClient};
+export {axiosInstanceAuthorization, axiosInstanceClient, axiosInstanceAuthorizationUpload};

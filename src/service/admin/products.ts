@@ -49,19 +49,13 @@ const handleCreateProducts = async (body: any): Promise<ResponseData | Error> =>
   }
 };
 
-const handleUploadImageProducts = async ( file:any ): Promise<ResponseData | Error> => {
-
+const handleUploadImageProducts = async ( file:any ): Promise<any | Error> => {
   const formData = new FormData();
-  formData.append('upload', file.file);
-  console.log(formData, "formData")
+  formData.append('upload', file);
   try {
     const response = await Products.uploadImagesProduct(formData);
-    const { data, meta } = response.data;
-    if (meta.status === 200) {
-      const resData: ResponseData = { meta: meta, data: data };
-      return resData;
-    } else {
-      throw new Error(`Unexpected status code: ${meta.status}`);
+    if(response) {
+      return response;
     }
   } catch (error) {
     if (error instanceof Error) {

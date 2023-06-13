@@ -1,4 +1,4 @@
-import React, { useState, ReactNode, useEffect } from 'react'
+import React, { useState, ReactNode, useEffect } from "react"
 import {
   Button,
   Col,
@@ -14,21 +14,21 @@ import {
   Space,
   Table,
   Tooltip
-} from 'antd'
-import type { ColumnsType } from 'antd/es/table'
-import Dashboard from '@components/layouts/admin/Dashboard'
-import { NavigationAdmin } from '@components/elements/navigation'
-import { useRouter } from 'next/router'
-import { articleAdmin, menuAdmin } from '@api'
+} from "antd"
+import type { ColumnsType } from "antd/es/table"
+import Dashboard from "@components/layouts/admin/Dashboard"
+import { NavigationAdmin } from "@components/elements/navigation"
+import { useRouter } from "next/router"
+import { articleAdmin, menuAdmin } from "@api"
 import {
   DeleteOutlined,
   DownOutlined,
   EditOutlined,
   SearchOutlined
-} from '@ant-design/icons'
-import { Message } from '@utils/Functions'
-import { PAGE_SIZE } from 'src/constant/constant'
-import Link from 'next/link'
+} from "@ant-design/icons"
+import { Message } from "@utils/Functions"
+import { PAGE_SIZE } from "src/constant/constant"
+import Link from "next/link"
 
 interface DataType {
   id: number
@@ -56,28 +56,28 @@ export interface UpdateStatusDto {
 
 const columns: ColumnsType<DataType> = [
   {
-    title: 'STT',
-    dataIndex: 'key',
+    title: "STT",
+    dataIndex: "key",
     render: text => <>{text}</>
   },
   {
-    title: 'Tiêu đề bài viết',
-    dataIndex: 'name',
+    title: "Tiêu đề bài viết",
+    dataIndex: "name",
     render: text => <>{text}</>
   },
   {
-    title: 'Ngày tạo',
-    dataIndex: 'createdAt',
+    title: "Ngày tạo",
+    dataIndex: "createdAt",
     render: text => <>{text}</>
   },
   {
-    title: 'Trạng thái',
-    dataIndex: 'isActive',
-    render: text => <>{text == true ? 'Hiển thị' : 'Ẩn'}</>
+    title: "Trạng thái",
+    dataIndex: "isActive",
+    render: text => <>{text == true ? "Hiển thị" : "Ẩn"}</>
   },
   {
-    title: 'Ảnh',
-    dataIndex: 'imageUrl',
+    title: "Ảnh",
+    dataIndex: "imageUrl",
     render: text => (
       <>
         <Image width={50} src={`${process.env.NEXT_PUBLIC_FULL_URL}/${text}`} />
@@ -85,7 +85,7 @@ const columns: ColumnsType<DataType> = [
     )
   },
   {
-    title: 'Thao tác',
+    title: "Thao tác",
     render: (text, record) => (
       <>
         <Tooltip title='Cập nhật'>
@@ -123,7 +123,7 @@ const App: React.FC = () => {
   const [menuCap2Value, setMenuCap2Value] = useState<any>(null)
   const [page, setPage] = useState(1)
   const [size, setSize] = useState(20)
-  const [confirmShowArticleDes, setConfirmShowArticleDes] = useState<string>('')
+  const [confirmShowArticleDes, setConfirmShowArticleDes] = useState<string>("")
   const [openDeleteArticle, setOpenDeleteArticle] = useState(false)
   const [openShowArticle, setOpenShowArticle] = useState(false)
   const [isShowArticle, setIshowArticle] = useState(false)
@@ -139,8 +139,8 @@ const App: React.FC = () => {
     innitCreateArticleDto
   )
   const articleStatus = [
-    { value: true, label: 'Hiển thị' },
-    { value: false, label: 'Ẩn' }
+    { value: true, label: "Hiển thị" },
+    { value: false, label: "Ẩn" }
   ]
   const [pagination, setPagination] = useState({
     current: 1,
@@ -165,7 +165,7 @@ const App: React.FC = () => {
         }, {})
       )
     } catch (error: any) {
-      Message.errorNotify(error.response.data.message)
+      Message.errorNotify(error?.response?.data?.message)
     }
   }
 
@@ -182,7 +182,7 @@ const App: React.FC = () => {
       )
       setSelectedRowKeys([])
     } catch (error: any) {
-      Message.errorNotify(error.response.data.message)
+      Message.errorNotify(error?.response?.data?.message)
     }
   }
 
@@ -196,22 +196,22 @@ const App: React.FC = () => {
     {
       id: 1,
       title: `Trang chủ`,
-      link: '/admin'
+      link: "/admin"
     },
     {
       id: 2,
       title: `Bài viết`,
-      link: '/admin/bai-viet'
+      link: "/admin/bai-viet"
     },
     {
       id: 3,
       title: `Tất cả các bài viết`,
-      link: '/'
+      link: "/"
     }
   ]
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-    console.log('selectedRowKeys changed: ', newSelectedRowKeys)
+    console.log("selectedRowKeys changed: ", newSelectedRowKeys)
     setSelectedRowKeys(newSelectedRowKeys)
   }
 
@@ -262,7 +262,7 @@ const App: React.FC = () => {
     // console.log(page)
   }
 
-  const items: MenuProps['items'] = [
+  const items: MenuProps["items"] = [
     {
       label: <>Hiện</>,
       key: 1
@@ -276,11 +276,11 @@ const App: React.FC = () => {
     setOpenShowArticle(true)
     if (value.key == 1) {
       setIshowArticle(true)
-      setConfirmShowArticleDes('Xác nhận hiện bài viết')
+      setConfirmShowArticleDes("Xác nhận hiện bài viết")
     }
     if (value.key == 0) {
       setIshowArticle(false)
-      setConfirmShowArticleDes('Xác nhận ẩn bài viết')
+      setConfirmShowArticleDes("Xác nhận ẩn bài viết")
     }
   }
   const menuProps = {
@@ -290,7 +290,7 @@ const App: React.FC = () => {
 
   const handleOkShowArticle = async () => {
     if (selectedRowKeys.length == 0) {
-      Message.errorNotify('Bạn chưa chọn bài viết nào')
+      Message.errorNotify("Bạn chưa chọn bài viết nào")
       setOpenShowArticle(false)
       return
     }
@@ -302,8 +302,8 @@ const App: React.FC = () => {
       const data = await articleAdmin.updateStatusArticle(updateStatusDto)
       getArticle(getArticleDto)
       const successMessage = isShowArticle
-        ? 'Hiển thị'
-        : 'Ẩn' + ' bài viết thành công'
+        ? "Hiển thị"
+        : "Ẩn" + " bài viết thành công"
       Message.successNotify(successMessage)
     } catch (error: any) {
       Message.errorNotify(error.response.data.message)
@@ -322,7 +322,7 @@ const App: React.FC = () => {
 
   const handleOkDeleteArticle = async () => {
     if (selectedRowKeys.length == 0) {
-      Message.errorNotify('Bạn chưa chọn bài viết nào')
+      Message.errorNotify("Bạn chưa chọn bài viết nào")
       setOpenDeleteArticle(false)
       return
     }
@@ -334,7 +334,7 @@ const App: React.FC = () => {
       const data = await articleAdmin.updateStatusArticle(updateStatusDto)
       getArticle(getArticleDto)
 
-      Message.successNotify('Xóa bài viết thành công')
+      Message.successNotify("Xóa bài viết thành công")
     } catch (error: any) {
       Message.errorNotify(error.response.data.message)
     } finally {
@@ -349,20 +349,20 @@ const App: React.FC = () => {
     <Dashboard>
       <div className='admin__main-wrap'>
         <NavigationAdmin
-          header={'Danh sách bài viết'}
+          header={"Danh sách bài viết"}
           description={
-            'Trang quản lý danh sách bài viết - tin tức trong website của bạn'
+            "Trang quản lý danh sách bài viết - tin tức trong website của bạn"
           }
           data={navigationData}
         />
         <div className='admin__main-content'>
-          <div style={{ marginBottom: '2%' }}>
-            <Row style={{ marginBottom: '2%' }}>
+          <div style={{ marginBottom: "2%" }}>
+            <Row style={{ marginBottom: "2%" }}>
               <Col span={8}>
                 <label className='admin__main-label'>{`Tìm theo tiêu đề`}</label>
                 <Input
-                  style={{ width: '90%', marginRight: '1em' }}
-                  placeholder={'Tìm kiếm theo tiêu đề bài viết'}
+                  style={{ width: "90%", marginRight: "1em" }}
+                  placeholder={"Tìm kiếm theo tiêu đề bài viết"}
                   prefix={<SearchOutlined />}
                   onChange={event => titleOnchange(event)}
                 />
@@ -372,7 +372,7 @@ const App: React.FC = () => {
                 <DatePicker
                   onChange={onChangeFromDate}
                   format='DD/MM/YYYY'
-                  style={{ width: '90%' }}
+                  style={{ width: "90%" }}
                 />
               </Col>
               <Col span={8}>
@@ -380,13 +380,13 @@ const App: React.FC = () => {
                 <DatePicker
                   onChange={onChangeToDate}
                   format='DD/MM/YYYY'
-                  style={{ width: '90%' }}
+                  style={{ width: "90%" }}
                 />
               </Col>
               <Col span={8}>
                 <label className='admin__main-label'>{`Trạng thái`}</label>
                 <Select
-                  style={{ width: '90%' }}
+                  style={{ width: "90%" }}
                   placeholder='Trạng thái'
                   options={articleStatus}
                   onChange={event => statusOnchange(event)}
@@ -396,7 +396,7 @@ const App: React.FC = () => {
               <Col span={8}>
                 <label className='admin__main-label'>{`Tìm theo menu cáp 1`}</label>
                 <Select
-                  style={{ width: '90%' }}
+                  style={{ width: "90%" }}
                   placeholder='Chọn menu cấp 1'
                   options={menuCap1}
                   onChange={event => menuCap1Onchange(event)}
@@ -406,7 +406,7 @@ const App: React.FC = () => {
               <Col span={8}>
                 <label className='admin__main-label'>{`Tìm theo menu cáp 2`}</label>
                 <Select
-                  style={{ width: '90%' }}
+                  style={{ width: "90%" }}
                   placeholder='Chọn menu cấp 2'
                   onChange={menuCap2Onchange}
                   options={menuCap2}
@@ -416,7 +416,7 @@ const App: React.FC = () => {
                 />
               </Col>
             </Row>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
               <Button
                 onClick={submitSearch}
                 type='primary'
