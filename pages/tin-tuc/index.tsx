@@ -42,16 +42,22 @@ interface NavigationProps {
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  const page = 1
-  const size = 20
-  const cookieValue = cookie.parse(context.req.headers.cookie as string)
-  const language = cookieValue['language']
-  const data = await articleClient
-    .getArticleClient(language, page, size)
-    .then(res => res.data.data)
-  const articles = data.articles
-  let pagination = data.pagination
-  return { props: { articles, pagination } }
+  try {
+    const page = 1
+    const size = 20
+    const cookieValue = cookie.parse(context.req.headers.cookie as string)
+    const language = cookieValue['language']
+    const data = await articleClient
+      .getArticleClient(language, page, size)
+      .then(res => res.data.data)
+    const articles = data.articles
+    let pagination = data.pagination
+    return { props: { articles, pagination } }
+  } catch (error) {
+    return {
+      notFound: true
+    }
+  }
 }
 const ListNews: React.FC<any> = props => {
   const router = useRouter()

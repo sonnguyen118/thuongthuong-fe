@@ -6,10 +6,7 @@ import loadLanguageText from '@languages'
 import HeadSEO from '@components/layouts/header/HeadSEO'
 import Layout from '@components/layouts/layout/LayoutClient'
 import { NavigationTopBar } from '@components/elements/navigation'
-import {
-  ProductsDetails,
-  ProductsSeems,
-} from '@components/templates/products'
+import { ProductsDetails, ProductsSeems } from '@components/templates/products'
 import { useRouter } from 'next/router'
 import { SAN_PHAM } from 'src/constant/link-master'
 import { productClient } from '@api'
@@ -39,15 +36,21 @@ export async function getServerSideProps ({
   params: any
   query: any
 }) {
-  const { id } = params
-  let { language } = query
-  language = language == undefined ? 'VI' : language
-  const product = await productClient
-    .getDetailProduct(id, language)
-    .then(res => res.data.data)
-  // Pass data to the page via props
-  return {
-    props: { product, id }
+  try {
+    const { id } = params
+    let { language } = query
+    language = language == undefined ? 'VI' : language
+    const product = await productClient
+      .getDetailProduct(id, language)
+      .then(res => res.data.data)
+    // Pass data to the page via props
+    return {
+      props: { product, id }
+    }
+  } catch (error) {
+    return {
+      notFound: true
+    }
   }
 }
 

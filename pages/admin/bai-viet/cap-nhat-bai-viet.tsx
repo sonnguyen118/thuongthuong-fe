@@ -1,7 +1,17 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react'
 import Dashboard from '@components/layouts/admin/Dashboard'
 import { NavigationAdmin } from '@components/elements/navigation'
-import { Tabs, Button, Input, Select, Upload, Switch, message } from 'antd'
+import {
+  Tabs,
+  Button,
+  Input,
+  Select,
+  Upload,
+  Switch,
+  message,
+  InputRef,
+  Spin
+} from 'antd'
 import type { TabsProps } from 'antd'
 import { StarFilled } from '@ant-design/icons'
 import { CkeditorEnable } from '@components/molecules/ckeditor'
@@ -15,6 +25,7 @@ import { clear } from 'console'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/router'
 import { setLoading } from '@slices/loadingState'
+import { prop } from 'ramda'
 const { TextArea } = Input
 
 export interface CreateArticleDto {
@@ -23,7 +34,34 @@ export interface CreateArticleDto {
   imageUrl: string
   content: Content[]
 }
-export interface Content {
+export interface UpdateArticleDto {
+  id: string
+  link: string
+  menuId: string
+  imageUrl: string
+  content: Content[]
+  isActive: boolean
+  breadCrumb: any[] | undefined
+}
+
+interface UpdateContentDto {
+  id: string
+  language: string
+  name: string
+  content: string
+  description: string
+  key: string
+  label: string
+}
+
+interface ContentDto {
+  language: string
+  name: string
+  content: string
+  description: string
+}
+
+interface Content {
   language: string
   name: string
   content: string
@@ -34,6 +72,7 @@ const App: React.FC = () => {
   const [cookies] = useCookies(['accessToken'])
   const token = cookies['accessToken']
   const router = useRouter()
+  const { id } = router.query
 
   const [activeTab, setActiveTab] = useState('tab1')
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false)
@@ -46,30 +85,59 @@ const App: React.FC = () => {
       description: ''
     }
   })
-  const innitCreateArticleDto = {
+  const innitUpdatArticleDto = {
+    id: 0,
     link: '',
     menuId: '',
     imageUrl: '',
     content: initContentDto
   }
 
-  const contentDto = useRef<Content[]>(initContentDto)
-  let createArticleDto = useRef<CreateArticleDto>(innitCreateArticleDto)
+  interface UpdateContentDto {
+    id: string | undefined
+    language: string
+    name: string
+    content: string
+    description: string
+    key: string
+    label: string
+    articleId: string | undefined
+  }
 
+  let createArticleDto = useRef<CreateArticleDto>(innitUpdatArticleDto)
+
+  let [updateContentDto, setUpdateContentDto] = useState<UpdateContentDto[]>([])
+  let updateContentDtoUseRef = useRef<UpdateContentDto[]>([])
+
+  let [updateArticleDto, setUpdateArticleDto] = useState<UpdateArticleDto>({
+    id: '',
+    link: '',
+    menuId: '',
+    imageUrl: '',
+    content: [],
+    isActive: false,
+    breadCrumb: []
+  })
   let [createDto, setCeateDto] = useState<any>(null)
   // let menuData: any
-  const [menuData, setMenuData] = useState<any>(null)
+  let [menuData, setMenuData] = useState<any>(null)
   const [menuCap1, setMenuCap1] = useState<any>(null)
   const [menuCap2, setMenuCap2] = useState<any>(null)
-  const [menuCap2Value, setMenuCap2Value] = useState<any>(null)
   const [menuCap1Value, setMenuCap1Value] = useState<any>(null)
+  const [menuCap2Value, setMenuCap2Value] = useState<any>(null)
 
   // lấy dữ liệu danh mục
   useEffect(() => {
-    getMenuData()
-  }, [])
+    setUpdata()
+  }, [id])
   const onChange = (key: string) => {
     setActiveTab(key)
+  }
+  const setUpdata = async () => {
+    await getMenuData()
+    if (id) {
+      await getArticleDetail(id)
+    }
   }
 
   const getMenuData = async () => {
@@ -77,78 +145,109 @@ const App: React.FC = () => {
       const data = await menuAdmin.adminGetAllMenu().then(res => res.data.data)
       const initMenu = transferMenuToSelect(data)
       setMenuCap1(initMenu)
+      menuData = data.reduce((acc: any, obj: any) => {
+        acc[obj.id] = obj
+        return acc
+      })
       setMenuData(
         data.reduce((acc: any, obj: any) => {
           acc[obj.id] = obj
           return acc
         }, {})
       )
+      console.log(menuData)
     } catch (error: any) {
       Message.errorNotify(error.response.data.message)
     }
   }
-  const transferMenuToSelect = (data: any) => {
-    return data.map((e: { id: number; name: string }) => {
-      return { value: e.id, label: e.name }
-    })
-  }
 
-  const titleOnchange = (event: any, language: string) => {
-    const value = event.target.value
-    contentDto.current.forEach(e => {
-      if (e.language == language) {
-        e.name = value
-      }
-    })
-  }
-
-  const descriptionOnChange = (event: any, language: string) => {
-    contentDto.current.forEach(e => {
-      if (e.language == language) {
-        e.description = event.target.value
-      }
-    })
-  }
-
-  const articleContentOnChange = (event: any, language: string) => {
-    contentDto.current.forEach(e => {
-      if (e.language == language) {
-        e.content = event
-      }
-    })
-  }
-  const linkOnchange = (event: any) => {
-    createArticleDto.current.link = event.target.value
-  }
-  const menuCap1Onchange = (menuId: any) => {
-    setMenuCap1Value(menuId)
-    setMenuCap2Value(null)
-    createArticleDto.current.menuId = menuId
-    setCeateDto(createArticleDto)
-    if (menuData[menuId]?.children.length > 0) {
-      const menuCap2 = transferMenuToSelect(menuData[menuId].children)
-      setMenuCap2(menuCap2)
-    } else {
-      setMenuCap2(null)
-      setMenuCap2Value(null)
+  const getArticleDetail = async (id: any) => {
+    try {
+      const data = await articleAdmin
+        .adminGetArticleDetail(id)
+        .then(res => res.data.data)
+      await handleDataAfterFetch(data)
+    } catch (error: any) {
+      Message.errorNotify('Lỗi: ' + error?.response?.data?.message)
+      router.push('/admin/bai-viet')
     }
   }
-  const menuCap2Onchange = (menuId: any) => {
-    if (!menuId) {
-      setMenuCap2Value(null)
-      return
-    }
-    createArticleDto.current.menuId = menuId
-    setCeateDto(createArticleDto)
-    setMenuCap2Value(menuId)
+
+  const handleDataAfterFetch = async (data: any) => {
+    setUpdateArticleDto(data)
+    await bindingMenuForDetail(data?.breadCrumb)
+    //set up for content multi languge
+    // updateContentDto = data.content
+    await handleForLanguageTabs(data.content)
+    // setUpdateContentDto(updateContentDto)
+    // const detailContentData: UpdateContentDto[] = [...updateContentDto]
+    // updateContentDtoUseRef.current = [...detailContentData]
   }
 
-  let itemCKeditor: TabsProps['items'] = LANGUAGE_TABS.map(obj => {
+  const handleForLanguageTabs = async (
+    updateContentDto: UpdateContentDto[]
+  ) => {
+    const contentViet = updateContentDto.find(e => e.language == 'VI')
+    const tabs: UpdateContentDto[] = []
+    LANGUAGE_TABS.forEach(tab => {
+      const check = updateContentDto.find(e => tab.language == e.language)
+      if (check) {
+        check.key = tab!.key
+        check.label = tab!.label
+        tabs.push(check)
+      } else {
+        const empty: UpdateContentDto = {
+          id: undefined,
+          language: tab.language,
+          name: '',
+          content: '',
+          description: '',
+          key: tab.key,
+          label: tab.label,
+          articleId: contentViet?.articleId
+        }
+        tabs.push(empty)
+      }
+    })
+    setUpdateContentDto(tabs)
+
+    updateContentDtoUseRef.current = [...tabs]
+    // updateContentDto.forEach((e, i) => {
+    //   console.log(e)
+    //   const tab = LANGUAGE_TABS.find(ta => ta.language == e.language)
+    //   e.key = tab!.key
+    //   e.label = tab!.label
+    // })
+  }
+
+  const bindingMenuForDetail = async (breadCrumb: any[] | undefined) => {
+    if (breadCrumb && breadCrumb.length > 0) {
+      const menuCap1 = breadCrumb[0]
+      const menuCap2 = breadCrumb[1]
+      if (menuCap1) {
+        setMenuCap1Value(menuCap1.id)
+        menuCap1Onchange(menuCap1.id)
+      }
+      if (menuCap2) {
+        setMenuCap2Value(menuCap2.id)
+      }
+    }
+  }
+  const articleContentOnChangeUseRef = (
+    event: React.SetStateAction<string | undefined>,
+    index: any
+  ) => {
+    const updatedContent = [...updateContentDtoUseRef.current]
+    updatedContent[index].content = event as string
+    updateContentDtoUseRef.current = updatedContent
+  }
+
+  let itemCKeditor: TabsProps['items'] = updateContentDto.map((obj, i) => {
     const key = obj.key
     const language = obj.language
     const label = obj.label
     const placeholderTitle = `Tên bài viết bằng ${label}`
-    const placeholderDescription = `Mo tả ngắn bằng ${label}`
+    const placeholderDescription = `Mô tả ngắn bằng ${label}`
     const tab = {
       key: key,
       label: label,
@@ -156,38 +255,87 @@ const App: React.FC = () => {
         <>
           <label className='admin__main-label'>{placeholderTitle}</label>
           <Input
+            value={obj.name}
             placeholder={placeholderTitle}
             size='large'
-            onChange={event => titleOnchange(event, language)}
+            onChange={event => onChangeTitle(event, i)}
           />
           <label className='admin__main-label'>{placeholderDescription}</label>
           <TextArea
             showCount
+            value={obj.description}
             maxLength={400}
             style={{ height: 80, marginBottom: 24 }}
             placeholder={placeholderDescription}
-            onChange={event => descriptionOnChange(event, language)}
+            onChange={event => descriptionOnChange(event, i)}
           />
-          <label className='admin__main-label'>Nội dung bài viết</label>
+          <label className='admin__main-label'>Nội dung bài viết {label}</label>
           <CkeditorEnable
-            data={''}
-            setData={event => articleContentOnChange(event, language)}
+            data={obj.content}
+            setData={event => articleContentOnChangeUseRef(event, i)}
           />
         </>
       )
     }
     return tab
   })
+
+  const transferMenuToSelect = (data: any) => {
+    return data.map((e: { id: number; name: string }) => {
+      return { value: e.id, label: e.name }
+    })
+  }
+
+  const onChangeTitle = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index: any
+  ) => {
+    const updatedContent = [...updateContentDto]
+    updatedContent[index].name = event.target.value
+    setUpdateContentDto(updatedContent)
+  }
+
+  const descriptionOnChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>,
+    index: any
+  ) => {
+    const updatedContent = [...updateContentDto]
+    updatedContent[index].description = event.target.value
+    setUpdateContentDto(updatedContent)
+  }
+  const linkOnchange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const updatedDto: UpdateArticleDto = {
+      ...updateArticleDto,
+      link: event.target.value as string
+    } as UpdateArticleDto
+    setUpdateArticleDto(updatedDto)
+  }
+  const menuCap1Onchange = (menuId: any) => {
+    setMenuCap1Value(menuId)
+    setMenuCap2Value(null)
+    setCeateDto(createArticleDto)
+    if (menuData[menuId]?.children.length > 0) {
+      const menuCap2 = transferMenuToSelect(menuData[menuId].children)
+      setMenuCap2(menuCap2)
+    } else {
+      setMenuCap2(null)
+    }
+  }
+  const menuCap2Onchange = (menuId: any) => {
+    if (!menuId) {
+      setMenuCap2Value(null)
+      return
+    }
+    setCeateDto(createArticleDto)
+    setMenuCap2Value(menuId)
+  }
+
   const validateDto = (
-    createArticleDto: CreateArticleDto,
+    createArticleDto: UpdateArticleDto,
     content: Content[]
   ) => {
     if (createArticleDto.link.trim() == '') {
       message.error('Đường dẫn không được để trống')
-      return false
-    }
-    if (createArticleDto.menuId == null || createArticleDto.menuId == '') {
-      message.error('Menu không được để trống')
       return false
     }
     if (createArticleDto.imageUrl.trim() == '') {
@@ -202,28 +350,27 @@ const App: React.FC = () => {
     }
     return true
   }
-  // onClose: () => {
-  //   router.push("/admin/san-pham/toan-bo-san-pham");
-  // },
-  const handleDtoData = (
-    createArticleDto: CreateArticleDto,
-    content: Content[]
-  ) => {
-    let link = Diacritic.convertValueWithDashes(createArticleDto.link) as string
-    createArticleDto.link = link.startsWith('/') ? link : `/${link}`
-    createArticleDto.content = content.filter(e => e.name.trim() != '')
-    createArticleDto.menuId = menuCap1Value
+
+  const handleDtoData = async () => {
+    let link = Diacritic.convertValueWithDashes(updateArticleDto.link) as string
+    updateArticleDto.menuId = menuCap1Value
     if (menuCap2Value) {
-      createArticleDto.menuId = menuCap2Value
+      updateArticleDto.menuId = menuCap2Value
     }
-    return createArticleDto
+    // console.log('link',link)
+    updateArticleDto.link = link.startsWith('/') ? link : `/${link}`
+    // updateArticleDto.content = updateContentDto
+    updateArticleDto.content = updateContentDto.filter(e => e.name.trim() != '')
+    setUpdateArticleDto(updateArticleDto)
+    console.log(updateArticleDto)
   }
 
-  const createArticle = async (dto: CreateArticleDto) => {
+  const updateArticle = async (dto: UpdateArticleDto) => {
     try {
       setLoadingSubmit(true)
-      await articleAdmin.createArticle(dto)
-      Message.successNotify('Tạo bài viết thành công')
+      await articleAdmin.updateArticle(dto)
+      await getArticleDetail(id)
+      Message.successNotify('Cập nhật bài viết thành công')
       router.push('/admin/bai-viet')
       setLoadingSubmit(false)
     } catch (error: any) {
@@ -232,16 +379,11 @@ const App: React.FC = () => {
     }
   }
 
-  const handleSubmit = () => {
-    const isValid = validateDto(createArticleDto.current, contentDto.current)
+  const handleSubmit = async () => {
+    const isValid = validateDto(updateArticleDto, updateContentDto)
     if (isValid) {
-      createArticleDto.current = handleDtoData(
-        createArticleDto.current,
-        contentDto.current
-      )
-      console.log(createArticleDto.current)
-
-      createArticle(createArticleDto.current)
+      await handleDtoData()
+      await updateArticle(updateArticleDto)
     }
   }
 
@@ -255,7 +397,7 @@ const App: React.FC = () => {
               style={{ marginBottom: '20px' }}
             >
               <StarFilled style={{ marginRight: 5 }} />
-              Tạo Bài viết
+              Cập nhật bài viết
             </label>
             <label className='admin__main-label'>{`Chọn menu`}</label>
             <div style={{ marginBottom: '20px' }}>
@@ -282,6 +424,7 @@ const App: React.FC = () => {
             </div>
             <label className='admin__main-label'>{`Đường dẫn bài viết`}</label>
             <Input
+              value={updateArticleDto?.link}
               placeholder={`Nhập đường dẫn`}
               size='large'
               onChange={event => linkOnchange(event)}
@@ -289,13 +432,19 @@ const App: React.FC = () => {
             <label className='admin__main-label'>{`Tải anh bài viết`}</label>
             <ImageUpload
               linkUpload={`/article/admin/upload`}
-              data={createArticleDto.current}
+              data={updateArticleDto}
             ></ImageUpload>
-            <Tabs
-              activeKey={activeTab}
-              items={itemCKeditor}
-              onChange={onChange}
-            />
+
+            {updateContentDtoUseRef.current.length > 0 && updateArticleDto ? (
+              <Tabs
+                defaultActiveKey='tab1'
+                activeKey={activeTab}
+                items={itemCKeditor}
+                onChange={onChange}
+              />
+            ) : (
+              <Spin /> // Hiển thị Spin khi đang lấy dữ liệu
+            )}
           </div>
           {/* <div className='admin__main-cards' style={{ marginBottom: '60px' }}>
             <div className='admin__main-cards-title'>Tối ưu SEO</div>
@@ -350,7 +499,7 @@ const App: React.FC = () => {
               className='admin__main-save-products-btn-2'
               onClick={handleSubmit}
             >
-              Tạo sản phẩm
+              Xác nhận
             </Button>
           </div>
         </div>
