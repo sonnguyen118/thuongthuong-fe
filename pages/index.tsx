@@ -38,9 +38,11 @@ interface HomeProps {
   dataPages: any;
   dataMenu: any;
   dataFooter: any;
+  dataContact: any
 }
 const Home: React.FC<HomeProps> = (props: HomeProps) => {
-  const {dataPages, dataMenu, dataFooter} = props;
+  const {dataPages, dataMenu, dataFooter, dataContact} = props;
+  console.log(dataPages, "dataPages");
   const [t, setText] = useState(viText);
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
@@ -60,40 +62,26 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
     },
   };
 
-  const listNewsData = [
-    {
-      title: `${t.home.TITLE4_2}`,
-      description: `${t.home.DESCRIPTION4_2}`,
-      imageSrc:
-        "https://www.kymviet.com.vn/321661546_479424504374569_6975127491740140335_n.jpg",
-    },
-    {
-      title: `${t.home.TITLE4_3}`,
-      description: `${t.home.DESCRIPTION4_3}`,
-      imageSrc:
-        "https://www.kymviet.com.vn/321661546_479424504374569_6975127491740140335_n.jpg",
-    },
-  ];
   return (
     <>
       <HeadSEO pageSEO={pageSEOData.pageSEO} />
       <Layout dataMenu={dataMenu} dataFooter={dataFooter}>
-        <SlideBarsHome />
+        <SlideBarsHome isShow={dataPages.showBlock1} dataSlider={dataPages.listSliderBlock1}/>
         {/* <PrinciplesHome /> */}
-        <PiecesPuzzleHome />
+        <PiecesPuzzleHome isShow={dataPages.showBlock2} uderlineBlock2={dataPages.uderlineBlock2} iconBlock2={dataPages.iconBlock2} titleBlock2={dataPages.titleBlock2} listSliderBlock2={dataPages.listSliderBlock2} contentBlock2={dataPages.contentBlock2}/>
         {/* <CardTabs /> */}
         <ListProducts />
         <BlockProducts />
-        <EventNews
-          cardTitle={t.home.TITLE4_1}
-          cardDescription={t.home.DESCRIPTION4_1}
-          cardImageSrc={
-            "https://www.kymviet.com.vn/322732553_724487039001045_8942490573815366750_n.jpg"
-          }
-          listItems={listNewsData}
-        />
+        {/*<EventNews*/}
+        {/*  cardTitle={t.home.TITLE4_1}*/}
+        {/*  cardDescription={t.home.DESCRIPTION4_1}*/}
+        {/*  cardImageSrc={*/}
+        {/*    "https://www.kymviet.com.vn/322732553_724487039001045_8942490573815366750_n.jpg"*/}
+        {/*  }*/}
+        {/*  listItems={listNewsData}*/}
+        {/*/>*/}
         <ListPartner />
-        <ContactHome />
+        <ContactHome data={dataContact}/>
       </Layout>
     </>
   );
@@ -101,17 +89,17 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
 
 export async function getServerSideProps(context: any) {
   try {
-    const promiseDatapageVI :any = await webInformationClient.handleGetWebInformation("6");
-    const promiseMenuVI : any = await  webInformationClient.handleGetWebInformation("4");
-    const promiseFooterVI:any = await webInformationClient.handleGetWebInformation("2");
-
-    console.log(promiseDatapageVI, "promiseDatapageVI")
+    const DatapageVI :any = await webInformationClient.handleGetWebInformation("6");
+    const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
+    const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
+    const ContactVI :any = await webInformationClient.handleGetWebInformation("12");
 
     return {
       props: {
-        dataPages: JSON.parse(promiseDatapageVI.value) || {},
-        dataMenu:  JSON.parse(promiseMenuVI.value) || {},
-        dataFooter: JSON.parse(promiseFooterVI.value) || {},
+        dataPages: JSON.parse(DatapageVI.value) || {},
+        dataMenu:  JSON.parse(MenuVI.value) || {},
+        dataFooter: JSON.parse(FooterVI.value) || {},
+        dataContact: JSON.parse(ContactVI.value) || {},
       },
     };
 

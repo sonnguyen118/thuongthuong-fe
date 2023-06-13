@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { DetailedHTMLProps, IframeHTMLAttributes } from "react";
 import { Button, Row, Col, Typography } from "antd";
 import Image from "next/image";
@@ -14,7 +14,18 @@ interface IFrameProps
     IframeHTMLAttributes<HTMLIFrameElement>,
     HTMLIFrameElement
   > {}
-const PiecesPuzzle = () => {
+
+interface PiecesPuzzleProps {
+  isShow: boolean;
+  uderlineBlock2: boolean;
+  iconBlock2: Array<string>;
+  titleBlock2: string;
+  listSliderBlock2: Array<string>;
+  contentBlock2: any;
+}
+
+const PiecesPuzzle: React.FC<PiecesPuzzleProps> = ( props) => {
+  const { isShow, iconBlock2, titleBlock2, listSliderBlock2, contentBlock2 } = props;
   const [t, setText] = useState(viText);
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
@@ -25,14 +36,14 @@ const PiecesPuzzle = () => {
   return (
     <div className="home__principles">
       <TitleBlock
-        title={t.home.HEADER1}
-        urlImage={"/images/home/iconnho.png"}
+        title={null}
+        urlImage={iconBlock2[0]}
         underlined={true}
       />
       <Row className="home__principles-puzzle">
         <Col className="home__principles-puzzle-image">
           <Image
-            src="/images/home/anhgioithieu-768x576.jpg"
+            src={process.env.NEXT_PUBLIC_API_URL +"/" +listSliderBlock2[0]}
             alt="My Image"
             width={800}
             height={600}
@@ -42,12 +53,14 @@ const PiecesPuzzle = () => {
         <Col className="home__principles-puzzle-infor">
           <div>
             <Title level={2} className="home__principles-puzzle-infor-title">
-              {t.home.TITLE1}
+              {titleBlock2}
             </Title>
             <Text className="home__principles-puzzle-infor-text">
-              {t.home.DESCRIPTION1}
+              {contentBlock2.content1}
               <br></br>
-              {t.home.DESCRIPTION1_SUB}
+              {contentBlock2.content2}
+              <br></br>
+              {contentBlock2.content3}
             </Text>
           </div>
           <Button type="primary" className="home__principles-puzzle-infor-btn">

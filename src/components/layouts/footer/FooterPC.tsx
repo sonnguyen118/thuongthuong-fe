@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactNode } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Row, Col } from "antd";
 import {
   EnvironmentOutlined,
@@ -9,12 +9,16 @@ import { useSelector } from "react-redux";
 import { store } from "@store";
 import viText from "@languages/vie.json";
 import loadLanguageText from "@languages";
+import Link from "next/link";
 
 interface FooterProps {
   data: any;
 }
-const Footer = ( props: FooterProps) => {
+const Footer: React.FC<FooterProps> = ( props) => {
   const { data} = props;
+  console.log(data.subMenu1);
+  const [menu1, setMenu1] = useState([]);
+  const [menu2, setMenu2] = useState([]);
   const [t, setText] = useState(viText);
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
@@ -22,86 +26,41 @@ const Footer = ( props: FooterProps) => {
   useEffect(() => {
     loadLanguageText(lang, setText);
   }, [lang]);
+  useMemo(()=> {
+    if(data) {
+      setMenu1(data.subMenu1);
+      setMenu2(data.subMenu2);
+    }
+  },[data])
   return (
     <footer className="footer">
       <div className="footer__wrap">
         <Row>
-          <Col lg={6} sm={24} xs={24}>
+          <Col lg={8} sm={24} xs={24}>
             <div className="footer__wrap-item">
-              <h2 className="footer__wrap-item-title">{t.footer.TITLE1}</h2>
-              <div>
-                <a target="_blank " href="#">
-                  <h3>{t.footer.LISTMENU1_1}</h3>
-                </a>
-              </div>
-              <div>
-                <a target="_blank " href="#">
-                  <h3>{t.footer.LISTMENU1_2}</h3>
-                </a>
-              </div>
-              <div>
-                <a target="_blank " href="#">
-                  <h3>{t.footer.LISTMENU1_3}</h3>
-                </a>
-              </div>
-              <div>
-                <a target="_blank " href="#">
-                  <h3>{t.footer.LISTMENU1_4}</h3>
-                </a>
-              </div>
-              <div>
-                <a target="_blank " href="#">
-                  <h3>{t.footer.LISTMENU1_5}</h3>
-                </a>
-              </div>
-              <div>
-                <a target="_blank " href="#">
-                  <h3>{t.footer.LISTMENU1_6}</h3>
-                </a>
-              </div>
+              <h2 className="footer__wrap-item-title">{data.title1}</h2>
+              {menu1.map((item:any, index:number)=> (
+                <div key={item.key}>
+                  <Link target="_blank " href={item.link}>
+                    <h3>{item.title}</h3>
+                  </Link>
+                </div>
+              ))}
             </div>
           </Col>
-          <Col lg={6} sm={24} xs={24}>
+          <Col lg={8} sm={24} xs={24}>
             <div className="footer__wrap-item">
-              <h2 className="footer__wrap-item-title">{t.footer.TITLE2}</h2>
-              <div>
-                <a target="_blank " href="#">
-                  <h3>{t.footer.LISTMENU2_1}</h3>
-                </a>
-              </div>
-              <div>
-                <a target="_blank " href="#">
-                  <h3>{t.footer.LISTMENU2_2}</h3>
-                </a>
-              </div>
+              <h2 className="footer__wrap-item-title">{data.title2}</h2>
+              {menu2.map((item:any, index:number)=> (
+                <div key={item.key}>
+                  <Link target="_blank " href={item.link}>
+                    <h3>{item.title}</h3>
+                  </Link>
+                </div>
+              ))}
             </div>
           </Col>
-          <Col lg={6} sm={24} xs={24}>
-            <div className="footer__wrap-item">
-              <h2 className="footer__wrap-item-title">{t.footer.TITLE3}</h2>
-              <div>
-                <a target="_blank " href="#">
-                  <h3>{t.footer.LISTMENU3_1}</h3>
-                </a>
-              </div>
-              <div>
-                <a target="_blank " href="#">
-                  <h3>{t.footer.LISTMENU3_2}</h3>
-                </a>
-              </div>
-              <div>
-                <a target="_blank " href="#">
-                  <h3>{t.footer.LISTMENU3_3}</h3>
-                </a>
-              </div>
-              <div>
-                <a target="_blank " href="#">
-                  <h3>{t.footer.LISTMENU3_4}</h3>
-                </a>
-              </div>
-            </div>
-          </Col>
-          <Col lg={6} sm={24} xs={24}>
+          <Col lg={8} sm={24} xs={24}>
             <div className="footer__wrap-item">
               <h2 className="footer__wrap-item-title">{t.footer.TITLE4}</h2>
               <div className="footer__wrap-item-infor">
@@ -110,7 +69,7 @@ const Footer = ( props: FooterProps) => {
                   className="footer__wrap-item-infor-icon"
                 />
                 <h3 className="footer__wrap-item-infor-text">
-                  {t.footer.LISTMENU4_1}
+                  {data.adress}
                 </h3>
               </div>
               <div className="footer__wrap-item-infor">
@@ -119,7 +78,7 @@ const Footer = ( props: FooterProps) => {
                   className="footer__wrap-item-infor-icon"
                 />
                 <h3 className="footer__wrap-item-infor-text">
-                  {t.footer.LISTMENU4_2}
+                  {data.hotLine}
                 </h3>
               </div>
               <div className="footer__wrap-item-infor">
@@ -128,7 +87,7 @@ const Footer = ( props: FooterProps) => {
                   className="footer__wrap-item-infor-icon"
                 />
                 <h3 className="footer__wrap-item-infor-text">
-                  {t.footer.LISTMENU4_3}
+                  {data.email}
                 </h3>
               </div>
             </div>
@@ -136,36 +95,10 @@ const Footer = ( props: FooterProps) => {
         </Row>
       </div>
       <Row className="footer__bottom">
-        <Col lg={6} sm={24} />
-        <Col lg={18} sm={24}>
-          <span
-            style={{
-              lineHeight: "16px",
-              paddingRight: 12,
-              marginRight: 11,
-              borderRight: "1px solid rgba(255, 255, 255, 0.55)",
-            }}
-          >
-            <a
-              href="https://docs.alipay.com/policies/privacy/antfin"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              {t.footer.LISTMENU5_1}
-            </a>
-          </span>
-          <span style={{ marginRight: 24 }}>
-            <a
-              href="https://render.alipay.com/p/f/fd-izto3cem/index.html"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              {t.footer.LISTMENU5_2}
-            </a>
-          </span>
+        <div style={{textAlign : "center", width: "100%"}}>
           <span style={{ marginRight: 12 }}>©2023</span>
           <span style={{ marginRight: 12 }}>{t.footer.LISTMENU5_3}</span>
-        </Col>
+        </div>
       </Row>
     </footer>
   );

@@ -45,7 +45,6 @@ const App: React.FC = () => {
 	const [showBlock1, setShowBlock1] = useState(true);
 
 	const [iconBlock2, setIconBlock2] = useState([]);
-	console.log(fileListIcon2,"iconBlock2")
 	const [uderlineBlock2, setUnderlineBlock2] = useState(true);
 	const [titleBlock2VI, setTitleBlock2VI] = useState("");
 	const [titleBlock2EN, setTitleBlock2EN] = useState("");
@@ -329,14 +328,14 @@ const App: React.FC = () => {
 					setListSliderBlock1(data.listSliderBlock1);
 					setShowBlock1(data.showBlock1);
 					setIconBlock2(data.iconBlock2);
-					setUnderlineBlock2(data.underlineBlock2);
+					setUnderlineBlock2(data.uderlineBlock2);
 					setTitleBlock2VI(data.titleBlock2);
 					setListSliderBlock2(data.listSliderBlock2);
 					setContentBlock2VI(data.contentBlock2);
 					setShowBlock2(data.showBlock2);
 					setListSliderBlock3(data.listSliderBlock3);
 					setIconBlock3(data.iconBlock3);
-					setUnderlineBlock3(data.underlineBlock3);
+					setUnderlineBlock3(data.uderlineBlock3);
 					setTitleBlock3VI(data.titleBlock3);
 					setShowBlock3(data.showBlock3);
 					setDataBlock4(data.dataBlock4);
@@ -491,25 +490,10 @@ const App: React.FC = () => {
 			showBlock5: showBlock5
 		};
 		let dataEN = {
-			listSliderBlock1: newArray1,
-			showBlock1: showBlock1,
-			iconBlock2: iconBlock2,
-			uderlineBlock2: uderlineBlock2,
 			titleBlock2: titleBlock2EN,
-			listSliderBlock2: newArray2,
 			contentBlock2: contentBlock2EN,
-			showBlock2: showBlock2,
-			listSliderBlock3: newArray3,
-			iconBlock3: iconBlock3,
-			uderlineBlock3: uderlineBlock3,
 			titleBlock3: titleBlock3EN,
-			showBlock3: showBlock3,
-			dataBlock4: dataBlock4,
-			listSliderBlock5: newArray5,
-			iconBlock5: iconBlock5,
-			uderlineBlock5: uderlineBlock5,
 			titleBlock5: titleBlock5EN,
-			showBlock5: showBlock5
 		}
 		const body1 = {
 			id: 6,
@@ -532,6 +516,7 @@ const App: React.FC = () => {
 			const promiseEN = webInformation.handleUpdateWebInformation(body2);
 			promises.push(promiseEN);
 		}
+		console.log(dataVI)
 		Promise.all(promises)
 			.then((results: any) => {
 				if(results[0].meta.status !== 200) {

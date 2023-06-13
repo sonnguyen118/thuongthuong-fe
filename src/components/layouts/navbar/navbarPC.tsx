@@ -10,44 +10,43 @@ import { store } from "@store";
 import viText from "@languages/vie.json";
 import loadLanguageText from "@languages";
 import classes from "./Nav.module.css";
-import { useRouter } from 'next/router';
-import type { MenuProps } from 'antd';
+import { useRouter } from "next/router";
+import type { MenuProps } from "antd";
 import { handleCategoryClient } from "@service";
+
 interface NavbarProps {
   data: any;
 }
 
-const NavbarPC = (props: NavbarProps) => {
+const NavbarPC: React.FC<NavbarProps> = ( props) => {
   const router = useRouter();
   const currentUrl = router.asPath;
-  console.log(currentUrl, "currentUrl");
   const { data } = props;
   const [isBtnHighlighted, setIsBtnHighlighted] = useState(false);
   const [t, setText] = useState(viText);
   const [category, setCategory] = useState([]);
-  const [items, setItems] = useState<MenuProps['items']>([]);
-useMemo(()=> {
-   handleCategoryClient.handleGetAllCategory("VI")
-     .then((result:any)=> {
-       console.log(result);
-       setCategory(result);
-     })
-     .catch((error)=> {
-     })
-  },[]);
-  useEffect(()=> {
-    if(category && category.length >0) {
-      const newArray: MenuProps['items'] = category.map((item:any) => ({
+  const [items, setItems] = useState<MenuProps["items"]>([]);
+  useMemo(() => {
+    handleCategoryClient.handleGetAllCategory("VI")
+      .then((result: any) => {
+        setCategory(result);
+      })
+      .catch((error) => {
+      });
+  }, []);
+  useEffect(() => {
+    if (category && category.length > 0) {
+      const newArray: MenuProps["items"] = category.map((item: any) => ({
         key: item.id,
         label: (
-          <a target="_blank" rel="noopener noreferrer" href={item.link}>
+          <Link target="_blank" rel="noopener noreferrer" href={item.link} className="navbar__pc-item-dropdown-item">
             {item.name}
-          </a>
-        ),
+          </Link>
+        )
       }));
       setItems(newArray);
     }
-  },[category])
+  }, [category]);
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
   );
@@ -160,7 +159,7 @@ useMemo(()=> {
       )}
     </>
   );
-;
+  ;
 
 
   return (
@@ -181,98 +180,105 @@ useMemo(()=> {
         <div className="navbar__pc-menu">
           {data.map((item: any, index: number) => {
             if (item.isActivate) {
-              if(item.link ==="/san-pham") {
+              if (item.link === "/san-pham") {
                 return (
                   <Dropdown menu={{ items }} placement="bottom" key={item.key}>
-                  <h2 className="navbar__pc-item">
+                    <h2 className={currentUrl.includes(item.link) ? "navbar__pc-item-active" : "navbar__pc-item"}>
+                      <Link href={item.link}>
+                        {item.title}
+                      </Link>
+                    </h2>
+                  </Dropdown>
+                );
+              } else if (item.link.includes("tin-tuc")) {
+                return (
+                  <h2 className={currentUrl.includes("tin-tuc") ? "navbar__pc-item-active" : "navbar__pc-item"}>
                     <Link href={item.link}>
                       {item.title}
                     </Link>
                   </h2>
-                  </Dropdown>
                 );
-              } else  {
+              } else {
                 return (
-                  <h2 key={item.key} className="navbar__pc-item">
+                  <h2 className={item.link === currentUrl ? "navbar__pc-item-active" : "navbar__pc-item"}>
                     <Link href={item.link}>
                       {item.title}
                     </Link>
                   </h2>
                 );
               }
-
             } else {
               return null;
             }
           })}
           <Menu
-            mode='horizontal'
+            mode="horizontal"
             style={{
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center"
             }}
             items={[
-                {
-                  key: "cart",
-                  label: (
-                    <Popover
-                      placement='bottom'
-                      content={cartContent}
-                      className={btnClasses}
+              {
+                key: "cart",
+                label: (
+                  <Popover
+                    placement="bottom"
+                    content={cartContent}
+                    className={btnClasses}
+                  >
+                    <Badge
+                      count={numberOfCartItems}
+                      overflowCount={99}
+                      style={{ backgroundColor: "red" }}
                     >
-                      <Badge
-                        count={numberOfCartItems}
-                        overflowCount={99}
-                        style={{ backgroundColor: "red" }}
-                      >
-                        <Link href='/gio-hang'>
-                          <Button
-                            icon={
-                              <ShoppingCartOutlined style={{ fontSize: "18px" }} />
-                            }
-                            style={{
-                              border: "none",
-                              textDecoration: "underline",
-                              boxShadow: "none"
-                            }}
-                          />
-                        </Link>
-                      </Badge>
-                    </Popover>
-                  ),
-                  className: "navbar__pc-icon"
-                },
-                {
-                  key: "search",
-                  label: (
-                    <div style={{ position: "relative" }}>
-                      <SearchOutlined style={{ fontSize: "18px" }} />
-                      {searchVisible && (
-                        <div
+                      <Link href="/gio-hang">
+                        <Button
+                          icon={
+                            <ShoppingCartOutlined style={{ fontSize: "18px" }} />
+                          }
                           style={{
-                            position: "absolute",
-                            top: "100%",
-                            right: 0,
-                            width: "300px",
-                            zIndex: 1
+                            border: "none",
+                            textDecoration: "underline",
+                            boxShadow: "none"
                           }}
-                        >
-                          <Input
-                            placeholder={t.label.LABEL5}
-                            prefix={<SearchOutlined />}
-                            style={{ width: "100%" }}
-                            onClick={handleInputClick}
-                          />
-                        </div>
-                      )}
-                    </div>
-                  ),
-                  className: "navbar__pc-icon",
-                  onClick: toggleSearchVisible
-                }
-              ]}
-        />
+                        />
+                      </Link>
+                    </Badge>
+                  </Popover>
+                ),
+                className: "navbar__pc-icon"
+              },
+              {
+                key: "search",
+                label: (
+                  <div style={{ position: "relative" }}>
+                    <SearchOutlined style={{ fontSize: "18px" }} />
+                    {searchVisible && (
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: "100%",
+                          right: 0,
+                          width: "300px",
+                          zIndex: 1
+                        }}
+                      >
+                        <Input
+                          placeholder={t.label.LABEL5}
+                          prefix={<SearchOutlined />}
+                          style={{ width: "100%" }}
+                          onClick={handleInputClick}
+                        />
+                      </div>
+                    )}
+                  </div>
+                ),
+                className: "navbar__pc-icon",
+                onClick: toggleSearchVisible
+              }
+            ]}
+          />
         </div>
       </div>
     </>

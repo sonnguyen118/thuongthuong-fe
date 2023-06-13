@@ -6,8 +6,12 @@ import { useSelector } from "react-redux";
 import { store } from "@store";
 import viText from "@languages/vie.json";
 import loadLanguageText from "@languages";
+interface ContactProps {
+  data: any;
+}
 
-const Contact: React.FC = () => {
+const Contact: React.FC<ContactProps> = ( props) => {
+  const {data} = props;
   const [t, setText] = useState(viText);
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
@@ -18,8 +22,6 @@ const Contact: React.FC = () => {
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
   };
-  const mapEmbedHtml =
-    '<iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d62912.942322940886!2d105.63524152148848!3d9.761078981849815!3m2!1i1024!2i768!4f13.1!5e0!3m2!1svi!2s!4v1681048611378!5m2!1svi!2s" width="800" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';
   return (
     <div className="home__contact">
       <TitleBlock
@@ -29,29 +31,27 @@ const Contact: React.FC = () => {
       />
       <div
         className="home__contact-map"
-        dangerouslySetInnerHTML={{ __html: mapEmbedHtml }}
+        dangerouslySetInnerHTML={{ __html: data.map }}
       />
       <Row className="home__contact-wrap">
         <div className="home__contact-wrap-left">
           <p className="home__contact-wrap-left-title">
-            {t.home.TITLE6_1}
+            {data.phone}
             <br></br>
-            {t.home.TITLE6_2}
+            {data.hotline}
             <br></br>
-            {t.home.TITLE6_3}
+            {data.email}
             <br></br>
-            {t.home.TITLE6_4}
+            {data.adress1}
             <br></br>
-            {t.home.TITLE6_5}
-            <br></br>
-            {t.home.TITLE6_6}
+            {data.adress2}
           </p>
           <p className="home__contact-wrap-left-text">
-            {t.home.DESCRIPTION6_1}
+            {data.content?.content1}
             <br></br>
-            {t.home.DESCRIPTION6_2}
+            {data.content?.content2}
             <br></br>
-            {t.home.DESCRIPTION6_3}
+            {data.content?.content3}
           </p>
         </div>
         <div className="home__contact-wrap-right">

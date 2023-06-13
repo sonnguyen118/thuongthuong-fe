@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import React, { useRef } from "react";
 import Slider from "react-slick";
 import { RightCircleOutlined, LeftCircleOutlined } from "@ant-design/icons";
 import { Button } from "antd";
@@ -10,8 +10,14 @@ interface sliderData {
   description: string;
   link: string;
 }
+interface SliderProps {
+  isShow: boolean;
+  dataSlider: Array<any>
+}
 
-export default function SimpleSlider() {
+const SimpleSlider: React.FC<SliderProps> = ( props) => {
+  const { isShow, dataSlider } = props;
+  console.log(dataSlider, "dataSlider")
   const settings = {
     dots: true,
     infinite: true,
@@ -24,32 +30,6 @@ export default function SimpleSlider() {
       </div>
     ),
   };
-  const dataStrings: sliderData[] = [
-    {
-      id: "1sadsa213123",
-      imageUrl:
-        "https://i.ex-cdn.com/nhadautu.vn/files/content/2022/09/30/screen-shot-2022-09-30-at-061328-0614.jpg",
-      title: "Ảnh nhân đạo",
-      description: "Ảnh nhân đạo Ảnh nhân đạo Ảnh nhân đạo Ảnh nhân đạo",
-      link: "/",
-    },
-    {
-      id: "1sadsa2131231",
-      imageUrl:
-        "https://i.ex-cdn.com/nhadautu.vn/files/content/2022/09/30/screen-shot-2022-09-30-at-061328-0614.jpg",
-      title: "Ảnh nhân đạo",
-      description: "Ảnh nhân đạo Ảnh nhân đạo Ảnh nhân đạo Ảnh nhân đạo",
-      link: "/",
-    },
-    {
-      id: "1sadsa21312sa3",
-      imageUrl:
-        "https://i.ex-cdn.com/nhadautu.vn/files/content/2022/09/30/screen-shot-2022-09-30-at-061328-0614.jpg",
-      title: "Ảnh nhân đạo",
-      description: "Ảnh nhân đạo Ảnh nhân đạo Ảnh nhân đạo Ảnh nhân đạo",
-      link: "/",
-    },
-  ];
   const slider = useRef<Slider>(null);
 
   const next = () => {
@@ -62,26 +42,28 @@ export default function SimpleSlider() {
 
   return (
     <div className="home__slider">
-      <div className="home__slider-btn1" onClick={previous}>
-        <RightCircleOutlined className="home__slider-btn1-icon" />
-      </div>
-      <div className="home__slider-btn2" onClick={next}>
-        <LeftCircleOutlined className="home__slider-btn2-icon" />
-      </div>
-      <Slider ref={slider} {...settings}>
-        {dataStrings &&
-          dataStrings.map((data, i) => (
-            <div key={data.id}>
-              <div
-                className="home__slider-item"
-                style={{
-                  backgroundImage: `url(${data.imageUrl})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  backgroundRepeat: "no-repeat",
-                }}
-              >
-                {/* <div className="home__slider-item-wrap">
+      {isShow && (
+        <>
+          <div className="home__slider-btn1" onClick={previous}>
+            <RightCircleOutlined className="home__slider-btn1-icon" />
+          </div>
+          <div className="home__slider-btn2" onClick={next}>
+            <LeftCircleOutlined className="home__slider-btn2-icon" />
+          </div>
+          <Slider ref={slider} {...settings}>
+            {dataSlider &&
+              dataSlider.map((data:string, i:number) => (
+                <div key={i}>
+                  <div
+                    className="home__slider-item"
+                    style={{
+                      backgroundImage: `url(${process.env.NEXT_PUBLIC_API_URL +"/"+ data})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      backgroundRepeat: "no-repeat",
+                    }}
+                  >
+                    {/* <div className="home__slider-item-wrap">
                   <h2 className="home__slider-item-wrap-title">{data.title}</h2>
                   <h3 className="home__slider-item-wrap-description">
                     {data.description}
@@ -90,10 +72,14 @@ export default function SimpleSlider() {
                     <Link href={data.link}>Xem thêm chi tiết</Link>
                   </Button>
                 </div> */}
-              </div>
-            </div>
-          ))}
-      </Slider>
+                  </div>
+                </div>
+              ))}
+          </Slider>
+        </>
+      )}
+
     </div>
   );
 }
+export default SimpleSlider;
