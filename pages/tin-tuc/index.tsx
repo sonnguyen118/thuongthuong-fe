@@ -113,7 +113,9 @@ const ListNews: React.FC<any> = props => {
     const listNewsData: listNewsData[] = articles?.map((article: any) => ({
       id: article.id,
       title: article.name,
-      image: article.imageUrl ? article.imageUrl : '', // Thêm logic để lấy đường dẫn hình ảnh từ article nếu có
+      image: article.imageUrl
+        ? `${process.env.NEXT_PUBLIC_FULL_URL}/${article.imageUrl}`
+        : '', // Thêm logic để lấy đường dẫn hình ảnh từ article nếu có
       descriptions: article.descriptions ? article.descriptions : '',
       time: article.createdAt ? article.createdAt : '', // Thêm logic để lấy thông tin thời gian từ article nếu có
       link: `${TIN_TUC}${article.link}`
