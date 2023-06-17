@@ -57,7 +57,7 @@ const ImageUpload: React.FC<ImageUploadProps> = props => {
         Diacritic.convertValueWithDashes(file.name) as string
       )
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}${linkUpload}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/${linkUpload}`,
         body
       )
       props.data.imageUrl = `${response.data.path}`

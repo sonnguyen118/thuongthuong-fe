@@ -239,8 +239,6 @@ const App: React.FC = () => {
         createArticleDto.current,
         contentDto.current
       )
-      console.log(createArticleDto.current)
-
       createArticle(createArticleDto.current)
     }
   }
@@ -288,7 +286,7 @@ const App: React.FC = () => {
             />
             <label className='admin__main-label'>{`Tải anh bài viết`}</label>
             <ImageUpload
-              linkUpload={`/article/admin/upload`}
+              linkUpload={`article/admin/upload`}
               data={createArticleDto.current}
             ></ImageUpload>
             <Tabs

@@ -18,3 +18,8 @@ export const product = {
   VI: 'Sản phẩm',
   EN: 'Products'
 }
+
+export const CONTACT_STATUS = {
+  CHUA_XU_LY: 'Chưa xử lý',
+  DA_XU_LY: 'Đã xử lý'
+}

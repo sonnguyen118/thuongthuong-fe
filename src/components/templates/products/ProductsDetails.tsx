@@ -49,8 +49,8 @@ const ProductsDetails = (props: any) => {
     <div className='products'>
       <div className='products-image'>
         <Image
-          src= {productDetail?.imageUrl}
-          alt= {productDetail?.title}
+          src={`${process.env.NEXT_PUBLIC_API_URL}/${productDetail?.imageUrl}`}
+          alt={productDetail?.title}
           style={{ objectFit: 'cover', width: '100%', height: '100%' }}
         />
       </div>
@@ -105,7 +105,7 @@ const ProductsDetails = (props: any) => {
             ) : (
               <>
                 <span className='products-detail-description-body-show'>
-                {productDetail?.content}
+                  {productDetail?.content}
                 </span>
                 <span
                   className='products-detail-description-body-btn'
