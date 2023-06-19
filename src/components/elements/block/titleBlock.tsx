@@ -9,7 +9,7 @@ interface TitleBlockProps {
 const TitleBlock: React.FC<TitleBlockProps> = ({ title, urlImage, underlined }) => {
   return (
     <>
-      {title && urlImage ? (<div className="home__title">
+      {urlImage ? (<div className="home__title">
         <Image
           src={process.env.NEXT_PUBLIC_API_URL + "/" + urlImage}
           alt="ThuongThuong"

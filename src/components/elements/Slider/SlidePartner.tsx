@@ -10,8 +10,11 @@ interface sliderData {
   imageUrl: string;
   title: string;
 }
-
-export default function SlidePartner() {
+interface SlidePartnerProps {
+  listSliderBlock: Array<string>;
+}
+const SlidePartner: React.FC<SlidePartnerProps> = (props) => {
+  const { listSliderBlock } = props;
   const settings = {
     dots: false,
     infinite: true,
@@ -19,44 +22,6 @@ export default function SlidePartner() {
     slidesToShow: 5,
     slidesToScroll: 1,
   };
-  const dataStrings: sliderData[] = [
-    {
-      id: "1sadsa213123",
-      imageUrl:
-        "https://i.ex-cdn.com/nhadautu.vn/files/content/2022/09/30/screen-shot-2022-09-30-at-061328-0614.jpg",
-      title: "Ảnh nhân đạo",
-    },
-    {
-      id: "1sadsa2131231",
-      imageUrl:
-        "https://i.ex-cdn.com/nhadautu.vn/files/content/2022/09/30/screen-shot-2022-09-30-at-061328-0614.jpg",
-      title: "Ảnh nhân đạo",
-    },
-    {
-      id: "1sadsa21312sa3",
-      imageUrl:
-        "https://i.ex-cdn.com/nhadautu.vn/files/content/2022/09/30/screen-shot-2022-09-30-at-061328-0614.jpg",
-      title: "Ảnh nhân đạo",
-    },
-    {
-      id: "1sadsa21312sa3",
-      imageUrl:
-        "https://i.ex-cdn.com/nhadautu.vn/files/content/2022/09/30/screen-shot-2022-09-30-at-061328-0614.jpg",
-      title: "Ảnh nhân đạo",
-    },
-    {
-      id: "1sadsa21312sa3",
-      imageUrl:
-        "https://i.ex-cdn.com/nhadautu.vn/files/content/2022/09/30/screen-shot-2022-09-30-at-061328-0614.jpg",
-      title: "Ảnh nhân đạo",
-    },
-    {
-      id: "1sadsa21312sa3",
-      imageUrl:
-        "https://i.ex-cdn.com/nhadautu.vn/files/content/2022/09/30/screen-shot-2022-09-30-at-061328-0614.jpg",
-      title: "Ảnh nhân đạo",
-    },
-  ];
   const slider = useRef<Slider>(null);
 
   const next = () => {
@@ -76,11 +41,11 @@ export default function SlidePartner() {
         <LeftCircleOutlined className="home__partner-slider-btn2-icon" />
       </div>
       <Slider ref={slider} {...settings}>
-        {dataStrings &&
-          dataStrings.map((data, i) => (
-            <div key={data.id} className="home__partner-slider-item">
+        {listSliderBlock &&
+          listSliderBlock.map((data, i) => (
+            <div key={i} className="home__partner-slider-item">
               <Image
-                src="/images/home/partner.png"
+                src={process.env.NEXT_PUBLIC_API_URL + "/" +data}
                 alt="ThuongThuong"
                 width={120}
                 height={120}
@@ -94,3 +59,4 @@ export default function SlidePartner() {
     </div>
   );
 }
+export default   SlidePartner;

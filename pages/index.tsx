@@ -42,6 +42,7 @@ interface HomeProps {
 }
 const Home: React.FC<HomeProps> = (props: HomeProps) => {
   const {dataPages, dataMenu, dataFooter, dataContact} = props;
+  console.log(dataPages, "dataPages")
   const [t, setText] = useState(viText);
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
@@ -79,7 +80,7 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
         {/*  }*/}
         {/*  listItems={listNewsData}*/}
         {/*/>*/}
-        <ListPartner />
+        <ListPartner isShow={dataPages.showBlock5} uderlineBlock={dataPages.uderlineBlock5} iconBlock={dataPages.iconBlock5} titleBlock={dataPages.titleBlock5} listSliderBlock={dataPages.listSliderBlock5}/>
         <ContactHome data={dataContact}/>
       </Layout>
     </>

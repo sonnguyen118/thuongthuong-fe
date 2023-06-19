@@ -25,7 +25,7 @@ interface PiecesPuzzleProps {
 }
 
 const PiecesPuzzle: React.FC<PiecesPuzzleProps> = ( props) => {
-  const { isShow, iconBlock, titleBlock, listSliderBlock, contentBlock } = props;
+  const { isShow,uderlineBlock, iconBlock, titleBlock, listSliderBlock, contentBlock } = props;
   const [t, setText] = useState(viText);
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
@@ -38,7 +38,7 @@ const PiecesPuzzle: React.FC<PiecesPuzzleProps> = ( props) => {
       <TitleBlock
         title={null}
         urlImage={iconBlock[0]}
-        underlined={true}
+        underlined={uderlineBlock}
       />
       <Row className="home__principles-puzzle">
         <Col className="home__principles-puzzle-image">

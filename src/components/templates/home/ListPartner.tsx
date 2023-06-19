@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { SlidePartner } from "@components/elements/Slider";
 import { TitleBlock } from "@components/elements/block";
 import { useSelector } from "react-redux";
@@ -6,7 +6,15 @@ import { store } from "@store";
 import viText from "@languages/vie.json";
 import loadLanguageText from "@languages";
 
-const ListPartner = () => {
+interface ListPartnerProps {
+  isShow: boolean;
+  uderlineBlock: boolean;
+  iconBlock: Array<string>;
+  titleBlock: string;
+  listSliderBlock: Array<string>;
+}
+const ListPartner: React.FC<ListPartnerProps> = (props) => {
+  const { isShow, uderlineBlock, iconBlock, titleBlock, listSliderBlock } = props;
   const [t, setText] = useState(viText);
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
@@ -15,14 +23,19 @@ const ListPartner = () => {
     loadLanguageText(lang, setText);
   }, [lang]);
   return (
-    <div className="home__partner">
-      <TitleBlock
-        title={t.home.HEADER5}
-        urlImage={"/images/home/iconnho021.png"}
-        underlined={true}
-      />
-      <SlidePartner />
-    </div>
+    <>
+      {isShow && (
+        <div className="home__partner">
+          <TitleBlock
+            title={titleBlock}
+            urlImage={iconBlock[0]}
+            underlined={uderlineBlock}
+          />
+          <SlidePartner listSliderBlock={listSliderBlock}/>
+        </div>
+      )}
+    </>
+
   );
 };
 export default ListPartner;
