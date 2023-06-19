@@ -29,7 +29,8 @@ interface CardProductProps {
 }
 
 const CardProduct: React.FC<{ props: CardProductProps }> = ({ props }) => {
-  const { id, imageUrl, title, link, price } = props
+  const { id, title, link, price } = props
+  const imageUrl = `${process.env.NEXT_PUBLIC_API_URL}/${props.imageUrl}`
   const [t, setText] = useState(viText)
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage

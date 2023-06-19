@@ -176,12 +176,7 @@ const App: React.FC = () => {
   const handleDataAfterFetch = async (data: any) => {
     setUpdateArticleDto(data)
     await bindingMenuForDetail(data?.breadCrumb)
-    //set up for content multi languge
-    // updateContentDto = data.content
     await handleForLanguageTabs(data.content)
-    // setUpdateContentDto(updateContentDto)
-    // const detailContentData: UpdateContentDto[] = [...updateContentDto]
-    // updateContentDtoUseRef.current = [...detailContentData]
   }
 
   const handleForLanguageTabs = async (
@@ -210,14 +205,7 @@ const App: React.FC = () => {
       }
     })
     setUpdateContentDto(tabs)
-
     updateContentDtoUseRef.current = [...tabs]
-    // updateContentDto.forEach((e, i) => {
-    //   console.log(e)
-    //   const tab = LANGUAGE_TABS.find(ta => ta.language == e.language)
-    //   e.key = tab!.key
-    //   e.label = tab!.label
-    // })
   }
 
   const bindingMenuForDetail = async (breadCrumb: any[] | undefined) => {
@@ -431,7 +419,7 @@ const App: React.FC = () => {
             />
             <label className='admin__main-label'>{`Tải anh bài viết`}</label>
             <ImageUpload
-              linkUpload={`/article/admin/upload`}
+              linkUpload={`article/admin/upload`}
               data={updateArticleDto}
             ></ImageUpload>
 
