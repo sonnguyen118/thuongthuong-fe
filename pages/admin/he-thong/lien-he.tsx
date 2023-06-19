@@ -1,12 +1,14 @@
 import React, {useState, useEffect, useMemo} from "react";
 import Dashboard from "@components/layouts/admin/Dashboard";
 import {NavigationAdmin} from "@components/elements/navigation";
-import { Button, Input, notification, Tabs, TabsProps } from "antd";
-import {StarFilled} from "@ant-design/icons";
+import { Button, Input, notification, Tabs, TabsProps, Upload, Switch } from "antd";
+import { StarFilled, UploadOutlined } from "@ant-design/icons";
 import {useRouter} from "next/router";
 import { useDispatch} from "react-redux";
 import {setLoading} from "@slices/loadingState";
-import { webInformation, webInformationClient } from "@service";
+import { handleProducts, webInformation, webInformationClient } from "@service";
+import { UploadFile, UploadProps } from "antd/es/upload/interface";
+import { HandleString } from "@utils/Functions";
 
 const {TextArea} = Input;
 
@@ -38,6 +40,41 @@ const App: React.FC = () => {
 		content2: "",
 		content3: ""
 	});
+	// thêm icon gạch chân và tiêu đề
+	const [fileListIcon, setFileListIcon] = useState<UploadFile[]>([]);
+	const [iconBlock, setIconBlock] = useState([]);
+	const [titleBlockVI, setTitleBlockVI] = useState("");
+	const [titleBlockEN, setTitleBlockEN] = useState("");
+	const [uderlineBlock, setUnderlineBlock] = useState(true);
+	useEffect(()=> {
+		const mappedData: UploadFile[] = iconBlock.map((urlImage : string) => ({
+			uid: "",
+			lastModified: 0,
+			lastModifiedDate: undefined,
+			name: HandleString.removeUploadPath(urlImage),
+			size: 0,
+			type: "image/jpeg",
+			percent: 100,
+			originFileObj: undefined,
+			status: "done",
+			response: urlImage,
+			thumbUrl: process.env.NEXT_PUBLIC_API_URL + "/" + urlImage,
+		}));
+		setFileListIcon(mappedData);
+	},[iconBlock]);
+	const onChangeIcon: UploadProps["onChange"] = ({ fileList: newFileList, }) => {
+		setFileListIcon(newFileList);
+	};
+	const customRequest = async (options:any) => {
+		const { file, onSuccess, onError } = options;
+		try {
+			const response: any = await handleProducts.handleUploadImageProducts(file);
+			const { data } = response;
+			onSuccess(data.path);
+		} catch (error) {
+			onError(error);
+		}
+	};
 	const items: TabsProps["items"] = [
 		{
 			key: "1",
@@ -94,10 +131,14 @@ const App: React.FC = () => {
 					setAdress1(data.adress1);
 					setAdress2(data.adress2);
 					setContentVI(data.content);
+					setIconBlock(data.iconBlock);
+					setUnderlineBlock(data.underlineBlock);
+					setTitleBlockVI(data.titleBlock);
 				}
 				if(results[1]) {
 					const data = JSON.parse(results[1].value)
 					setContentEN(data.content);
+					setTitleBlockEN(data.titleBlock);
 				}
 				dispatch(setLoading(false));
 
@@ -144,6 +185,7 @@ const App: React.FC = () => {
 
 	const handleSubmit = () => {
 		dispatch(setLoading(true));
+		const newArrayIcon = fileListIcon.map(obj => obj.response);
 		let dataVI = {
 			map: map,
 			phone: phone,
@@ -152,6 +194,10 @@ const App: React.FC = () => {
 			adress1: adress1,
 			adress2: adress2,
 			content: contentVI,
+			iconBlock: newArrayIcon,
+			titleBlock: titleBlockVI,
+      underlineBlock: uderlineBlock,
+
 		};
 		let dataEN = {
 			map: map,
@@ -161,6 +207,7 @@ const App: React.FC = () => {
 			adress1: adress1,
 			adress2: adress2,
 			content: contentEN,
+			titleBlock: titleBlockEN,
 		}
 		const body1 = {
 			id: 12,
@@ -233,9 +280,36 @@ const App: React.FC = () => {
 					data={navigationData}
 				/>
 				<div className="admin__main-content">
+					<div style={{display: "flex", marginBottom: 20}}>
+						<Upload customRequest={customRequest} fileList={fileListIcon} onChange={onChangeIcon}>
+							<Button icon={<UploadOutlined/>}>Tải ảnh icon</Button>
+						</Upload>
+						<Switch checkedChildren="Hiện gạch chân tiêu đề "
+										unCheckedChildren="Ẩn gạch chân tiêu đề"
+										checked={uderlineBlock}
+										onChange={(checked:any) => setUnderlineBlock(checked)}
+										style={{marginLeft: 25}}/>
+					</div>
+
+					<Tabs activeKey={activeTab} items={items} onChange={onChange}/>
+					{activeTab === "1" ? (
+						<Input
+							placeholder="Nhập và tên danh danh mục tiếng việt"
+							size="large"
+							onChange={(e) => setTitleBlockVI(e.target.value)}
+							value={titleBlockVI}
+						/>
+					): (
+						<Input
+							placeholder="Nhập và tên danh danh mục tiếng anh"
+							size="large"
+							onChange={(e) => setTitleBlockEN(e.target.value)}
+							value={titleBlockEN}
+						/>
+					)}
 					<div
 						className="admin__main-cards"
-						style={{marginBottom: "20px"}}
+						style={{marginBottom: 20, marginTop: 20}}
 					>
 						<label className="admin__main-label">
 							<StarFilled style={{marginRight: 5}}/>

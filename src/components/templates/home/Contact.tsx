@@ -12,6 +12,7 @@ interface ContactProps {
 
 const Contact: React.FC<ContactProps> = ( props) => {
   const {data} = props;
+  console.log(data, "data")
   const [t, setText] = useState(viText);
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
@@ -25,9 +26,9 @@ const Contact: React.FC<ContactProps> = ( props) => {
   return (
     <div className="home__contact">
       <TitleBlock
-        title={t.home.HEADER6}
-        urlImage={"/images/home/iconnho05.png"}
-        underlined={false}
+        title={data.titleBlock}
+        urlImage={data.iconBlock[0]}
+        underlined={data.underlineBlock}
       />
       <div
         className="home__contact-map"
