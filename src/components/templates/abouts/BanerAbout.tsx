@@ -1,10 +1,13 @@
 import { ImagesBaner } from "@components/elements/baner";
 
-const BanerAbout: React.FC = () => {
-  const urlImage: string = "/images/seo.jpg";
+interface imageProps {
+  imageUrl: string;
+}
+const BanerAbout: React.FC<imageProps> = (props: imageProps) => {
+  const { imageUrl } = props;
   return (
     <div className="about__baner">
-      <ImagesBaner urlImage={urlImage} />
+      <ImagesBaner urlImage={process.env.NEXT_PUBLIC_API_URL +"/"+ imageUrl} />
     </div>
   );
 };

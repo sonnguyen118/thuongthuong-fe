@@ -106,19 +106,23 @@ const App: React.FC = () => {
 		content2: "",
 		content3: ""
 	});
-
+	const [imageBlock, setImageBlock] = useState([]);
 	const [imageBlock1, setImageBlock1] = useState([]);
 	const [imageBlock2, setImageBlock2] = useState([]);
 	const [imageBlock3, setImageBlock3] = useState([]);
 	const [imageBlock4, setImageBlock4] = useState([]);
 	const [imageBlock5, setImageBlock5] = useState([]);
 
+	const [fileList, setFileList] = useState<UploadFile[]>([]);
 	const [fileList1, setFileList1] = useState<UploadFile[]>([]);
 	const [fileList2, setFileList2] = useState<UploadFile[]>([]);
 	const [fileList3, setFileList3] = useState<UploadFile[]>([]);
 	const [fileList4, setFileList4] = useState<UploadFile[]>([]);
 	const [fileList5, setFileList5] = useState<UploadFile[]>([]);
 	const [dataFileList, setDataFileList] = useState<UploadFile[]>([]);
+	const onChangeImage: UploadProps["onChange"] = ({fileList: newFileList,}) => {
+		setFileList(newFileList);
+	};
 	const onChangeImage1: UploadProps["onChange"] = ({fileList: newFileList,}) => {
 		setFileList1(newFileList);
 	};
@@ -135,6 +139,20 @@ const App: React.FC = () => {
 		setFileList5(newFileList);
 	};
 
+	const onPreview = async (file: UploadFile) => {
+		let src = file.url as string;
+		if (!src) {
+			src = await new Promise((resolve) => {
+				const reader = new FileReader();
+				reader.readAsDataURL(file.originFileObj as RcFile);
+				reader.onload = () => resolve(reader.result as string);
+			});
+		}
+		const image = new Image();
+		image.src = src;
+		const imgWindow = window.open(src);
+		imgWindow?.document.write(image.outerHTML);
+	};
 	const onPreview1 = async (file: UploadFile) => {
 		let src = file.url as string;
 		if (!src) {
@@ -305,6 +323,7 @@ const App: React.FC = () => {
 					setDescription3VI(data.description3);
 					setDescription4VI(data.description4);
 					setDescription5VI(data.description5);
+					setImageBlock(data.imageBaner);
 					setImageBlock1(data.image1);
 					setImageBlock2(data.image2);
 					setImageBlock3(data.image3);
@@ -341,6 +360,24 @@ const App: React.FC = () => {
 
 	}, [])
 // đẩy ảnh vào các list hiển thị
+	useEffect(()=> {
+		if(imageBlock.length > 0) {
+			const mappedData: UploadFile[] = imageBlock.map((urlImage: string) => ({
+				uid: "",
+				lastModified: 0,
+				lastModifiedDate: undefined,
+				name: "",
+				size: 0,
+				type: "image/jpeg",
+				percent: 100,
+				originFileObj: undefined,
+				status: "done",
+				response: urlImage,
+				thumbUrl: process.env.NEXT_PUBLIC_API_URL + "/" + urlImage,
+			}));
+			setFileList(mappedData);
+		}
+	},[imageBlock1]);
 	useEffect(()=> {
 		if(imageBlock1.length > 0) {
 			const mappedData: UploadFile[] = imageBlock1.map((urlImage: string) => ({
@@ -486,6 +523,7 @@ const App: React.FC = () => {
 	// hàm submit
 	const handleSubmit = () => {
 		dispatch(setLoading(true));
+		const newArray = fileList.map(obj => obj.response);
 		const newArray1 = fileList1.map(obj => obj.response);
 		const newArray2 = fileList2.map(obj => obj.response);
 		const newArray3 = fileList3.map(obj => obj.response);
@@ -493,6 +531,7 @@ const App: React.FC = () => {
 		const newArray5 = fileList5.map(obj => obj.response);
 
 		let dataVI ={
+			imageBaner:newArray,
 			isReversed1: isReversed1,
 			isReversed2: isReversed2,
 			isReversed3: isReversed3,
@@ -521,6 +560,7 @@ const App: React.FC = () => {
 		}
 
 		let dataEN ={
+			imageBaner:newArray,
 			isReversed1: isReversed1,
 			isReversed2: isReversed2,
 			isReversed3: isReversed3,
@@ -594,7 +634,7 @@ const App: React.FC = () => {
 				}
 				notification.success({
 					message: 'Cập nhật dữ liệu thành công',
-					description: 'Bạn đã thành công cập nhật dữ liệu footer',
+					description: 'Bạn đã thành công cập nhật dữ liệu cho trang giới thiệu',
 					duration: 1.5,
 					onClose: () => {
 						dispatch(setLoading(false));
@@ -616,7 +656,24 @@ const App: React.FC = () => {
 					data={navigationData}
 				/>
 				<div className="admin__main-content">
-
+					<div
+						className="admin__main-cards"
+						style={{marginBottom: "20px"}}
+					>
+						<label className="admin__main-label">
+							<StarFilled style={{marginRight: 5}}/>
+							Tải ảnh baner chính
+						</label>
+						<Upload
+							customRequest={customRequest}
+							listType="picture-card"
+							fileList={fileList}
+							onChange={onChangeImage}
+							onPreview={onPreview}
+						>
+							{fileList.length < 1 && "+ Tải Ảnh"}
+						</Upload>
+					</div>
 						<div
 							className="admin__main-cards"
 							style={{marginBottom: "20px"}}

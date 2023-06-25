@@ -34,13 +34,13 @@ interface ListNewsProps {
   description: string;
   imageSrc: string;
 }
-interface HomeProps {
+interface pagesProps {
   dataPages: any;
   dataMenu: any;
   dataFooter: any;
   dataContact: any
 }
-const Home: React.FC<HomeProps> = (props: HomeProps) => {
+const Home: React.FC<pagesProps> = (props: pagesProps) => {
   const {dataPages, dataMenu, dataFooter, dataContact} = props;
   console.log(dataPages, "dataPages")
   const [t, setText] = useState(viText);

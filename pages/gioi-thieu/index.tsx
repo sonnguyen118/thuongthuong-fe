@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { store } from "@store";
 import viText from "@languages/vie.json";
 import loadLanguageText from "@languages";
+import { webInformationClient } from "@service";
 
 interface PageSEOData {
   name: string;
@@ -29,7 +30,15 @@ interface dataProps {
   description: string;
   position: positionProps;
 }
-const Home: React.FC = () => {
+interface pagesProps {
+  dataPages: any;
+  dataMenu: any;
+  dataFooter: any;
+  dataContact: any
+}
+const AboutPage: React.FC<pagesProps> = (props: pagesProps) => {
+  const {dataPages, dataMenu, dataFooter, dataContact} = props;
+  console.log(dataPages, "dataPages")
   const [t, setText] = useState(viText);
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
@@ -77,21 +86,83 @@ const Home: React.FC = () => {
   return (
     <>
       <HeadSEO pageSEO={pageSEOData.pageSEO} />
-      <Layout>
-        <BanerAbout />
-        {dataAbout.map((data, index) => (
-          <div key={data.id}>
-            <BlockInformation
-              image={data.image}
-              title={data.title}
-              description={data.description}
-              position={data.position}
-            />
-          </div>
-        ))}
+      <Layout dataMenu={dataMenu} dataFooter={dataFooter}>
+        <BanerAbout imageUrl={dataPages.imageBaner[0]}/>
+         {/*quá trình render dữ liệu cho 5 block*/}
+        {/*Block 1*/}
+        <div key={1}>
+          <BlockInformation
+            isShow={dataPages.show1}
+            image={dataPages.image1}
+            title={dataPages.title1}
+            description={dataPages.description1}
+            position={dataPages.isReversed1}
+          />
+        </div>
+        {/*Block 2*/}
+        <div key={3}>
+          <BlockInformation
+            isShow={dataPages.show2}
+            image={dataPages.image2}
+            title={dataPages.title2}
+            description={dataPages.description2}
+            position={dataPages.isReversed2}
+          />
+        </div>
+        {/*Block 3*/}
+        <div key={3}>
+          <BlockInformation
+            isShow={dataPages.show3}
+            image={dataPages.image3}
+            title={dataPages.title3}
+            description={dataPages.description3}
+            position={dataPages.isReversed3}
+          />
+        </div>
+        {/*Block 4*/}
+        <div key={4}>
+          <BlockInformation
+            isShow={dataPages.show4}
+            image={dataPages.image4}
+            title={dataPages.title4}
+            description={dataPages.description4}
+            position={dataPages.isReversed4}
+          />
+        </div>
+        {/*Block 5*/}
+        <div key={5}>
+          <BlockInformation
+            isShow={dataPages.show5}
+            image={dataPages.image5}
+            title={dataPages.title5}
+            description={dataPages.description5}
+            position={dataPages.isReversed5}
+          />
+        </div>
+
       </Layout>
     </>
   );
 };
+export async function getServerSideProps(context: any) {
+  try {
+    const DatapageVI :any = await webInformationClient.handleGetWebInformation("8");
+    const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
+    const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
+    const ContactVI :any = await webInformationClient.handleGetWebInformation("12");
 
-export default Home;
+    return {
+      props: {
+        dataPages: JSON.parse(DatapageVI.value) || {},
+        dataMenu:  JSON.parse(MenuVI.value) || {},
+        dataFooter: JSON.parse(FooterVI.value) || {},
+        dataContact: JSON.parse(ContactVI.value) || {},
+      },
+    };
+
+  } catch (e) {
+    return { props: {} };
+  }
+}
+
+export default AboutPage;
