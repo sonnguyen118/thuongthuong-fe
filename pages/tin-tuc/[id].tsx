@@ -15,6 +15,8 @@ import { GetServerSideProps } from 'next'
 import * as cookie from 'cookie'
 import { articleClient } from '@api'
 import { useCookies } from 'react-cookie'
+import { webInformationClient } from "@service";
+import { PaginationDto } from "@components/model/PaginationDto";
 
 interface PageSEOData {
   name: string
@@ -41,23 +43,13 @@ class ArticleDetail {
   description: string = ''
   breadCrumb: any[] = []
 }
-export const getServerSideProps: GetServerSideProps = async context => {
-  try {
-    const cookieValue = cookie.parse(context.req.headers.cookie as string)
-    let language = cookieValue['language']
-    const { id } = context.query
-    const article = await articleClient
-      .getArticleDetail(language, id as string)
-      .then(res => res.data.data)
-    return { props: { article } }
-  } catch (error) {
-    return {
-      notFound: true
-    }
-  }
+interface pagesProps {
+  dataMenu: any;
+  dataFooter: any;
+  article: any;
 }
-
-const ListNews: React.FC<any> = props => {
+const DetailNews: React.FC<pagesProps> = (props: pagesProps) => {
+  const { dataMenu, dataFooter, article } = props;
   const router = useRouter()
   const { id, language } = router.query
   const [t, setText] = useState(viText)
@@ -131,7 +123,7 @@ const ListNews: React.FC<any> = props => {
   return (
     <>
       <HeadSEO pageSEO={pageSEOData.pageSEO} />
-      <Layout>
+      <Layout dataMenu={dataMenu} dataFooter={dataFooter}>
         <div className='news'>
           <div className='news-navigation'>
             <NavigationTopBar data={dataNavigation} />
@@ -164,4 +156,28 @@ const ListNews: React.FC<any> = props => {
   )
 }
 
-export default ListNews
+export async function getServerSideProps(context: any) {
+  try {
+    const cookieValue = cookie.parse(context.req.headers.cookie as string)
+    let language = cookieValue['language']
+    const { id } = context.query
+    const article = await articleClient
+      .getArticleDetail(language, id as string)
+      .then(res => res.data.data);
+
+    const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
+    const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
+    return {
+      props: {
+        dataMenu:  JSON.parse(MenuVI.value) || {},
+        dataFooter: JSON.parse(FooterVI.value) || {},
+        article: article
+      },
+    };
+
+  } catch (e) {
+    return { props: {} };
+  }
+}
+
+export default DetailNews

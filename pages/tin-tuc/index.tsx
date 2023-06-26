@@ -15,6 +15,7 @@ import { GetServerSideProps } from 'next'
 import * as cookie from 'cookie'
 import { articleClient } from '@api'
 import { useRouter } from 'next/router'
+import { webInformationClient } from "@service";
 const { Search } = Input
 interface PageSEOData {
   name: string
@@ -41,32 +42,17 @@ interface NavigationProps {
   link: string
 }
 
-export const getServerSideProps: GetServerSideProps = async context => {
-  try {
-    const page = 1
-    const size = 20
-    const cookieValue = cookie.parse(context.req.headers.cookie as string)
-    const language = cookieValue['language']
-    const data = await articleClient
-      .getArticleClient(language, page, size)
-      .then(res => res.data.data)
-    const articles = data.articles
-    let pagination = data.pagination
-    return { props: { articles, pagination } }
-  } catch (error) {
-    return {
-      notFound: true
-    }
-  }
+interface pagesProps {
+  dataMenu: any;
+  dataFooter: any;
+  articles: listNewsData[];
+  pagination: PaginationDto
 }
-const ListNews: React.FC<any> = props => {
+const ListNews: React.FC<pagesProps> = (props: pagesProps) => {
+  const {dataMenu, dataFooter, articles, pagination} = props;
   const router = useRouter()
   const { id, language } = router.query
-  const [t, setText] = useState(viText)
-  const [articles, setArticles] = useState<listNewsData[]>([])
-  const [pagination, setPagination] = useState<PaginationDto>(
-    new PaginationDto()
-  )
+  const [t, setText] = useState(viText);
 
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
@@ -120,8 +106,8 @@ const ListNews: React.FC<any> = props => {
       time: article.createdAt ? article.createdAt : '', // Thêm logic để lấy thông tin thời gian từ article nếu có
       link: `${TIN_TUC}${article.link}`
     }))
-    setArticles(listNewsData)
-    setPagination(paging)
+    // setArticles(listNewsData)
+    // setPagination(paging)
   }
   const pagingList = async (
     lang: string,
@@ -153,17 +139,10 @@ const ListNews: React.FC<any> = props => {
   return (
     <>
       <HeadSEO pageSEO={pageSEOData.pageSEO} />
-      <Layout>
+      <Layout dataMenu={dataMenu} dataFooter={dataFooter}>
         <div className='list-products'>
           <div className='list-products-navigation'>
             <NavigationTopBar data={dataNavigation} />
-          </div>
-          <div style={{ marginTop: '20px' }}>
-            <Search
-              placeholder={lang.toUpperCase() == 'VI' ? `Tìm kiếm` : `Search`}
-              onSearch={value => searchArticles(value)}
-              style={{ width: 200 }}
-            />
           </div>
         </div>
         <div className='list-news'>
@@ -200,4 +179,31 @@ const ListNews: React.FC<any> = props => {
   )
 }
 
+export async function getServerSideProps(context: any) {
+  try {
+    const page = 1
+    const size = 20
+    const cookieValue = cookie.parse(context.req.headers.cookie as string);
+    const language = cookieValue['language']
+    const data = await articleClient
+      .getArticleClient(language, page, size)
+      .then(res => res.data.data)
+    const articles = data.articles
+    let pagination = data.pagination
+    const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
+    const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
+
+    return {
+      props: {
+        dataMenu:  JSON.parse(MenuVI.value) || {},
+        dataFooter: JSON.parse(FooterVI.value) || {},
+        articles: articles,
+        pagination: pagination
+      },
+    };
+
+  } catch (e) {
+    return { props: {} };
+  }
+}
 export default ListNews

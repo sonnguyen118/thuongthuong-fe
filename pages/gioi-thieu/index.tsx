@@ -38,7 +38,6 @@ interface pagesProps {
 }
 const AboutPage: React.FC<pagesProps> = (props: pagesProps) => {
   const {dataPages, dataMenu, dataFooter, dataContact} = props;
-  console.log(dataPages, "dataPages")
   const [t, setText] = useState(viText);
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage

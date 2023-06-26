@@ -19,7 +19,7 @@ const CardPageNews: React.FC<CardProps> = ({
   time,
 }) => {
   return (
-    <Link href={link} passHref>
+    <Link href={"/tin-tuc/"+link} passHref>
       <Card
         hoverable
         className="list-news-item-card"
