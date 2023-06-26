@@ -14,6 +14,8 @@ import { productClient } from '@api'
 import { GetServerSideProps } from 'next'
 import { bread_crumb } from 'src/constant/constant'
 import * as cookie from 'cookie'
+import { webInformationClient } from "@service";
+import { PaginationDto } from "@components/model/PaginationDto";
 interface PageSEOData {
   name: string
   pageSEO: {
@@ -39,33 +41,18 @@ export interface NavigationProps {
   link: string
 }
 
-export const getServerSideProps: GetServerSideProps = async context => {
-  try {
-    const cookieValue = cookie.parse(context.req.headers.cookie as string)
-    const language = cookieValue['language']
-    const page = 1
-    const size = 20
-    const categories = await categoryClient
-      .getAllCategoryClient(language, page, size)
-      .then(res => res.data.data)
-    const products = await productClient
-      .getAllProductClient(language, page, size)
-      .then(res => res.data.data)
-    // Pass data to the page via props
-    return { props: { categories, products, language } }
-  } catch (error) {
-    return {
-      notFound: true
-    }
-  }
+interface pagesProps {
+  categories: any;
+  products: any;
+  dataMenu: any;
+  dataFooter: any;
 }
+const ListProductsPage: React.FC<pagesProps> = (props: pagesProps) => {
+  const {categories, products, dataMenu, dataFooter} = props;
+  const router = useRouter();
+  const currentUrl = router.asPath;
+  const { id, language } = router.query;
 
-const ListNews: React.FC<any> = props => {
-  const router = useRouter()
-  const currentUrl = router.asPath
-  const { id, language } = router.query
-  const [categories, setCategories] = useState(null)
-  const [products, setProducts] = useState(null)
   const [t, setText] = useState(viText)
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
@@ -87,17 +74,17 @@ const ListNews: React.FC<any> = props => {
 
   useEffect(() => {
     loadLanguageText(lang, setText)
-    getCategories()
-    getAllProducts()
+    // getCategories()
+    // getAllProducts()
     setBreadCrumb()
   }, [language, lang])
 
-  const getCategories = async () => {
-    setCategories(props.categories)
-  }
-  const getAllProducts = async () => {
-    setProducts(props.products)
-  }
+  // const getCategories = async () => {
+  //   setCategories(props.categories)
+  // }
+  // const getAllProducts = async () => {
+  //   setProducts(props.products)
+  // }
   const setBreadCrumb = async () => {
     const languageFromURL = language?.toString().toUpperCase()
     if (languageFromURL == 'VI') {
@@ -125,7 +112,7 @@ const ListNews: React.FC<any> = props => {
   return (
     <>
       <HeadSEO pageSEO={pageSEOData.pageSEO} />
-      <Layout>
+      <Layout dataMenu={dataMenu} dataFooter={dataFooter}>
         <div className='list-products'>
           <div className='list-products-navigation'>
             <NavigationTopBar data={dataNavigation} />
@@ -139,5 +126,33 @@ const ListNews: React.FC<any> = props => {
     </>
   )
 }
-
-export default ListNews
+export async function getServerSideProps(context: any) {
+  try {
+    const cookieValue = cookie.parse(context.req.headers.cookie as string)
+    const language = cookieValue['language']
+    const page = 1
+    const size = 20
+    const categories = await categoryClient
+      .getAllCategoryClient(language, page, size)
+      .then(res => res.data.data)
+    const products = await productClient
+      .getAllProductClient(language, page, size)
+      .then(res => res.data.data);
+    const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
+    const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
+    // Pass data to the page via props
+    return {
+      props: {
+        categories:  categories,
+        products: products,
+        dataMenu:  JSON.parse(MenuVI.value) || {},
+        dataFooter: JSON.parse(FooterVI.value) || {}
+      },
+    }
+  } catch (error) {
+    return {
+      props: {}
+    }
+  }
+}
+export default ListProductsPage
