@@ -1,4 +1,4 @@
-import React, { useState, ReactNode, useEffect } from "react";
+import React, { useState, ReactNode, useEffect, useMemo } from "react";
 import { Table, Button, notification } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import type { TableRowSelection } from "antd/es/table/interface";
@@ -37,13 +37,14 @@ interface NavigationProps {
 const App: React.FC = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const handleGoDetailt = (link: string) => {
-    router.push(`/admin/danh-muc/danh-muc-cap-1${link}`);
+  const handleGoDetailt = (record: any) => {
+    router.push(`/admin/danh-muc/danh-muc-cap-1/${record.id}`);
   }
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [data, setData] = useState();
   console.log(data, "data");
-  useEffect(() => {
+  console.log(selectedRowKeys, "selectedRowKeys")
+  useMemo(() => {
     const body = {
       language: "VI",
     };
@@ -100,7 +101,7 @@ const App: React.FC = () => {
       dataIndex: "link",
       render: (link, record) => (
         <>
-          <Button onClick={(e)=> handleGoDetailt(link)}><EditOutlined /></Button>
+          <Button onClick={(e)=> handleGoDetailt(record)}><EditOutlined /></Button>
           <Button style={{marginLeft: 15}} onClick={()=> handledeleteCategory(record)}><DeleteOutlined/></Button>
         </>
       ),
@@ -163,39 +164,6 @@ const App: React.FC = () => {
   const rowSelection: TableRowSelection<DataType> = {
     selectedRowKeys,
     onChange: onSelectChange,
-    selections: [
-      Table.SELECTION_ALL,
-      Table.SELECTION_INVERT,
-      Table.SELECTION_NONE,
-      {
-        key: "odd",
-        text: "Select Odd Row",
-        onSelect: (changeableRowKeys) => {
-          let newSelectedRowKeys = [];
-          newSelectedRowKeys = changeableRowKeys.filter((_, index) => {
-            if (index % 2 !== 0) {
-              return false;
-            }
-            return true;
-          });
-          setSelectedRowKeys(newSelectedRowKeys);
-        },
-      },
-      {
-        key: "even",
-        text: "Select Even Row",
-        onSelect: (changeableRowKeys) => {
-          let newSelectedRowKeys = [];
-          newSelectedRowKeys = changeableRowKeys.filter((_, index) => {
-            if (index % 2 !== 0) {
-              return true;
-            }
-            return false;
-          });
-          setSelectedRowKeys(newSelectedRowKeys);
-        },
-      },
-    ],
   };
   const button: buttonProps = {
     isButton: true,

@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, ReactNode, useEffect, useMemo } from "react";
 import Dashboard from "@components/layouts/admin/Dashboard";
 import { NavigationAdmin } from "@components/elements/navigation";
 import { Tabs, Button, Input, Select } from "antd";
 import type { TabsProps } from "antd";
 import { StarFilled } from "@ant-design/icons";
 import { useRouter } from "next/router";
-
+import { setLoading } from "@slices/loadingState";
+import { handleCategory } from "@service";
+import { useDispatch } from "react-redux";
 interface NavigationProps {
   id: number;
   title: string;
@@ -13,7 +15,26 @@ interface NavigationProps {
 }
 const App: React.FC = () => {
   const router = useRouter();
-
+  const dispatch = useDispatch();
+  const [data, setData] = useState();
+  useMemo(() => {
+    const body = {
+      language: "VI",
+    };
+    dispatch(setLoading(true));
+    handleCategory
+      .handleGetAllCategory()
+      .then((result:any) => {
+        // Xử lý kết quả trả về ở đây
+        setData(result);
+        dispatch(setLoading(false));
+      })
+      .catch((error) => {
+        // Xử lý lỗi ở đây
+        console.log(error);
+        dispatch(setLoading(false));
+      });
+  }, []);
   const [activeTab, setActiveTab] = useState("1");
   const onChange = (key: string) => {
     setActiveTab(key);
@@ -47,10 +68,6 @@ const App: React.FC = () => {
       label: `Tiếng Việt`,
       children: (
         <>
-          <Input
-            placeholder="Nhập và tên danh danh mục tiếng việt"
-            size="large"
-          />
         </>
       ),
     },
@@ -59,37 +76,9 @@ const App: React.FC = () => {
       label: `Tiếng Anh`,
       children: (
         <>
-          <Input
-            placeholder="Nhập vào tên danh danh mục tiếng anh"
-            size="large"
-          />
         </>
       ),
-    },
-    {
-      key: "3",
-      label: `Tiếng Pháp`,
-      children: (
-        <>
-          <Input
-            placeholder="Nhập vào tên danh danh mục tiếng pháp"
-            size="large"
-          />
-        </>
-      ),
-    },
-    {
-      key: "4",
-      label: `Tiếng Bồ Đào Nha`,
-      children: (
-        <>
-          <Input
-            placeholder="Nhập vào tên danh danh mục tiêng bồ đào nha"
-            size="large"
-          />
-        </>
-      ),
-    },
+    }
   ];
   return (
     <Dashboard>
@@ -108,6 +97,17 @@ const App: React.FC = () => {
               Tên danh mục
             </label>
             <Tabs activeKey={activeTab} items={items} onChange={onChange} />
+            {activeTab === "1" ? (
+              <Input
+                placeholder="Nhập vào tên danh danh mục tiếng việt"
+                size="large"
+              />
+            ):(
+              <Input
+                placeholder="Nhập vào tên danh danh mục tiếng anh"
+                size="large"
+              />
+            )}
             <div className="admin__main-wall"></div>
             <label className="admin__main-label">
               <StarFilled style={{ marginRight: 5 }} />
