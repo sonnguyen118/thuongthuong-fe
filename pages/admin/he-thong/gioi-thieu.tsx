@@ -348,7 +348,7 @@ const App: React.FC = () => {
 			})
 			.catch((error) => {
 				// Xử lý khi có lỗi xảy ra
-				notification.success({
+				notification.error({
 					message: "Cập nhật dữ liệu thất bại",
 					description: "Đã có lỗi xảy ra trong quá trình cập nhật dữ liệu tiếng việt",
 					duration: 1.5,

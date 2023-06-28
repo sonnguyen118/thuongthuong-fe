@@ -1,7 +1,7 @@
 // Với admin sử dụng các api này
 export { default as Login } from './admin/login'
 
-export { default as createCategory } from './admin/category'
+export { default as Category } from './admin/category'
 export { default as getAllCategory } from './admin/category'
 export { default as Products } from './admin/products'
 export { default as Ckeditor2 } from './admin/ckeditor-phe'
