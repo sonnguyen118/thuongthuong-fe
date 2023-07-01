@@ -7,14 +7,6 @@ interface contentProps {
   content: string,
   description: string
 }
-
-interface bodyProducts {
-  link: string,
-  imgLink: string,
-  categoryLevel1Id : number,
-  categoryLevel2Id : number,
-  content: contentProps[]
-}
 interface bodyProductsGetAll {
   language: string;
   page: number;
@@ -85,6 +77,24 @@ const handleGetAllProducts = async (body: bodyProductsGetAll): Promise<ResponseD
   }
 };
 
+const handleGetOne = async (id: number): Promise<ResponseData | Error> => {
+  try {
+    const response = await Products.getDataOne(id);
+    const { data, meta } = response.data;
+    if (meta.status === 200) {
+      const resData: ResponseData = { meta: meta, data: data };
+      return resData;
+    } else {
+      throw new Error(`Unexpected status code: ${meta.status}`);
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      return error;
+    } else {
+      return new Error("Unexpected error");
+    }
+  }
+};
 
 
-export default { handleCreateProducts, handleUploadImageProducts, handleGetAllProducts};
+export default { handleCreateProducts, handleUploadImageProducts, handleGetAllProducts, handleGetOne};

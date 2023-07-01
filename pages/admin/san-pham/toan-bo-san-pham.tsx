@@ -1,5 +1,5 @@
 import React, { useState, ReactNode, useMemo, useEffect } from "react";
-import { Button, Table, Tag, Switch } from "antd";
+import { Button, Table, Tag, Switch, notification } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import type { TableRowSelection } from "antd/es/table/interface";
 import Dashboard from "@components/layouts/admin/Dashboard";
@@ -7,12 +7,13 @@ import { NavigationAdmin } from "@components/elements/navigation";
 import { FilterAdminProducts } from "@components/molecules/FilterAdmin";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import {handleProducts} from "@service";
+import { handleCategory, handleProducts } from "@service";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { setLoading } from "@slices/loadingState";
 import * as process from "process";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 interface DataType {
   key: React.Key;
   image: string;
@@ -27,48 +28,7 @@ interface buttonProps {
   style: string;
   title: string;
   link: string;
-}
-const columns: ColumnsType<DataType> = [
-  {
-    title: "STT",
-    dataIndex: "key",
-    render: (text, index) => <>{text}</>,
-  },
-  {
-    title: "Hình ảnh",
-    dataIndex: "imageUrl",
-    render: (text) => (
-      <Image src={process.env.NEXT_PUBLIC_API_URL + "/" + text} width={60} height={60} alt="ảnh sản phẩm"></Image>
-    ),
-  },
-  {
-    title: "Tên sản phẩm",
-    dataIndex: "name",
-    render: (text) => <>{text}</>,
-  },
-  
-  {
-    title: "Danh mục cấp 1",
-    dataIndex: "title1",
-    render: (text) => <>{text}</>,
-  },
-  {
-    title: "Danh mục cấp 2",
-    dataIndex: "title2",
-    render: (text) => <>{text}</>,
-  },
-  {
-    title: "Thao tác",
-    dataIndex: "action",
-    render: (_, { tags }) => (
-      <Switch
-        checkedChildren="Tạm ẩn"
-        unCheckedChildren="Bỏ ẩn"
-        defaultChecked={tags}
-      />
-    ),
-  },
-];
+};
 
 interface NavigationProps {
   id: number;
@@ -77,6 +37,7 @@ interface NavigationProps {
 }
 const App: React.FC = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [cookies] = useCookies(["accessToken"]);
   const token = cookies["accessToken"];
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
@@ -115,6 +76,95 @@ const App: React.FC = () => {
       link: "/",
     },
   ];
+  const handleGoDetailt = (record: any) => {
+    router.push(`/admin/san-pham/chinh-sua-san-pham/${record.id}`);
+  };
+  const handledeleteCategory =(record : any) => {
+    const body = {
+      id: record.id,
+      isActive: false,
+      softDeleted: true,
+    };
+    dispatch(setLoading(true));
+    handleCategory
+      .handleUpdateStatus(body)
+      .then((result:any) => {
+        // Xử lý kết quả trả về ở đây
+        notification.success({
+          message: "Xoá thành công",
+          description: "Bạn đã tiến hành xóa thành công danh mục sản phẩm này",
+          duration: 1.5,
+          onClose: () => {
+            dispatch(setLoading(false));
+            router.reload();
+          },
+        });
+      })
+      .catch((error) => {
+        // Xử lý lỗi ở đây
+        console.log(error);
+        notification.error({
+          message: "Cập nhật dữ liệu thất bại",
+          description: "Đã có lỗi xảy ra trong quá trình cập nhật dữ liệu",
+          duration: 1.5,
+          onClose: () => {
+            dispatch(setLoading(false));
+            // router.reload();
+          },
+        });
+      });
+  };
+  const columns: ColumnsType<DataType> = [
+    {
+      title: "STT",
+      dataIndex: "key",
+      render: (text, index) => <>{text}</>,
+    },
+    {
+      title: "Hình ảnh",
+      dataIndex: "imageUrl",
+      render: (text) => (
+        <Image src={process.env.NEXT_PUBLIC_API_URL + "/" + text} width={60} height={60} alt="ảnh sản phẩm"></Image>
+      ),
+    },
+    {
+      title: "Tên sản phẩm",
+      dataIndex: "name",
+      render: (text) => <>{text}</>,
+    },
+
+    {
+      title: "Danh mục cấp 1",
+      dataIndex: "danhMuc1",
+      render: (text) => <>{text.name}</>,
+    },
+    {
+      title: "Danh mục cấp 2",
+      dataIndex: "danhMuc2",
+      render: (text) => <>{text.name}</>,
+    },
+    {
+      title: "Trạng thái",
+      dataIndex: "isActive",
+      render: (isActive, record) => (
+        <Switch
+          checkedChildren="Đang hiện"
+          unCheckedChildren="Đang ẩn"
+          defaultChecked={isActive}
+        />
+      ),
+    },
+    {
+      title: "Thao tác",
+      dataIndex: "link",
+      render: (link, record) => (
+        <>
+          <Button onClick={(e)=> handleGoDetailt(record)}><EditOutlined /></Button>
+          <Button style={{marginLeft: 15}} onClick={()=> handledeleteCategory(record)}><DeleteOutlined/></Button>
+        </>
+      ),
+    }
+  ];
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
     console.log("selectedRowKeys changed: ", newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
@@ -135,47 +185,9 @@ const App: React.FC = () => {
   ];
   const rowSelection: TableRowSelection<DataType> = {
     selectedRowKeys,
-    onChange: onSelectChange,
-    selections: [
-      Table.SELECTION_ALL,
-      Table.SELECTION_INVERT,
-      Table.SELECTION_NONE,
-      {
-        key: "odd",
-        text: "Select Odd Row",
-        onSelect: (changeableRowKeys) => {
-          let newSelectedRowKeys = [];
-          newSelectedRowKeys = changeableRowKeys.filter((_, index) => {
-            if (index % 2 !== 0) {
-              return false;
-            }
-            return true;
-          });
-          setSelectedRowKeys(newSelectedRowKeys);
-        },
-      },
-      {
-        key: "even",
-        text: "Select Even Row",
-        onSelect: (changeableRowKeys) => {
-          let newSelectedRowKeys = [];
-          newSelectedRowKeys = changeableRowKeys.filter((_, index) => {
-            if (index % 2 !== 0) {
-              return true;
-            }
-            return false;
-          });
-          setSelectedRowKeys(newSelectedRowKeys);
-        },
-      },
-    ],
+    onChange: onSelectChange
   };
-  const button: buttonProps = {
-    isButton: true,
-    style: "add",
-    title: "Tạo danh mục cấp 1",
-    link: "/admin/danh-muc/tao-moi-danh-muc?level=1",
-  };
+
   return (
     <Dashboard>
       <div className="admin__main-wrap">
@@ -190,13 +202,6 @@ const App: React.FC = () => {
             rowSelection={rowSelection}
             columns={columns}
             dataSource={dataProducts}
-            onRow={(record, rowIndex) => {
-              return {
-                onClick: (event) => {
-                  router.push(`/admin/danh-muc/danh-muc-cap-1/${record.key}`); // Perform router push on row click
-                },
-              };
-            }}
           />
         </div>
       </div>

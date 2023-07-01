@@ -7,10 +7,8 @@ import { StarFilled } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import { handleCategory } from "@service";
 import { useCookies } from "react-cookie";
-import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { setLoading } from "@slices/loadingState";
-import { normalizeString } from "@utils/Mocks";
 
 interface RootState {
   loading: {

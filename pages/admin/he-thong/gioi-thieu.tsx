@@ -377,7 +377,7 @@ const App: React.FC = () => {
 			}));
 			setFileList(mappedData);
 		}
-	},[imageBlock1]);
+	},[imageBlock]);
 	useEffect(()=> {
 		if(imageBlock1.length > 0) {
 			const mappedData: UploadFile[] = imageBlock1.map((urlImage: string) => ({

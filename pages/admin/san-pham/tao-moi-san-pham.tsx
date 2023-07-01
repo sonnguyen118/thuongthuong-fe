@@ -8,13 +8,11 @@ import { useRouter } from "next/router";
 import ImgCrop from "antd-img-crop";
 import type { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface";
 import { CkeditorEnable } from "@components/molecules/ckeditor";
-import { handleCategory, handleCategoryClient } from "@service";
+import { handleCategoryClient } from "@service";
 import { useSelector, useDispatch } from "react-redux";
 import { setLoading } from "@slices/loadingState";
-import { useCookies } from "react-cookie";
 import { normalizeString } from "@utils/Mocks";
 import { handleProducts } from "@service";
-import { toast } from "react-toastify";
 
 const { TextArea } = Input;
 

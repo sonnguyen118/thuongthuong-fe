@@ -31,6 +31,9 @@ const uploadImagesProduct = (formData: any): Promise<any> => {
 const getAllProducts = (body: bodyProductsGetAll): Promise<any> => {
   return axiosInstanceAuthorization.post(process.env.NEXT_PUBLIC_API_URL + "/product/admin/get-products", body);
 };
+const getDataOne = (id: number): Promise<any> => {
+  return axiosInstanceAuthorization.get(process.env.NEXT_PUBLIC_API_URL + `/product/admin/get-detail?productId=${id}`);
+};
 
 
-export default { createProducts, uploadImagesProduct, getAllProducts };
+export default { createProducts, uploadImagesProduct, getAllProducts, getDataOne };
