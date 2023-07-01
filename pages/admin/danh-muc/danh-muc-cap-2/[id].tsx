@@ -17,11 +17,13 @@ interface RootState {
     loading: boolean;
   };
 }
+
 interface NavigationProps {
   id: number;
   title: string;
   link: string;
 }
+
 type LanguageKey = "VI" | "EN" | "FR" | "PO";
 type NameState = {
   [key: string]: string | undefined;
@@ -29,7 +31,7 @@ type NameState = {
 const App: React.FC = () => {
   const [name, setName] = useState<{ [key: string]: string | undefined }>({
     VI: undefined,
-    EN: undefined,
+    EN: undefined
   });
   const [cookies] = useCookies(["accessToken"]);
   const token = cookies["accessToken"];
@@ -39,13 +41,13 @@ const App: React.FC = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [level2, setLevel2] = useState(false);
-  const [category1, setDataCategory1] = useState([{value: "", label: ""}]);
+  const [category1, setDataCategory1] = useState([{ value: "", label: "" }]);
   // lấy toàn bộ danh mục cấp 1
   useEffect(() => {
     dispatch(setLoading(true));
     handleCategory
       .handleGetAllCategory()
-      .then((result:any) => {
+      .then((result: any) => {
         // Xử lý kết quả trả về ở đây
         const newArray = result.map((item: any) => ({
           value: item.id,
@@ -73,6 +75,7 @@ const App: React.FC = () => {
           // Xử lý kết quả trả về ở đây
           setName(result.name);
           setLink(result.link);
+          setParent(result.parent);
           dispatch(setLoading(false));
         })
         .catch((error) => {
@@ -87,7 +90,7 @@ const App: React.FC = () => {
       (event: React.ChangeEvent<HTMLInputElement>) => {
         setName((prevName) => ({
           ...prevName,
-          [languageKey]: event.target.value,
+          [languageKey]: event.target.value
         }));
       };
 
@@ -116,43 +119,41 @@ const App: React.FC = () => {
     {
       id: 1,
       title: `Trang chủ`,
-      link: "/admin",
+      link: "/admin"
     },
     {
       id: 2,
       title: `Danh mục`,
-      link: "/admin/danh-muc",
+      link: "/admin/danh-muc"
     },
     {
       id: 3,
       title: level2 ? "Danh mục cấp 2" : "Danh mục cấp 1",
       link: level2
         ? "/admin/danh-muc/danh-muc-cap-2"
-        : "/admin/danh-muc/danh-muc-cap-1",
+        : "/admin/danh-muc/danh-muc-cap-1"
     },
     {
       id: 3,
       title: level2 ? `Tạo mới danh mục cấp 2` : `Tạo mới danh mục cấp 1`,
-      link: "/",
-    },
+      link: "/"
+    }
   ];
 
   // hàm lọc title chuyển thành link
   const handleChangeTitleToLink = (value: string) => {
     setName((prevName) => ({
       ...prevName,
-      VI: value,
+      VI: value
     }));
-    const newLink = normalizeString(value);
-    setLink(newLink);
   };
   const items: TabsProps["items"] = [
     {
       key: "1",
       label: `Tiếng Việt`,
       children: (
-<></>
-      ),
+        <></>
+      )
     },
     {
       key: "2",
@@ -160,34 +161,25 @@ const App: React.FC = () => {
       children: (
         <>
         </>
-      ),
+      )
     }
   ];
 
-  const onFinish = (values: any) => {
-    if (link === "") {
-      toast.error("Đường dẫn không được bỏ trống", {
-        position: "top-right",
-        autoClose: 1200,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      return;
-    }
-    dispatch(setLoading(true));
+  // hủy và lưu dữ liệu
+  const handleSubmit = () => {
     const body = {
-      name, link, parent
-    }
+      id: Number(id),
+      name: name,
+      link: link,
+      parent: parent,
+    };
+    dispatch(setLoading(true));
     handleCategory
-      .handleCreateCategory(body)
+      .handleUpdate(body)
       .then((result: any) => {
         notification.success({
-          message: "Tạo thành công",
-          description: "Bạn đã thành công tạo mới danh mục sản phẩm",
+          message: "Cập nhật thành công",
+          description: "Bạn đã tiến hành cập nhật dữ liệu thành công",
           duration: 1.5,
           onClose: () => {
             dispatch(setLoading(false));
@@ -199,8 +191,8 @@ const App: React.FC = () => {
         // Xử lý lỗi ở đây
         console.log(error);
         notification.error({
-          message: "Tạo danh mục thất bại",
-          description: "Đã có lỗi xảy ra trong quá trình tạo danh mục",
+          message: "Cập nhật dữ liệu thất bại",
+          description: "Đã có lỗi xảy ra trong quá trình cập nhật dữ liệu",
           duration: 1.5,
           onClose: () => {
             dispatch(setLoading(false));
@@ -208,24 +200,9 @@ const App: React.FC = () => {
         });
       });
   };
-
-  const onFinishFailed = (errorInfo: any) => {
-    toast.error(
-      errorInfo.errorFields[0]?.errors[0] ||
-      "Có lỗi xảy ra vui lòng kiểm tra lại trước khi gửi",
-      {
-        position: "top-right",
-        autoClose: 1200,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      }
-    );
+  const handleReject = () => {
+    router.push("/admin/danh-muc/danh-muc-cap-1");
   };
-
   return (
     <Dashboard>
       <div className="admin__main-wrap">
@@ -236,12 +213,6 @@ const App: React.FC = () => {
           }
           data={navigationData}
         />
-        <Form
-          name="basic"
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off"
-        >
           <div className="admin__main-content">
             <div className="admin__main-cards">
               <label className="admin__main-label">
@@ -256,7 +227,7 @@ const App: React.FC = () => {
                   onChange={(e) => handleChangeTitleToLink(e.target.value)}
                   value={name.VI}
                 />
-              ):(
+              ) : (
                 <Input
                   placeholder="Nhập vào tên danh danh mục tiếng anh"
                   size="large"
@@ -264,29 +235,31 @@ const App: React.FC = () => {
                   value={name.EN}
                 />
               )}
-                <div className="admin__main-wall"></div>
-                <label className="admin__main-label">
-                  <StarFilled style={{ marginRight: 5 }} />
-                  Lựa chọn danh mục cha (Danh mục cấp 1)
-                </label>
-                <Select
-                  onChange={(e)=> setParent(e)}
-                  value={parent}
-                  showSearch
-                  style={{ width: "100%" }}
-                  placeholder="Gõ phím để tìm kiếm danh mục"
-                  size="large"
-                  optionFilterProp="children"
-                  filterOption={(input, option) =>
-                    (option?.label ?? "").includes(input)
-                  }
-                  filterSort={(optionA, optionB) =>
-                    (optionA?.label ?? "")
-                      .toLowerCase()
-                      .localeCompare((optionB?.label ?? "").toLowerCase())
-                  }
-                  options={category1}
-                />
+              <div className="admin__main-wall"></div>
+              <label className="admin__main-label">
+                <StarFilled style={{ marginRight: 5 }} />
+                Lựa chọn danh mục cha (Danh mục cấp 1)
+              </label>
+              {parent && <Select
+                // onChange={(e: any) => setParent(e)}
+                // hủy ch năng thay đổi danh mục cha
+                value={Number(parent.slice(1))}
+                showSearch
+                style={{ width: "100%" }}
+                placeholder="Gõ phím để tìm kiếm danh mục"
+                size="large"
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  (option?.label ?? "").includes(input)
+                }
+                filterSort={(optionA, optionB) =>
+                  (optionA?.label ?? "")
+                    .toLowerCase()
+                    .localeCompare((optionB?.label ?? "").toLowerCase())
+                }
+                options={category1}
+              />}
+
               <div className="admin__main-wall"></div>
               <label className="admin__main-label">
                 <StarFilled style={{ marginRight: 5 }} />
@@ -302,17 +275,16 @@ const App: React.FC = () => {
               />
             </div>
             <div className="admin__main-save">
-              <Button type="default">Hủy</Button>
+              <Button type="default" onClick={handleReject}>Hủy</Button>
               <Button
                 type="primary"
                 style={{ marginLeft: 10 }}
-                htmlType="submit"
+                onClick={handleSubmit}
               >
-                Tạo mới
+                Lưu
               </Button>
             </div>
           </div>
-        </Form>
       </div>
     </Dashboard>
   );

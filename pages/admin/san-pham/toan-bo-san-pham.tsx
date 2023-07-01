@@ -12,6 +12,7 @@ import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { setLoading } from "@slices/loadingState";
+import * as process from "process";
 interface DataType {
   key: React.Key;
   image: string;
@@ -35,9 +36,9 @@ const columns: ColumnsType<DataType> = [
   },
   {
     title: "Hình ảnh",
-    dataIndex: "image",
+    dataIndex: "imageUrl",
     render: (text) => (
-      <Image src={text} width={60} height={60} alt="ảnh sản phẩm"></Image>
+      <Image src={process.env.NEXT_PUBLIC_API_URL + "/" + text} width={60} height={60} alt="ảnh sản phẩm"></Image>
     ),
   },
   {

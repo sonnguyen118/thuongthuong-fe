@@ -1,5 +1,5 @@
 import React, {useState, ReactNode, useEffect} from "react";
-import { Button, notification, Table, Tag } from "antd";
+import { Button, notification, Switch, Table, Tag } from "antd";
 import type {ColumnsType} from "antd/es/table";
 import type {TableRowSelection} from "antd/es/table/interface";
 import Dashboard from "@components/layouts/admin/Dashboard";
@@ -74,7 +74,41 @@ const App: React.FC = () => {
 				});
 			});
 	};
-
+	const handleUpdateStatus =(record: any) => {
+		const body = {
+			id: record.id,
+			isActive: !record.isActive,
+			softDeleted: false
+		};
+		dispatch(setLoading(true));
+		handleCategory
+			.handleUpdateStatus(body)
+			.then((result: any) => {
+				// Xử lý kết quả trả về ở đây
+				notification.success({
+					message: "Thành công",
+					description: "Bạn đã tiến hành cập nhật trạng thái thành công danh mục sản phẩm này",
+					duration: 1.5,
+					onClose: () => {
+						dispatch(setLoading(false));
+						router.reload();
+					}
+				});
+			})
+			.catch((error) => {
+				// Xử lý lỗi ở đây
+				console.log(error);
+				notification.error({
+					message: "Ẩn dữ liệu thất bại",
+					description: "Đã có lỗi xảy ra trong quá trình cập nhật dữ liệu",
+					duration: 1.5,
+					onClose: () => {
+						dispatch(setLoading(false));
+						// router.reload();
+					}
+				});
+			});
+	}
 	const columns: ColumnsType<DataType> = [
 		{
 			title: "STT",
@@ -93,16 +127,10 @@ const App: React.FC = () => {
 		},
 		{
 			title: "Trạng thái",
-			dataIndex: "isActive",
-			render: (isActive) => (
-				<>
-					{isActive ? (
-						<Tag color={"green"}>Hiển thị</Tag>
-					) : (
-						<Tag color={"volcano"}>Đang ẩn</Tag>
-					)}
-				</>
-			),
+			dataIndex: "address",
+			render: (text, record: any) => (
+				<Switch checkedChildren="Hiển thị" unCheckedChildren="Đang ẩn" defaultChecked={record.isActive} onClick={(e) => handleUpdateStatus(record)}/>
+			)
 		},
 		{
 			title: "Danh mục cha",
