@@ -81,7 +81,7 @@ const App: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [dataProducts, setDataProducts] = useState([]);
   // lấy dữ liệu
-  useMemo(()=>{
+  useEffect(()=>{
     const body = {
       language: "VI",
       page: 1,

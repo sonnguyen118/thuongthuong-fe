@@ -42,12 +42,7 @@ const App: React.FC = () => {
   }
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [data, setData] = useState();
-  console.log(data, "data");
-  console.log(selectedRowKeys, "selectedRowKeys")
-  useMemo(() => {
-    const body = {
-      language: "VI",
-    };
+  useEffect(() => {
     dispatch(setLoading(true));
     handleCategory
       .handleGetAllCategory()
@@ -112,7 +107,6 @@ const App: React.FC = () => {
     setSelectedRowKeys(newSelectedRowKeys);
   };
   const handledeleteCategory =(record : any) => {
-    console.log(record, "onDelete");
       const body = {
         id: record.id,
         isActive: false,

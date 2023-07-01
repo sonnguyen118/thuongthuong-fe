@@ -26,7 +26,7 @@ const App: React.FC = () => {
 	const [activeTab, setActiveTab] = useState("1");
 
 	// lấy dữ liệu danh mục
-	useMemo(() => {
+	useEffect(() => {
 		dispatch(setLoading(true));
 		// thao tác 3 lần get lấy dữ liệu
 		const promises = [];

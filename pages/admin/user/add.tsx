@@ -107,7 +107,7 @@ const App: React.FC = () => {
 		setLink(newLink);
 	};
 	// lấy dữ liệu danh mục
-	useMemo(() => {
+		useEffect(() => {
 		dispatch(setLoading(true));
 		const body: bodyCategoryGetAdmin = {
 			language: "VI"

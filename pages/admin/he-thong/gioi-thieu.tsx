@@ -291,7 +291,7 @@ const App: React.FC = () => {
 	const [activeTab, setActiveTab] = useState("1");
 
 	// lấy dữ liệu danh mục
-	useMemo(() => {
+	useEffect(() => {
 		dispatch(setLoading(true));
 		const promises = [];
 		const promiseVI = webInformationClient.handleGetWebInformation("8")

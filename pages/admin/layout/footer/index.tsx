@@ -88,7 +88,7 @@ const App: React.FC = () => {
 		}
 	]);
 	//Lấy dữ liệu ban đầu
-	useMemo(()=> {
+	useEffect(()=> {
 		dispatch(setLoading(true));
 		try {
 		webInformationClient.handleGetWebInformation("2")

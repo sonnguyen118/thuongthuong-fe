@@ -25,7 +25,16 @@ type ResponseData = {
   data: any;
   meta: metaProps;
 };
+type bodyGetOne = {
+  id: number;
+};
 
+type bodyUpdate = {
+  id: number;
+  name: any;
+  link: string;
+  parent: string;
+}
 
 const handleCreateCategory = async (body: bodyCategory): Promise<ResponseData | Error> => {
   try {
@@ -82,5 +91,39 @@ const handleUpdateStatus = async (body : bodyUpdateCategory) => {
     }
   }
 };
+const handleGetOne = async (body : bodyGetOne) => {
+  try {
+    const response = await Category.getOne(body);
+    const { data, meta } = response.data;
+    if (meta.status === 200) {
+      return data;
+    } else {
+      throw new Error(`Unexpected status code: ${meta.status}`);
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      return error;
+    } else {
+      return new Error("Unexpected error");
+    }
+  }
+};
+const handleUpdate = async (body : bodyUpdate) => {
+  try {
+    const response = await Category.update(body);
+    const { data, meta } = response.data;
+    if (meta.status === 200) {
+      return data;
+    } else {
+      throw new Error(`Unexpected status code: ${meta.status}`);
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      return error;
+    } else {
+      return new Error("Unexpected error");
+    }
+  }
+};
 
-export default { handleGetAllCategory, handleCreateCategory, handleUpdateStatus };
+export default { handleGetAllCategory, handleCreateCategory, handleUpdateStatus, handleGetOne, handleUpdate };

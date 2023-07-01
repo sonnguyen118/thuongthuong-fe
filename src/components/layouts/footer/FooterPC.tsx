@@ -26,7 +26,7 @@ const Footer: React.FC<FooterProps> = ( props) => {
   useEffect(() => {
     loadLanguageText(lang, setText);
   }, [lang]);
-  useMemo(()=> {
+  useEffect(()=> {
     if(data) {
       setMenu1(data.subMenu1);
       setMenu2(data.subMenu2);

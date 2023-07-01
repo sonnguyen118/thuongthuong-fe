@@ -1,4 +1,4 @@
-import React, {useState, ReactNode, useMemo} from "react";
+import React, { useState, ReactNode, useMemo, useEffect } from "react";
 import {Button, Table, Tag, Input, Tabs, TabsProps, notification} from "antd";
 import type {ColumnsType} from "antd/es/table";
 import type {TableRowSelection} from "antd/es/table/interface";
@@ -127,7 +127,7 @@ const App: React.FC = () => {
 	const [data, setData] = useState<DataType[]>([]);
 	const [dataEN, setDataEN] = useState<DataType[]>([]);
 	//Lấy dữ liệu ban đầu
-	useMemo(()=> {
+	useEffect(()=> {
 		dispatch(setLoading(true));
 		webInformationClient.handleGetWebInformation("3")
 			.then((res:any) => {
@@ -141,6 +141,7 @@ const App: React.FC = () => {
 			})
 			.catch((error) => {
 				// Xử lý lỗi
+				dispatch(setLoading(false));
 				console.error(error);
 			});
 		webInformationClient.handleGetWebInformation("4")
@@ -155,6 +156,7 @@ const App: React.FC = () => {
 			})
 			.catch((error) => {
 				// Xử lý lỗi
+				dispatch(setLoading(false));
 				console.error(error);
 			});
 	}, []);

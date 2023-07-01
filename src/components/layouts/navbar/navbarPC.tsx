@@ -26,7 +26,7 @@ const NavbarPC: React.FC<NavbarProps> = ( props) => {
   const [t, setText] = useState(viText);
   const [category, setCategory] = useState([]);
   const [items, setItems] = useState<MenuProps["items"]>([]);
-  useMemo(() => {
+  useEffect(() => {
     handleCategoryClient.handleGetAllCategory("VI")
       .then((result: any) => {
         setCategory(result);

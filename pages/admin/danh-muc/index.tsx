@@ -43,11 +43,10 @@ const columns: ColumnsType<DataType> = [
 	},
 	{
 		title: "Trạng thái",
-		key: "tags",
-		dataIndex: "tags",
-		render: (_, {tags}) => (
+		dataIndex: "isActive",
+		render: (isActive) => (
 			<>
-				{tags ? (
+				{isActive ? (
 					<Tag color={"green"}>Hiển thị</Tag>
 				) : (
 					<Tag color={"volcano"}>Đang ẩn</Tag>
@@ -111,6 +110,7 @@ const App: React.FC = () => {
 					idParent: null,
 					linkParent: null,
 					nameParent: null,
+					isActive: category.isActive,
 				}
 			)
 		});
@@ -217,6 +217,7 @@ const App: React.FC = () => {
 		title: "Tạo danh mục",
 		link: "/admin/danh-muc/tao-moi-danh-muc?level=2",
 	};
+	console.log(data, "data")
 	return (
 		<Dashboard>
 			<div className="admin__main-wrap">
@@ -240,13 +241,6 @@ const App: React.FC = () => {
 						rowSelection={rowSelection}
 						columns={columns}
 						dataSource={data}
-						onRow={(record, rowIndex) => {
-							return {
-								onClick: (event) => {
-									router.push(`/admin/danh-muc/danh-muc-cap-2/${record.key}`); // Perform router push on row click
-								},
-							};
-						}}
 					/>
 				</div>
 			</div>

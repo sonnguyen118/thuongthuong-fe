@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Dashboard from "@components/layouts/admin/Dashboard";
 import { NavigationAdmin } from "@components/elements/navigation";
-import { Tabs, Button, Input, Select, Form } from "antd";
+import { Tabs, Button, Input, Select, Form, notification } from "antd";
 import type { TabsProps } from "antd";
 import { StarFilled } from "@ant-design/icons";
 import { useRouter } from "next/router";
@@ -30,8 +30,6 @@ const App: React.FC = () => {
   const [name, setName] = useState<{ [key: string]: string | undefined }>({
     VI: undefined,
     EN: undefined,
-    FR: undefined,
-    PO: undefined,
   });
   const [cookies] = useCookies(["accessToken"]);
   const token = cookies["accessToken"];
@@ -41,6 +39,28 @@ const App: React.FC = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [level2, setLevel2] = useState(false);
+  const [category1, setDataCategory1] = useState([{value: "", label: ""}]);
+  // lấy toàn bộ danh mục cấp 1
+  useEffect(() => {
+    dispatch(setLoading(true));
+    handleCategory
+      .handleGetAllCategory()
+      .then((result:any) => {
+        // Xử lý kết quả trả về ở đây
+        const newArray = result.map((item: any) => ({
+          value: item.id,
+          label: item.name
+        }));
+        setDataCategory1(newArray);
+        dispatch(setLoading(false));
+      })
+      .catch((error) => {
+        // Xử lý lỗi ở đây
+        console.log(error);
+        dispatch(setLoading(false));
+      });
+  }, []);
+  console.log(category1, "category1");
   const handleInputChange =
     (languageKey: LanguageKey) =>
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,32 +69,7 @@ const App: React.FC = () => {
         [languageKey]: event.target.value,
       }));
     };
-  const options = [
-    {
-      value: "1",
-      label: "Not Identified",
-    },
-    {
-      value: "2",
-      label: "Closed",
-    },
-    {
-      value: "3",
-      label: "Communicated",
-    },
-    {
-      value: "4",
-      label: "Identified",
-    },
-    {
-      value: "5",
-      label: "Resolved",
-    },
-    {
-      value: "6",
-      label: "Cancelled",
-    },
-  ];
+
   useEffect(() => {
     // console.log(router.query.level);
     if (router.query.level) {
@@ -166,35 +161,7 @@ const App: React.FC = () => {
           />
         </>
       ),
-    },
-    {
-      key: "3",
-      label: `Tiếng Pháp`,
-      children: (
-        <>
-          <Input
-            placeholder="Nhập vào tên danh danh mục tiếng pháp"
-            size="large"
-            onChange={handleInputChange("FR")}
-            value={name.FR}
-          />
-        </>
-      ),
-    },
-    {
-      key: "4",
-      label: `Tiếng Bồ Đào Nha`,
-      children: (
-        <>
-          <Input
-            placeholder="Nhập vào tên danh danh mục tiêng bồ đào nha"
-            size="large"
-            onChange={handleInputChange("PO")}
-            value={name.PO}
-          />
-        </>
-      ),
-    },
+    }
   ];
 
   const onFinish = (values: any) => {
@@ -212,31 +179,37 @@ const App: React.FC = () => {
       return;
     }
     dispatch(setLoading(true));
-    handleCategory.handleCreateCategory({ name, link, parent });
-    toast.success("Tạo danh mục sản phẩm thành công !", {
-      position: "top-right",
-      autoClose: 1200,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      onClose: () => {
-        setName({
-          VI: undefined as string | undefined,
-          EN: undefined as string | undefined,
-          FR: undefined as string | undefined,
-          PO: undefined as string | undefined,
+      const body = {
+        name, link, parent
+      }
+      handleCategory
+        .handleCreateCategory(body)
+        .then((result: any) => {
+          notification.success({
+            message: "Tạo thành công",
+            description: "Bạn đã thành công tạo mới danh mục sản phẩm",
+            duration: 1.5,
+            onClose: () => {
+              dispatch(setLoading(false));
+              router.reload();
+            },
+          });
+        })
+        .catch((error) => {
+          // Xử lý lỗi ở đây
+          console.log(error);
+          notification.error({
+            message: "Tạo danh mục thất bại",
+            description: "Đã có lỗi xảy ra trong quá trình tạo danh mục",
+            duration: 1.5,
+            onClose: () => {
+              dispatch(setLoading(false));
+            },
+          });
         });
-        setLink("");
-        dispatch(setLoading(false));
-      },
-    });
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo.errorFields[0].errors[0]);
     toast.error(
       errorInfo.errorFields[0]?.errors[0] ||
         "Có lỗi xảy ra vui lòng kiểm tra lại trước khi gửi",
@@ -253,7 +226,6 @@ const App: React.FC = () => {
     );
   };
 
-  console.log(link, "linh thay đổi");
   return (
     <Dashboard>
       <div className="admin__main-wrap">
@@ -285,6 +257,7 @@ const App: React.FC = () => {
                     Lựa chọn danh mục cha (Danh mục cấp 1)
                   </label>
                   <Select
+                    onChange={(e)=> setParent(e)}
                     showSearch
                     style={{ width: "100%" }}
                     placeholder="Gõ phím để tìm kiếm danh mục"
@@ -298,7 +271,7 @@ const App: React.FC = () => {
                         .toLowerCase()
                         .localeCompare((optionB?.label ?? "").toLowerCase())
                     }
-                    options={options}
+                    options={category1}
                   />
                 </>
               )}
@@ -309,7 +282,7 @@ const App: React.FC = () => {
               </label>
 
               <Input
-                addonBefore={process.env.NEXT_PUBLIC_FULL_URL + "/"}
+                addonBefore={process.env.NEXT_PUBLIC_FULL_URL + "/san-pham/"}
                 placeholder=""
                 size="large"
                 onChange={(e) => setLink(e.target.value)}
