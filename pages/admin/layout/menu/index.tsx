@@ -129,7 +129,7 @@ const App: React.FC = () => {
 	//Lấy dữ liệu ban đầu
 	useEffect(()=> {
 		dispatch(setLoading(true));
-		webInformationClient.handleGetWebInformation("3")
+		webInformationClient.handleGetWebInformation("4")
 			.then((res:any) => {
 				// Xử lý kết quả thành công
 				const dataString = JSON.parse(res.value);
@@ -144,7 +144,7 @@ const App: React.FC = () => {
 				dispatch(setLoading(false));
 				console.error(error);
 			});
-		webInformationClient.handleGetWebInformation("4")
+		webInformationClient.handleGetWebInformation("5")
 			.then((res:any) => {
 				// Xử lý kết quả thành công
 				const dataString = JSON.parse(res.value);
@@ -259,13 +259,13 @@ const App: React.FC = () => {
 		const promises = [];
 		// thực hiện hành động gửi dữ liệu
 		const body = {
-			id: 3,
+			id: 4,
 			key: "MENU_VI",
 			value: JSON.stringify(data),
 			description: "dữ liệu menu - tv"
 		}
 		const bodyEN = {
-			id: 4,
+			id: 5,
 			key: "MENU_EN",
 			value: JSON.stringify(dataEN),
 			description: "dữ liệu menu - ta"
@@ -316,7 +316,8 @@ const App: React.FC = () => {
 			.catch((error) => {
 				// Xử lý khi có lỗi xảy ra
 			});
-	}
+	};
+	console.log(data, "data")
 	return (
 		<Dashboard>
 			<div className="admin__main-wrap">
@@ -348,7 +349,7 @@ const App: React.FC = () => {
 										</div>
 									))}
 								</>
-								) : (
+							) : (
 								<>
 									{dataEN.map((item, index)=> (
 										<div style={{display: "flex", alignItems: "center", marginBottom: 30}} key={item.key}>
@@ -376,14 +377,14 @@ const App: React.FC = () => {
 							<Button type={"default"} onClick={()=> handleCancleChangePosition()}>Hủy bỏ</Button>
 							<Button type={"primary"} onClick={()=> handleSubmit()} style={{marginLeft: 10}}>Cập nhật</Button>
 						</div>
-					<DndProvider backend={HTML5Backend}>
-						<div className="">
-							<h2>Kéo thả thẻ menu</h2>
-							{data.map((div:DataType, index:number) => (
-								<DraggableDiv key={div.key} id={div.key} title={div.title} link={div.link} isActive={div.isActivate} index={index} moveDiv={moveDiv}/>
-							))}
-						</div>
-					</DndProvider>
+						<DndProvider backend={HTML5Backend}>
+							<div className="">
+								<h2>Kéo thả thẻ menu</h2>
+								{data.map((div:DataType, index:number) => (
+									<DraggableDiv key={div.key} id={div.key} title={div.title} link={div.link} isActive={div.isActivate} index={index} moveDiv={moveDiv}/>
+								))}
+							</div>
+						</DndProvider>
 					</div>
 				)}
 			</div>

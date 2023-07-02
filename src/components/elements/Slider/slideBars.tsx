@@ -54,11 +54,11 @@ const SimpleSlider: React.FC<SliderProps> = ( props) => {
             {dataSlider &&
               dataSlider.map((data:string, i:number) => (
                 <div key={i}>
-                  <div
+                  <img
                     className="home__slider-item"
+                    src={process.env.NEXT_PUBLIC_API_URL +"/"+ data}
                     style={{
-                      backgroundImage: `url(${process.env.NEXT_PUBLIC_API_URL +"/"+ data})`,
-                      backgroundSize: "cover",
+                      objectFit: "cover",
                       backgroundPosition: "center",
                       backgroundRepeat: "no-repeat",
                     }}
@@ -72,7 +72,7 @@ const SimpleSlider: React.FC<SliderProps> = ( props) => {
                     <Link href={data.link}>Xem thêm chi tiết</Link>
                   </Button>
                 </div> */}
-                  </div>
+                  </img>
                 </div>
               ))}
           </Slider>

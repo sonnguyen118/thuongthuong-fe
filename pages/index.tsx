@@ -42,6 +42,7 @@ interface pagesProps {
 }
 const Home: React.FC<pagesProps> = (props: pagesProps) => {
   const {dataPages, dataMenu, dataFooter, dataContact} = props;
+  console.log(props, "asdasd")
   console.log(dataPages, "dataPages")
   const [t, setText] = useState(viText);
   const lang = useSelector(
@@ -72,14 +73,6 @@ const Home: React.FC<pagesProps> = (props: pagesProps) => {
         {/* <CardTabs /> */}
         <ListProducts isShow={dataPages.showBlock3} uderlineBlock={dataPages.uderlineBlock3} iconBlock={dataPages.iconBlock3} titleBlock={dataPages.titleBlock3} listSliderBlock={dataPages.listSliderBlock3}/>
         <BlockProducts />
-        {/*<EventNews*/}
-        {/*  cardTitle={t.home.TITLE4_1}*/}
-        {/*  cardDescription={t.home.DESCRIPTION4_1}*/}
-        {/*  cardImageSrc={*/}
-        {/*    "https://www.kymviet.com.vn/322732553_724487039001045_8942490573815366750_n.jpg"*/}
-        {/*  }*/}
-        {/*  listItems={listNewsData}*/}
-        {/*/>*/}
         <ListPartner isShow={dataPages.showBlock5} uderlineBlock={dataPages.uderlineBlock5} iconBlock={dataPages.iconBlock5} titleBlock={dataPages.titleBlock5} listSliderBlock={dataPages.listSliderBlock5}/>
         <ContactHome data={dataContact}/>
       </Layout>
@@ -93,7 +86,6 @@ export async function getServerSideProps(context: any) {
     const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
     const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
     const ContactVI :any = await webInformationClient.handleGetWebInformation("12");
-
     return {
       props: {
         dataPages: JSON.parse(DatapageVI.value) || {},

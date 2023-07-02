@@ -123,8 +123,7 @@ const App: React.FC = () => {
             value: subItem.id,
             label: subItem.name
           };
-        });
-        setOptions2(optionsts);
+        });        setOptions2(optionsts);
       } else {
         setSelector2(null);
         setOptions2([]);

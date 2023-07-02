@@ -107,15 +107,16 @@ const SliderSync: React.FC<listSliderProps> = (props) => {
               key={i}
               className="home__listproducts-slider-small-item-wrap"
             >
-              <div
+              <img
                 className="home__listproducts-slider-small-item"
+                src={process.env.NEXT_PUBLIC_API_URL +"/"+ data}
                 style={{
-                  backgroundImage: `url(${process.env.NEXT_PUBLIC_API_URL + "/" + data})`,
-                  backgroundSize: "cover",
+                  objectFit: "cover",
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat",
                 }}
-              ></div>
+              >
+              </img>
             </div>
           ))}
         </Slider>

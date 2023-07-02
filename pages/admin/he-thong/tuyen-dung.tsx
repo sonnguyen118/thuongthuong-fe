@@ -134,7 +134,7 @@ const App: React.FC = () => {
 					notification.success({
 						message: "Cập nhật dữ liệu thất bại",
 						description: "Đã có lỗi xảy ra trong quá trình cập nhật dữ liệu tiếng việt",
-						duration: 1.5,
+						duration: 1,
 						onClose: () => {
 							dispatch(setLoading(false));
 						},
@@ -145,7 +145,7 @@ const App: React.FC = () => {
 					notification.success({
 						message: "Cập nhật dữ liệu thất bại",
 						description: "Đã có lỗi xảy ra trong quá trình cập nhật dữ liệu tiếng anh",
-						duration: 1.5,
+						duration: 1,
 						onClose: () => {
 							dispatch(setLoading(false));
 						},
@@ -155,7 +155,7 @@ const App: React.FC = () => {
 				notification.success({
 					message: 'Cập nhật dữ liệu thành công',
 					description: 'Bạn đã thành công cập nhật dữ liệu footer',
-					duration: 1.5,
+					duration: 1,
 					onClose: () => {
 						dispatch(setLoading(false));
 						router.reload();
