@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { store } from "@store";
 import viText from "@languages/vie.json";
 import loadLanguageText from "@languages";
+import { webInformationClient } from "@service";
 interface PageSEOData {
   name: string;
   pageSEO: {
@@ -25,8 +26,15 @@ interface NavigationProps {
   id: number;
   title: string;
   link: string;
+};
+
+interface pagesProps {
+  dataMenu: any;
+  dataFooter: any;
+  dataContact: any
 }
-const Contact: React.FC = () => {
+const Contact: React.FC<pagesProps> = (props: pagesProps) => {
+  const {dataMenu, dataFooter, dataContact} = props;
   const [t, setText] = useState(viText);
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
@@ -65,7 +73,7 @@ const Contact: React.FC = () => {
   return (
     <>
       <HeadSEO pageSEO={pageSEOData.pageSEO} />
-      <Layout>
+      <Layout dataMenu={dataMenu} dataFooter={dataFooter}>
         <div className="list-products">
           <div className="list-products-navigation">
             <NavigationTopBar data={dataNavigation} />
@@ -116,4 +124,21 @@ const Contact: React.FC = () => {
   );
 };
 
+export async function getServerSideProps(context: any) {
+  try {
+    const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
+    const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
+    const ContactVI :any = await webInformationClient.handleGetWebInformation("12");
+    return {
+      props: {
+        dataMenu:  JSON.parse(MenuVI.value) || {},
+        dataFooter: JSON.parse(FooterVI.value) || {},
+        dataContact: JSON.parse(ContactVI.value) || {},
+      },
+    };
+
+  } catch (e) {
+    return { props: {} };
+  }
+}
 export default Contact;

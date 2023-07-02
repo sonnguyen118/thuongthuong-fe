@@ -68,7 +68,7 @@ const Home: React.FC<pagesProps> = (props: pagesProps) => {
       <HeadSEO pageSEO={pageSEOData.pageSEO} />
       <Layout dataMenu={dataMenu} dataFooter={dataFooter}>
         <SlideBarsHome isShow={dataPages.showBlock1} dataSlider={dataPages.listSliderBlock1}/>
-        {/* <PrinciplesHome /> */}
+         <PrinciplesHome />
         <PiecesPuzzleHome isShow={dataPages.showBlock2} uderlineBlock={dataPages.uderlineBlock2} iconBlock={dataPages.iconBlock2} titleBlock={dataPages.titleBlock2} listSliderBlock={dataPages.listSliderBlock2} contentBlock={dataPages.contentBlock2}/>
         {/* <CardTabs /> */}
         <ListProducts isShow={dataPages.showBlock3} uderlineBlock={dataPages.uderlineBlock3} iconBlock={dataPages.iconBlock3} titleBlock={dataPages.titleBlock3} listSliderBlock={dataPages.listSliderBlock3}/>
@@ -86,6 +86,7 @@ export async function getServerSideProps(context: any) {
     const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
     const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
     const ContactVI :any = await webInformationClient.handleGetWebInformation("12");
+    console.log(JSON.parse(DatapageVI.value), "ContactVI");
     return {
       props: {
         dataPages: JSON.parse(DatapageVI.value) || {},

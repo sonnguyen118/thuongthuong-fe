@@ -219,7 +219,6 @@ const App: React.FC = () => {
 	const onChangeIcon5: UploadProps["onChange"] = ({ fileList: newFileList, }) => {
 		setFileListIcon5(newFileList);
 	};
-	console.log(fileListIcon2, "icon2")
 	const customRequest = async (options:any) => {
 		const { file, onSuccess, onError } = options;
 		try {

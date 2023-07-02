@@ -2,28 +2,33 @@
   &__slider {
     width: 100%;
     position: relative;
-    margin-top: 80px;
+
     &-item {
       width: 100%;
       height: 80vh;
       display: flex;
       align-items: center;
       justify-content: space-around;
+
       &-wrap {
         text-align: center;
+
         &-title {
           font-weight: 700;
           font-size: 2.5em;
         }
+
         &-description {
           font-weight: 400;
           font-size: 1.3em;
         }
+
         &-btn {
           margin-top: 1.5em;
         }
       }
     }
+
     &-btn1 {
       position: absolute;
       top: 50%;
@@ -32,19 +37,23 @@
       right: 1em;
       scale: 0;
       transition: all 0.3s ease-in-out;
+
       &-icon {
         font-size: 3em;
         color: $color-white-tranparent;
         transition: all 0.3s ease-in-out;
       }
+
       &:hover {
         cursor: pointer;
+
         .home__slider-btn1-icon {
           color: $color-white;
           transition: all 0.3s ease-in-out;
         }
       }
     }
+
     &-btn2 {
       position: absolute;
       top: 50%;
@@ -53,19 +62,23 @@
       left: 1em;
       scale: 0;
       transition: all 0.3s ease-in-out;
+
       &-icon {
         font-size: 3em;
         color: $color-white-tranparent;
         transition: all 0.3s ease-in-out;
       }
+
       &:hover {
         cursor: pointer;
+
         .home__slider-btn2-icon {
           color: $color-white;
           transition: all 0.3s ease-in-out;
         }
       }
     }
+
     &:hover {
       .home__slider-btn1,
       .home__slider-btn2 {
@@ -74,8 +87,10 @@
       }
     }
   }
+
   &__title {
     text-align: center;
+
     &-text {
       text-align: center;
       font-size: 2.1em;
@@ -84,6 +99,7 @@
       letter-spacing: 0.05em;
       margin-top: 0.5em;
     }
+
     &-wall {
       margin: 1em auto;
       height: 0.3em;
@@ -91,81 +107,58 @@
       width: 5em;
     }
   }
+
   &__principles {
-    padding: 2em 20%;
-    background-color: $color-secondary;
-    &-group {
-      margin-top: 4em;
-      margin-bottom: 5em;
-      &-item {
-        .ant-card-meta-title {
-          font-size: 1.7em;
-          font-weight: 600;
-          color: $color-title;
-          font-family: $font-title;
-        }
-        .ant-card-meta-description {
-          font-size: 1em;
-          font-weight: 500;
-          color: $color-description;
-          font-family: $font-document;
-        }
-        margin-bottom: 8em;
-      }
-    }
-    &-puzzle {
-      width: 100%;
-      margin: 3em 0;
-      justify-content: space-between;
-      &-image {
-        width: 45%;
-        &-src {
-          width: 100%;
-          height: 25em;
-        }
-      }
-      &-infor {
-        width: calc(55% - 3em);
-        display: flex;
-        flex-direction: column;
-        height: 25em;
-        justify-content: space-between;
+    padding: 0em 20% 2em 20%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    top: -80px;
+    &-block {
+      background-color: $color-white;
+      text-align: center;
+      padding: 30px;
+      width: calc(30%);
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+      border-radius: 5px;
+      &-active {
+        background-color: $color-primary;
+        text-align: center;
+        padding: 50px;
+        width: calc(40%);
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        border-radius: 5px;
         &-title {
-          font-size: 1.7em;
-          font-weight: 600;
-          color: $color-title !important;
-          font-family: $font-title;
+          color: $color-white;
         }
-        &-text {
-          font-size: 1em;
-          font-weight: 500;
-          color: $color-description;
-          text-align: justify;
-          font-family: $font-document;
-        }
-        &-btn {
-          font-size: 1em;
-          width: 10em;
+        &-description{
+          color: $color-white;
         }
       }
     }
   }
+
   &__cardtabs {
     margin: 2em 20%;
+
     &-wrap {
       margin-top: 2em;
       width: 100%;
+
       .ant-tabs-nav-wrap::before {
         display: none;
       }
+
       .ant-tabs-nav,
       .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-right,
       .ant-tabs-nav-list {
         width: 100%;
       }
+
       .ant-tabs-nav-list {
         position: relative;
       }
+
       .ant-tabs-nav-list::after {
         content: "";
         position: absolute;
@@ -176,13 +169,16 @@
         width: 100%;
         left: 0;
       }
+
       .ant-tabs-nav-wrap {
         justify-content: space-around;
       }
+
       .ant-tabs-tab.ant-tabs-tab-active {
         border: none;
         background-color: #fff;
         position: relative;
+
         &::after {
           content: "";
           position: absolute;
@@ -195,6 +191,7 @@
           transform: translateX(-50%);
         }
       }
+
       .ant-tabs-tab {
         border: none !important;
         background-color: #fff !important;
@@ -205,12 +202,15 @@
         font-family: $font-title;
         padding: 1em 0 !important;
       }
+
       .ant-card.css-dev-only-do-not-override-1e3x2xa {
         box-shadow: none;
       }
+
       .ant-tabs-nav::before {
         display: none;
       }
+
       .ant-card-head {
         border-bottom: none;
         padding: 1em 0;
@@ -218,6 +218,7 @@
         color: $color-title;
         font-size: $font-title;
       }
+
       .ant-card-body {
         padding: 0.2em 0;
         font-size: 1em;
@@ -226,12 +227,16 @@
       }
     }
   }
+
   &__listproducts {
     padding: 4em 20%;
+
     &-slider {
       margin-top: 3em;
+
       &-big {
         position: relative;
+
         &:hover {
           .home__listproducts-slider-big-btn1,
           .home__listproducts-slider-big-btn2 {
@@ -239,6 +244,7 @@
             transition: all 0.3s ease-in-out;
           }
         }
+
         &-btn1 {
           position: absolute;
           top: 50%;
@@ -249,12 +255,14 @@
           z-index: 30;
           transition: all 0.3s ease-in-out;
           color: $color-description;
+
           &:hover {
             cursor: pointer;
             color: $color-primary;
             transition: all 0.2s ease-in-out;
           }
         }
+
         &-btn2 {
           position: absolute;
           top: 50%;
@@ -265,24 +273,29 @@
           z-index: 30;
           transition: all 0.3s ease-in-out;
           color: $color-description;
+
           &:hover {
             cursor: pointer;
             color: $color-primary;
             transition: all 0.2s ease-in-out;
           }
         }
+
         &-item {
           &-wrap {
             width: 80vw;
             padding: 0 5em;
           }
+
           width: 100%;
           height: 30vw;
         }
       }
+
       &-small {
         margin-top: 2em;
         position: relative;
+
         &:hover {
           .home__listproducts-slider-small-btn1,
           .home__listproducts-slider-small-btn2 {
@@ -290,6 +303,7 @@
             transition: all 0.3s ease-in-out;
           }
         }
+
         &-btn1 {
           position: absolute;
           top: 40%;
@@ -300,12 +314,14 @@
           z-index: 30;
           transition: all 0.3s ease-in-out;
           color: $color-description;
+
           &:hover {
             cursor: pointer;
             color: $color-primary;
             transition: all 0.2s ease-in-out;
           }
         }
+
         &-btn2 {
           position: absolute;
           top: 40%;
@@ -316,22 +332,26 @@
           z-index: 30;
           transition: all 0.3s ease-in-out;
           color: $color-description;
+
           &:hover {
             cursor: pointer;
             color: $color-primary;
             transition: all 0.2s ease-in-out;
           }
         }
+
         &-item {
           &-wrap {
             width: calc(8vw);
             height: 4vw;
             padding: 0 10px;
           }
+
           width: 100%;
           height: 3vw;
           border-radius: 3px;
           transition: all 0.1s ease-in-out;
+
           &:hover {
             cursor: pointer;
             box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
@@ -341,8 +361,10 @@
       }
     }
   }
+
   &__products {
     padding: 3em 20%;
+
     &-header {
       &-title {
         font-size: 1.8em;
@@ -350,9 +372,11 @@
         color: $color-title;
         letter-spacing: 0.5px;
       }
+
       &-btn {
         padding-left: 3em !important;
         padding-right: 3em !important;
+
         &-text {
           font-size: 1.1em;
           line-height: 1.1em;
@@ -360,9 +384,11 @@
         }
       }
     }
+
     &-slider {
       margin: 2em -1em;
       position: relative;
+
       &:hover {
         .home__products-slider-btn1,
         .home__products-slider-btn2 {
@@ -370,6 +396,7 @@
           transition: all 0.2s ease-in-out;
         }
       }
+
       &-btn1 {
         position: absolute;
         top: 50%;
@@ -380,12 +407,14 @@
         transition: all 0.2s ease-in-out;
         font-size: 3em;
         color: $color-link-hover;
+
         &:hover {
           cursor: pointer;
           color: $color-primary;
           transition: all 0.2s ease-in-out;
         }
       }
+
       &-btn2 {
         position: absolute;
         top: 50%;
@@ -396,37 +425,45 @@
         transition: all 0.3s ease-in-out;
         font-size: 3em;
         color: $color-link-hover;
+
         &:hover {
           cursor: pointer;
           color: $color-primary;
           transition: all 0.3s ease-in-out;
         }
       }
+
       &-item {
         padding: 0.5em 0.5em;
       }
     }
   }
+
   &__event {
     padding: 1em 20%;
+
     &-wrap {
       margin-top: 2em;
+
       &-card {
         .ant-card-body {
           padding: 1em;
         }
+
         .ant-card-meta-title {
           font-size: 1.3em;
           font-weight: 600;
           color: $color-title;
           font-family: $font-title;
         }
+
         .ant-card-meta-description {
           font-size: 1.1em;
           font-weight: 400;
           color: $color-description;
           font-family: $font-document;
         }
+
         &-time {
           margin-top: 0.5em;
           font-weight: 600;
@@ -435,33 +472,42 @@
         }
       }
     }
+
     &-list {
       margin-left: 3em;
+
       .ant-card-body {
         padding: 0;
         box-shadow: none !important;
       }
+
       .ant-card.css-dev-only-do-not-override-1e3x2xa {
         box-shadow: none !important;
         padding: 1em 0;
       }
+
       .ant-list-item.ant-list-item-no-flex {
         padding: 0;
         box-shadow: none !important;
         border-bottom: 1px solid #333;
       }
+
       &-card {
         &:hover {
           cursor: pointer;
+
           .home__event-list-card-infor-title {
             color: $color-primary;
             transition: all 0.2s ease-in-out;
           }
         }
+
         &-img {
         }
+
         &-infor {
           margin-left: 1em;
+
           &-title {
             font-size: 1.2em;
             font-weight: 600;
@@ -469,12 +515,14 @@
             font-family: $font-title;
             transition: all 0.2s ease-in-out;
           }
+
           &-description {
             font-size: 1em;
             font-weight: 400;
             color: $color-description;
             font-family: $font-document;
           }
+
           &-time {
             margin-top: 0.5em;
             font-weight: 600;
@@ -485,11 +533,14 @@
       }
     }
   }
+
   &__partner {
     padding: 1em 20%;
+
     &-slider {
       position: relative;
       margin: 3em -5em 1em -5em;
+
       &-btn1 {
         position: absolute;
         top: 50%;
@@ -500,12 +551,14 @@
         font-size: 3em;
         color: $color-description;
         transition: all 0.3s ease-in-out;
+
         &:hover {
           cursor: pointer;
           color: $color-primary;
           transition: all 0.3s ease-in-out;
         }
       }
+
       &-btn2 {
         position: absolute;
         top: 50%;
@@ -516,12 +569,14 @@
         font-size: 3em;
         color: $color-description;
         transition: all 0.3s ease-in-out;
+
         &:hover {
           cursor: pointer;
           color: $color-primary;
           transition: all 0.3s ease-in-out;
         }
       }
+
       &:hover {
         .home__partner-slider-btn1,
         .home__partner-slider-btn2 {
@@ -529,30 +584,37 @@
           transition: all 0.3s ease-in-out;
         }
       }
+
       &-item {
         &-img {
         }
       }
     }
   }
+
   &__contact {
     margin: 1em 20%;
+
     &-map {
       width: 100%;
       height: 30em;
+
       iframe {
         width: 100%;
         height: 100%;
       }
     }
+
     &-wrap {
       margin-top: 5em;
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
+
       &-left {
         margin-right: 3em;
         width: calc(50% - 3em);
+
         &-title {
           font-size: 1.2em;
           line-height: 1.6em;
@@ -561,6 +623,7 @@
           text-align: right;
           font-family: $font-title;
         }
+
         &-text {
           margin-top: 4em;
           font-size: 1em;
@@ -572,8 +635,10 @@
           font-family: $font-document;
         }
       }
+
       &-right {
         width: 50%;
+
         &-form {
           .ant-form-item-required {
             font-size: 1.2em !important;
@@ -581,23 +646,29 @@
             font-weight: 600 !important;
             color: $color-title !important;
             font-family: $font-title;
+
             &::before {
               display: none !important;
             }
           }
+
           .ant-input-affix-wrapper {
             height: 50px !important;
           }
+
           .anticon {
             font-size: 24px;
           }
+
           .ant-form-item-explain-error {
             font-family: $font-document;
           }
+
           .ant-input {
             font-size: 1.1em !important;
             font-family: $font-document;
           }
+
           .ant-form-item-label {
             label {
               font-size: 1.2em !important;
@@ -616,8 +687,10 @@
 // responsive
 @include responsive_200 {
 }
+
 @include responsive_280 {
 }
+
 @include responsive_320 {
 }
 
@@ -629,6 +702,7 @@
 
 @include responsive_768 {
 }
+
 @include responsive_1024 {
 }
 
@@ -636,27 +710,33 @@
   .home {
     &__slider {
       margin-top: 5em;
+
       &-item {
         width: 100%;
         height: 80vh;
         display: flex;
         align-items: center;
         justify-content: space-around;
+
         &-wrap {
           text-align: center;
+
           &-title {
             font-weight: 700;
             font-size: 2.5em;
           }
+
           &-description {
             font-weight: 400;
             font-size: 1.3em;
           }
+
           &-btn {
             margin-top: 1.5em;
           }
         }
       }
+
       &-btn1 {
         position: absolute;
         top: 50%;
@@ -665,19 +745,23 @@
         right: 1em;
         scale: 0;
         transition: all 0.3s ease-in-out;
+
         &-icon {
           font-size: 3em;
           color: $color-white-tranparent;
           transition: all 0.3s ease-in-out;
         }
+
         &:hover {
           cursor: pointer;
+
           .home__slider-btn1-icon {
             color: $color-white;
             transition: all 0.3s ease-in-out;
           }
         }
       }
+
       &-btn2 {
         position: absolute;
         top: 50%;
@@ -686,19 +770,23 @@
         left: 1em;
         scale: 0;
         transition: all 0.3s ease-in-out;
+
         &-icon {
           font-size: 3em;
           color: $color-white-tranparent;
           transition: all 0.3s ease-in-out;
         }
+
         &:hover {
           cursor: pointer;
+
           .home__slider-btn2-icon {
             color: $color-white;
             transition: all 0.3s ease-in-out;
           }
         }
       }
+
       &:hover {
         .home__slider-btn1,
         .home__slider-btn2 {
@@ -707,8 +795,10 @@
         }
       }
     }
+
     &__title {
       text-align: center;
+
       &-text {
         text-align: center;
         font-size: 2.1em;
@@ -717,6 +807,7 @@
         letter-spacing: 0.05em;
         margin-top: 0.5em;
       }
+
       &-wall {
         margin: 1em auto;
         height: 0.3em;
@@ -724,12 +815,15 @@
         width: 5em;
       }
     }
+
     &__principles {
       padding: 2em 5%;
       background-color: $color-secondary;
+
       &-group {
         margin-top: 4em;
         margin-bottom: 5em;
+
         &-item {
           .ant-card-meta-title {
             font-size: 1.7em;
@@ -737,38 +831,46 @@
             color: $color-title;
             font-family: $font-title;
           }
+
           .ant-card-meta-description {
             font-size: 1em;
             font-weight: 500;
             color: $color-description;
             font-family: $font-document;
           }
+
           margin-bottom: 8em;
         }
       }
+
       &-puzzle {
         width: 100%;
         margin: 3em 0;
         justify-content: space-between;
+
         &-image {
           width: 45%;
+
           &-src {
             width: 100%;
             height: 25em;
           }
         }
+
         &-infor {
           width: calc(55% - 3em);
           display: flex;
           flex-direction: column;
           height: 25em;
           justify-content: space-between;
+
           &-title {
             font-size: 1.7em;
             font-weight: 600;
             color: $color-title !important;
             font-family: $font-document;
           }
+
           &-text {
             font-size: 1em;
             font-weight: 500;
@@ -776,6 +878,7 @@
             text-align: justify;
             font-family: $font-title;
           }
+
           &-btn {
             font-size: 1em;
             width: 10em;
@@ -783,22 +886,28 @@
         }
       }
     }
+
     &__cardtabs {
       margin: 2em 5%;
+
       &-wrap {
         margin-top: 2em;
         width: 100%;
+
         .ant-tabs-nav-wrap::before {
           display: none;
         }
+
         .ant-tabs-nav,
         .ant-tabs-nav-wrap.ant-tabs-nav-wrap-ping-right,
         .ant-tabs-nav-list {
           width: 100%;
         }
+
         .ant-tabs-nav-list {
           position: relative;
         }
+
         .ant-tabs-nav-list::after {
           content: "";
           position: absolute;
@@ -809,13 +918,16 @@
           width: 100%;
           left: 0;
         }
+
         .ant-tabs-nav-wrap {
           justify-content: space-around;
         }
+
         .ant-tabs-tab.ant-tabs-tab-active {
           border: none;
           background-color: #fff;
           position: relative;
+
           &::after {
             content: "";
             position: absolute;
@@ -828,6 +940,7 @@
             transform: translateX(-50%);
           }
         }
+
         .ant-tabs-tab {
           border: none !important;
           background-color: #fff !important;
@@ -838,12 +951,15 @@
           font-family: $font-title;
           padding: 1em 0 !important;
         }
+
         .ant-card.css-dev-only-do-not-override-1e3x2xa {
           box-shadow: none;
         }
+
         .ant-tabs-nav::before {
           display: none;
         }
+
         .ant-card-head {
           border-bottom: none;
           padding: 1em 0;
@@ -851,6 +967,7 @@
           color: $color-title;
           font-size: $font-title;
         }
+
         .ant-card-body {
           padding: 0.2em 0;
           font-size: 1em;
@@ -859,12 +976,16 @@
         }
       }
     }
+
     &__listproducts {
       padding: 2em 5%;
+
       &-slider {
         margin-top: 3em;
+
         &-big {
           position: relative;
+
           &:hover {
             .home__listproducts-slider-big-btn1,
             .home__listproducts-slider-big-btn2 {
@@ -872,6 +993,7 @@
               transition: all 0.3s ease-in-out;
             }
           }
+
           &-btn1 {
             position: absolute;
             top: 50%;
@@ -882,12 +1004,14 @@
             z-index: 30;
             transition: all 0.3s ease-in-out;
             color: $color-description;
+
             &:hover {
               cursor: pointer;
               color: $color-primary;
               transition: all 0.2s ease-in-out;
             }
           }
+
           &-btn2 {
             position: absolute;
             top: 50%;
@@ -898,24 +1022,29 @@
             z-index: 30;
             transition: all 0.3s ease-in-out;
             color: $color-description;
+
             &:hover {
               cursor: pointer;
               color: $color-primary;
               transition: all 0.2s ease-in-out;
             }
           }
+
           &-item {
             &-wrap {
               width: 80vw;
               padding: 0 5em;
             }
+
             width: 100%;
             height: 30vw;
           }
         }
+
         &-small {
           margin-top: 2em;
           position: relative;
+
           &:hover {
             .home__listproducts-slider-small-btn1,
             .home__listproducts-slider-small-btn2 {
@@ -923,6 +1052,7 @@
               transition: all 0.3s ease-in-out;
             }
           }
+
           &-btn1 {
             position: absolute;
             top: 40%;
@@ -933,12 +1063,14 @@
             z-index: 30;
             transition: all 0.3s ease-in-out;
             color: $color-description;
+
             &:hover {
               cursor: pointer;
               color: $color-primary;
               transition: all 0.2s ease-in-out;
             }
           }
+
           &-btn2 {
             position: absolute;
             top: 40%;
@@ -949,22 +1081,26 @@
             z-index: 30;
             transition: all 0.3s ease-in-out;
             color: $color-description;
+
             &:hover {
               cursor: pointer;
               color: $color-primary;
               transition: all 0.2s ease-in-out;
             }
           }
+
           &-item {
             &-wrap {
               width: calc(8vw);
               height: 4vw;
               padding: 0 10px;
             }
+
             width: 100%;
             height: 3vw;
             border-radius: 3px;
             transition: all 0.1s ease-in-out;
+
             &:hover {
               cursor: pointer;
               box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
@@ -974,8 +1110,10 @@
         }
       }
     }
+
     &__products {
       padding: 2em 5%;
+
       &-header {
         &-title {
           font-size: 1.8em;
@@ -983,9 +1121,11 @@
           color: $color-title;
           letter-spacing: 0.5px;
         }
+
         &-btn {
           padding-left: 3em !important;
           padding-right: 3em !important;
+
           &-text {
             font-size: 1.1em;
             line-height: 1.1em;
@@ -993,9 +1133,11 @@
           }
         }
       }
+
       &-slider {
         margin: 2em -1em;
         position: relative;
+
         &:hover {
           .home__products-slider-btn1,
           .home__products-slider-btn2 {
@@ -1003,6 +1145,7 @@
             transition: all 0.2s ease-in-out;
           }
         }
+
         &-btn1 {
           position: absolute;
           top: 50%;
@@ -1013,12 +1156,14 @@
           transition: all 0.2s ease-in-out;
           font-size: 3em;
           color: $color-link-hover;
+
           &:hover {
             cursor: pointer;
             color: $color-primary;
             transition: all 0.2s ease-in-out;
           }
         }
+
         &-btn2 {
           position: absolute;
           top: 50%;
@@ -1029,37 +1174,45 @@
           transition: all 0.3s ease-in-out;
           font-size: 3em;
           color: $color-link-hover;
+
           &:hover {
             cursor: pointer;
             color: $color-primary;
             transition: all 0.3s ease-in-out;
           }
         }
+
         &-item {
           padding: 0.5em 1em;
         }
       }
     }
+
     &__event {
       padding: 2em 5%;
+
       &-wrap {
         margin-top: 0em;
+
         &-card {
           .ant-card-body {
             padding: 1em;
           }
+
           .ant-card-meta-title {
             font-size: 1.3em;
             font-weight: 600;
             color: $color-title;
             font-family: $font-title;
           }
+
           .ant-card-meta-description {
             font-size: 1.1em;
             font-weight: 400;
             color: $color-description;
             font-family: $font-document;
           }
+
           &-time {
             margin-top: 0.5em;
             font-weight: 600;
@@ -1068,33 +1221,42 @@
           }
         }
       }
+
       &-list {
         margin-left: 3em;
+
         .ant-card-body {
           padding: 0;
           box-shadow: none !important;
         }
+
         .ant-card.css-dev-only-do-not-override-1e3x2xa {
           box-shadow: none !important;
           padding: 1em 0;
         }
+
         .ant-list-item.ant-list-item-no-flex {
           padding: 0;
           box-shadow: none !important;
           border-bottom: 1px solid #333;
         }
+
         &-card {
           &:hover {
             cursor: pointer;
+
             .home__event-list-card-infor-title {
               color: $color-primary;
               transition: all 0.2s ease-in-out;
             }
           }
+
           &-img {
           }
+
           &-infor {
             margin-left: 1em;
+
             &-title {
               font-size: 1.2em;
               font-weight: 600;
@@ -1102,12 +1264,14 @@
               font-family: $font-title;
               transition: all 0.2s ease-in-out;
             }
+
             &-description {
               font-size: 1em;
               font-weight: 400;
               color: $color-description;
               font-family: $font-document;
             }
+
             &-time {
               margin-top: 0.5em;
               font-weight: 600;
@@ -1118,11 +1282,14 @@
         }
       }
     }
+
     &__partner {
       padding: 2em 5%;
+
       &-slider {
         position: relative;
         margin: 3em -5em 1em -5em;
+
         &-btn1 {
           position: absolute;
           top: 50%;
@@ -1133,12 +1300,14 @@
           font-size: 3em;
           color: $color-description;
           transition: all 0.3s ease-in-out;
+
           &:hover {
             cursor: pointer;
             color: $color-primary;
             transition: all 0.3s ease-in-out;
           }
         }
+
         &-btn2 {
           position: absolute;
           top: 50%;
@@ -1149,12 +1318,14 @@
           font-size: 3em;
           color: $color-description;
           transition: all 0.3s ease-in-out;
+
           &:hover {
             cursor: pointer;
             color: $color-primary;
             transition: all 0.3s ease-in-out;
           }
         }
+
         &:hover {
           .home__partner-slider-btn1,
           .home__partner-slider-btn2 {
@@ -1162,30 +1333,37 @@
             transition: all 0.3s ease-in-out;
           }
         }
+
         &-item {
           &-img {
           }
         }
       }
     }
+
     &__contact {
       margin: 2em 5%;
+
       &-map {
         width: 100%;
         height: 30em;
+
         iframe {
           width: 100%;
           height: 100%;
         }
       }
+
       &-wrap {
         margin-top: 5em;
         display: flex;
         align-items: flex-start;
         justify-content: space-between;
+
         &-left {
           margin-right: 3em;
           width: calc(50% - 3em);
+
           &-title {
             font-size: 1.2em;
             line-height: 1.6em;
@@ -1194,6 +1372,7 @@
             text-align: right;
             font-family: $font-title;
           }
+
           &-text {
             margin-top: 4em;
             font-size: 1em;
@@ -1205,8 +1384,10 @@
             font-family: $font-document;
           }
         }
+
         &-right {
           width: 50%;
+
           &-form {
             .ant-form-item-required {
               font-size: 1.2em !important;
@@ -1214,23 +1395,29 @@
               font-weight: 600 !important;
               color: $color-title !important;
               font-family: $font-title;
+
               &::before {
                 display: none !important;
               }
             }
+
             .ant-input-affix-wrapper {
               height: 50px !important;
             }
+
             .anticon {
               font-size: 24px;
             }
+
             .ant-form-item-explain-error {
               font-family: $font-document;
             }
+
             .ant-input {
               font-size: 1.1em !important;
               font-family: $font-document;
             }
+
             .ant-form-item-label {
               label {
                 font-size: 1.2em !important;
@@ -1246,9 +1433,12 @@
     }
   }
 }
+
 @include responsive_1440 {
 }
+
 @include responsive_1650 {
 }
+
 @include responsive_1900 {
 }

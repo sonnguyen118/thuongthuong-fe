@@ -46,9 +46,9 @@ const FormContactHome: React.FC = () => {
   const handleSubmit = () => {}
   return (
     <>
-      <Button htmlType='button' onClick={onReset}>
-        Reset
-      </Button>
+      {/*<Button htmlType='button' onClick={onReset}>*/}
+      {/*  Reset*/}
+      {/*</Button>*/}
       <Form
         name='contactForm'
         form={contactForm}

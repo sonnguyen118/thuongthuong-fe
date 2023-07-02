@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const { Meta } = Card;
 interface dataCard {
-  id: string;
+  id: number;
   urlImage: string;
   title: string;
   description: string;
@@ -12,96 +12,36 @@ interface dataCard {
 const Principles = () => {
   const cardInformations: dataCard[] = [
     {
-      id: "edc1",
-      urlImage: "/images/home/image01.jpg",
+      id: 1,
+      urlImage: "https://www.kymviet.com.vn/iconnho03.png",
       title: "Sứ mệnh",
       description:
-        "ThuongThuong là doanh nghiệp xã hội của người khuyết tật, vì người khuyết tật.",
+        "ThuongThuong là doanh nghiệp xã hội của người khuyết tật, vì người.",
     },
     {
-      id: "edc12",
-      urlImage: "/images/home/image02.jpg",
+      id: 2,
+      urlImage: "https://www.kymviet.com.vn/iconnho01iconnho-oohzlgvm9x936kzivkl0bfy6lxpxjb3wv954wj9tv8.png",
       title: "Tầm nhìn",
       description:
-        "ThuongThuong muốn trở thành một doanh nghiệp xã hội lớn mạnh trong ngành sáng tạo xây dựng hệ sinh thái cho người khuyết tật và cộng đồng.",
+        "ThuongThuong muốn trở thành một doanh nghiệp xã hội lớn mạnh trong ngành sáng tạo cộng đồng.",
     },
     {
-      id: "edc13",
-      urlImage: "/images/home/image03.jpg",
+      id: 3,
+      urlImage: "https://www.kymviet.com.vn/kymviet/iconnho06iconnho-ooi2nmkp7y1ttez4mos0157wukrimbfgchiomxxuno.png",
       title: "Giá trị cốt lõi",
       description:
         "Chất lượng, Nhân văn, Hợp tác Sáng tạo, Văn hoá, Kết nối giá trị.",
-    },
-    {
-      id: "edc14",
-      urlImage: "/images/home/image04.jpg",
-      title: "Sản phẩm",
-      description:
-        "Chất lượng - Độc đáo - Công năng Ưu tiên nguyên liệu địa phương, Thân thiện môi trường và dịch vụ chuyên nghiệp.",
-    },
+    }
   ];
   return (
     <div className="home__principles">
-      <TitleBlock
-        title={"Tôn chỉ và trách nhiệm xã hội"}
-        urlImage={"/images/home/iconnho03.png"}
-        underlined={true}
-      />
-
-      <Row gutter={16} className="home__principles-group">
-        {cardInformations && (
-          <>
-            {cardInformations.map((data, i) => (
-              <Col
-                span={6}
-                className="home__principles-group-item"
-                key={data.id}
-              >
-                <Card
-                  style={{
-                    boxShadow: "none",
-                    border: "none",
-                    borderRadius: 0,
-                    textAlign: "center",
-                    position: "relative",
-                  }}
-                  cover={
-                    <div style={{ textAlign: "center" }}>
-                      <Image
-                        src={data.urlImage}
-                        alt="example"
-                        width={100}
-                        height={100}
-                        loading="lazy"
-                        style={{
-                          width: "100px",
-                          height: "100px",
-                          display: "block",
-                          margin: "0 auto",
-                          backgroundColor: "red",
-                          borderRadius: 0,
-                        }}
-                      />
-                    </div>
-                  }
-                >
-                  <Meta
-                    style={{
-                      position: "absolute",
-                      top: "120px",
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                      width: "200px",
-                    }}
-                    title={data.title}
-                    description={data.description}
-                  />
-                </Card>
-              </Col>
-            ))}
-          </>
-        )}
-      </Row>
+      {cardInformations.map((data, index)=> (
+        <div className={data.id !== 2 ?"home__principles-block":"home__principles-block-active"} key={data.id}>
+          <Image src={data.urlImage} width={30} height={30} alt={"thuongthuong"} className={data.id !== 2 ?"home__principles-block-img":"home__principles-block-active-img"}/>
+          <h2 className={data.id !== 2 ?"home__principles-block-title":"home__principles-block-active-title"}>{data.title}</h2>
+          <h3 className={data.id !== 2 ?"home__principles-block-description":"home__principles-block-active-description"}>{data.description}</h3>
+        </div>
+      ))}
     </div>
   );
 };

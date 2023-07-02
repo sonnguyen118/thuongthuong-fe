@@ -33,6 +33,21 @@ const App: React.FC = () => {
   const dispatch = useDispatch();
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [imageBlock, setImageBlock] = useState("");
+  const [activeTab, setActiveTab] = useState("1");
+  const [dataCategory, setDataCategory] = useState([]);
+  const [selector1, setSelector1] = useState<any>();
+  const [selector2, setSelector2] = useState<any>();
+  const [options, setOptions] = useState([]);
+  const [options2, setOptions2] = useState([]);
+  const [title, setTitle] = useState<{ [key: string]: string | undefined }>({
+    VI: undefined,
+    EN: undefined
+  });
+  const [link, setLink] = useState<string>();
+  const [descriptionVI, setDescriptionVI] = useState<string | undefined >();
+  const [descriptionEN, setDescriptionEN] = useState<string | undefined >();
+  const [contentVI, setContentVI] = useState<string | undefined>();
+  const [contentEN, setContentEN] = useState<string | undefined>();
   useEffect(() => {
     if (id) {
       dispatch(setLoading(true));
@@ -65,6 +80,7 @@ const App: React.FC = () => {
         });
     }
   }, [id]);
+  console.log(selector2, "selected")
   useEffect(()=> {
     if(imageBlock) {
       const mappedData: UploadFile[] = [{
@@ -104,22 +120,6 @@ const App: React.FC = () => {
     const imgWindow = window.open(src);
     imgWindow?.document.write(image.outerHTML);
   };
-
-  const [activeTab, setActiveTab] = useState("1");
-  const [dataCategory, setDataCategory] = useState([]);
-  const [selector1, setSelector1] = useState<any>();
-  const [selector2, setSelector2] = useState<any>();
-  const [options, setOptions] = useState([]);
-  const [options2, setOptions2] = useState([]);
-  const [title, setTitle] = useState<{ [key: string]: string | undefined }>({
-    VI: undefined,
-    EN: undefined
-  });
-  const [link, setLink] = useState<string>();
-  const [descriptionVI, setDescriptionVI] = useState<string | undefined >();
-  const [descriptionEN, setDescriptionEN] = useState<string | undefined >();
-  const [contentVI, setContentVI] = useState<string | undefined>();
-  const [contentEN, setContentEN] = useState<string | undefined>();
   const handleTitleChange =
     (languageKey: LanguageKey) =>
       (event: React.ChangeEvent<HTMLInputElement>) => {
