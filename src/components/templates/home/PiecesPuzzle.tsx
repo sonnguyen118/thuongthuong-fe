@@ -43,10 +43,10 @@ const PiecesPuzzle: React.FC<PiecesPuzzleProps> = ( props) => {
       <Row className="home__principles-puzzle">
         <Col className="home__principles-puzzle-image">
           <Image
-            src={process.env.NEXT_PUBLIC_API_URL +"/" +listSliderBlock[0]}
+            src={process.env.NEXT_PUBLIC_API_URL + '/' + listSliderBlock[0]}
             alt="My Image"
-            width={800}
-            height={600}
+            layout="fill"
+            objectFit="cover"
             className="home__principles-puzzle-image-src"
           />
         </Col>

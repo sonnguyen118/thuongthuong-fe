@@ -37,7 +37,7 @@ const Principles = () => {
     <div className="home__principles">
       {cardInformations.map((data, index)=> (
         <div className={data.id !== 2 ?"home__principles-block":"home__principles-block-active"} key={data.id}>
-          <Image src={data.urlImage} width={30} height={30} alt={"thuongthuong"} className={data.id !== 2 ?"home__principles-block-img":"home__principles-block-active-img"}/>
+          {/* <Image src={data.urlImage} width={30} height={30} alt={"thuongthuong"} className={data.id !== 2 ?"home__principles-block-img":"home__principles-block-active-img"}/> */}
           <h2 className={data.id !== 2 ?"home__principles-block-title":"home__principles-block-active-title"}>{data.title}</h2>
           <h3 className={data.id !== 2 ?"home__principles-block-description":"home__principles-block-active-description"}>{data.description}</h3>
         </div>

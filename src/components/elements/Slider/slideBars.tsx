@@ -53,7 +53,7 @@ const SimpleSlider: React.FC<SliderProps> = ( props) => {
           <Slider ref={slider} {...settings}>
             {dataSlider &&
               dataSlider.map((data:string, i:number) => (
-                <div key={i}>
+                <div key={i} style={{position: "relative"}}>
                   <img
                     className="home__slider-item"
                     src={process.env.NEXT_PUBLIC_API_URL +"/"+ data}
@@ -63,16 +63,16 @@ const SimpleSlider: React.FC<SliderProps> = ( props) => {
                       backgroundRepeat: "no-repeat",
                     }}
                   >
-                    {/* <div className="home__slider-item-wrap">
-                  <h2 className="home__slider-item-wrap-title">{data.title}</h2>
+                  </img>
+                  <div className="home__slider-item-wrap">
+                  <h2 className="home__slider-item-wrap-title">Chào Mừng Đến với ThuongThuong Chào Mừng Đến với ThuongThuong</h2>
                   <h3 className="home__slider-item-wrap-description">
-                    {data.description}
+                  Khả năng mở rộng không gian không hạn chế, tính sẵn sàng và độ bền dữ liệu cao Khả năng mở rộng không gian không hạn
                   </h3>
                   <Button type="primary" className="home__slider-item-wrap-btn">
-                    <Link href={data.link}>Xem thêm chi tiết</Link>
+                    <Link href={"/"}>Xem thêm chi tiết</Link>
                   </Button>
-                </div> */}
-                  </img>
+                </div>
                 </div>
               ))}
           </Slider>

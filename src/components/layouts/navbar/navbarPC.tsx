@@ -192,7 +192,7 @@ const NavbarPC: React.FC<NavbarProps> = ( props) => {
                 );
               } else if (item.link.includes("tin-tuc")) {
                 return (
-                  <h2 className={currentUrl.includes("tin-tuc") ? "navbar__pc-item-active" : "navbar__pc-item"}>
+                  <h2 key={item.key} className={currentUrl.includes("tin-tuc") ? "navbar__pc-item-active" : "navbar__pc-item"}>
                     <Link href={item.link}>
                       {item.title}
                     </Link>
@@ -200,7 +200,7 @@ const NavbarPC: React.FC<NavbarProps> = ( props) => {
                 );
               } else {
                 return (
-                  <h2 className={item.link === currentUrl ? "navbar__pc-item-active" : "navbar__pc-item"}>
+                  <h2 key={item.key} className={item.link === currentUrl ? "navbar__pc-item-active" : "navbar__pc-item"}>
                     <Link href={item.link}>
                       {item.title}
                     </Link>
@@ -235,7 +235,7 @@ const NavbarPC: React.FC<NavbarProps> = ( props) => {
                       <Link href="/gio-hang">
                         <Button
                           icon={
-                            <ShoppingCartOutlined style={{ fontSize: "18px" }} />
+                            <ShoppingCartOutlined style={{ fontSize: "18px", color: "#fff" }} />
                           }
                           style={{
                             border: "none",
@@ -253,7 +253,7 @@ const NavbarPC: React.FC<NavbarProps> = ( props) => {
                 key: "search",
                 label: (
                   <div style={{ position: "relative" }}>
-                    <SearchOutlined style={{ fontSize: "18px" }} />
+                    <SearchOutlined style={{ fontSize: "18px", color: "#fff" }} />
                     {searchVisible && (
                       <div
                         style={{

@@ -2,29 +2,48 @@
   &__slider {
     width: 100%;
     position: relative;
-
     &-item {
       width: 100%;
       height: 80vh;
       display: flex;
       align-items: center;
       justify-content: space-around;
-
       &-wrap {
-        text-align: center;
-
+        position: absolute;
+        z-index: 10;
+        top: 30%;
+        padding-left: 20vw;
         &-title {
+          display: block;
           font-weight: 700;
-          font-size: 2.5em;
-        }
+          font-size: 3em;
+          line-height: 1.3em;
+          width: 35vw;
+          height: 2.5em;
+          color: $color-white;
 
+          // background-color: red;
+          font-family: $font-title;
+          letter-spacing: 2px;
+        }
         &-description {
+          display: block;
           font-weight: 400;
-          font-size: 1.3em;
+          font-size: 1.6em;
+          line-height: 1.8em;
+          width: 35vw;
+          height: 4em;
+          color: $color-white;
+          // background-color: red;
+          font-family: $font-document;
         }
 
         &-btn {
+          font-weight: 500;
           margin-top: 1.5em;
+          font-family: $font-document;
+          font-size: 1.4em;
+          height: 2.4em;
         }
       }
     }
@@ -109,7 +128,7 @@
   }
 
   &__principles {
-    padding: 0em 20% 2em 20%;
+    padding: 2em 20% 0em 20%;
     display: flex;
     align-items: center;
     position: relative;
@@ -121,18 +140,78 @@
       width: calc(30%);
       box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
       border-radius: 5px;
+      height: 180px;
+      transition: all 0.2s linear;
+      &:hover {
+        cursor: pointer;
+        scale: 1.2;
+        transition: all 0.2s linear;
+      }
+      &-title {
+        color: $color-blue;
+        font-family: $font-title;
+        font-size: 1.6em;
+        font-weight: 600;
+        margin-top: 10px;
+      }
+      &-description {
+        color: $color-blue;
+        font-family: $font-document;
+        font-size: 1em;
+      }
       &-active {
         background-color: $color-primary;
         text-align: center;
-        padding: 50px;
+        padding: 40px 50px 50px 50px;
         width: calc(40%);
         box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
         border-radius: 5px;
+        height: 216px;
+        &:hover {
+          cursor: pointer;
+        }
         &-title {
           color: $color-white;
+          font-family: $font-title;
+          font-size: 1.92em;
+          font-weight: 600;
+          margin-top: 10px;
         }
-        &-description{
+        &-description {
           color: $color-white;
+          font-family: $font-document;
+          font-size: 1.2em;
+        }
+      }
+    }
+    &-puzzle {
+      margin-top: 50px;
+      width: 100%;
+      &-image {
+        width: 30vw;
+        height: 20vw;
+        position: relative;
+      }
+      &-infor {
+        margin-left: 30px;
+        h2:where(.css-dev-only-do-not-override-1e3x2xa).ant-typography,
+        div:where(.css-dev-only-do-not-override-1e3x2xa).ant-typography-h2,
+        div:where(.css-dev-only-do-not-override-1e3x2xa).ant-typography-h2
+          > textarea,
+        :where(.css-dev-only-do-not-override-1e3x2xa).ant-typography h2 {
+          color: $color-blue;
+        }
+        :where(.css-dev-only-do-not-override-1e3x2xa).ant-typography {
+          color: $color-blue;
+        }
+        &-title {
+          font-size: 1.6em;
+          font-family: $font-title;
+        }
+        &-text {
+        }
+        &-btn {
+          margin-top: 20px;
         }
       }
     }
@@ -229,14 +308,12 @@
   }
 
   &__listproducts {
-    padding: 4em 20%;
-
+    padding: 0em 20% 0em 20%;
+    margin-top: -3em;
     &-slider {
       margin-top: 3em;
-
       &-big {
         position: relative;
-
         &:hover {
           .home__listproducts-slider-big-btn1,
           .home__listproducts-slider-big-btn2 {
@@ -244,7 +321,6 @@
             transition: all 0.3s ease-in-out;
           }
         }
-
         &-btn1 {
           position: absolute;
           top: 50%;
@@ -262,7 +338,6 @@
             transition: all 0.2s ease-in-out;
           }
         }
-
         &-btn2 {
           position: absolute;
           top: 50%;
@@ -280,15 +355,13 @@
             transition: all 0.2s ease-in-out;
           }
         }
-
         &-item {
           &-wrap {
             width: 80vw;
+            height: 30vw;
             padding: 0 5em;
           }
-
           width: 100%;
-          height: 30vw;
         }
       }
 
