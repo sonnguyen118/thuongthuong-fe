@@ -3,17 +3,19 @@ import Slider from "react-slick";
 import { RightCircleOutlined, LeftCircleOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import Link from "next/link";
-interface sliderData {
-  id: string;
-  imageUrl: string;
-  title: string;
-  description: string;
+
+
+interface dataSliderProps {
+  content: string;
+  image: Array<string>;
+  isShow: boolean;
   link: string;
-}
+  title: string;
+};
 interface SliderProps {
   isShow: boolean;
   dataSlider: Array<any>
-}
+};
 
 const SimpleSlider: React.FC<SliderProps> = ( props) => {
   const { isShow, dataSlider } = props;
@@ -52,11 +54,11 @@ const SimpleSlider: React.FC<SliderProps> = ( props) => {
           </div>
           <Slider ref={slider} {...settings}>
             {dataSlider &&
-              dataSlider.map((data:string, i:number) => (
+              dataSlider.map((data:dataSliderProps, i:number) => (
                 <div key={i} style={{position: "relative"}}>
                   <img
                     className="home__slider-item"
-                    src={process.env.NEXT_PUBLIC_API_URL +"/"+ data}
+                    src={process.env.NEXT_PUBLIC_API_URL +"/"+ data.image[0]}
                     style={{
                       objectFit: "cover",
                       backgroundPosition: "center",
@@ -65,12 +67,12 @@ const SimpleSlider: React.FC<SliderProps> = ( props) => {
                   >
                   </img>
                   <div className="home__slider-item-wrap">
-                  <h2 className="home__slider-item-wrap-title">Chào Mừng Đến với ThuongThuong Chào Mừng Đến với ThuongThuong</h2>
+                  <h2 className="home__slider-item-wrap-title">{data.title}</h2>
                   <h3 className="home__slider-item-wrap-description">
-                  Khả năng mở rộng không gian không hạn chế, tính sẵn sàng và độ bền dữ liệu cao Khả năng mở rộng không gian không hạn
+                  {data.content}
                   </h3>
                   <Button type="primary" className="home__slider-item-wrap-btn">
-                    <Link href={"/"}>Xem thêm chi tiết</Link>
+                    <Link href={data.link}>Xem chi tiết</Link>
                   </Button>
                 </div>
                 </div>

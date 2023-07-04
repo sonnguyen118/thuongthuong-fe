@@ -348,6 +348,23 @@
 			}
 		}
 	}
+
+	&-block {
+		&-wall {
+			border-bottom: dashed 1px #ccc;
+		}
+		&-image-text {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			:where(.css-dev-only-do-not-override-1e3x2xa).ant-upload-wrapper.ant-upload-picture-card-wrapper, :where(.css-dev-only-do-not-override-1e3x2xa).ant-upload-wrapper.ant-upload-picture-circle-wrapper {
+				width: 120px;
+			}
+			&-input {
+				width: calc(100% - 120px);
+			}
+		}
+	}
 }
 
 @include responsive_1440 {

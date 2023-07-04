@@ -45,9 +45,47 @@ const App: React.FC = () => {
   const [dataCategory, setDataCategory] = useState([]);
   const [options, setOptions] = useState([]);
 
+  // thêm dữ liệu cho slider
+  const [listSlider1, setListSlider1] = useState([]);
+  const [listSlider2, setListSlider2] = useState([]);
+  const [listSlider3, setListSlider3] = useState([]);
   const [fileListSlider1, setFileListSlider1] = useState<UploadFile[]>([]);
   const [fileListSlider2, setFileListSlider2] = useState<UploadFile[]>([]);
   const [fileListSlider3, setFileListSlider3] = useState<UploadFile[]>([]);
+  const [isShowSlider1, setIsShowSlider1] = useState<boolean>(true);
+  const [isShowSlider2, setIsShowSlider2] = useState<boolean>(true);
+  const [isShowSlider3, setIsShowSlider3] = useState<boolean>(true);
+  const [title1VI, setTitle1VI] = useState<string>("");
+  const [title1EN, setTitle1EN] = useState<string>("");
+  const [title2VI, setTitle2VI] = useState<string>("");
+  const [title2EN, setTitle2EN] = useState<string>("");
+  const [title3VI, setTitle3VI] = useState<string>("");
+  const [title3EN, setTitle3EN] = useState<string>("");
+  const [content1VI, setContent1VI] = useState<string>(""); 
+  const [content1EN, setContent1EN] = useState<string>(""); 
+  const [content2VI, setContent2VI] = useState<string>(""); 
+  const [content2EN, setContent2EN] = useState<string>(""); 
+  const [content3VI, setContent3VI] = useState<string>(""); 
+  const [content3EN, setContent3EN] = useState<string>(""); 
+  const [linkSlider1, setLinkSlider1] = useState<string>(""); 
+  const [linkSlider2, setLinkSlider2] = useState<string>(""); 
+  const [linkSlider3, setLinkSlider3] = useState<string>(""); 
+
+  // phần thêm dữ liệu cho block 
+  const [isShowBlockS, setIsShowBlockS] = useState<boolean>(true);
+  const [titleBlockS1VI, setTitleBlockS1VI] = useState<string>("");
+  const [titleBlockS1EN, setTitleBlockS1EN] = useState<string>("");
+  const [contentBlockS1VI, setContentBlockS1VI] = useState<string>("");
+  const [contentBlockS1EN, setContentBlockS1EN] = useState<string>("");
+  const [titleBlockS2VI, setTitleBlockS2VI] = useState<string>("");
+  const [titleBlockS2EN, setTitleBlockS2EN] = useState<string>("");
+  const [contentBlockS2VI, setContentBlockS2VI] = useState<string>("");
+  const [contentBlockS2EN, setContentBlockS2EN] = useState<string>("");
+  const [titleBlockS3VI, setTitleBlockS3VI] = useState<string>("");
+  const [titleBlockS3EN, setTitleBlockS3EN] = useState<string>("");
+  const [contentBlockS3VI, setContentBlockS3VI] = useState<string>("");
+  const [contentBlockS3EN, setContentBlockS3EN] = useState<string>("");
+
 
   const [fileList1, setFileList1] = useState<UploadFile[]>([]);
   const [fileList2, setFileList2] = useState<UploadFile[]>([]);
@@ -102,9 +140,120 @@ const App: React.FC = () => {
     },
   ]);
 
+
+    // lấy dữ liệu
+    useEffect(() => {
+      dispatch(setLoading(true));
+      // thao tác 3 lần get lấy dữ liệu
+      const promises = [];
+  
+      const promiseVI = webInformationClient.handleGetWebInformation("6");
+      promises.push(promiseVI);
+  
+      const promiseEN = webInformationClient.handleGetWebInformation("7");
+      promises.push(promiseEN);
+  
+      const promiseCategory = handleCategoryClient.handleGetAllCategory("VI");
+      promises.push(promiseCategory);
+  
+      Promise.all(promises)
+        .then((results: any) => {
+          console.log(results, "results");
+          if (results[0]) {
+            const data = JSON.parse(results[0].value);
+            setIsShowBlockS(data.showBlockS);
+            setTitleBlockS1VI(data.dataBlockS[0]?.title);
+            setContentBlockS1VI(data.dataBlockS[0]?.content);
+            setTitleBlockS2VI(data.dataBlockS[1]?.title);
+            setContentBlockS2VI(data.dataBlockS[1]?.content);
+            setTitleBlockS3VI(data.dataBlockS[2]?.title);
+            setContentBlockS3VI(data.dataBlockS[2]?.content);
+
+            setListSlider1(data.dataSlider[0]?.image);
+            setIsShowSlider1(data.dataSlider[0]?.isShow);
+            setTitle1VI(data.dataSlider[0]?.title);
+            setContent1VI(data.dataSlider[0]?.content);
+            setLinkSlider1(data.dataSlider[0]?.link);
+
+            setListSlider2(data.dataSlider[1]?.image);
+            setIsShowSlider2(data.dataSlider[1]?.isShow);
+            setTitle2VI(data.dataSlider[1]?.title);
+            setContent2VI(data.dataSlider[1]?.content);
+            setLinkSlider2(data.dataSlider[1]?.link);
+
+            setListSlider3(data.dataSlider[2]?.image);
+            setIsShowSlider3(data.dataSlider[2]?.isShow);
+            setTitle3VI(data.dataSlider[2]?.title);
+            setContent3VI(data.dataSlider[2]?.content);
+            setLinkSlider3(data.dataSlider[2]?.link);
+
+            setShowBlock1(data.showBlock1);
+            setIconBlock2(data.iconBlock2);
+            setUnderlineBlock2(data.uderlineBlock2);
+            setTitleBlock2VI(data.titleBlock2);
+            setListSliderBlock2(data.listSliderBlock2);
+            setContentBlock2VI(data.contentBlock2);
+            setShowBlock2(data.showBlock2);
+            setListSliderBlock3(data.listSliderBlock3);
+            setIconBlock3(data.iconBlock3);
+            setUnderlineBlock3(data.uderlineBlock3);
+            setTitleBlock3VI(data.titleBlock3);
+            setShowBlock3(data.showBlock3);
+            setDataBlock4(data.dataBlock4);
+            setListSliderBlock5(data.listSliderBlock5);
+            setUnderlineBlock5(data.uderlineBlock5);
+            setTitleBlock5VI(data.titleBlock5);
+            setShowBlock5(data.showBlock5);
+          }
+          if (results[1]) {
+            const data = JSON.parse(results[1].value);
+
+            setTitleBlockS1EN(data.dataBlockS[0]?.title);
+            setContentBlockS1EN(data.dataBlockS[0]?.content);
+            setTitleBlockS2EN(data.dataBlockS[1]?.title);
+            setContentBlockS2EN(data.dataBlockS[1]?.content);
+            setTitleBlockS3EN(data.dataBlockS[2]?.title);
+            setContentBlockS3EN(data.dataBlockS[2]?.content);
+
+            setTitle1EN(data.dataSlider[0]?.title);
+            setContent1EN(data.dataSlider[0]?.content);
+
+            setTitle2EN(data.dataSlider[1]?.title);
+            setContent2EN(data.dataSlider[1]?.content);
+
+            setTitle3EN(data.dataSlider[2]?.title);
+            setContent3EN(data.dataSlider[2]?.content);
+
+            setTitleBlock2EN(data.titleBlock2);
+            setContentBlock2EN(data.contentBlock2);
+
+            setTitleBlock3EN(data.titleBlock3);
+
+            setTitleBlock5EN(data.titleBlock5);
+          }
+          if (results[2]) {
+            setDataCategory(results[2]);
+          }
+          dispatch(setLoading(false));
+        })
+        .catch((error) => {
+          // Xử lý khi có lỗi xảy ra
+          notification.success({
+            message: "Cập nhật dữ liệu thất bại",
+            description:
+              "Đã có lỗi xảy ra trong quá trình cập nhật dữ liệu tiếng việt",
+            duration: 1.5,
+            onClose: () => {
+              dispatch(setLoading(false));
+            },
+          });
+        });
+    }, []);
+
+//config cho ảnh slider
   useEffect(() => {
-    if (listSliderBlock1.length > 0) {
-      const mappedData: UploadFile[] = listSliderBlock1.map(
+    if (listSlider1.length > 0) {
+      const mappedData: UploadFile[] = listSlider1.map(
         (urlImage: string) => ({
           uid: "",
           lastModified: 0,
@@ -119,9 +268,49 @@ const App: React.FC = () => {
           thumbUrl: process.env.NEXT_PUBLIC_API_URL + "/" + urlImage,
         })
       );
-      setFileList1(mappedData);
+      setFileListSlider1(mappedData);
     }
-  }, [listSliderBlock1]);
+  }, [listSlider1]);
+  useEffect(() => {
+    if (listSlider2.length > 0) {
+      const mappedData: UploadFile[] = listSlider2.map(
+        (urlImage: string) => ({
+          uid: "",
+          lastModified: 0,
+          lastModifiedDate: undefined,
+          name: "",
+          size: 0,
+          type: "image/jpeg",
+          percent: 100,
+          originFileObj: undefined,
+          status: "done",
+          response: urlImage,
+          thumbUrl: process.env.NEXT_PUBLIC_API_URL + "/" + urlImage,
+        })
+      );
+      setFileListSlider2(mappedData);
+    }
+  }, [listSlider2]);
+  useEffect(() => {
+    if (listSlider3.length > 0) {
+      const mappedData: UploadFile[] = listSlider3.map(
+        (urlImage: string) => ({
+          uid: "",
+          lastModified: 0,
+          lastModifiedDate: undefined,
+          name: "",
+          size: 0,
+          type: "image/jpeg",
+          percent: 100,
+          originFileObj: undefined,
+          status: "done",
+          response: urlImage,
+          thumbUrl: process.env.NEXT_PUBLIC_API_URL + "/" + urlImage,
+        })
+      );
+      setFileListSlider3(mappedData);
+    }
+  }, [listSlider3]);
   useEffect(() => {
     const mappedData: UploadFile[] = listSliderBlock2.map(
       (urlImage: string) => ({
@@ -139,7 +328,7 @@ const App: React.FC = () => {
       })
     );
     setFileList2(mappedData);
-  }, [listSliderBlock1]);
+  }, [listSliderBlock2]);
   useEffect(() => {
     const mappedData: UploadFile[] = listSliderBlock3.map(
       (urlImage: string) => ({
@@ -398,71 +587,6 @@ const App: React.FC = () => {
     imgWindow?.document.write(image.outerHTML);
   };
 
-  // lấy dữ liệu
-  useEffect(() => {
-    dispatch(setLoading(true));
-    // thao tác 3 lần get lấy dữ liệu
-    const promises = [];
-
-    const promiseVI = webInformationClient.handleGetWebInformation("6");
-    promises.push(promiseVI);
-
-    const promiseEN = webInformationClient.handleGetWebInformation("7");
-    promises.push(promiseEN);
-
-    const promiseCategory = handleCategoryClient.handleGetAllCategory("VI");
-    promises.push(promiseCategory);
-
-    Promise.all(promises)
-      .then((results: any) => {
-        console.log(results, "results");
-        if (results[0]) {
-          const data = JSON.parse(results[0].value);
-          setListSliderBlock1(data.listSliderBlock1);
-          setShowBlock1(data.showBlock1);
-          setIconBlock2(data.iconBlock2);
-          setUnderlineBlock2(data.uderlineBlock2);
-          setTitleBlock2VI(data.titleBlock2);
-          setListSliderBlock2(data.listSliderBlock2);
-          setContentBlock2VI(data.contentBlock2);
-          setShowBlock2(data.showBlock2);
-          setListSliderBlock3(data.listSliderBlock3);
-          setIconBlock3(data.iconBlock3);
-          setUnderlineBlock3(data.uderlineBlock3);
-          setTitleBlock3VI(data.titleBlock3);
-          setShowBlock3(data.showBlock3);
-          setDataBlock4(data.dataBlock4);
-          setListSliderBlock5(data.listSliderBlock5);
-          setUnderlineBlock5(data.uderlineBlock5);
-          setTitleBlock5VI(data.titleBlock5);
-          setShowBlock5(data.showBlock5);
-        }
-        if (results[1]) {
-          const data = JSON.parse(results[1].value);
-          setTitleBlock2EN(data.titleBlock2);
-          setContentBlock2EN(data.contentBlock2);
-          setTitleBlock3EN(data.titleBlock3);
-          setTitleBlock5EN(data.titleBlock5);
-        }
-        if (results[2]) {
-          setDataCategory(results[2]);
-        }
-        dispatch(setLoading(false));
-      })
-      .catch((error) => {
-        // Xử lý khi có lỗi xảy ra
-        notification.success({
-          message: "Cập nhật dữ liệu thất bại",
-          description:
-            "Đã có lỗi xảy ra trong quá trình cập nhật dữ liệu tiếng việt",
-          duration: 1.5,
-          onClose: () => {
-            dispatch(setLoading(false));
-          },
-        });
-      });
-  }, []);
-
   useEffect(() => {
     if (dataCategory) {
       const myoptions: any = dataCategory.map((item: any) => {
@@ -547,17 +671,96 @@ const App: React.FC = () => {
   };
   const handleSubmit = () => {
     dispatch(setLoading(true));
-    const newArray1 = fileList1.map((obj) => obj.response);
+    // const newArray1 = fileList1.map((obj) => obj.response);
     const newArray2 = fileList2.map((obj) => obj.response);
     const newArrayIcon2 = fileListIcon2.map((obj) => obj.response);
     const newArray3 = fileList3.map((obj) => obj.response);
     const newArrayIcon3 = fileListIcon3.map((obj) => obj.response);
     const newArray5 = fileList5.map((obj) => obj.response);
     const newArrayIcon5 = fileListIcon5.map((obj) => obj.response);
+    const newArraySlider1 = fileListSlider1.map((obj) => obj.response);
+    const newArraySlider2 = fileListSlider2.map((obj) => obj.response);
+    const newArraySlider3 = fileListSlider3.map((obj) => obj.response);
+    const dataSliderVI = [
+      {
+        image: newArraySlider1,
+        title: title1VI,
+        content: content1VI,
+        link: linkSlider1,
+        isShow: isShowSlider1,
+      },
+      {
+        image: newArraySlider2,
+        title: title2VI,
+        content: content2VI,
+        link: linkSlider2,
+        isShow: isShowSlider2,
+      },
+      {
+        image: newArraySlider3,
+        title: title3VI,
+        content: content3VI,
+        link: linkSlider3,
+        isShow: isShowSlider3,
+      },
+    ];
+    const dataSliderEN = [
+      {
+        image: newArraySlider1,
+        title: title1EN,
+        content: content1EN,
+        link: linkSlider1,
+        isShow: isShowSlider1,
+      },
+      {
+        image: newArraySlider2,
+        title: title2EN,
+        content: content2EN,
+        link: linkSlider2,
+        isShow: isShowSlider2,
+      },
+      {
+        image: newArraySlider3,
+        title: title3EN,
+        content: content3EN,
+        link: linkSlider3,
+        isShow: isShowSlider3,
+      },
+    ];
+    const dataBlockSVI = [
+      {
+        title: titleBlockS1VI,
+        content: contentBlockS1VI,
+      },
+      {
+        title: titleBlockS2VI,
+        content: contentBlockS2VI,
+      },
+      {
+        title: titleBlockS3VI,
+        content: contentBlockS3VI,
+      },
+    ];
+    const dataBlockSEN = [
+      {
+        title: titleBlockS1EN,
+        content: contentBlockS1EN,
+      },
+      {
+        title: titleBlockS2EN,
+        content: contentBlockS2EN,
+      },
+      {
+        title: titleBlockS3EN,
+        content: contentBlockS3EN,
+      },
+    ];
 
     let dataVI = {
-      listSliderBlock1: newArray1,
       showBlock1: showBlock1,
+      dataSlider: dataSliderVI,
+      showBlockS: isShowBlockS,
+      dataBlockS: dataBlockSVI,
       iconBlock2: newArrayIcon2,
       uderlineBlock2: uderlineBlock2,
       titleBlock2: titleBlock2VI,
@@ -577,10 +780,27 @@ const App: React.FC = () => {
       showBlock5: showBlock5,
     };
     let dataEN = {
+      showBlock1: showBlock1,
+      dataSlider: dataSliderEN,
+      showBlockS: isShowBlockS,
+      dataBlockS: dataBlockSEN,
+      iconBlock2: newArrayIcon2,
+      uderlineBlock2: uderlineBlock2,
       titleBlock2: titleBlock2EN,
-      contentBlock2: contentBlock2EN,
+      listSliderBlock2: newArray2,
+      contentBlock2: contentBlock2VI,
+      showBlock2: showBlock2,
+      listSliderBlock3: newArray3,
+      iconBlock3: newArrayIcon3,
+      uderlineBlock3: uderlineBlock3,
       titleBlock3: titleBlock3EN,
+      showBlock3: showBlock3,
+      dataBlock4: dataBlock4,
+      listSliderBlock5: newArray5,
+      iconBlock5: newArrayIcon5,
+      uderlineBlock5: uderlineBlock5,
       titleBlock5: titleBlock5EN,
+      showBlock5: showBlock5,
     };
     const body1 = {
       id: 6,
@@ -665,7 +885,18 @@ const App: React.FC = () => {
                 style={{ marginLeft: 15 }}
               />
             </label>
-            <div>
+            <label className="admin__main-label">
+              Slider 1
+            </label>
+            <div className="admin__main-block-image-text">
+              <div>
+              <Switch
+                checkedChildren="Hiển thị"
+                unCheckedChildren="Tạm ẩn"
+                checked={isShowSlider1}
+                onChange={(checked) => setIsShowSlider1(checked)}
+                style={{ marginBottom: 20 }}
+              />
               <Upload
                 customRequest={customRequest}
                 listType="picture-card"
@@ -675,42 +906,376 @@ const App: React.FC = () => {
               >
                 {fileListSlider1.length < 1 && "+ Tải Ảnh"}
               </Upload>
-              <TextArea
+              </div>
+            <div className="admin__main-block-image-text-input">
+            <Tabs activeKey={activeTab} items={items} onChange={onChange} />
+            {activeTab === "1" ? (
+            <>
+            <TextArea
                 showCount
                 maxLength={80}
                 style={{ height: 50 }}
                 placeholder="Nhập nội dung (tiếng việt)"
-                onChange={(event) => handleChangeContentVI(event, "content1")}
-                value={contentBlock2VI.content1}
+                onChange={(event) => setTitle1VI(event.target.value)}
+                value={title1VI}
               />
-			    <TextArea
+              <TextArea
+                    showCount
+                    maxLength={240}
+                    style={{ height: 80, margin: "18px 0px" }}
+                    placeholder="Nhập nội dung (tiếng việt)"
+                    onChange={(event) => setContent1VI(event.target.value)}
+                    value={content1VI}
+                  />
+              </>
+                          ):(
+              <>
+            <TextArea
                 showCount
-                maxLength={240}
-                style={{ height: 80 }}
-                placeholder="Nhập nội dung (tiếng việt)"
-                onChange={(event) => handleChangeContentVI(event, "content1")}
-                value={contentBlock2VI.content1}
+                maxLength={80}
+                style={{ height: 50 }}
+                placeholder="Nhập nội dung (tiếng anh)"
+                onChange={(event) => setTitle1EN(event.target.value)}
+                value={title1EN}
               />
-				<Input
-				addonBefore={process.env.NEXT_PUBLIC_API_URL + "/"}
-				placeholder={"Đường dẫn"}
-				size="large"
-				// onChange={(e) => setPhone(e.target.value)}
-				// value={phone}
-				style={{marginBottom: 15, width: "100%"}}
-				/>
-            </div>
-            <Upload
-              customRequest={customRequest}
-              listType="picture-card"
-              fileList={fileList1}
-              onChange={onChangeImage1}
-              onPreview={onPreview1}
-            >
-              {fileList1.length < 5 && "+ Tải Ảnh"}
-            </Upload>
-          </div>
+              <TextArea
+                    showCount
+                    maxLength={240}
+                    style={{ height: 80, margin: "18px 0px" }}
+                    placeholder="Nhập nội dung (tiếng anh)"
+                    onChange={(event) => setContent1EN(event.target.value)}
+                    value={content1EN}
+                  />
+            </>
+            )}
 
+              <Input
+              addonBefore={process.env.NEXT_PUBLIC_API_URL + "/"}
+              placeholder={"Đường dẫn button slide"}
+              size="large"
+              onChange={(e) => setLinkSlider1(e.target.value)}
+              value={linkSlider1}
+              style={{marginBottom: 15, width: "100%"}}
+              />
+            </div>
+            </div>
+            <div className="admin__main-block-wall"></div>
+            <label className="admin__main-label">
+              Slider 2
+            </label>
+            <div className="admin__main-block-image-text">
+              <div>
+              <Switch
+                checkedChildren="Hiển thị"
+                unCheckedChildren="Tạm ẩn"
+                checked={isShowSlider2}
+                onChange={(checked) => setIsShowSlider2(checked)}
+                style={{ marginBottom: 20 }}
+              />
+              <Upload
+                customRequest={customRequest}
+                listType="picture-card"
+                fileList={fileListSlider2}
+                onChange={onChangeSlider2}
+                onPreview={onPreviewSlider2}
+              >
+                {fileListSlider2.length < 1 && "+ Tải Ảnh"}
+              </Upload>
+              </div>
+            <div className="admin__main-block-image-text-input">
+            {activeTab === "1" ? (
+            <>
+            <TextArea
+                showCount
+                maxLength={80}
+                style={{ height: 50 }}
+                placeholder="Nhập nội dung (tiếng việt)"
+                onChange={(event) => setTitle2VI(event.target.value)}
+                value={title2VI}
+              />
+              <TextArea
+                    showCount
+                    maxLength={240}
+                    style={{ height: 80, margin: "18px 0px" }}
+                    placeholder="Nhập nội dung (tiếng anh)"
+                    onChange={(event) => setContent2VI(event.target.value)}
+                    value={content2VI}
+                  />
+              </>
+                          ):(
+              <>
+            <TextArea
+                showCount
+                maxLength={80}
+                style={{ height: 50 }}
+                placeholder="Nhập nội dung (tiếng anh)"
+                onChange={(event) => setTitle2EN(event.target.value)}
+                value={title2EN}
+              />
+              <TextArea
+                    showCount
+                    maxLength={240}
+                    style={{ height: 80, margin: "18px 0px" }}
+                    placeholder="Nhập nội dung (tiếng anh)"
+                    onChange={(event) => setContent2EN(event.target.value)}
+                    value={content2EN}
+                  />
+            </>
+            )}
+              <Input
+              addonBefore={process.env.NEXT_PUBLIC_API_URL + "/"}
+              placeholder={"Đường dẫn button slide"}
+              size="large"
+              onChange={(e) => setLinkSlider2(e.target.value)}
+              value={linkSlider2}
+              style={{marginBottom: 15, width: "100%"}}
+              />
+            </div>
+            </div>
+            <div className="admin__main-block-wall"></div>
+            <label className="admin__main-label">
+              Slider 3
+            </label>
+            <div className="admin__main-block-image-text">
+              <div>
+              <Switch
+                checkedChildren="Hiển thị"
+                unCheckedChildren="Tạm ẩn"
+                checked={isShowSlider3}
+                onChange={(checked) => setIsShowSlider3(checked)}
+                style={{ marginBottom: 20 }}
+              />
+              <Upload
+                customRequest={customRequest}
+                listType="picture-card"
+                fileList={fileListSlider3}
+                onChange={onChangeSlider3}
+                onPreview={onPreviewSlider3}
+              >
+                {fileListSlider3.length < 1 && "+ Tải Ảnh"}
+              </Upload>
+              </div>
+            <div className="admin__main-block-image-text-input">
+            {activeTab === "1" ? (
+            <>
+            <TextArea
+                showCount
+                maxLength={80}
+                style={{ height: 50 }}
+                placeholder="Nhập nội dung (tiếng việt)"
+                onChange={(event) => setTitle3VI(event.target.value)}
+                value={title3VI}
+              />
+              <TextArea
+                    showCount
+                    maxLength={240}
+                    style={{ height: 80, margin: "18px 0px" }}
+                    placeholder="Nhập nội dung (tiếng anh)"
+                    onChange={(event) => setContent3VI(event.target.value)}
+                    value={content3VI}
+                  />
+              </>
+                          ):(
+              <>
+            <TextArea
+                showCount
+                maxLength={80}
+                style={{ height: 50 }}
+                placeholder="Nhập nội dung (tiếng anh)"
+                onChange={(event) => setTitle3EN(event.target.value)}
+                value={title3EN}
+              />
+              <TextArea
+                    showCount
+                    maxLength={240}
+                    style={{ height: 80, margin: "18px 0px" }}
+                    placeholder="Nhập nội dung (tiếng anh)"
+                    onChange={(event) => setContent3EN(event.target.value)}
+                    value={content3EN}
+                  />
+            </>
+            )}
+              <Input
+              addonBefore={process.env.NEXT_PUBLIC_API_URL + "/"}
+              placeholder={"Đường dẫn button slide"}
+              size="large"
+              onChange={(e) => setLinkSlider3(e.target.value)}
+              value={linkSlider3}
+              style={{marginBottom: 15, width: "100%"}}
+              />
+            </div>
+            </div>
+          </div>
+          {/* phần thêm */}
+          <div className="admin__main-cards" style={{ marginBottom: "20px" }}>
+            <label className="admin__main-label">
+              <StarFilled style={{ marginRight: 5 }} />
+              3 ô Block
+              <Switch
+                checkedChildren="Hiển thị"
+                unCheckedChildren="Tạm ẩn"
+                checked={isShowBlockS}
+                onChange={(checked) => setIsShowBlockS(checked)}
+                style={{ marginLeft: 15 }}
+              />
+            </label>
+            <div>
+            <Tabs activeKey={activeTab} items={items} onChange={onChange} />
+                <label className="admin__main-label">
+                  Tiêu đề và nội dung block thứ 1
+                </label>
+                {activeTab === "1" ? (
+                  <>
+                    <TextArea
+                      showCount
+                      maxLength={400}
+                      style={{ height: 60, marginBottom: 20 }}
+                      placeholder="Nhập nội dung (tiếng việt)"
+                      onChange={(event) =>
+                        setTitleBlockS1VI(event.target.value)
+                      }
+                      value={titleBlockS1VI}
+                    />
+                    <TextArea
+                      showCount
+                      maxLength={400}
+                      style={{ height: 60, marginBottom: 24 }}
+                      placeholder="Nhập nội dung (tiếng việt)"
+                      onChange={(event) =>
+                        setContentBlockS1VI(event.target.value)
+                      }
+                      value={contentBlockS1VI}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <TextArea
+                      showCount
+                      maxLength={400}
+                      style={{ height: 60, marginBottom: 20 }}
+                      placeholder="Nhập nội dung (tiếng anh)"
+                      onChange={(event) =>
+                        setTitleBlockS1EN(event.target.value)
+                      }
+                      value={titleBlockS1EN}
+                    />
+                    <TextArea
+                      showCount
+                      maxLength={400}
+                      style={{ height: 60, marginBottom: 24 }}
+                      placeholder="Nhập nội dung (tiếng anh)"
+                      onChange={(event) =>
+                        setContentBlockS1EN(event.target.value)
+                      }
+                      value={contentBlockS1EN}
+                    />
+                  </>
+                )}
+                <div className="admin__main-block-wall"></div>
+                <label className="admin__main-label">
+                  Tiêu đề và nội dung block thứ 2 ( Block được hiển thị nổi bật !!)
+                </label>
+                {activeTab === "1" ? (
+                  <>
+                    <TextArea
+                      showCount
+                      maxLength={400}
+                      style={{ height: 60, marginBottom: 20 }}
+                      placeholder="Nhập nội dung (tiếng việt)"
+                      onChange={(event) =>
+                        setTitleBlockS2VI(event.target.value)
+                      }
+                      value={titleBlockS2VI}
+                    />
+                    <TextArea
+                      showCount
+                      maxLength={400}
+                      style={{ height: 60, marginBottom: 24 }}
+                      placeholder="Nhập nội dung (tiếng việt)"
+                      onChange={(event) =>
+                        setContentBlockS2VI(event.target.value)
+                      }
+                      value={contentBlockS2VI}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <TextArea
+                      showCount
+                      maxLength={400}
+                      style={{ height: 60, marginBottom: 20 }}
+                      placeholder="Nhập nội dung (tiếng anh)"
+                      onChange={(event) =>
+                        setTitleBlockS2EN(event.target.value)
+                      }
+                      value={titleBlockS2EN}
+                    />
+                    <TextArea
+                      showCount
+                      maxLength={400}
+                      style={{ height: 60, marginBottom: 24 }}
+                      placeholder="Nhập nội dung (tiếng anh)"
+                      onChange={(event) =>
+                        setContentBlockS2EN(event.target.value)
+                      }
+                      value={contentBlockS2EN}
+                    />
+                  </>
+                )}
+                <label className="admin__main-label">
+                  Tiêu đề và nội dung block thứ 3
+                </label>
+                {activeTab === "1" ? (
+                  <>
+                    <TextArea
+                      showCount
+                      maxLength={400}
+                      style={{ height: 60, marginBottom: 20 }}
+                      placeholder="Nhập nội dung (tiếng việt)"
+                      onChange={(event) =>
+                        setTitleBlockS3VI(event.target.value)
+                      }
+                      value={titleBlockS3VI}
+                    />
+                    <TextArea
+                      showCount
+                      maxLength={400}
+                      style={{ height: 60, marginBottom: 24 }}
+                      placeholder="Nhập nội dung (tiếng việt)"
+                      onChange={(event) =>
+                        setContentBlockS3VI(event.target.value)
+                      }
+                      value={contentBlockS3VI}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <TextArea
+                      showCount
+                      maxLength={400}
+                      style={{ height: 60, marginBottom: 20 }}
+                      placeholder="Nhập nội dung (tiếng anh)"
+                      onChange={(event) =>
+                        setTitleBlockS3EN(event.target.value)
+                      }
+                      value={titleBlockS3EN}
+                    />
+                    <TextArea
+                      showCount
+                      maxLength={400}
+                      style={{ height: 60, marginBottom: 24 }}
+                      placeholder="Nhập nội dung (tiếng anh)"
+                      onChange={(event) =>
+                        setContentBlockS3EN(event.target.value)
+                      }
+                      value={contentBlockS3EN}
+                    />
+                  </>
+                )}
+                <div className="admin__main-block-wall"></div>
+                <div className="admin__main-block-wall"></div>
+              </div>
+          </div>
           <div className="admin__main-cards" style={{ marginBottom: "20px" }}>
             <label className="admin__main-label">
               <StarFilled style={{ marginRight: 5 }} />

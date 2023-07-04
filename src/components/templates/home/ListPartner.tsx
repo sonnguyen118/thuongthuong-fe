@@ -15,6 +15,7 @@ interface ListPartnerProps {
 }
 const ListPartner: React.FC<ListPartnerProps> = (props) => {
   const { isShow, uderlineBlock, iconBlock, titleBlock, listSliderBlock } = props;
+  console.log(props, "lồn");
   const [t, setText] = useState(viText);
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage

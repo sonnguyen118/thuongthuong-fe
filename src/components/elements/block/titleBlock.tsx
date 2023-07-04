@@ -9,19 +9,20 @@ interface TitleBlockProps {
 const TitleBlock: React.FC<TitleBlockProps> = ({ title, urlImage, underlined }) => {
   return (
     <>
-      {urlImage ? (<div className="home__title">
+      {(title || urlImage) && 
+      <div className="home__title">
+        {urlImage &&        
         <Image
-          src={process.env.NEXT_PUBLIC_API_URL + "/" + urlImage}
-          alt="ThuongThuong"
-          width={80}
-          height={80}
-          loading="lazy"
-        />
-        <h2 className="home__title-text">{title}</h2>
-        {underlined && <div className="home__title-wall"> </div>}
-      </div>) : (
-        <></>
-      )}
+        src={process.env.NEXT_PUBLIC_API_URL + "/" + urlImage}
+        alt="ThuongThuong"
+        width={80}
+        height={80}
+        loading="lazy"
+      />}
+      <h2 className="home__title-text">{title}</h2>
+      {underlined && <div className="home__title-wall"> </div>}
+    </div>
+      }
     </>
   );
 };

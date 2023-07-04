@@ -67,8 +67,8 @@ const Home: React.FC<pagesProps> = (props: pagesProps) => {
     <>
       <HeadSEO pageSEO={pageSEOData.pageSEO} />
       <Layout dataMenu={dataMenu} dataFooter={dataFooter}>
-        <SlideBarsHome isShow={dataPages.showBlock1} dataSlider={dataPages.listSliderBlock1}/>
-         <PrinciplesHome />
+        <SlideBarsHome isShow={dataPages.showBlock1} dataSlider={dataPages.dataSlider}/>
+         <PrinciplesHome isShow={dataPages.showBlockS} dataBlock={dataPages.dataBlockS}/>
         <PiecesPuzzleHome isShow={dataPages.showBlock2} uderlineBlock={dataPages.uderlineBlock2} iconBlock={dataPages.iconBlock2} titleBlock={dataPages.titleBlock2} listSliderBlock={dataPages.listSliderBlock2} contentBlock={dataPages.contentBlock2}/>
         {/* <CardTabs /> */}
         <ListProducts isShow={dataPages.showBlock3} uderlineBlock={dataPages.uderlineBlock3} iconBlock={dataPages.iconBlock3} titleBlock={dataPages.titleBlock3} listSliderBlock={dataPages.listSliderBlock3}/>
