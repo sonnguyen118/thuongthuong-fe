@@ -84,3 +84,41 @@
     }
   }
 }
+
+// responsive
+@include responsive_200 {
+}
+@include responsive_280 {
+}
+@include responsive_320 {
+}
+
+@include responsive_375 {
+}
+
+@include responsive_456 {
+}
+
+@include responsive_768 {
+}
+@include responsive_1024 {
+}
+
+@include responsive_1280 {
+}
+@include responsive_1440 {
+  .login {
+    &-wrap {
+    }
+    width: 60vw;
+    height: 65vh;
+  }
+}
+@include responsive_1650 {
+  .login {
+    &-wrap {
+    }
+    width: 55vw;
+    height: 55vh;
+  }
+}

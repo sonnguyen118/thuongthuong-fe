@@ -108,7 +108,8 @@ const ListProductsPage: React.FC<pagesProps> = (props: pagesProps) => {
       image: 'https://www.critistudio.top/images/seo.jpg'
     }
   }
-
+console.log(dataMenu, "dataMenu");
+console.log(dataFooter, "dataFooter");
   return (
     <>
       <HeadSEO pageSEO={pageSEOData.pageSEO} />
@@ -128,8 +129,8 @@ const ListProductsPage: React.FC<pagesProps> = (props: pagesProps) => {
 }
 export async function getServerSideProps(context: any) {
   try {
-    const cookieValue = cookie.parse(context.req.headers.cookie as string)
-    const language = cookieValue['language']
+    // const cookieValue = cookie.parse(context.req.headers.cookie as string) || "VI";
+    const language = "VI";
     const page = 1
     const size = 20
     const categories = await categoryClient

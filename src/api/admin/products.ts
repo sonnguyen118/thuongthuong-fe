@@ -18,7 +18,15 @@ interface bodyProductsGetAll {
   language: string;
   page: number;
   size: number
-}
+};
+interface bodyStatusProps {
+  id: number;
+  isActive: boolean;
+};
+interface bodyUpdateProps {
+  id: number;
+  isActive: boolean;
+};
 
 const createProducts = (body: bodyProducts): Promise<any> => {
   return axiosInstanceAuthorization.post(process.env.NEXT_PUBLIC_API_URL + "/product/admin/create", body);
@@ -34,6 +42,11 @@ const getAllProducts = (body: bodyProductsGetAll): Promise<any> => {
 const getDataOne = (id: number): Promise<any> => {
   return axiosInstanceAuthorization.get(process.env.NEXT_PUBLIC_API_URL + `/product/admin/get-detail?productId=${id}`);
 };
+const updateStatus = (body: bodyStatusProps): Promise<any> => {
+  return axiosInstanceAuthorization.post(process.env.NEXT_PUBLIC_API_URL + `/product/update-status`, body);
+};
+const updateProducts = (body: bodyUpdateProps): Promise<any> => {
+  return axiosInstanceAuthorization.post(process.env.NEXT_PUBLIC_API_URL + `/product/admin/update`, body);
+};
 
-
-export default { createProducts, uploadImagesProduct, getAllProducts, getDataOne };
+export default { createProducts, updateProducts, uploadImagesProduct, getAllProducts, getDataOne, updateStatus };

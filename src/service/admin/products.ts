@@ -1,17 +1,19 @@
 import { Products } from "@api";
 
-
-interface contentProps {
-  name: string,
-  language: string,
-  content: string,
-  description: string
-}
 interface bodyProductsGetAll {
   language: string;
   page: number;
   size: number
-}
+};
+interface bodyStatusProps {
+  id: number;
+  isActive: boolean;
+};
+interface bodyUpdateProps {
+  id: number;
+  isActive: boolean;
+};
+
 type metaProps = {
   message: string;
   status: number;
@@ -25,6 +27,44 @@ type ResponseData = {
 const handleCreateProducts = async (body: any): Promise<ResponseData | Error> => {
   try {
     const response = await Products.createProducts(body);
+    const { data, meta } = response.data;
+    if (meta.status === 200) {
+      const resData: ResponseData = { meta: meta, data: data };
+      return resData;
+    } else {
+      throw new Error(`Unexpected status code: ${meta.status}`);
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      return error;
+    } else {
+      return new Error("Unexpected error");
+    }
+  }
+};
+
+const handleUpdateProducts = async (body: bodyUpdateProps): Promise<ResponseData | Error> => {
+  try {
+    const response = await Products.updateProducts(body);
+    const { data, meta } = response.data;
+    if (meta.status === 200) {
+      const resData: ResponseData = { meta: meta, data: data };
+      return resData;
+    } else {
+      throw new Error(`Unexpected status code: ${meta.status}`);
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      return error;
+    } else {
+      return new Error("Unexpected error");
+    }
+  }
+};
+
+const handleUpdateStatus = async (body: bodyStatusProps): Promise<ResponseData | Error> => {
+  try {
+    const response = await Products.updateStatus(body);
     const { data, meta } = response.data;
     if (meta.status === 200) {
       const resData: ResponseData = { meta: meta, data: data };
@@ -97,4 +137,4 @@ const handleGetOne = async (id: number): Promise<ResponseData | Error> => {
 };
 
 
-export default { handleCreateProducts, handleUploadImageProducts, handleGetAllProducts, handleGetOne};
+export default { handleCreateProducts, handleUpdateProducts, handleUploadImageProducts, handleGetAllProducts, handleGetOne, handleUpdateStatus};
