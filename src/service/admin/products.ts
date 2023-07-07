@@ -8,10 +8,16 @@ interface bodyProductsGetAll {
 interface bodyStatusProps {
   id: number;
   isActive: boolean;
+  softDeleted: boolean;
 };
+
 interface bodyUpdateProps {
-  id: number;
-  isActive: boolean;
+    id: number,
+    link: string,
+    imageUrl: string,
+    categoryLevel1Id: number;
+    categoryLevel2Id: number;
+    content: Array<any>;
 };
 
 type metaProps = {

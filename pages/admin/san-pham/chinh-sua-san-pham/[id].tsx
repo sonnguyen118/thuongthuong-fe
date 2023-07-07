@@ -43,11 +43,13 @@ const App: React.FC = () => {
     VI: undefined,
     EN: undefined
   });
-  const [link, setLink] = useState<string>();
+  const [link, setLink] = useState<string>("");
   const [descriptionVI, setDescriptionVI] = useState<string | undefined >();
   const [descriptionEN, setDescriptionEN] = useState<string | undefined >();
   const [contentVI, setContentVI] = useState<string | undefined>();
   const [contentEN, setContentEN] = useState<string | undefined>();
+  const [contentIdVI, setContentIdVI] = useState<number | undefined>();
+  const [contentIdEN, setContentIdEN] = useState<number | undefined>();
   useEffect(() => {
     if (id) {
       dispatch(setLoading(true));
@@ -63,6 +65,8 @@ const App: React.FC = () => {
             VI : data.content[0]?.name,
             EN : data.content[1]?.name,
           });
+          setContentIdVI(data.content[0]?.id);
+          setContentIdEN(data.content[1]?.id);
           setDescriptionVI(data.content[0]?.description);
           setDescriptionEN(data.content[1]?.description);
           setContentVI(data.content[0]?.content);
@@ -80,7 +84,6 @@ const App: React.FC = () => {
         });
     }
   }, [id]);
-  console.log(selector2, "selected")
   useEffect(()=> {
     if(imageBlock) {
       const mappedData: UploadFile[] = [{
@@ -179,8 +182,8 @@ const App: React.FC = () => {
         });
         setOptions2(optionsts);
       } else {
-        setSelector2(null);
-        setOptions2([]);
+        // setSelector2(null);
+        // setOptions2([]);
       }
 
     }
@@ -286,29 +289,31 @@ const App: React.FC = () => {
     dispatch(setLoading(true));
     const newArray = fileList.map(obj => obj.response);
     let body = {
+      id: Number(router.query.id),
       link: link,
       imageUrl: newArray[0],
       categoryLevel1Id: selector1,
       categoryLevel2Id: selector2,
       content: [
         {
+          id: contentIdVI,
           name: title.VI,
           language: "VI",
           content: contentVI,
           description: descriptionVI
         },
         {
+          id: contentIdEN,
           name: title.EN || "",
           language: "EN",
           content: contentEN || "",
           description: descriptionEN || "",
         }
       ]
-
     };
-    // console.log(body, "body")
+console.log(body, "body")
     handleProducts
-      .handleCreateProducts(body)
+      .handleUpdateProducts(body)
       .then((result: any) => {
         // Xử lý kết quả trả về ở đây
         notification.success({

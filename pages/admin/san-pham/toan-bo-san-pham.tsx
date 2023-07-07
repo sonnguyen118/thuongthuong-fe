@@ -7,9 +7,7 @@ import { NavigationAdmin } from "@components/elements/navigation";
 import { FilterAdminProducts } from "@components/molecules/FilterAdmin";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { handleCategory, handleProducts } from "@service";
-import { useCookies } from "react-cookie";
-import { toast } from "react-toastify";
+import { handleProducts } from "@service";
 import { useSelector, useDispatch } from "react-redux";
 import { setLoading } from "@slices/loadingState";
 import * as process from "process";
@@ -38,8 +36,6 @@ interface NavigationProps {
 const App: React.FC = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [cookies] = useCookies(["accessToken"]);
-  const token = cookies["accessToken"];
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [dataProducts, setDataProducts] = useState([]);
   // lấy dữ liệu
@@ -79,20 +75,20 @@ const App: React.FC = () => {
   const handleGoDetailt = (record: any) => {
     router.push(`/admin/san-pham/chinh-sua-san-pham/${record.id}`);
   };
-  const handledeleteCategory =(record : any) => {
+  const handledeleteProducts =(record : any) => {
     const body = {
       id: record.id,
       isActive: false,
       softDeleted: true,
     };
     dispatch(setLoading(true));
-    handleCategory
+    handleProducts
       .handleUpdateStatus(body)
       .then((result:any) => {
         // Xử lý kết quả trả về ở đây
         notification.success({
           message: "Xoá thành công",
-          description: "Bạn đã tiến hành xóa thành công danh mục sản phẩm này",
+          description: "Bạn đã tiến hành xóa thành công sản phẩm này",
           duration: 1.5,
           onClose: () => {
             dispatch(setLoading(false));
@@ -114,6 +110,41 @@ const App: React.FC = () => {
         });
       });
   };
+  const handleChangeStaus = (record: any) => {
+    const body = {
+      id: record.id,
+      isActive: !record.isActive,
+      softDeleted: false,
+    };
+    dispatch(setLoading(true));
+    handleProducts
+      .handleUpdateStatus(body)
+      .then((result:any) => {
+        // Xử lý kết quả trả về ở đây
+        notification.success({
+          message: "Xoá thành công",
+          description: "Bạn đã tiến hành cập nhật trạng thái thành công sản phẩm này",
+          duration: 1.5,
+          onClose: () => {
+            dispatch(setLoading(false));
+            router.reload();
+          },
+        });
+      })
+      .catch((error) => {
+        // Xử lý lỗi ở đây
+        console.log(error);
+        notification.error({
+          message: "Cập nhật dữ liệu thất bại",
+          description: "Đã có lỗi xảy ra trong quá trình cập nhật dữ liệu",
+          duration: 1.5,
+          onClose: () => {
+            dispatch(setLoading(false));
+            // router.reload();
+          },
+        });
+      });
+  }
   const columns: ColumnsType<DataType> = [
     {
       title: "STT",
@@ -151,6 +182,7 @@ const App: React.FC = () => {
           checkedChildren="Đang hiện"
           unCheckedChildren="Đang ẩn"
           defaultChecked={isActive}
+          onChange={()=>handleChangeStaus(record)}
         />
       ),
     },
@@ -160,7 +192,7 @@ const App: React.FC = () => {
       render: (link, record) => (
         <>
           <Button onClick={(e)=> handleGoDetailt(record)}><EditOutlined /></Button>
-          <Button style={{marginLeft: 15}} onClick={()=> handledeleteCategory(record)}><DeleteOutlined/></Button>
+          <Button style={{marginLeft: 15}} onClick={()=> handledeleteProducts(record)}><DeleteOutlined/></Button>
         </>
       ),
     }

@@ -24,8 +24,12 @@ interface bodyStatusProps {
   isActive: boolean;
 };
 interface bodyUpdateProps {
-  id: number;
-  isActive: boolean;
+    id: number,
+    link: string,
+    imageUrl: string,
+    categoryLevel1Id: number;
+    categoryLevel2Id: number;
+    content: Array<any>;
 };
 
 const createProducts = (body: bodyProducts): Promise<any> => {
@@ -43,7 +47,7 @@ const getDataOne = (id: number): Promise<any> => {
   return axiosInstanceAuthorization.get(process.env.NEXT_PUBLIC_API_URL + `/product/admin/get-detail?productId=${id}`);
 };
 const updateStatus = (body: bodyStatusProps): Promise<any> => {
-  return axiosInstanceAuthorization.post(process.env.NEXT_PUBLIC_API_URL + `/product/update-status`, body);
+  return axiosInstanceAuthorization.post(process.env.NEXT_PUBLIC_API_URL + `/product/admin/update-status`, body);
 };
 const updateProducts = (body: bodyUpdateProps): Promise<any> => {
   return axiosInstanceAuthorization.post(process.env.NEXT_PUBLIC_API_URL + `/product/admin/update`, body);
