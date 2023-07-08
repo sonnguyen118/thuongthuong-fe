@@ -16,7 +16,7 @@ import { useSelector } from "react-redux";
 import { store } from "@store";
 import viText from "@languages/vie.json";
 import loadLanguageText from "@languages";
-import { webInformationClient } from "@service";
+import { webInformationClient, handleProductsClient } from "@service";
 import { setLoading } from "@slices/loadingState";
 import { notification } from "antd";
 interface PageSEOData {
@@ -38,12 +38,13 @@ interface pagesProps {
   dataPages: any;
   dataMenu: any;
   dataFooter: any;
-  dataContact: any
+  dataContact: any;
+  dataProductHighlight: any;
 }
 const Home: React.FC<pagesProps> = (props: pagesProps) => {
-  const {dataPages, dataMenu, dataFooter, dataContact} = props;
+  const {dataPages, dataMenu, dataFooter, dataContact, dataProductHighlight} = props;
+
   console.log(props, "asdasd")
-  console.log(dataPages, "dataPages")
   const [t, setText] = useState(viText);
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
@@ -86,13 +87,25 @@ export async function getServerSideProps(context: any) {
     const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
     const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
     const ContactVI :any = await webInformationClient.handleGetWebInformation("12");
-    console.log(JSON.parse(DatapageVI.value), "ContactVI");
+    const ListProduct: any = await handleProductsClient.handleGetHighlight();
+    if(ListProduct.meta?.status === 200) {
+      return {
+        props: {
+          dataPages: JSON.parse(DatapageVI.value) || {},
+          dataMenu:  JSON.parse(MenuVI.value) || {},
+          dataFooter: JSON.parse(FooterVI.value) || {},
+          dataContact: JSON.parse(ContactVI.value) || {},
+          dataProductHighlight: ListProduct.data?.products
+        },
+      };
+    }
     return {
       props: {
         dataPages: JSON.parse(DatapageVI.value) || {},
         dataMenu:  JSON.parse(MenuVI.value) || {},
         dataFooter: JSON.parse(FooterVI.value) || {},
         dataContact: JSON.parse(ContactVI.value) || {},
+        dataProductHighlight: {}
       },
     };
 

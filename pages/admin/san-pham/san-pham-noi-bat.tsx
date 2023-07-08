@@ -11,7 +11,7 @@ import { handleProducts } from "@service";
 import { useSelector, useDispatch } from "react-redux";
 import { setLoading } from "@slices/loadingState";
 import * as process from "process";
-import { DeleteOutlined, EditOutlined, PlusOutlined, CloseOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 interface DataType {
   key: React.Key;
   image: string;
@@ -40,12 +40,7 @@ const App: React.FC = () => {
   const [dataProducts, setDataProducts] = useState([]);
   // lấy dữ liệu
   useEffect(()=>{
-    const body = {
-      language: "VI",
-      page: 1,
-      size: 50
-  }
-    handleProducts.handleGetAllProducts(body)
+    handleProducts.handleGetHighlight()
     .then((result:any)=>{
       const {meta, data} = result;
       setDataProducts(data.products);
@@ -64,11 +59,11 @@ const App: React.FC = () => {
     {
       id: 2,
       title: `Sản Phẩm`,
-      link: "/admin/danh-muc",
+      link: "/admin/toan-bo-san-pham",
     },
     {
       id: 3,
-      title: `Toàn Bộ Sản Phẩm`,
+      title: `Sản Phẩm Nổi Bật`,
       link: "/",
     },
   ];
@@ -80,7 +75,6 @@ const App: React.FC = () => {
       id: record.id,
       isActive: false,
       softDeleted: true,
-      isHighlight: false,
     };
     dispatch(setLoading(true));
     handleProducts
@@ -116,7 +110,6 @@ const App: React.FC = () => {
       id: record.id,
       isActive: !record.isActive,
       softDeleted: false,
-      isHighlight: record.isHighlight,
     };
     dispatch(setLoading(true));
     handleProducts
@@ -195,19 +188,6 @@ const App: React.FC = () => {
         <>
           <Button onClick={(e)=> handleGoDetailt(record)}><EditOutlined /></Button>
           <Button style={{marginLeft: 15}} onClick={()=> handledeleteProducts(record)}><DeleteOutlined/></Button>
-        </>
-      ),
-    },
-    {
-      title: "HighLight",
-      dataIndex: "isHighlight",
-      render: (isHighlight, record) => (
-        <>
-        {isHighlight ? (
-          <Button onClick={(e)=> handleGoDetailt(record)}><CloseOutlined /></Button>
-        ):(
-          <Button onClick={(e)=> handleGoDetailt(record)}><PlusOutlined /></Button>
-        )}
         </>
       ),
     }

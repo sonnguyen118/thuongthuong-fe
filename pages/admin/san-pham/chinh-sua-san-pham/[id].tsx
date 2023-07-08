@@ -311,7 +311,7 @@ const App: React.FC = () => {
         }
       ]
     };
-console.log(body, "body")
+
     handleProducts
       .handleUpdateProducts(body)
       .then((result: any) => {

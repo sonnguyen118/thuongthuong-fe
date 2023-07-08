@@ -52,5 +52,8 @@ const updateStatus = (body: bodyStatusProps): Promise<any> => {
 const updateProducts = (body: bodyUpdateProps): Promise<any> => {
   return axiosInstanceAuthorization.post(process.env.NEXT_PUBLIC_API_URL + `/product/admin/update`, body);
 };
+const getHighlight = (): Promise<any> =>{
+  return axiosInstanceAuthorization.get(process.env.NEXT_PUBLIC_API_URL + `/product/get-all?language=VI&isHighlight=true`);
+}
 
-export default { createProducts, updateProducts, uploadImagesProduct, getAllProducts, getDataOne, updateStatus };
+export default { createProducts, updateProducts, uploadImagesProduct, getAllProducts, getDataOne, updateStatus, getHighlight };

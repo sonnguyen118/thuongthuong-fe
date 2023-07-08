@@ -33,10 +33,12 @@ interface NavigationProps {
   link: string;
 }
 
-type bodyCategoryGetAdmin = {
-  language: string;
-};
-type LanguageKey = "VI" | "EN" | "FR" | "PO";
+interface dataProducts {
+    key: number;
+    number: number;
+    value: any;
+    title: string;
+}
 
 const App: React.FC = () => {
   const router = useRouter();
@@ -132,13 +134,7 @@ const App: React.FC = () => {
   const [titleBlock5EN, setTitleBlock5EN] = useState("");
   const [showBlock5, setShowBlock5] = useState(true);
 
-  const [dataProduct, setDataProducts] = useState([
-    {
-      key: 0,
-      number: 8,
-      value: 1,
-    },
-  ]);
+  const [dataProduct, setDataProducts] = useState<Array<dataProducts>>([]);
 
 
     // lấy dữ liệu
@@ -204,6 +200,7 @@ const App: React.FC = () => {
             setUnderlineBlock5(data.uderlineBlock5);
             setTitleBlock5VI(data.titleBlock5);
             setShowBlock5(data.showBlock5);
+            setDataProducts(data.dataProduct);
           }
           if (results[1]) {
             const data = JSON.parse(results[1].value);
@@ -654,7 +651,8 @@ const App: React.FC = () => {
     datafromState.push({
       key: newKey,
       number: 8,
-      value: 1,
+      value: null,
+      title: ""
     });
     setDataProducts(datafromState);
   };
@@ -778,6 +776,7 @@ const App: React.FC = () => {
       uderlineBlock5: uderlineBlock5,
       titleBlock5: titleBlock5VI,
       showBlock5: showBlock5,
+      dataProduct: dataProduct
     };
     let dataEN = {
       showBlock1: showBlock1,
@@ -801,6 +800,7 @@ const App: React.FC = () => {
       uderlineBlock5: uderlineBlock5,
       titleBlock5: titleBlock5EN,
       showBlock5: showBlock5,
+      dataProduct: dataProduct
     };
     const body1 = {
       id: 6,
@@ -864,6 +864,8 @@ const App: React.FC = () => {
         // Xử lý khi có lỗi xảy ra
       });
   };
+
+  console.log(dataProduct, "dataProduct");
   return (
     <Dashboard>
       <div className="admin__main-wrap">
@@ -1475,7 +1477,7 @@ const App: React.FC = () => {
           <div className="admin__main-cards" style={{ marginBottom: "20px" }}>
             <label className="admin__main-label">
               <StarFilled style={{ marginRight: 5 }} />
-              Sản phẩm ( mặc định luôn có sản phẩm mới)
+              Sản phẩm ( mặc định luôn có list sản phẩm nổi bật)
             </label>
             <label className="admin__main-label">
               Lựa chọn danh mục cấp 1 và kiểm soát số lượng sản phẩm hiển thị ra
@@ -1505,17 +1507,20 @@ const App: React.FC = () => {
                   options={options}
                   value={product.value}
                   onSelect={(value, option) =>
-                    handleInputChange(value, index, "value")
+                    {
+                      handleInputChange(value, index, "value");
+                      handleInputChange(option.label, index, "title");
+                  }
                   }
                 />
                 <span style={{ marginLeft: 30 }}>Số lượng sp hiển thị</span>
                 <div style={{ marginLeft: 20, marginRight: 20 }}>
                   <InputNumber
-                    min={1}
-                    max={0}
+                    min={5}
+                    max={30}
                     value={product.number}
                     onChange={(event: any) =>
-                      handleInputChange(event.target.value, index, "number")
+                      handleInputChange(event, index, "number")
                     }
                   />
                 </div>

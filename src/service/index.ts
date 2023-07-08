@@ -8,4 +8,5 @@ export { default as webInformation } from "./admin/webinformation";
 
 // services cho client
 export { default as handleCategoryClient } from "./client/category";
+export { default as handleProductsClient } from "./client/products";
 export { default as webInformationClient } from "./client/webinformation";

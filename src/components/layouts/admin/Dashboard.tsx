@@ -217,7 +217,7 @@ const Dashboard = ({ children }: LayoutProps) => {
         '19',
         undefined,
         undefined,
-        '/admin/san-pham/san-pham-ban-chay'
+        '/admin/san-pham/san-pham-noi-bat'
       )
     ]),
     getItem('Layout', 'sub5', <DesktopOutlined />, [

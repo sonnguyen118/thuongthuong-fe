@@ -56,6 +56,9 @@ const getDetailProduct = (
   return axiosInstanceClient.get(
     `${process.env.NEXT_PUBLIC_API_URL}/product/detail?productLink=${productLink}&language=${language}`
   )
+};
+const getHighlight = (): Promise<any> =>{
+  return axiosInstanceClient.get(process.env.NEXT_PUBLIC_API_URL + `/product/get-all?language=VI&isHighlight=true`);
 }
 
 export default {
@@ -63,5 +66,6 @@ export default {
   getProductByCategoryLink,
   getProductByCategoryId,
   getDetailProduct,
-  searchProductClient
+  searchProductClient,
+  getHighlight
 }
