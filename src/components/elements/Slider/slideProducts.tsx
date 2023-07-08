@@ -8,15 +8,13 @@ import { useSelector } from "react-redux";
 import { store } from "@store";
 import viText from "@languages/vie.json";
 import loadLanguageText from "@languages";
-interface sliderData {
-  id: number;
-  imageUrl: string;
-  title: string;
-  link: string;
-  price: number;
+import exp from "constants";
+interface dataProps {
+  data: any;
 }
 
-export default function SimpleSlider() {
+const SimpleSlider: React.FC<dataProps> = (props) => {
+  const { data } = props;
   const [t, setText] = useState(viText);
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
@@ -43,50 +41,6 @@ export default function SimpleSlider() {
       },
     ],
   };
-  const dataStrings = [
-    {
-      id: 1,
-      imageUrl: "/images/products.jpg",
-      title: `${t.products.TITLE1}`,
-      link: "/chi-tiet-san-pham/tranh-cuon-giay",
-      price: 10,
-    },
-    {
-      id: 2,
-      imageUrl: "/images/thuongthuong-sanpham-01.jpg",
-      title: `${t.products.TITLE2}`,
-      link: "/chi-tiet-san-pham/tranh-cuon-giay",
-      price: 10,
-    },
-    {
-      id: 3,
-      imageUrl: "/images/thuongthuong-sanpham-02.jpeg",
-      title: `${t.products.TITLE3}`,
-      link: "/chi-tiet-san-pham/tranh-cuon-giay",
-      price: 10,
-    },
-    {
-      id: 4,
-      imageUrl: "/images/thuongthuong-sanpham-03.jpeg",
-      title: `${t.products.TITLE4}`,
-      link: "/chi-tiet-san-pham/tranh-cuon-giay",
-      price: 10,
-    },
-    {
-      id: 5,
-      imageUrl: "/images/thuongthuong-sanpham-04.jpg",
-      title: `${t.products.TITLE5}`,
-      link: "/chi-tiet-san-pham/tranh-cuon-giay",
-      price: 10,
-    },
-    {
-      id: 6,
-      imageUrl: "/images/thuongthuong-sanpham-05.jpg",
-      title: `${t.products.TITLE6}`,
-      link: "/chi-tiet-san-pham/tranh-cuon-giay",
-      price: 0,
-    },
-  ];
   const slider = useRef<Slider>(null);
 
   const next = () => {
@@ -106,13 +60,15 @@ export default function SimpleSlider() {
         <LeftCircleOutlined className="home__products-slider-btn2-icon" />
       </div>
       <Slider ref={slider} {...settings}>
-        {dataStrings &&
-          dataStrings.map((data, i) => (
-            <div key={data.id} className="home__products-slider-item">
-              <CardProduct props={data} />
+        {data &&
+          data.map((item :any, i:number) => (
+            <div key={item.id} className="home__products-slider-item">
+              <CardProduct props={item} />
             </div>
           ))}
       </Slider>
     </div>
   );
 }
+
+export default SimpleSlider;

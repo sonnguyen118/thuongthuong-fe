@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import HeadSEO from '@components/layouts/header/HeadSEO'
 import Layout from '@components/layouts/layout/LayoutClient'
 import { CardPageNews } from '@components/elements/card'
-import { Pagination, Input } from 'antd'
+import { Pagination, Input } from 'antd';
 import { NavigationTopBar } from '@components/elements/navigation'
 import { useSelector } from 'react-redux'
 import { store } from '@store'
@@ -11,12 +11,15 @@ import loadLanguageText from '@languages'
 import { TIN_TUC } from 'src/constant/link-master'
 import { PaginationDto } from '@components/model/PaginationDto'
 import { PAGE_SIZE } from 'src/constant/constant'
-import { GetServerSideProps } from 'next'
 import * as cookie from 'cookie'
 import { articleClient } from '@api'
 import { useRouter } from 'next/router'
 import { webInformationClient } from "@service";
+import { DateTime } from "@utils/Functions";
+
+
 const { Search } = Input
+
 interface PageSEOData {
   name: string
   pageSEO: {
@@ -29,12 +32,13 @@ interface PageSEOData {
 }
 
 interface listNewsData {
-  id: number
-  title: string
-  image: string
-  descriptions: string
-  time: string
-  link: string
+  id: number;
+  name: string;
+  title: string;
+  imageUrl: string;
+  description: string;
+  link: string;
+  createdAt: string;
 }
 interface NavigationProps {
   id: number
@@ -50,6 +54,7 @@ interface pagesProps {
 }
 const ListNews: React.FC<pagesProps> = (props: pagesProps) => {
   const {dataMenu, dataFooter, articles, pagination} = props;
+  console.log(articles, "articles");
   const router = useRouter()
   const { id, language } = router.query
   const [t, setText] = useState(viText);
@@ -149,27 +154,22 @@ const ListNews: React.FC<pagesProps> = (props: pagesProps) => {
           {articles.map((data, index) => (
             <div className='list-news-item' key={data.id}>
               <CardPageNews
-                title={data.title}
-                description={data.descriptions}
-                imageSrc={data.image}
+                title={data.name}
+                description={data.description}
+                imageSrc={process.env.NEXT_PUBLIC_API_URL + "/"+ data.imageUrl}
                 link={data.link}
-                time={data.time}
+                time={DateTime.formatDateTime(data.createdAt)}
               />
             </div>
           ))}
         </div>
         <Pagination
           total={total}
-          showTotal={total =>
-            lang.toUpperCase() == 'VI'
-              ? `Tổng ${total} tin tức`
-              : `Total news ${total}`
-          }
           current={page}
           pageSize={pageSize}
-          pageSizeOptions={PAGE_SIZE}
+          // pageSizeOptions={PAGE_SIZE}
           showPrevNextJumpers
-          showSizeChanger
+          // showSizeChanger
           onChange={onChangePagination}
           onShowSizeChange={onChangePagination}
           className='list-news-pagination'

@@ -3,6 +3,14 @@ import {
   axiosInstanceClient
 } from '@api/AxiosInterceptor'
 
+
+type productCategoryIDProps = {
+  categoryId: string;
+  language: string;
+  page: number;
+  size: number;
+  productName?: string;
+}
 const getAllProductClient = (
   language: string,
   page: number,
@@ -37,16 +45,9 @@ const getProductByCategoryLink = (
     { categoryLink, language, page, size }
   )
 }
-const getProductByCategoryId = (
-  categoryId: string,
-  language: string,
-  page: number,
-  size: number,
-  productName?: string
-): Promise<any> => {
+const getProductByCategoryId = (body : productCategoryIDProps): Promise<any> => {
   return axiosInstanceClient.post(
-    `${process.env.NEXT_PUBLIC_API_URL}/product`,
-    { categoryId, language, page, size, productName }
+    `${process.env.NEXT_PUBLIC_API_URL}/product`, body
   )
 }
 const getDetailProduct = (
@@ -55,6 +56,14 @@ const getDetailProduct = (
 ): Promise<any> => {
   return axiosInstanceClient.get(
     `${process.env.NEXT_PUBLIC_API_URL}/product/detail?productLink=${productLink}&language=${language}`
+  )
+};
+const getDetailProductID = (
+  productId: number,
+  language: string
+): Promise<any> => {
+  return axiosInstanceClient.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/product/detail?productId=${productId}&language=${language}`
   )
 };
 const getHighlight = (): Promise<any> =>{
@@ -67,5 +76,6 @@ export default {
   getProductByCategoryId,
   getDetailProduct,
   searchProductClient,
-  getHighlight
+  getHighlight,
+  getDetailProductID
 }

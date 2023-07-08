@@ -2,21 +2,36 @@ import React, { useState, useEffect } from 'react'
 import HeadSEO from '@components/layouts/header/HeadSEO'
 import Layout from '@components/layouts/layout/LayoutClient'
 import { NavigationTopBar } from '@components/elements/navigation'
-import { ProductsContent } from '@components/templates/products'
 import { CkeditorDisable } from '@components/molecules/ckeditor'
-import { ShareAltOutlined } from '@ant-design/icons'
-import { Button } from 'antd'
+import { ShareAltOutlined, CloseOutlined, PlusOutlined } from '@ant-design/icons'
+import { Button, Dropdown } from 'antd'
 import { useSelector } from 'react-redux'
 import { store } from '@store'
 import viText from '@languages/vie.json'
 import loadLanguageText from '@languages'
 import { useRouter } from 'next/router'
-import { GetServerSideProps } from 'next'
 import * as cookie from 'cookie'
 import { articleClient } from '@api'
-import { useCookies } from 'react-cookie'
 import { webInformationClient } from "@service";
-import { PaginationDto } from "@components/model/PaginationDto";
+import { DateTime } from "@utils/Functions";
+
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  LinkedinShareButton,
+  LinkedinIcon,
+  PinterestShareButton,
+  PinterestIcon,
+  TelegramShareButton,
+  TelegramIcon,
+  TwitterShareButton,
+  TwitterIcon,
+  ViberShareButton,
+  ViberIcon,
+  WhatsappShareButton,
+  WhatsappIcon
+} from "react-share";
+
 
 interface PageSEOData {
   name: string
@@ -50,8 +65,10 @@ interface pagesProps {
 }
 const DetailNews: React.FC<pagesProps> = (props: pagesProps) => {
   const { dataMenu, dataFooter, article } = props;
-  const router = useRouter()
-  const { id, language } = router.query
+  const router = useRouter();
+  const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
+  console.log(article , "article");
+  const { id, language } = router.query;
   const [t, setText] = useState(viText)
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
@@ -119,7 +136,20 @@ const DetailNews: React.FC<pagesProps> = (props: pagesProps) => {
     initDataNavigation.push(artBreadCrumb)
     setDataNavigation(initDataNavigation)
   }
+  const [isShare, setIsShare] = useState<boolean>(false);
+  const handleOnShare =() => {
+    setIsShare(!isShare);
+    const icon = document.querySelector('.icon');
+    if (icon instanceof HTMLElement) {
+      icon.classList.toggle('dis');
+      if (icon.classList.contains('dis')) {
+        icon.style.animation = 'fade-out 0.6s linear';
+      } else {
+        icon.style.animation = 'fade-in 0.6s linear';
+      }
+    }
 
+  }
   return (
     <>
       <HeadSEO pageSEO={pageSEOData.pageSEO} />
@@ -128,7 +158,7 @@ const DetailNews: React.FC<pagesProps> = (props: pagesProps) => {
           <div className='news-navigation'>
             <NavigationTopBar data={dataNavigation} />
             <div className='news-navigation-time'>
-              {articleDetail.createdAt}
+              {DateTime.formatDateTime(articleDetail.createdAt)}
             </div>
           </div>
           <div className='news-wrap'>
@@ -144,10 +174,37 @@ const DetailNews: React.FC<pagesProps> = (props: pagesProps) => {
                   {t.news.SUB2}
                 </span>
               </span>
-              <Button type='primary' className='news-wrap-information-btn'>
-                <ShareAltOutlined /> {t.button.BUTTON7}
+              <div className="news-wrap-information-share">
+              <div className={isShare ? "icon news-wrap-information-share-icon": "icon news-wrap-information-share-icon-dis dis"}>
+              <FacebookShareButton url={currentUrl} className="news-wrap-information-share-icon-item">
+                <FacebookIcon size={32} round={true} />
+              </FacebookShareButton>
+              <LinkedinShareButton url={currentUrl} className="news-wrap-information-share-icon-item">
+                <LinkedinIcon size={32} round={true} />
+              </LinkedinShareButton>
+
+              <TelegramShareButton url={currentUrl} className="news-wrap-information-share-icon-item">
+                <TelegramIcon size={32} round={true} />
+              </TelegramShareButton>
+
+              <TwitterShareButton url={currentUrl} className="news-wrap-information-share-icon-item">
+                <TwitterIcon size={32} round={true} />
+              </TwitterShareButton>
+              <ViberShareButton url={currentUrl} className="news-wrap-information-share-icon-item">
+                <ViberIcon size={32} round={true} />
+              </ViberShareButton>
+              <WhatsappShareButton url={currentUrl} className="news-wrap-information-share-icon-item">
+                <WhatsappIcon size={32} round={true} />
+              </WhatsappShareButton>
+              </div>
+              <Button type='primary' className='news-wrap-information-btn' onClick={handleOnShare}>
+                {isShare ? <CloseOutlined />: <PlusOutlined />} {t.button.BUTTON7}
               </Button>
+              </div>
             </div>
+            <h3 className='news-wrap-description'>
+              {articleDetail.description}
+            </h3>
             <CkeditorDisable data={articleDetail.content} />
           </div>
         </div>

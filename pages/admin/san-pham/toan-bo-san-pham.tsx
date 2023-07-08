@@ -39,7 +39,8 @@ const App: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [dataProducts, setDataProducts] = useState([]);
   // lấy dữ liệu
-  useEffect(()=>{
+  // tạo 1 hàm việc get lại dữ liệu ban đầu
+  const getData = () => {
     const body = {
       language: "VI",
       page: 1,
@@ -49,11 +50,16 @@ const App: React.FC = () => {
     .then((result:any)=>{
       const {meta, data} = result;
       setDataProducts(data.products);
-      console.log(result, "result");
+      dispatch(setLoading(false));
     })
     .catch((error) => {
       console.log(error, "error");
+      dispatch(setLoading(false));
     })
+  }
+  useEffect(()=>{
+    dispatch(setLoading(true));
+    getData();
   },[]);
   const navigationData: NavigationProps[] = [
     {
@@ -93,7 +99,7 @@ const App: React.FC = () => {
           duration: 1.5,
           onClose: () => {
             dispatch(setLoading(false));
-            router.reload();
+            getData();
           },
         });
       })
@@ -124,12 +130,47 @@ const App: React.FC = () => {
       .then((result:any) => {
         // Xử lý kết quả trả về ở đây
         notification.success({
-          message: "Xoá thành công",
+          message: "Thành công",
           description: "Bạn đã tiến hành cập nhật trạng thái thành công sản phẩm này",
           duration: 1.5,
           onClose: () => {
+            getData();
+          },
+        });
+      })
+      .catch((error) => {
+        // Xử lý lỗi ở đây
+        console.log(error);
+        notification.error({
+          message: "Cập nhật dữ liệu thất bại",
+          description: "Đã có lỗi xảy ra trong quá trình cập nhật dữ liệu",
+          duration: 1.5,
+          onClose: () => {
             dispatch(setLoading(false));
-            router.reload();
+            // router.reload();
+          },
+        });
+      });
+  }
+  const handleChangeHighlight = (record: any) => {
+    const body = {
+      id: record.id,
+      isActive: record.isActive,
+      softDeleted: false,
+      isHighlight: !record.isHighlight,
+    };
+    dispatch(setLoading(true));
+    handleProducts
+      .handleUpdateStatus(body)
+      .then((result:any) => {
+        // Xử lý kết quả trả về ở đây
+        notification.success({
+          message: "Thành công",
+          description: "Bạn đã tiến hành cập nhật trạng thái thành công sản phẩm này",
+          duration: 1.5,
+          onClose: () => {
+            // router.push("/admin/san-pham/toan-bo-san-pham");
+            getData();
           },
         });
       })
@@ -204,9 +245,9 @@ const App: React.FC = () => {
       render: (isHighlight, record) => (
         <>
         {isHighlight ? (
-          <Button onClick={(e)=> handleGoDetailt(record)}><CloseOutlined /></Button>
+          <Button onClick={(e)=> handleChangeHighlight(record)}><CloseOutlined /></Button>
         ):(
-          <Button onClick={(e)=> handleGoDetailt(record)}><PlusOutlined /></Button>
+          <Button onClick={(e)=> handleChangeHighlight(record)}><PlusOutlined /></Button>
         )}
         </>
       ),

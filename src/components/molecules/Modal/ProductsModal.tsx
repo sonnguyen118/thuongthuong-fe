@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, InputNumber, Typography } from "antd";
+import { Button, InputNumber, Spin } from "antd";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "@slices/cartSlice";
@@ -12,9 +12,13 @@ interface CardProductProps {
   title: string;
   link: string;
   price: number;
-}
-const ProductsModal: React.FC<{ props: CardProductProps }> = ({ props }) => {
-  const { id, imageUrl, title, link, price } = props;
+  name: string;
+};
+
+const ProductsModal: React.FC<{ props: CardProductProps, dataDetailProduct: any }> = ({ props, dataDetailProduct }) => {
+  const { id, title, imageUrl, name, link, price } = props;
+  console.log(dataDetailProduct, "dataDetailProduct");
+  const imageUrlProduct = `${process.env.NEXT_PUBLIC_API_URL}/${imageUrl}`;
   const [t, setText] = useState(viText);
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
@@ -39,7 +43,7 @@ const ProductsModal: React.FC<{ props: CardProductProps }> = ({ props }) => {
   const handleAddItem = () => {
     const item = {
       id: id,
-      imageUrl: imageUrl,
+      imageUrl: imageUrlProduct,
       title: title,
       price: price,
       quantity: 1,
@@ -50,28 +54,28 @@ const ProductsModal: React.FC<{ props: CardProductProps }> = ({ props }) => {
   return (
     <div className="products__card-dialog--wrap">
       <Image
-        src={imageUrl ? imageUrl : ""}
+        src={imageUrl ? imageUrlProduct : ""}
         alt="example"
         className="products__card-dialog--wrap-image"
         width={300}
         height={300}
       />
-
-      <div className="products__card-dialog--wrap-information">
+      {dataDetailProduct ? (
+        <div className="products__card-dialog--wrap-information">
         <div className="products__card-dialog--wrap-information-title">
-          {title}
+          {dataDetailProduct.name}
         </div>
         <div className="products__card-dialog--wrap-information-category">
-          {t.products.CATEGORY_TEXT}
+          {dataDetailProduct.danhMuc1.name}  {dataDetailProduct.danhMuc2.name}
         </div>
         <div className="products__card-dialog--wrap-information-price">
-          {price === 0 ? `${t.products.PRICE}` : price}
+          {!price ? `${t.products.PRICE}` : price}
         </div>
         <div className="products__card-dialog--wrap-information-description">
           {expanded ? (
             <>
               <span className="products__card-dialog--wrap-information-description-hide">
-                {t.products.DESCRIPTION}
+                {dataDetailProduct.description}
               </span>
               <span
                 className="products__card-dialog--wrap-information-description-button"
@@ -83,7 +87,7 @@ const ProductsModal: React.FC<{ props: CardProductProps }> = ({ props }) => {
           ) : (
             <>
               <span className="products__card-dialog--wrap-information-description-show">
-                {t.products.DESCRIPTION}
+              {dataDetailProduct.description}
               </span>
               <span
                 className="products__card-dialog--wrap-information-description-button"
@@ -146,6 +150,10 @@ const ProductsModal: React.FC<{ props: CardProductProps }> = ({ props }) => {
           </Button>
         </div>
       </div>
+      ):(
+        <Spin />
+      )}
+      
     </div>
   );
 };

@@ -48,3 +48,18 @@
     text-align: center;
   }
 }
+
+// nút cuộn lên đầu trang
+.ant-back-top {
+  right: 3vw !important;
+  bottom: 3vw !important;
+  width: 50px;
+  height: 50px;
+}
+.custom-scroll-top {
+  width: 50px;
+  height: 50px !important;
+  .anticon.anticon-up{
+    font-size: 24px;
+  }
+}
