@@ -3,8 +3,6 @@ import { useSelector } from "react-redux"
 import { store } from "@store"
 import viText from "@languages/vie.json"
 import loadLanguageText from "@languages"
-import axios from "axios"
-import { ListProducts } from "../home"
 import Link from "next/link"
 import { Category } from "@components/model/Category"
 import { SAN_PHAM } from "src/constant/link-master"
@@ -30,7 +28,7 @@ const ListCategory = (props: any) => {
         <div className='list-products-left-item-ul' key={e.id}>
           <Link
             href={`${SAN_PHAM}${e.link}?language=${lang}`}
-            className='home__products-header-btn-text'
+            className='list-products-left-item-ul-li'
           >
             {e.name}{" "}
           </Link>
@@ -57,12 +55,11 @@ const ListCategory = (props: any) => {
         collector.push(
           <div
             className='list-products-left-item-li'
-            style={subElementStyle}
             key={sub.id}
           >
             <Link
               href={`${SAN_PHAM}${sub.link}?language=${lang}`}
-              className='home__products-header-btn-text'
+              className='list-products-left-item-li-sub'
             >
               {sub.name}{" "}
             </Link>
@@ -73,12 +70,11 @@ const ListCategory = (props: any) => {
         collector.push(
           <div
             className='list-products-left-item-li'
-            style={subElementStyle}
             key={sub.id}
           >
             <Link
               href={`${SAN_PHAM}${sub.link}?language=${lang}`}
-              className='home__products-header-btn-text'
+              className='list-products-left-item-sub'
             >
               {sub.name}{" "}
             </Link>

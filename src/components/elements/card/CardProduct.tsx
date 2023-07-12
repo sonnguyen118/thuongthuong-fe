@@ -15,6 +15,7 @@ import viText from '@languages/vie.json'
 import loadLanguageText from '@languages'
 import { CHI_TIET_SAN_PHAM, EMPTY_IMAGE } from 'src/constant/link-master'
 import { handleProductsClient } from "@service";
+import { ShoppingCartOutlined } from "@ant-design/icons";
 // định nghĩa kiểu cho props
 interface CardProductProps {
   id: number;
@@ -116,7 +117,7 @@ const CardProduct: React.FC<{ props: CardProductProps }> = ({ props }) => {
           {t.button.BUTTON4}
         </div>
         <div className='products__card-group-btn' onClick={addItemHandler}>
-          {t.button.BUTTON5}
+          <span className='products__card-group-btn-text'>+</span> <ShoppingCartOutlined className="products__card-group-btn-icon"/>
         </div>
       </div>
       <Card

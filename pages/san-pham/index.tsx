@@ -11,11 +11,8 @@ import { useRouter } from 'next/router'
 import { SAN_PHAM } from 'src/constant/link-master'
 import { categoryClient } from '@api'
 import { productClient } from '@api'
-import { GetServerSideProps } from 'next'
 import { bread_crumb } from 'src/constant/constant'
-import * as cookie from 'cookie'
 import { webInformationClient } from "@service";
-import { PaginationDto } from "@components/model/PaginationDto";
 interface PageSEOData {
   name: string
   pageSEO: {
@@ -100,7 +97,7 @@ const ListProductsPage: React.FC<pagesProps> = (props: pagesProps) => {
   const pageSEOData: PageSEOData = {
     name: 'Thương Thương',
     pageSEO: {
-      title: 'Tin Tức | Thương Thương',
+      title: 'Sản Phẩm | Thương Thương',
       url: 'https://www.critistudio.top/gioi-thieu',
       keywords: ['website', 'home', 'page'],
       description:
@@ -108,8 +105,7 @@ const ListProductsPage: React.FC<pagesProps> = (props: pagesProps) => {
       image: 'https://www.critistudio.top/images/seo.jpg'
     }
   }
-console.log(dataMenu, "dataMenu");
-console.log(dataFooter, "dataFooter");
+console.log(products, "products data");
   return (
     <>
       <HeadSEO pageSEO={pageSEOData.pageSEO} />
@@ -120,7 +116,7 @@ console.log(dataFooter, "dataFooter");
           </div>
           <div className='list-products-wrap'>
             <ListCategory data={categories} />
-            <ListProducts data={products} />
+            <ListProducts pagination={products.pagination} products={products.products} />
           </div>
         </div>
       </Layout>

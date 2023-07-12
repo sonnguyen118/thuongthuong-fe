@@ -7,12 +7,13 @@
     justify-content: space-between;
   }
   &-left {
-    width: 23%;
+    width: 20%;
     &-title {
       font-family: $font-title;
       font-size: 1.8em;
       font-weight: 700;
       margin-bottom: 0.3em;
+      color: $color-title;
     }
     &-wall {
       background-color: $color-primary;
@@ -22,43 +23,71 @@
     }
     &-item {
       &-ul {
-        font-family: $font-title;
-        font-size: 1.3em;
         font-weight: 600;
         margin-bottom: 0.3em;
-        padding: 0.5em 0;
+        padding: 0.8em 0;
         transition: all 0.2s ease-in-out;
-        border-bottom: 0.5px solid #ededed;
+        border-bottom: 0.5px solid #bebebe;
         &:hover {
+          cursor: pointer;
+          border-bottom: 0.5px solid $color-primary;
+        }
+        &:hover .list-products-left-item-ul-li {
           cursor: pointer;
           color: $color-primary;
           transition: all 0.2s ease-in-out;
+        }
+        &-li {
+          font-family: $font-title;
+          color: $color-title;
+          font-size: 1.4em;
+          font-weight: 600;
+          padding: 0.5em 0.2em;
+          transition: all 0.2s ease-in-out;
+          &:hover {
+            cursor: pointer;
+            color: $color-primary;
+            transition: all 0.2s ease-in-out;
+          }
         }
       }
       &-li {
-        font-family: $font-title;
-        font-size: 1.1em;
-        font-weight: 400;
-        padding: 0.5em 0.7em;
-        transition: all 0.2s ease-in-out;
-        border-bottom: 0.5px solid #ededed;
+        padding: 0.7em 1.2em;
         &:hover {
           cursor: pointer;
-          color: $color-primary;
-          transition: all 0.2s ease-in-out;
+          .list-products-left-item-sub {
+            cursor: pointer;
+            color: $color-primary;
+            transition: all 0.2s ease-in-out;
+          }
         }
+      }
+      &-sub {
+        font-size: 1.2em;
+        color: $color-title;
+        font-weight: 500;
+        transition: all 0.2s ease-in-out;
       }
     }
   }
   &-right {
-    width: calc(77% + 1.5em);
-    margin-right: -3em;
+    width: calc(80%);
+    // margin-right: -3em;
+    // background-color: red;
+    padding-left: 50px;
     &-title {
       font-family: $font-title;
       font-size: 1.8em;
       font-weight: 700;
       margin-bottom: 0.3em;
       color: $color-title;
+      &-sub {
+        font-family: $font-document;
+        font-size: 1.1em;
+        font-weight: 700;
+        color: $color-title;
+        margin: 20px 0 15px 0;
+      }
     }
     &-wrap {
       display: flex;

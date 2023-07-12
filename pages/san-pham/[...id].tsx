@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import { SAN_PHAM } from 'src/constant/link-master'
 import { categoryClient, productClient } from '@api'
 import { bread_crumb } from 'src/constant/constant'
+import { webInformationClient } from "@service"; 
 
 interface PageSEOData {
   name: string
@@ -36,36 +37,11 @@ interface NavigationProps {
   title: string
   link: string
 }
-
-export async function getServerSideProps ({
-  params,
-  query
-}: {
-  params: any
-  query: any
-}) {
-  try {
-    const { id } = params
-    let { language } = query
-    const page = 1
-    const size = 20
-    const categories = await categoryClient
-      .getAllCategoryClient(language, page, size)
-      .then(res => res.data.data)
-    const products = await getProductsByCategory(
-      id.join('/'),
-      language,
-      page,
-      size
-    )
-    return {
-      props: { categories, products, id, language: language || 'VI' }
-    }
-  } catch (error) {
-    return {
-      notFound: true
-    }
-  }
+interface pagesProps {
+  categories: any;
+  products: any;
+  dataMenu: any;
+  dataFooter: any;
 }
 
 const getProductsByCategory = async (
@@ -78,11 +54,11 @@ const getProductsByCategory = async (
     .getProductByCategoryLink(categoryLink, language, page, size)
     .then(res => res.data.data)
 }
-const ListNews: React.FC<any> = props => {
+
+const ListProductsCategoryPage: React.FC<pagesProps> = (props: pagesProps) => {
+    const {categories, products, dataMenu, dataFooter} = props;
   const router = useRouter()
   const { id, language } = router.query
-  const [categories, setCategories] = useState(null)
-  const [products, setProducts] = useState(null)
   const [t, setText] = useState(viText)
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
@@ -103,8 +79,6 @@ const ListNews: React.FC<any> = props => {
     useState<NavigationProps[]>(initDataNavigation)
   useEffect(() => {
     loadLanguageText(lang, setText)
-    getCategories()
-    getProducts()
     setBreadCrumb()
   }, [id, lang])
   const setBreadCrumb = async () => {
@@ -119,14 +93,6 @@ const ListNews: React.FC<any> = props => {
       initDataNavigation[1].title = bread_crumb.product.EN
     }
     setDataNavigation(initDataNavigation)
-  }
-  const getCategories = async () => {
-    setCategories(props.categories)
-  }
-  const getProducts = async () => {
-    const data = props.products
-    setProducts(data)
-    handleBreadCrumb(data)
   }
   const handleBreadCrumb = (data: any) => {
     const category = data?.category
@@ -164,14 +130,14 @@ const ListNews: React.FC<any> = props => {
   return (
     <>
       <HeadSEO pageSEO={pageSEOData.pageSEO} />
-      <Layout>
+      <Layout dataMenu={dataMenu} dataFooter={dataFooter}>
         <div className='list-products'>
           <div className='list-products-navigation'>
             <NavigationTopBar data={dataNavigation} />
           </div>
           <div className='list-products-wrap'>
-            <ListCategory data={categories} />
-            <ListProducts data={products} />
+          <ListCategory data={categories} />
+            <ListProducts pagination={products.pagination} products={products.products} />
           </div>
         </div>
       </Layout>
@@ -179,4 +145,43 @@ const ListNews: React.FC<any> = props => {
   )
 }
 
-export default ListNews
+export async function getServerSideProps ({
+  params,
+  query
+}: {
+  params: any
+  query: any
+}) {
+  try {
+    const { id } = params
+    let { language } = query
+    const page = 1
+    const size = 20
+    const categories = await categoryClient
+      .getAllCategoryClient(language, page, size)
+      .then(res => res.data.data)
+    const products = await getProductsByCategory(
+      id.join('/'),
+      language,
+      page,
+      size
+    )
+    const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
+    const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
+    // Pass data to the page via props
+    return {
+      props: {
+        categories:  categories,
+        products: products,
+        dataMenu:  JSON.parse(MenuVI.value) || {},
+        dataFooter: JSON.parse(FooterVI.value) || {}
+      },
+    }
+  } catch (error) {
+    return {
+      props: {}
+    }
+  }
+}
+
+export default ListProductsCategoryPage

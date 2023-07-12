@@ -11,58 +11,33 @@ import { PAGE_SIZE } from 'src/constant/constant'
 import { productClient } from '@api'
 const { Search } = Input
 
-interface sliderData {
-  id: number
-  imageUrl: string
-  title: string
-  link: string
-  price: number
-}
-
 interface ListProductsProps {
-  products: any
+  products: any;
+  pagination: any;
 }
 
-const ListProducts = (props: any) => {
+const ListProducts: React.FC<ListProductsProps> = (props: ListProductsProps) => {
+
+  const { products , pagination} = props;
   const [t, setText] = useState(viText)
-  const [products, setProducts] = useState<Product[]>([])
   const [categoryName, setCategoryName] = useState('')
   const [categoryId, setCategoryId] = useState('')
-  const [searchVisible, setSearchVisible] = useState(false)
-  const [pagination, setPagination] = useState<PaginationDto>(
-    new PaginationDto()
-  )
-  const [productName, setProductName] = useState<any>(null)
 
+  console.log(pagination, "pagination");
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
   )
 
-  useEffect(() => {
-    loadLanguageText(lang, setText)
-    setProducts(props.data?.products)
-    setPagination(props.data?.pagination)
-    setCategoryName(props.data?.category?.name)
-    setCategoryId(props.data?.category?.id)
-    setSearchPlaceHolderNote()
-  }, [lang, props])
-
-  const getProducts = async (
-    categoryId: string,
-    lang: string,
-    page: any,
-    size: any,
-    productName: string
-  ) => {
-    const res = await productClient.getProductByCategoryId(
-      categoryId,
-      lang,
-      page,
-      size,
-      productName
-    )
-    setProducts(res.data.data.products)
-  }
+  // const getProducts = async (
+  //   categoryId: string,
+  //   language: string,
+  //   page: any,
+  //   size: any,
+  //   productName?: string
+  // ) => {
+  //   const res = await productClient.getProductByCategoryId({categoryId, language, page, size, productName});
+  //   setProducts(res.data.data.products);
+  // }
   const setSearchPlaceHolderNote = () => {
     let mesage = ''
     if (categoryId) {
@@ -81,25 +56,26 @@ const ListProducts = (props: any) => {
     return mesage
   }
 
-  const onChangePagination = async (current: number, pageSize: number) => {
-    pagination.page = current
-    pagination.size = pageSize
-    setPagination(pagination)
-    getProducts(categoryId, lang, current, pageSize, productName)
-  }
+  // const onChangePagination = async (current: number, pageSize: number) => {
+  //   pagination.page = current
+  //   pagination.size = pageSize
+  //   setPagination(pagination)
+  //   getProducts(categoryId, lang, current, pageSize, productName)
+  // }
   const handleInputClick = (e: any) => {
     e.stopPropagation()
   }
-  const searchProduct = async (value: any) => {
-    setProductName(value)
-    getProducts(categoryId, lang, 1, pagination.size, value)
-  }
+  // const searchProduct = async (value: any) => {
+  //   setProductName(value)
+  //   getProducts(categoryId, lang, 1, pagination.size, value)
+  // };
   return (
     <div className='list-products-right'>
       <div className='list-products-right-title'>
         {categoryName ? categoryName : `${t.list_products.TITLE1}`}
       </div>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div className='list-products-right-title-sub'>{t.list_products.TITLE2} {pagination.totalRecords} sản phẩm</div>
+      {/* <div style={{ display: 'flex', alignItems: 'center' }}>
         <Search
           placeholder={setSearchPlaceHolderNote()}
           onSearch={value => searchProduct(value)}
@@ -108,12 +84,12 @@ const ListProducts = (props: any) => {
         <span style={{ margin: '20px', fontSize: '14px' }}>
           {setSearchPlaceHolderNote()}
         </span>
-      </div>
+      </div> */}
       <div>
         {products?.length > 0 ? (
           <>
             <div className='list-products-right-wrap'>
-              {products.map((data, index) => (
+              {products.map((data:any, index: number) => (
                 <div className='list-products-right-wrap-item' key={index}>
                   <CardProduct props={data} />
                 </div>
@@ -122,18 +98,13 @@ const ListProducts = (props: any) => {
             <Pagination
               style={{ flex: 'alignItems' }}
               total={pagination?.totalRecords ? pagination?.totalRecords : 10}
-              showTotal={total =>
-                lang.toUpperCase() == 'VI'
-                  ? `Có ${total} sản phẩm`
-                  : `Total ${total} products`
-              }
               defaultCurrent={1}
               current={pagination?.page ? pagination?.page : 1}
               pageSize={pagination?.size ? pagination?.size : 10}
               pageSizeOptions={PAGE_SIZE}
-              showSizeChanger
-              onChange={onChangePagination}
-              onShowSizeChange={onChangePagination}
+              // showSizeChanger
+              // onChange={onChangePagination}
+              // onShowSizeChange={onChangePagination}
               className='list-news-pagination'
             />
           </>
