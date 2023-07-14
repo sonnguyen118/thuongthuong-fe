@@ -6,16 +6,17 @@ import {SlideProductsHome} from "@components/elements/Slider";
 
 interface DataProps {
     title : string
+    data: Array<any>
 }
 const ProductsSeems = (props :DataProps) => {
-    const {title} = props;
+    const {title, data} = props;
 
     return (
         <div className="products-seems">
             <div className="products-seems-title">
                 {title.toUpperCase()}
             </div>
-            <SlideProductsHome/>
+            <SlideProductsHome data={data}/>
         </div>
     );
 };

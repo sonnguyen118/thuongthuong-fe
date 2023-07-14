@@ -65,22 +65,36 @@ const NavbarPC: React.FC<NavbarProps> = ( props) => {
 
   const [searchVisible, setSearchVisible] = useState(false);
   const [searchText, setSearchText] = useState("");
-  const numberOfCartItems = cartItems.reduce((currNumber, item) => {
-    return currNumber + item.quantity;
-  }, 0);
+  const [btnClasses, setBtnCalss] = useState("");
+  const [numberOfCartItems, setNumberOfCartItems] = useState<number| undefined>();
+  console.log(cartItems, "cartItems");
 
-  const btnClasses = `"cart" ${isBtnHighlighted ? classes.bump : ""}`;
+  // const numberOfCartItems = cartItems.reduce((currNumber, item) => {
+  //   return currNumber + item.quantity;
+  // }, 0);
+
+  useEffect(()=> {
+    if(cartItems) {
+      setBtnCalss(`"cart" ${isBtnHighlighted ? classes.bump : ""}`);
+      const number = cartItems.reduce((currNumber, item) => {
+          return currNumber + item.quantity;
+        }, 0);
+        setNumberOfCartItems(number);
+    }
+  },[cartItems])
 
   useEffect(() => {
-    setIsBtnHighlighted(true);
+    if(totalQuantity) {
+      setIsBtnHighlighted(true);
 
-    const timer = setTimeout(() => {
-      setIsBtnHighlighted(false);
-    }, 300);
-
-    return () => {
-      clearTimeout(timer);
-    };
+      const timer = setTimeout(() => {
+        setIsBtnHighlighted(false);
+      }, 300);
+  
+      return () => {
+        clearTimeout(timer);
+      };
+    }
   }, [totalQuantity]);
 
   const handleSearch = (e: any) => {
@@ -94,6 +108,7 @@ const NavbarPC: React.FC<NavbarProps> = ( props) => {
   const handleInputClick = (e: any) => {
     e.stopPropagation();
   };
+
   const cartContent = (
     <>
       {cartItems.length > 0 ? (

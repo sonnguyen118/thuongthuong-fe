@@ -12,7 +12,6 @@ interface ContactProps {
 
 const Contact: React.FC<ContactProps> = ( props) => {
   const {data} = props;
-  console.log(data, "data")
   const [t, setText] = useState(viText);
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage

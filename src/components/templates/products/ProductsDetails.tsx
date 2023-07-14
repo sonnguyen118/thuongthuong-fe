@@ -105,7 +105,7 @@ const ProductsDetails = (props: any) => {
             ) : (
               <>
                 <span className='products-detail-description-body-show'>
-                  {productDetail?.content}
+                  {productDetail?.description}
                 </span>
                 <span
                   className='products-detail-description-body-btn'

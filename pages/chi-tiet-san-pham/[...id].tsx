@@ -6,10 +6,11 @@ import loadLanguageText from '@languages'
 import HeadSEO from '@components/layouts/header/HeadSEO'
 import Layout from '@components/layouts/layout/LayoutClient'
 import { NavigationTopBar } from '@components/elements/navigation'
-import { ProductsDetails, ProductsSeems } from '@components/templates/products'
+import { ProductsContent, ProductsDetails, ProductsSeems } from '@components/templates/products'
 import { useRouter } from 'next/router'
 import { SAN_PHAM } from 'src/constant/link-master'
 import { productClient } from '@api'
+import { webInformationClient, handleProductsClient } from "@service";
 import { bread_crumb } from 'src/constant/constant'
 
 interface PageSEOData {
@@ -29,35 +30,20 @@ interface NavigationProps {
   link: string
 }
 
-export async function getServerSideProps ({
-  params,
-  query
-}: {
-  params: any
-  query: any
-}) {
-  try {
-    const { id } = params
-    let { language } = query
-    language = language == undefined ? 'VI' : language
-    const product = await productClient
-      .getDetailProduct(id, language)
-      .then(res => res.data.data)
-    // Pass data to the page via props
-    return {
-      props: { product, id }
-    }
-  } catch (error) {
-    return {
-      notFound: true
-    }
-  }
+interface pagesProps {
+  product: any
+  dataMenu: any
+  dataFooter: any
+  dataProductHighlight: any
 }
 
-const ListNews: React.FC<any> = props => {
+const ListNews: React.FC<pagesProps> = (props: pagesProps) => {
+  const { product, dataMenu, dataFooter, dataProductHighlight} = props;
+  console.log(product, "product");
   const router = useRouter()
   const { id, language } = router.query
-  const [t, setText] = useState(viText)
+  const [t, setText] = useState(viText);
+  const [listProductSame, setListProductSame] = useState([]);
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
   )
@@ -75,13 +61,38 @@ const ListNews: React.FC<any> = props => {
   ]
   const [dataNavigation, setDataNavigation] =
     useState<NavigationProps[]>(initDataNavigation)
-  const [productDetail, setProductDetail] = useState()
 
   useEffect(() => {
     loadLanguageText(lang, setText)
-    getProductDetail()
     setBreadCrumb()
   }, [lang, language, id])
+
+  // Lấy ra danh sách 20 sản phẩm cùng loại ( cùng danh mục cấp 2)
+  useEffect(()=> {
+    if(product && product.danhMuc1) {
+      const fetchData = async () => {
+          const body = {
+            categoryId: product.danhMuc1.id,
+            language: "VI",
+            page: 1,
+            size: 20,
+          };
+          try {
+            const response: any = await handleProductsClient.getProductsByCategoryID(body);
+            const { meta, data } = response;
+            if(meta.status === 200) {
+              setListProductSame(data.products);
+            } else {
+              console.log("lỗi server");
+            }
+          } catch (err) {
+            console.log(err);
+          }
+      };
+      fetchData();
+    }
+  },[product]);
+  console.log(listProductSame, "listProductSame");
 
   const setBreadCrumb = async () => {
     const languageFromURL = language?.toString().toUpperCase()
@@ -117,9 +128,7 @@ const ListNews: React.FC<any> = props => {
     console.log(initDataNavigation)
     setDataNavigation(initDataNavigation)
   }
-  const getProductDetail = async () => {
-    setProductDetail(props.product)
-  }
+
   const pageSEOData: PageSEOData = {
     name: 'Thương Thương',
     pageSEO: {
@@ -135,21 +144,54 @@ const ListNews: React.FC<any> = props => {
   return (
     <>
       <HeadSEO pageSEO={pageSEOData.pageSEO} />
-      <Layout>
+      <Layout dataMenu={dataMenu} dataFooter={dataFooter}>
         <div className='list-products'>
           <div className='list-products-navigation'>
             <NavigationTopBar data={dataNavigation} />
           </div>
           <div className='list-products-wrap'>
-            <ProductsDetails data={productDetail} />
+            <ProductsDetails data={product} />
           </div>
-          <ProductsSeems title={t.products.HEADER1} />
-          {/* <ProductsContent /> */}
-          <ProductsSeems title={t.products.HEADER3} />
+          <ProductsSeems title={t.products.HEADER1} data={listProductSame}/>
+          <ProductsContent data={product.content}/>
+          <ProductsSeems title={t.products.HEADER3} data={dataProductHighlight}/>
         </div>
       </Layout>
     </>
   )
+}
+
+export async function getServerSideProps ({
+  params,
+  query
+}: {
+  params: any
+  query: any
+}) {
+  try {
+    const { id } = params
+    let { language } = query
+    language = language == undefined ? 'VI' : language
+    const product = await productClient
+      .getDetailProduct(id, language)
+      .then(res => res.data.data)
+    const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
+    const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
+    const ProductHighlight: any = await handleProductsClient.handleGetHighlight();
+    // Pass data to the page via props
+    return {
+      props: {
+        product: product,
+        dataMenu:  JSON.parse(MenuVI.value) || {},
+        dataFooter: JSON.parse(FooterVI.value) || {},
+        dataProductHighlight: ProductHighlight.data?.products,
+      },
+    }
+  } catch (error) {
+    return {
+      props: {}
+    }
+  }
 }
 
 export default ListNews
