@@ -19,6 +19,7 @@ import loadLanguageText from "@languages";
 import { webInformationClient, handleProductsClient } from "@service";
 import { setLoading } from "@slices/loadingState";
 import { notification } from "antd";
+import io from 'socket.io-client';
 interface PageSEOData {
   name: string;
   pageSEO: {
@@ -89,6 +90,23 @@ const Home: React.FC<pagesProps> = (props: pagesProps) => {
       });
     }
   }
+  useEffect(() => {
+    const socket = io('http://localhost:5000'); // Thay đổi URL nếu cần thiết
+
+    socket.on('connect', () => {
+      console.log('Connected to WebSocket');
+    });
+
+    socket.on('orderCreated', (order) => {
+      console.log('Received order:', order);
+      // Xử lý thông tin đơn hàng ở đây
+    });
+
+    return () => {
+      console.log('Connect Failure to WebSocket');
+      socket.disconnect();
+    };
+  },[]);
   
   return (
     <>

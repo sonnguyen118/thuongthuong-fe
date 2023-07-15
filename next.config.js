@@ -83,7 +83,21 @@ const nextConfig = {
     domains: ['https://www.kymviet.com.vn'],
     unoptimized: true,
   },
+  async headers() {
+    return [
+      {
+        source: '/socket.io/:path*',
+        headers: [
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: 'http://localhost:5000', // Địa chỉ Nest.js server
+          },
+        ],
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
+
 
