@@ -18,6 +18,7 @@ import classes from "./Order.module.css";
 import { useRouter } from "next/router";
 import { placeOrder } from "@api";
 import { saveCartData } from "store/actions/cart-actions";
+import { webInformationClient } from "@service";
 interface PageSEOData {
   name: string;
   pageSEO: {
@@ -35,7 +36,12 @@ interface NavigationProps {
   link: string;
 }
 
-const OrdersCart: React.FC = () => {
+interface pagesProps {
+  dataMenu: any;
+  dataFooter: any;
+}
+const OrdersCart: React.FC<pagesProps> = (props: pagesProps) => {
+  const { dataMenu, dataFooter } = props;
   const [nameInputRef, setNameInputRef] = useState("");
   const [phoneInputRef, setPhoneInputRef] = useState("");
   const [emailInputRef, setEmailInputRef] = useState("");
@@ -62,7 +68,9 @@ const OrdersCart: React.FC = () => {
   }, [lang]);
 
   useEffect(() => {
-    saveCartData(cart);
+    if(cart) {
+      saveCartData(cart);
+    }
   }, [cart]);
 
   useEffect(() => {
@@ -112,11 +120,21 @@ const OrdersCart: React.FC = () => {
     },
   ];
 
-  const selectedItems = cartItems.filter((item) => item.selected);
-  const totalOrderItems = selectedItems.reduce(
-    (currNumber, item) => currNumber + item.quantity,
-    0
-  );
+  // const selectedItems = cartItems.filter((item) => item.selected);
+  const [selectedItems, setSelectedItems] = useState<Product[]>([]);
+  const [totalOrderItems, setTotalOrderItems] = useState<number>(0);
+  useEffect(()=> {
+    if(cartItems) {
+      const selecteditem = cartItems.filter((item) => item.selected);
+      setSelectedItems(selecteditem);
+      const totalorderItems = selecteditem.reduce(
+        (currNumber, item) => currNumber + item.quantity,
+        0
+      );
+      setTotalOrderItems(totalorderItems);
+    }
+  }, [cartItems]);
+
 
   async function submitHandler(event: FormEvent) {
     event.preventDefault();
@@ -223,7 +241,7 @@ const OrdersCart: React.FC = () => {
       </Modal>
       )
       <HeadSEO pageSEO={pageSEOData.pageSEO} />
-      <Layout>
+      <Layout dataMenu={dataMenu} dataFooter={dataFooter}>
         <form className={classes.form} onSubmit={submitHandler}>
           <div className="list-products">
             <div className="list-products-navigation">
@@ -388,5 +406,24 @@ const OrdersCart: React.FC = () => {
     </>
   );
 };
+
+export async function getServerSideProps(context: any) {
+  try {
+    // const DatapageVI :any = await webInformationClient.handleGetWebInformation("10");
+    const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
+    const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
+    
+    return {
+      props: {
+        // dataPages: JSON.parse(DatapageVI.value) || {},
+        dataMenu:  JSON.parse(MenuVI.value) || {},
+        dataFooter: JSON.parse(FooterVI.value) || {},
+      },
+    };
+
+  } catch (e) {
+    return { props: {} };
+  }
+}
 
 export default OrdersCart;

@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Product, cartActions } from "@slices/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { store } from "@store";
@@ -8,22 +8,29 @@ import router from "next/router";
 import Image from "next/image";
 import { DeleteOutlined } from "@ant-design/icons";
 import { Modal } from "antd";
-
+import loadLanguageText from "@languages";
 interface CartProps {
-  items: Product[];
+  items: Array<any>;
   showCheckbox: boolean;
 }
 
 const Cart: React.FC<CartProps> = (props:CartProps) => {
   const {items, showCheckbox} = props;
-  console.log(props, "props");
+  console.log(items, "items");
   const [itemToBeDeleted, setItemToBeDeleted] = useState(0);
   const [text, setText] = useState(viText);
+  const lang = useSelector(
+    (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
+  );
+  useEffect(() => {
+    loadLanguageText(lang, setText);
+  }, [lang]);
   const allItemsSelected = useSelector(
     (state: ReturnType<typeof store.getState>) => state.cart.allSelected
   );
   const dispatch = useDispatch();
   const [totalOrderItems, setTotalOrderItems] = useState(0);
+  const [dataCart, setdataCart] = useState<Array<any>>([]);
 
   useEffect(()=> {
     if(items) {
@@ -31,6 +38,7 @@ const Cart: React.FC<CartProps> = (props:CartProps) => {
       .filter((item) => item.selected)
       .reduce((currNumber, item) => currNumber + item.quantity, 0);
       setTotalOrderItems(orderItemsTotal);
+      setdataCart(items);
     }
   },[items])
 
@@ -89,7 +97,7 @@ const Cart: React.FC<CartProps> = (props:CartProps) => {
 
 
   return (
-    <Fragment>
+    <div>
       <>
       <Modal
         centered
@@ -122,9 +130,9 @@ const Cart: React.FC<CartProps> = (props:CartProps) => {
         </div>
       </Modal>
       <div className="products-cart">
-        {items && (
+        {dataCart && (
           <>
-          {items.length > 0 ? (
+          {dataCart.length > 0 ? (
           <table className="products-cart-table">
             <thead>
               <tr className="products-cart-table-header">
@@ -205,7 +213,8 @@ const Cart: React.FC<CartProps> = (props:CartProps) => {
               className="products-cart-embty-img"
             />
             <h3 className="products-cart-embty-text">
-              {text.carts.NOTICAL_TEXT3}
+              {/* {text.carts.NOTICAL_TEXT3} */}
+              sida thế
             </h3>
           </div>
         )}
@@ -253,7 +262,7 @@ const Cart: React.FC<CartProps> = (props:CartProps) => {
         )}
       </div>
       </>
-    </Fragment>
+    </div>
   );
 };
 export default Cart;

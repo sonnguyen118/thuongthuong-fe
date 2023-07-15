@@ -17,7 +17,7 @@ const placeOrder = (body: OrderData): Promise<any> => {
   console.log("body: ", body);
 
   return axiosInstanceAuthorization.post(
-    process.env.NEXT_PUBLIC_API_URL + "/api/order/create",
+    process.env.NEXT_PUBLIC_API_URL + "/order/create",
     body
   );
 };

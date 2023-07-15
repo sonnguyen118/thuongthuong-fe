@@ -1,22 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
-import { store } from "@store";
+import React, {useState, useEffect} from "react";
+import { DeleteOutlined } from "@ant-design/icons";
+import { useDispatch, useSelector } from "react-redux";
+import { Button, InputNumber } from "antd";
+import Image from "next/image";
+import { Product } from "@slices/cartSlice";
 import viText from "@languages/vie.json";
 import loadLanguageText from "@languages";
-import HeadSEO from "@components/layouts/header/HeadSEO";
-import Layout from "@components/layouts/layout/LayoutClient";
-import { NavigationTopBar } from "@components/elements/navigation";
-import { ProductsSeems } from "@components/templates/products";
-import { DeleteOutlined } from "@ant-design/icons";
-
-// sử dụng redux
-import { useSelector, useDispatch } from "react-redux";
-import { Button, InputNumber, Modal } from "antd";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import { fetchCartData, saveCartData } from "store/actions/cart-actions";
-import { Product, cartActions } from "@slices/cartSlice";
-import { is } from "ramda";
-
+import { store } from "@store";
 interface CartItemProps {
   item: Product;
   unknownPrice: string;
@@ -31,7 +21,14 @@ interface CartItemProps {
 
 const CartItem: React.FC<CartItemProps> = (props) => {
   const item = props.item;
-
+  const [text, setText] = useState(viText);
+  const lang = useSelector(
+    (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
+  );
+  useEffect(() => {
+    loadLanguageText(lang, setText);
+  }, [lang]);
+  console.log(item, "item");
   return (
     <tr key={item.id} className="products-cart-table-body-item">
       {props.showCheckbox && (
@@ -57,7 +54,7 @@ const CartItem: React.FC<CartItemProps> = (props) => {
         </span>
       </td>
       <td className="products-cart-table-body-item-2">
-        {item.price === 0 ? props.unknownPrice : item.price} ₫
+        {!item.price ? text.products.PRICE: item.price + " ₫"}
       </td>
       <td className="products-cart-table-body-item-3">
         <div style={{ display: "flex", alignItems: "center" }}>
@@ -106,7 +103,7 @@ const CartItem: React.FC<CartItemProps> = (props) => {
         </div>
       </td>
       <td className="products-cart-table-body-item-4">
-        {item.price * item.quantity} ₫
+        {item.price ? (item.price * item.quantity + " ₫" ) : text.products.PRICE}
       </td>{" "}
       {props.showCheckbox && (
         <td className="products-cart-table-body-item-5">
