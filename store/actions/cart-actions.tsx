@@ -4,15 +4,17 @@ import { CartState, cartActions } from "@slices/cartSlice";
 export const fetchCartData = (): any => {
   return (dispatch: Dispatch) => {
     const cartData = JSON.parse(localStorage.getItem("cart") || "{}");
+    if(cartData.length > 0) {
+      dispatch(
+        cartActions.replaceCart({
+          items: cartData.items || [],
+          totalQuantity: cartData.totalQuantity || 0,
+          changed: false,
+          allSelected: false,
+        })
+      );
+    }
 
-    dispatch(
-      cartActions.replaceCart({
-        items: cartData.items || [],
-        totalQuantity: cartData.totalQuantity || 0,
-        changed: false,
-        allSelected: false,
-      })
-    );
   };
 };
 

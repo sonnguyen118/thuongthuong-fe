@@ -32,6 +32,7 @@ export const cartSlice = createSlice({
     },
 
     replaceCart(state, action: PayloadAction<CartState>) {
+      console.log(state, "state");
       state.items = action.payload.items;
       state.items.forEach((item) => {
         if (item.selected) {
@@ -40,6 +41,7 @@ export const cartSlice = createSlice({
       });
       state.totalQuantity = action.payload.totalQuantity;
       state.allSelected = action.payload.allSelected;
+      console.log(action, "action");
     },
 
     checkItem(state, action: PayloadAction<number>) {

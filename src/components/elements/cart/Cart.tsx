@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from "react";
+import React, { Fragment, useContext, useState, useEffect } from "react";
 import { Product, cartActions } from "@slices/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { store } from "@store";
@@ -14,14 +14,26 @@ interface CartProps {
   showCheckbox: boolean;
 }
 
-const Cart: React.FC<CartProps> = (props) => {
+const Cart: React.FC<CartProps> = (props:CartProps) => {
+  const {items, showCheckbox} = props;
+  console.log(props, "props");
   const [itemToBeDeleted, setItemToBeDeleted] = useState(0);
   const [text, setText] = useState(viText);
   const allItemsSelected = useSelector(
     (state: ReturnType<typeof store.getState>) => state.cart.allSelected
   );
   const dispatch = useDispatch();
-  const cartItems = props.items;
+  const [totalOrderItems, setTotalOrderItems] = useState(0);
+
+  useEffect(()=> {
+    if(items) {
+      const orderItemsTotal = items
+      .filter((item) => item.selected)
+      .reduce((currNumber, item) => currNumber + item.quantity, 0);
+      setTotalOrderItems(orderItemsTotal);
+    }
+  },[items])
+
   const [isModalItemOpen, setIsModalItemOpen] = useState(false);
 
   const checkOneItemHandler = (id: number) => {
@@ -47,7 +59,7 @@ const Cart: React.FC<CartProps> = (props) => {
   const confirmDeleteItemsHandler = () => {
     dispatch(
       cartActions.removeItemFromCart(
-        cartItems.filter((item) => item.selected).map((item) => item.id)
+        items.filter((item) => item.selected).map((item) => item.id)
       )
     );
     setIsModalItemOpen(false);
@@ -74,12 +86,11 @@ const Cart: React.FC<CartProps> = (props) => {
     setIsModalItemOpen(false);
   };
 
-  const totalOrderItems = cartItems
-    .filter((item) => item.selected)
-    .reduce((currNumber, item) => currNumber + item.quantity, 0);
+
 
   return (
     <Fragment>
+      <>
       <Modal
         centered
         visible={isModalItemOpen}
@@ -111,11 +122,13 @@ const Cart: React.FC<CartProps> = (props) => {
         </div>
       </Modal>
       <div className="products-cart">
-        {props.items.length > 0 ? (
+        {items && (
+          <>
+          {items.length > 0 ? (
           <table className="products-cart-table">
             <thead>
               <tr className="products-cart-table-header">
-                {props.showCheckbox && (
+                {showCheckbox && (
                   <th className="products-cart-table-header-0">
                     <input
                       type="checkbox"
@@ -132,14 +145,14 @@ const Cart: React.FC<CartProps> = (props) => {
                 {totalOrderItems > 0 && (
                   <>
                     <th className="products-cart-table-header-1">
-                      {text.carts.MENU1} {props.showCheckbox && `(${totalOrderItems})`}
+                      {text.carts.MENU1} {showCheckbox && `(${totalOrderItems})`}
                     </th>
                     <th className="products-cart-table-header-2"></th>
                     <th className="products-cart-table-header-3"></th>
                     <th className="products-cart-table-header-4"></th>
                     <th className="products-cart-table-header-5">
                       {" "}
-                      {props.showCheckbox && (
+                      {showCheckbox && (
                         <DeleteOutlined onClick={deleteItemsHandler} />
                       )}
                     </th>
@@ -166,7 +179,7 @@ const Cart: React.FC<CartProps> = (props) => {
               </tr>
             </thead>
             <tbody className="products-cart-table-body">
-              {cartItems.map((item) => (
+              {items.map((item) => (
                 <CartItem
                   key={item.id}
                   item={item}
@@ -177,7 +190,7 @@ const Cart: React.FC<CartProps> = (props) => {
                   onConfirmOrder={confirmOrderHandler}
                   onRemoveItem={decreaseItemQuantityHandler.bind(null, item.id)}
                   onDeleteModal={deleteItemHandler.bind(null, item.id)}
-                  showCheckbox={props.showCheckbox}
+                  showCheckbox={showCheckbox}
                 />
               ))}
             </tbody>
@@ -196,8 +209,10 @@ const Cart: React.FC<CartProps> = (props) => {
             </h3>
           </div>
         )}
+          </>
+        )}
 
-        {props.showCheckbox && (
+        {showCheckbox && (
           <div className="products-cart-infor">
             <div className="products-cart-infor-header">
               <div className="products-cart-infor-title">
@@ -226,7 +241,7 @@ const Cart: React.FC<CartProps> = (props) => {
             </div>
             <div
               className={
-                cartItems.filter((item) => item.selected).length > 0
+                items.filter((item) => item.selected).length > 0
                   ? "products-cart-infor-btn"
                   : "products-cart-infor-btn-dis"
               }
@@ -237,6 +252,7 @@ const Cart: React.FC<CartProps> = (props) => {
           </div>
         )}
       </div>
+      </>
     </Fragment>
   );
 };
