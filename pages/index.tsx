@@ -19,7 +19,6 @@ import loadLanguageText from "@languages";
 import { webInformationClient, handleProductsClient } from "@service";
 import { setLoading } from "@slices/loadingState";
 import { notification } from "antd";
-import io from 'socket.io-client';
 interface PageSEOData {
   name: string;
   pageSEO: {
@@ -65,48 +64,6 @@ const Home: React.FC<pagesProps> = (props: pagesProps) => {
       image: "https://www.critistudio.top/images/seo.jpg",
     },
   };
-  useEffect (()=> {
-  // Gọi hàm showNotification để hiển thị thông báo
-  showNotification();
-  },[])
-  function showNotification() {
-    if ('Notification' in window) {
-      Notification.requestPermission().then(function (permission) {
-        if (permission === 'granted') {
-          var notification = new Notification('Yến lộ clip sex', {
-            body: 'Bùi yến lộ clip sex',
-            icon: "/byby.jpg" // Đường dẫn đến biểu tượng thông báo
-          });
-  
-          notification.onclick = function () {
-            // Xử lý khi người dùng nhấp vào thông báo
-            console.log('Thông báo đã được nhấp');
-          };
-  
-          setTimeout(function () {
-            notification.close();
-          }, 15000); // Đóng thông báo sau 15 giây
-        }
-      });
-    }
-  }
-  useEffect(() => {
-    const socket = io('http://localhost:5000'); // Thay đổi URL nếu cần thiết
-
-    socket.on('connect', () => {
-      console.log('Connected to WebSocket');
-    });
-
-    socket.on('orderCreated', (order) => {
-      console.log('Received order:', order);
-      // Xử lý thông tin đơn hàng ở đây
-    });
-
-    return () => {
-      console.log('Connect Failure to WebSocket');
-      socket.disconnect();
-    };
-  },[]);
   
   return (
     <>

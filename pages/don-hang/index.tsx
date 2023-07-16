@@ -16,7 +16,7 @@ import type { RadioChangeEvent } from "antd";
 import Cart from "@components/elements/cart/Cart";
 import classes from "./Order.module.css";
 import { useRouter } from "next/router";
-import { placeOrder } from "@api";
+import { Order } from "@api";
 import { saveCartData } from "store/actions/cart-actions";
 import { webInformationClient } from "@service";
 interface PageSEOData {
@@ -180,7 +180,7 @@ const OrdersCart: React.FC<pagesProps> = (props: pagesProps) => {
     };
 
     try {
-      await placeOrder(orderData);
+      await Order.placeOrder(orderData);
       dispatch(
         cartActions.removeItemFromCart(selectedItems.map((item) => item.id))
       );

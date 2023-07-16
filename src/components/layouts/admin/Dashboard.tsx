@@ -18,7 +18,8 @@ import {
   FileProtectOutlined,
   FileTextOutlined
 } from '@ant-design/icons'
-import type { MenuProps } from 'antd'
+import type { MenuProps } from 'antd';
+import { DateTime } from "@utils/Functions";
 import {
   Menu,
   Input,
@@ -31,18 +32,26 @@ import {
   Space,
   Spin
 } from 'antd'
-import Link from 'next/link'
-import Image from 'next/image'
-import { useSelector, useDispatch } from 'react-redux'
-import { setLoading } from '@slices/loadingState'
-import { DasbroahAdmin } from '@utils/Functions'
+import Link from 'next/link';
+import Image from 'next/image';
+import { useSelector, useDispatch } from 'react-redux';
+import { setLoading } from '@slices/loadingState';
+import { DasbroahAdmin } from '@utils/Functions';
+import { notification } from "antd";
+import io from 'socket.io-client';
+import { OrderAdmin, ContactAdmin } from "@service";
 
-type MenuItemRT = Required<MenuProps>['items'][number]
 type NoticeProps = {
-  link: string
-  title: string
-  time: string
+  link: string;
+  title: string;
+  time: string;
+  subTitle: string;
+  name: string;
+  email: string;
+  phone: string;
+  isOrder:boolean;
 }
+
 type MenuItem = {
   key: React.Key
   icon?: React.ReactNode
@@ -56,12 +65,6 @@ type LayoutProps = {
   children: ReactNode
 }
 
-const notice: NoticeProps[] = [
-  { link: '/admin', title: 'Thông báo 1', time: '8:00 thứ 6 22/05/2023' },
-  { link: '/admin', title: 'Thông báo 1', time: '8:00 thứ 6 22/05/2023' },
-  { link: '/admin', title: 'Thông báo 1', time: '8:00 thứ 6 22/05/2023' },
-  { link: '/admin', title: 'Thông báo 1', time: '8:00 thứ 6 22/05/2023' }
-]
 interface RootState {
   loading: {
     loading: boolean
@@ -70,7 +73,9 @@ interface RootState {
 const Dashboard = ({ children }: LayoutProps) => {
   const router = useRouter()
   const loading = useSelector((state: RootState) => state.loading.loading)
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const [notice, setNotice] = useState<NoticeProps[]>([]);
+  const [totalNotice, setTotalNotice] = useState<number>(0)
   const toggleLoading = () => {
     dispatch(setLoading(!loading))
   }
@@ -85,6 +90,184 @@ const Dashboard = ({ children }: LayoutProps) => {
   const handleInputClick = (e: any) => {
     e.stopPropagation()
   }
+  // lấy dữ liệu order
+  const [dataContact, setDataContact] = useState([]);
+  const [dataContactSocket, setDataContactSocket] = useState<NoticeProps[]>([]);
+  const [totalContact, setTotalContact] = useState(0);
+  const [dataOrder, setDataOrder] = useState([]);
+  const [dataOrderSocket, setDataOrderSocket] = useState<NoticeProps[]>([]);
+  const [totalOrder, setTotalOrder] = useState(0);
+  useEffect(() => {
+    const body = {
+      status: 1,
+      page: 1,
+      size: 5 // chỉ lấy ra 5 loại thông báo mới nhất !
+    }
+    dispatch(setLoading(true));
+    OrderAdmin
+      .handleGetOrder(body)
+      .then((result:any) => {
+        // Xử lý kết quả trả về ở đây
+        const {data, meta} = result;
+        if(meta.status === 200) {
+          setDataOrder(data.orders);
+          setTotalOrder(data.pagination?.totalRecords ?? 0);
+        }
+        dispatch(setLoading(false));
+      })
+      .catch((error:any) => {
+        // Xử lý lỗi ở đây
+        console.log(error);
+        dispatch(setLoading(false));
+      });
+    ContactAdmin
+      .handleGetList(body)
+      .then((result:any) => {
+        // Xử lý kết quả trả về ở đây
+        const {data, meta} = result;
+        if(meta.status === 200) {
+          setDataContact(data.contact);
+          setTotalContact(data.pagination?.totalRecords ?? 0);
+        }
+        dispatch(setLoading(false));
+      })
+      .catch((error:any) => {
+        // Xử lý lỗi ở đây
+        console.log(error);
+        dispatch(setLoading(false));
+      });
+  }, []);
+  console.log(dataContact, "dataContact");
+  console.log(dataOrder, "dataOrder");
+  useEffect(()=> {
+    if(dataContact && dataOrder) {
+      var total = Number(totalContact) + Number(totalOrder)
+      var newArray :NoticeProps[]= [];
+      if(dataContact.length > 0) {
+        dataContact.forEach((contact:any) => {
+          const newContact = {
+            link: `/admin/lien-he/${contact.id}`,
+            title: "Liên Hệ mới",
+            time: contact.createdAt,
+            subTitle: " đã gửi cho bạn một liên hệ mới",
+            name: contact.name,
+            email: contact.email,
+            phone: contact.phone,
+            isOrder: false
+          };
+          newArray.push(newContact);
+        });
+      }
+      if(dataOrder.length > 0) {
+        dataOrder.forEach((order:any) => {
+          const newOrder = {
+            link: `/admin/lien-he/${order.id}`,
+            title: "Đơn Hàng mới",
+            time: order.createdAt,
+            subTitle: " đã tạo một đơn hàng mới",
+            name: order.name,
+            email: order.email,
+            phone: order.phone,
+            isOrder: true
+          };
+          newArray.push(newOrder);
+        });
+      }
+      if(newArray.length > 0) {
+        newArray.sort((a:NoticeProps, b:NoticeProps) => {
+          const timeA = new Date(a.time).getTime();
+          const timeB = new Date(b.time).getTime();
+          return timeB - timeA;
+        });
+      }
+      if(dataOrderSocket.length > 0) {
+        newArray= [...dataOrderSocket,...newArray];
+        total += 1;
+      }
+      if(dataContactSocket.length > 0) {
+        newArray= [...dataContactSocket,...newArray];
+        total += 1;
+      }
+      // set vào state
+      setNotice(newArray);
+      setTotalNotice(total);
+    }
+
+  }, [dataContact, dataOrder, totalContact, totalOrder, dataOrderSocket, dataContactSocket]);
+  const logoCompany = "/icon/logo.png"
+  console.log(totalNotice, "totalNotice");
+  // socket
+  useEffect(() => {
+    const api = process.env.NEXT_PUBLIC_API_URL
+    if(api) {
+      const socket = io(api);
+
+      socket.on('connect', () => {
+        console.log('Connected to WebSocket');
+      });
+  
+      socket.on('orderCreated', (order) => {
+        console.log('Received order:', order);
+        // Xử lý thông tin đơn hàng ở đây
+        showNotification("Hệ thống: Bạn có đơn hàng mới", `${order.name} đã tạo một đơn hàng mới`, logoCompany);
+        const orderPush = [{
+          link: `/admin/lien-he/${order.id}`,
+          title: "Đơn Hàng mới",
+          time: order.createdAt,
+          subTitle: " đã tạo một đơn hàng mới",
+          name: order.name,
+          email: order.email,
+          phone: order.phone,
+          isOrder: true
+        }];
+        setDataOrderSocket(orderPush);
+      });
+
+      socket.on('newContact', (contact) => {
+        console.log('Received contact:', contact);
+        // Xử lý thông tin đơn hàng ở đây
+        showNotification("Hệ thống: Bạn có liên hệ mới", `${contact.name} đã gửi cho bạn một liên hệ mới`, logoCompany);
+        const contactPush = [{
+          link: `/admin/lien-he/${contact.id}`,
+          title: "Liên Hệ mới",
+          time: contact.createdAt,
+          subTitle: " đã gửi cho bạn một liên hệ mới",
+          name: contact.name,
+          email: contact.email,
+          phone: contact.phone,
+          isOrder: false
+        }];
+        setDataContactSocket(contactPush);
+      });
+  
+      return () => {
+        console.log('Connect Failure to WebSocket');
+        socket.disconnect();
+      };
+    }
+  },[]);
+
+    function showNotification(title: string, body: string, icon: string) {
+      if ('Notification' in window) {
+        Notification.requestPermission().then(function (permission) {
+          if (permission === 'granted') {
+            var notification = new Notification(title, {
+              body: body,
+              icon: icon // Đường dẫn đến biểu tượng thông báo
+            });
+    
+            notification.onclick = function () {
+              // Xử lý khi người dùng nhấp vào thông báo
+              console.log('Thông báo đã được nhấp');
+            };
+    
+            setTimeout(function () {
+              notification.close();
+            }, 15000); // Đóng thông báo sau 15 giây
+          }
+        });
+      }
+    }
   // Function to generate menu items
   function getItem (
     label: string,
@@ -305,27 +488,36 @@ const Dashboard = ({ children }: LayoutProps) => {
     setOpenKeys([slectorKeys?.openKeys])
     setSelectedKeys([slectorKeys?.selectedKeys])
   }, [router.route, router.query])
-
+  const handeleOnClick =(link: string)=> {
+    console.log(link, "link");
+  }
   const cartContent = (
     <>
       {notice.length > 0 ? (
         <>
-          <div className='cart-title'>THÔNG BÁO</div>
-          <div className='cart-title'>
-            Bạn có {notice.length} thông báo chưa đọc
+          <div className='admin__notice-title'>THÔNG BÁO</div>
+          <div className='admin__notice-title-sub'>
+            {totalNotice > 0 ? <>Bạn có <span className='admin__notice-title-sub-highlight'>{totalNotice}</span> thông báo chưa đọc</> : <>Chưa có thông báo nào !!</>}
           </div>
           <List
             size='small'
             dataSource={notice}
-            className='cart-list'
+            className='admin__notice-list'
             renderItem={item => (
-              <List.Item className='cart-item'>
-                <div className='cart-item-information'>
-                  <div className='cart-item-information-text'>
-                    <h3 className='cart-item-information-text-title'>
+              <List.Item className='admin__notice-item' onClick={()=> handeleOnClick(item.link)}>
+                <div className='admin__notice-item-information'>
+                    <div className='admin__notice-item-information-header'>
+                      {item.isOrder ? <ShoppingCartOutlined className='admin__notice-item-information-header-icon'/> : <MailOutlined className='admin__notice-item-information-header-icon'/>}
+                    <span className='admin__notice-item-information-title'>
                       {item.title}
-                    </h3>
-                  </div>
+                    </span>
+                    </div>
+                    <div className='admin__notice-item-information-body'>
+                      {item.name + item.subTitle}
+                    </div>
+                    <div className='admin__notice-item-information-time'>
+                      {DateTime.formatExacthlyTime(item.time)}
+                    </div>
                 </div>
               </List.Item>
             )}
@@ -475,7 +667,7 @@ const Dashboard = ({ children }: LayoutProps) => {
                       className=''
                     >
                       <Badge
-                        count={notice.length}
+                        count={totalNotice}
                         overflowCount={99}
                         style={{ backgroundColor: 'red' }}
                       >

@@ -182,3 +182,48 @@
     }
   }
 }
+// css phần notice
+.admin__notice {
+  &-title {
+    font-size: 1.2em;
+    color: $color-title;
+    font-weight: 600;
+    &-sub {
+      font-size: 1em;
+      &-highlight {
+        color: $color-primary;
+        font-weight: 600;
+      }
+    }
+  }
+  &-list {
+    min-width: 320px;
+    max-height: 400px;
+    overflow-y: scroll;
+  }
+  &-item {
+    transition: all 0.2s ease-in-out;
+    &:hover {
+      cursor: pointer;
+      background-color: #bebebe46;
+      transition: all 0.2s ease-in-out;
+    }
+    &-information{
+      &-header{
+        display: flex;
+        align-items: center;
+        &-icon {
+          font-size: 20px;
+          color: $color-primary;
+          font-weight: 600;
+        }
+      }
+      &-title {
+        font-size: 16px;
+        color: $color-primary;
+        font-weight: 600;
+        margin-left: 15px;
+      }
+    }
+  }
+}

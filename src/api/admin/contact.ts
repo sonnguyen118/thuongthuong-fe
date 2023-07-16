@@ -21,5 +21,11 @@ const updateContact = (dto: UpdateContact | null): Promise<any> => {
     dto
   )
 }
+const getList = (body: any): Promise<any> => {
+  return axiosInstanceAuthorization.post(
+    process.env.NEXT_PUBLIC_API_URL + '/contact/list',
+    body
+  )
+}
 
-export default { getContact, updateContact }
+export default { getContact, updateContact, getList }

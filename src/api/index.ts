@@ -8,8 +8,8 @@ export { default as Ckeditor2 } from './admin/ckeditor-phe'
 export { default as WebInformation } from './admin/webinformation'
 export { default as menuAdmin } from './admin/menu'
 export { default as articleAdmin } from './admin/articles'
-export { default as contactAdmin } from './admin/contact'
-
+export { default as ContactAdmin } from './admin/contact'
+export { default as OrderAdmin } from './admin/orders'
 
 // Với phía client sử dụng các api này
 export { default as categoryClient } from './client/category'
@@ -17,4 +17,4 @@ export { default as productClient } from './client/product'
 export { default as articleClient } from './client/article'
 
 export { default as WebInformationClient } from './client/webinformation'
-export { default as placeOrder } from './client/orders'
+export { default as Order } from './client/orders'

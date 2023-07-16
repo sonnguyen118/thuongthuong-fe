@@ -12,14 +12,13 @@ interface OrderData {
   address: string;
   products: ProductDto[];
 }
-
-const placeOrder = (body: OrderData): Promise<any> => {
-
+const getOrder = (body: any): Promise<any> => {
+  
   return axiosInstanceAuthorization.post(
-    process.env.NEXT_PUBLIC_API_URL + "/order/create",
+    process.env.NEXT_PUBLIC_API_URL + "/order",
     body
   );
 };
 
-export default {placeOrder};
+export default {getOrder};
 
