@@ -19,6 +19,13 @@ const getOrder = (body: any): Promise<any> => {
     body
   );
 };
+const changeStatus = (body: any): Promise<any> => {
+  
+  return axiosInstanceAuthorization.post(
+    process.env.NEXT_PUBLIC_API_URL + "/order/update-status",
+    body
+  );
+};
 
-export default {getOrder};
+export default { getOrder, changeStatus };
 

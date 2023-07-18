@@ -137,8 +137,6 @@ const Dashboard = ({ children }: LayoutProps) => {
         dispatch(setLoading(false));
       });
   }, []);
-  console.log(dataContact, "dataContact");
-  console.log(dataOrder, "dataOrder");
   useEffect(()=> {
     if(dataContact && dataOrder) {
       var total = Number(totalContact) + Number(totalOrder)

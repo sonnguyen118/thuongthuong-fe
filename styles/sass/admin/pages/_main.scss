@@ -366,6 +366,46 @@
 		}
 	}
 }
+.admin-order-wrap {
+	background-color: #fff;
+	padding: 1em 2em;
+	&-title{
+		font-size: 1.2em;
+		font-weight: 500;
+		margin-bottom: 12px;
+		&-hightlight {
+			font-size: 1.2em;
+			font-weight: 600;
+			margin-left: 15px;
+		}
+	}
+	&-cart {
+		&-title {
+			font-size: 1.2em;
+			font-weight: 500;
+		}
+		&-list {
+			margin: 1em 2em;
+			&-item {
+				display: flex;
+				align-items: center;
+				&-stt {
+					font-size: 1.1em;
+					font-weight: 700;
+				}
+				&-name {
+					font-size: 1.1em;
+					font-weight: 500;
+					margin: 0 1em;
+				}
+				&-sl {
+					font-size: 1.1em;
+					font-weight: 700;
+				}
+			}
+		}
+	}
+}
 
 @include responsive_1440 {
 	.admin__main {

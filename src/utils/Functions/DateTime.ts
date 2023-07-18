@@ -46,4 +46,27 @@ function formatExacthlyTime(inputDateTime: string | null | undefined): string {
 	return formattedDate;
   }
 
-export default { formatDateTime, formatExacthlyTime };
+  function formatExacthlyTimeTable (inputDateTime: string | null | undefined): string {
+	if (inputDateTime === null || inputDateTime === undefined) {
+	  return "";
+	}
+  
+	const dateObj = new Date(inputDateTime);
+
+  
+	// Lấy ngày, tháng và năm
+	const day: number = dateObj.getDate();
+	const month: number = dateObj.getMonth() + 1; // Vì tháng được đếm từ 0, nên cần cộng thêm 1
+	const year: number = dateObj.getFullYear();
+  
+	// Lấy giờ và phút
+	const hours: number = dateObj.getHours();
+	const minutes: number = dateObj.getMinutes();
+  
+	// Định dạng lại ngày tháng, giờ và phút
+	const formattedDate: string = `${day < 10 ? "0" + day : day}/${month < 10 ? "0" + month : month}/${year}, ${hours < 10 ? "0" + hours : hours}:${minutes < 10 ? "0" + minutes : minutes}`;
+  
+	return formattedDate;
+  }
+
+export default { formatDateTime, formatExacthlyTime, formatExacthlyTimeTable };

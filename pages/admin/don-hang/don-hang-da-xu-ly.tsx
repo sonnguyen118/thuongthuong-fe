@@ -1,151 +1,158 @@
-import React, { useState } from "react";
-import { Table } from "antd";
+import React, { useState, useEffect } from "react";
+import { Table, Button } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import type { TableRowSelection } from "antd/es/table/interface";
 import Dashboard from "@components/layouts/admin/Dashboard";
 import { NavigationAdmin } from "@components/elements/navigation";
 import { FilterAdminTable } from "@components/molecules/FilterAdmin";
-
+import { OrderAdmin } from "@service";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { useDispatch } from 'react-redux';
+import { setLoading } from '@slices/loadingState';
+import { useRouter } from "next/router";
+import { DateTime } from "@utils/Functions";
 interface DataType {
-	key: React.Key;
-	name: string;
-	age: number;
-	address: string;
+  key: React.Key;
+  name: string;
+  age: number;
+  address: string;
 }
 interface buttonProps {
-	isButton: boolean;
-	style: string;
-	title: string;
-	link: string;
-}
-const columns: ColumnsType<DataType> = [
-	{
-		title: "Tên Khách Hàng",
-		dataIndex: "name",
-	},
-	{
-		title: "Tên Mặt Hàng",
-		dataIndex: "age",
-	},
-	{
-		title: "Address",
-		dataIndex: "address",
-	},
-];
-
-const data: DataType[] = [];
-for (let i = 0; i < 46; i++) {
-	data.push({
-		key: i,
-		name: `Edward King ${i}`,
-		age: 32,
-		address: `London, Park Lane no. ${i}`,
-	});
+  isButton: boolean;
+  style: string;
+  title: string;
+  link: string;
 }
 interface NavigationProps {
-	id: number;
-	title: string;
-	link: string;
+  id: number;
+  title: string;
+  link: string;
 }
 const App: React.FC = () => {
-	const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-	const navigationData: NavigationProps[] = [
-		{
-			id: 1,
-			title: `Trang chủ`,
-			link: "/admin",
-		},
-		{
-			id: 2,
-			title: `Đơn hàng`,
-			link: "/admin/don-hang",
-		},
-		{
-			id: 3,
-			title: `Danh sách đơn hàng chưa xử lý`,
-			link: "/",
-		},
-	];
-	const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-		console.log("selectedRowKeys changed: ", newSelectedRowKeys);
-		setSelectedRowKeys(newSelectedRowKeys);
-	};
-
-	const rowSelection: TableRowSelection<DataType> = {
-		selectedRowKeys,
-		onChange: onSelectChange,
-		selections: [
-			Table.SELECTION_ALL,
-			Table.SELECTION_INVERT,
-			Table.SELECTION_NONE,
-			{
-				key: "odd",
-				text: "Select Odd Row",
-				onSelect: (changeableRowKeys) => {
-					let newSelectedRowKeys = [];
-					newSelectedRowKeys = changeableRowKeys.filter((_, index) => {
-						if (index % 2 !== 0) {
-							return false;
-						}
-						return true;
-					});
-					setSelectedRowKeys(newSelectedRowKeys);
-				},
-			},
-			{
-				key: "even",
-				text: "Select Even Row",
-				onSelect: (changeableRowKeys) => {
-					let newSelectedRowKeys = [];
-					newSelectedRowKeys = changeableRowKeys.filter((_, index) => {
-						if (index % 2 !== 0) {
-							return true;
-						}
-						return false;
-					});
-					setSelectedRowKeys(newSelectedRowKeys);
-				},
-			},
-		],
-	};
-	const optionsSelector = [
-		{
-			value: "1",
-			label: "Select",
-		},
-	];
-	const button: buttonProps = {
-		isButton: false,
-		style: "",
-		title: "",
-		link: "",
-	};
-	return (
-		<Dashboard>
-			<div className="admin__main-wrap">
-				<NavigationAdmin
-					header={"Danh sách đơn hàng chưa xử lý"}
-					description={"Trang quản lý danh sách đơn hàng mà bạn chưa xử lý"}
-					data={navigationData}
-				/>
-				<div className="admin__main-content">
-					<FilterAdminTable
-						isSelector={false}
-						optionsSelector={optionsSelector}
-						isDatepicker={true}
-						titleFilter={"Hiển thị tất cả đơn hàng từ"}
-						placeholderInput={"Tìm kiếm theo tên khách hàng"}
-						button={button}
-					/>
-					<Table
-						rowSelection={rowSelection}
-						columns={columns}
-						dataSource={data}
-					/>
-				</div>
-			</div>
-		</Dashboard>
-	);
+  const [data, setData] = useState([]);
+  const router = useRouter();
+  const [total, setTotal] = useState(0);
+  const dispatch = useDispatch();
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const navigationData: NavigationProps[] = [
+    {
+      id: 1,
+      title: `Trang chủ`,
+      link: "/admin",
+    },
+    {
+      id: 2,
+      title: `Đơn hàng`,
+      link: "/admin/don-hang",
+    },
+    {
+      id: 3,
+      title: `Danh sách đơn hàng chưa xử lý`,
+      link: "/",
+    },
+  ];
+  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    console.log("selectedRowKeys changed: ", newSelectedRowKeys);
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+  useEffect(()=> {
+    const body = {
+      status: 0,
+      page: 1,
+      size: 20 // chỉ lấy ra 5 loại thông báo mới nhất !
+    }
+    dispatch(setLoading(true));
+    OrderAdmin
+      .handleGetOrder(body)
+      .then((result:any) => {
+        // Xử lý kết quả trả về ở đây
+        const {data, meta} = result;
+        if(meta.status === 200) {
+          setData(data.orders);
+          setTotal(data.pagination?.totalRecords ?? 0);
+        }
+        dispatch(setLoading(false));
+      })
+      .catch((error:any) => {
+        // Xử lý lỗi ở đây
+        console.log(error);
+        dispatch(setLoading(false));
+      });
+  },[]);
+  const handleGoDetailt = (record: any) => {
+    router.push(`/admin/danh-muc/danh-muc-cap-1/${record.id}`);
+  };
+  const rowSelection: TableRowSelection<DataType> = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+  };
+  const optionsSelector = [
+    {
+      value: "1",
+      label: "Select",
+    },
+  ];
+  const button: buttonProps = {
+    isButton: false,
+    style: "",
+    title: "",
+    link: "",
+  };
+  const columns: ColumnsType<DataType> = [
+    {
+      title: "Tên Khách Hàng",
+      dataIndex: "name",
+    },
+    {
+      title: "Số điện thoại",
+      dataIndex: "phone",
+    },
+    {
+      title: "Thời gian đặt hàng",
+      dataIndex: "createdAt",
+      render: (createdAt) => (
+        <>{DateTime.formatExacthlyTimeTable(createdAt)}</>
+      )
+    },
+    {
+      title: "Địa chỉ",
+      dataIndex: "address",
+    },
+    {
+      title: "Thao tác",
+      render: (link, record) => (
+        <>
+          <Button onClick={(e)=> handleGoDetailt(record)}><EditOutlined /></Button>
+        </>
+      ),
+    },
+  ];
+  return (
+    <Dashboard>
+      <div className="admin__main-wrap">
+        <NavigationAdmin
+          header={"Danh sách đơn hàng chưa xử lý"}
+          description={"Trang quản lý danh sách đơn hàng mà bạn chưa xử lý"}
+          data={navigationData}
+        />
+        <div className="admin__main-content">
+          <FilterAdminTable
+            isSelector={false}
+            optionsSelector={optionsSelector}
+            isDatepicker={true}
+            titleFilter={"Hiển thị tất cả đơn hàng từ"}
+            placeholderInput={"Tìm kiếm theo tên khách hàng"}
+            button={button}
+          />
+          <Table
+            rowSelection={rowSelection}
+            columns={columns}
+            dataSource={data}
+          />
+        </div>
+      </div>
+    </Dashboard>
+  );
 };
 
 export default App;

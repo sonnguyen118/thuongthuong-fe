@@ -121,9 +121,9 @@ const App: React.FC = () => {
     <Dashboard>
       <div className="admin__main-wrap">
         <NavigationAdmin
-          header={"Chi tiết Liên Hệ"}
+          header={"Chi tiết đơn hàng"}
           description={
-            "Trang quản lý chi tiết Liên Hệ"
+            "Trang quản lý chi tiết đơn hàng"
           }
           data={navigationData}
         />

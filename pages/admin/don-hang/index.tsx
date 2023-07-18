@@ -1,254 +1,170 @@
-import React, { useState } from "react";
-import HeadSEO from "@components/layouts/header/HeadSEO";
+import React, { useState, useEffect } from "react";
+import { Table, Button } from "antd";
+import type { ColumnsType } from "antd/es/table";
+import type { TableRowSelection } from "antd/es/table/interface";
 import Dashboard from "@components/layouts/admin/Dashboard";
 import { NavigationAdmin } from "@components/elements/navigation";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import { Bar } from "react-chartjs-2";
-import type { MenuProps } from "antd";
-import { Menu, DatePicker } from "antd";
-import Image from "next/image";
-import { CardStatisticalAdmin } from "@components/elements/card";
-interface PageSEOData {
+import { FilterAdminTable } from "@components/molecules/FilterAdmin";
+import { OrderAdmin } from "@service";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { useDispatch } from 'react-redux';
+import { setLoading } from '@slices/loadingState';
+import { useRouter } from "next/router";
+import { DateTime } from "@utils/Functions";
+interface DataType {
+  key: React.Key;
   name: string;
-  pageSEO: {
-    title: string;
-    url: string;
-    keywords: string[];
-    description: string;
-    image: string;
-  };
+  age: number;
+  address: string;
+}
+interface buttonProps {
+  isButton: boolean;
+  style: string;
+  title: string;
+  link: string;
 }
 interface NavigationProps {
   id: number;
   title: string;
   link: string;
 }
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
-export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: "bottom" as const,
-    },
-    title: {
-      display: true,
-      text: "Thống kê các Đơn hàng - Liên hệ trong 5 tuần gần nhất",
-      position: "bottom" as const,
-    },
-  },
-};
-const { RangePicker } = DatePicker;
-const labels = ["Tuần 1", "Tuần 2", "Tuần 3", "Tuần 4", "Tuần 5"];
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: "Đơn hàng",
-      data: [11, 25, 13, 41, 5],
-      backgroundColor: "#ff731d",
-    },
-    {
-      label: "Liên hệ",
-      data: [11, 21, 30, 41, 5],
-      backgroundColor: "#1677ff",
-    },
-  ],
-};
-
-const items: MenuProps["items"] = [
-  {
-    label: "5 tuần gần nhất",
-    key: "1",
-  },
-  {
-    label: "5 tháng gần nhất",
-    key: "2",
-  },
-  {
-    label: (
-      <>
-        <RangePicker />
-      </>
-    ),
-    key: "3",
-  },
-];
-
-const AdminMain: React.FC = () => {
-  const pageSEOData: PageSEOData = {
-    name: "Thương Thương",
-    pageSEO: {
-      title: "Trang Quản Trị | Thương Thương",
-      url: "https://www.critistudio.top",
-      keywords: ["website", "home", "page"],
-      description:
-        "Thuong Thuong tổ chức đào tạo nghề cho đối tượng người khuyết tật và người yếu thế nhằm giảm gánh nặng cho gia đình và xã hội.",
-      image: "https://www.critistudio.top/images/seo.jpg",
-    },
-  };
-
+const App: React.FC = () => {
+  const [data, setData] = useState([]);
+  const router = useRouter();
+  const [total, setTotal] = useState(0);
+  const dispatch = useDispatch();
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const navigationData: NavigationProps[] = [
     {
       id: 1,
       title: `Trang chủ`,
-      link: "/",
+      link: "/admin",
     },
     {
       id: 2,
-      title: `Tổng quan`,
+      title: `Đơn hàng`,
+      link: "/admin/don-hang",
+    },
+    {
+      id: 3,
+      title: `Danh sách đơn hàng chưa xử lý`,
       link: "/",
     },
   ];
-  const [current, setCurrent] = useState("mail");
-
-  const onClick: MenuProps["onClick"] = (e) => {
-    console.log("click ", e);
-    setCurrent(e.key);
+  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    console.log("selectedRowKeys changed: ", newSelectedRowKeys);
+    setSelectedRowKeys(newSelectedRowKeys);
   };
+  useEffect(()=> {
+    const body = {
+      page: 1,
+      size: 20 // chỉ lấy ra 5 loại thông báo mới nhất !
+    }
+    dispatch(setLoading(true));
+    OrderAdmin
+      .handleGetOrder(body)
+      .then((result:any) => {
+        // Xử lý kết quả trả về ở đây
+        const {data, meta} = result;
+        if(meta.status === 200) {
+          setData(data.orders);
+          setTotal(data.pagination?.totalRecords ?? 0);
+        }
+        dispatch(setLoading(false));
+      })
+      .catch((error:any) => {
+        // Xử lý lỗi ở đây
+        console.log(error);
+        dispatch(setLoading(false));
+      });
+  },[]);
+  const handleGoDetailt = (record: any) => {
+    router.push(`/admin/danh-muc/danh-muc-cap-1/${record.id}`);
+  };
+  const rowSelection: TableRowSelection<DataType> = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+  };
+  const optionsSelector = [
+    {
+      value: "1",
+      label: "Select",
+    },
+  ];
+  const button: buttonProps = {
+    isButton: false,
+    style: "",
+    title: "",
+    link: "",
+  };
+  const columns: ColumnsType<DataType> = [
+    {
+      title: "Tên Khách Hàng",
+      dataIndex: "name",
+    },
+    {
+      title: "Số điện thoại",
+      dataIndex: "phone",
+    },
+    {
+      title: "Thời gian đặt hàng",
+      dataIndex: "createdAt",
+      render: (createdAt) => (
+        <>{DateTime.formatExacthlyTimeTable(createdAt)}</>
+      )
+    },
+    {
+      title: "Địa chỉ",
+      dataIndex: "address",
+    },
+    {
+      title: "Trạng thái",
+      render: (record) => (
+        <>
+        {record.status ? (
+          <span style={{color: "red"}}>Chưa xử lý</span>
+        ):(
+          <span style={{color: "green"}}>Đã duyệt</span>
+        )}
+          
+        </>
+      ),
+    },
+    {
+      title: "Thao tác",
+      render: (record) => (
+        <>
+          <Button onClick={(e)=> handleGoDetailt(record)}><EditOutlined /></Button>
+        </>
+      ),
+    },
+  ];
   return (
-    <>
-      <HeadSEO pageSEO={pageSEOData.pageSEO} />
-      <Dashboard>
-        <div className="admin__main-wrap">
-          <NavigationAdmin
-            header={"Mừng bạn đã quay trở lại"}
-            description={
-              "Chào mừng đến trang quản trị Thương Thương, bạn có thể chỉnh sửa giao diện và thao tác dữ liệu trên trang"
-            }
-            data={navigationData}
+    <Dashboard>
+      <div className="admin__main-wrap">
+        <NavigationAdmin
+          header={"Danh sách đơn hàng chưa xử lý"}
+          description={"Trang quản lý danh sách đơn hàng mà bạn chưa xử lý"}
+          data={navigationData}
+        />
+        <div className="admin__main-content">
+          <FilterAdminTable
+            isSelector={false}
+            optionsSelector={optionsSelector}
+            isDatepicker={true}
+            titleFilter={"Hiển thị tất cả đơn hàng từ"}
+            placeholderInput={"Tìm kiếm theo tên khách hàng"}
+            button={button}
           />
-          <div className="admin__main">
-            <div className="admin__main-card">
-              <CardStatisticalAdmin
-                header={"Số lượng đơn hàng"}
-                total={520}
-                image={"/images/admin/incon_index1.png"}
-                infor1={"-10"}
-                infor2={"+3"}
-                footer={"số đơn trong ngày"}
-                number={"5 đơn"}
-              />
-              <CardStatisticalAdmin
-                header={"Số lượng liên hệ"}
-                total={127}
-                image={"/images/admin/incon_index2.png"}
-                infor1={"-15"}
-                infor2={"+5"}
-                footer={"số liên hệ trong ngày"}
-                number={"2 liên hệ"}
-              />
-            </div>
-            <div className="admin__main-chart">
-              <div className="admin__main-chart-header">
-                <Menu
-                  onClick={onClick}
-                  selectedKeys={[current]}
-                  mode="horizontal"
-                  items={items}
-                />
-              </div>
-              <div className="admin__main-chart-main">
-                <div className="admin__main-chart-item">
-                  <h3 className="admin__main-chart-item-header">
-                    Bảng thống kê Đơn hàng & Liên hệ
-                  </h3>
-                  <Bar options={options} data={data} />
-                </div>
-                <div className="admin__main-chart-list">
-                  <h3 className="admin__main-chart-list-header">
-                    Thống kê Đơn hàng gần nhất
-                  </h3>
-                  <ul className="admin__main-chart-list-ul">
-                    <li className="admin__main-chart-list-ul-li">
-                      <span className="admin__main-chart-list-ul-li-stt">
-                        1
-                      </span>
-                      <span className="admin__main-chart-list-ul-li-title">
-                        Máy khoan cầm tay
-                      </span>
-                      <span className="admin__main-chart-list-ul-li-time">
-                        18:00 22/04/2023
-                      </span>
-                    </li>
-                    <li className="admin__main-chart-list-ul-li">
-                      <span className="admin__main-chart-list-ul-li-stt">
-                        2
-                      </span>
-                      <span className="admin__main-chart-list-ul-li-title">
-                        Máy khoan cầm tay
-                      </span>
-                      <span className="admin__main-chart-list-ul-li-time">
-                        18:00 22/04/2023
-                      </span>
-                    </li>
-                    <li className="admin__main-chart-list-ul-li">
-                      <span className="admin__main-chart-list-ul-li-stt">
-                        3
-                      </span>
-                      <span className="admin__main-chart-list-ul-li-title">
-                        Máy khoan cầm tay
-                      </span>
-                      <span className="admin__main-chart-list-ul-li-time">
-                        18:00 22/04/2023
-                      </span>
-                    </li>
-                    <li className="admin__main-chart-list-ul-li">
-                      <span className="admin__main-chart-list-ul-li-stt">
-                        4
-                      </span>
-                      <span className="admin__main-chart-list-ul-li-title">
-                        Máy khoan cầm tay
-                      </span>
-                      <span className="admin__main-chart-list-ul-li-time">
-                        18:00 22/04/2023
-                      </span>
-                    </li>
-                    <li className="admin__main-chart-list-ul-li">
-                      <span className="admin__main-chart-list-ul-li-stt">
-                        5
-                      </span>
-                      <span className="admin__main-chart-list-ul-li-title">
-                        Máy khoan cầm tay
-                      </span>
-                      <span className="admin__main-chart-list-ul-li-time">
-                        18:00 22/04/2023
-                      </span>
-                    </li>
-                    <li className="admin__main-chart-list-ul-li">
-                      <span className="admin__main-chart-list-ul-li-stt">
-                        6
-                      </span>
-                      <span className="admin__main-chart-list-ul-li-title">
-                        Máy khoan cầm tay
-                      </span>
-                      <span className="admin__main-chart-list-ul-li-time">
-                        18:00 22/04/2023
-                      </span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
+          <Table
+            rowSelection={rowSelection}
+            columns={columns}
+            dataSource={data}
+          />
         </div>
-      </Dashboard>
-    </>
+      </div>
+    </Dashboard>
   );
 };
 
-export default AdminMain;
+export default App;
