@@ -64,7 +64,7 @@ const Home: React.FC<pagesProps> = (props: pagesProps) => {
       image: "https://www.critistudio.top/images/seo.jpg",
     },
   };
-  
+  console.log(dataContact, "dataContact");
   return (
     <>
       <HeadSEO pageSEO={pageSEOData.pageSEO} />
@@ -86,32 +86,106 @@ const Home: React.FC<pagesProps> = (props: pagesProps) => {
 
 export async function getServerSideProps(context: any) {
   try {
-    const DatapageVI :any = await webInformationClient.handleGetWebInformation("6");
-    const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
-    const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
-    const ContactVI :any = await webInformationClient.handleGetWebInformation("12");
-    const ListProduct: any = await handleProductsClient.handleGetHighlight();
-
-    try {
-      const dataPages = JSON.parse(DatapageVI.value);
-      if (dataPages.dataProduct && dataPages.dataProduct.length > 0) {
-        const promises = dataPages.dataProduct.map(async (item: any) => {
-          if (item.value) {
-            const body = {
-              categoryId: item.value,
-              language: "VI",
-              page: 1,
-              size: 20,
-              productName: "",
-            };
-            console.log(body, "body");
-            const apiData: any = await handleProductsClient.getProductsByCategoryID(body);
-            console.log(apiData, "apiData");
-            return apiData.data;
-          }
-        });
-    
-        const resultArray = await Promise.all(promises);
+    const lang = context.query.lang
+    if(lang === 'en') {
+      const DatapageEN :any = await webInformationClient.handleGetWebInformation("7");
+      const MenuEN : any = await  webInformationClient.handleGetWebInformation("5");
+      const FooterEN:any = await webInformationClient.handleGetWebInformation("3");
+      const ContactEN :any = await webInformationClient.handleGetWebInformation("13");
+      const ListProduct: any = await handleProductsClient.handleGetHighlight();
+      try {
+        const dataPages = JSON.parse(DatapageEN.value);
+        if (dataPages.dataProduct && dataPages.dataProduct.length > 0) {
+          const promises = dataPages.dataProduct.map(async (item: any) => {
+            if (item.value) {
+              const body = {
+                categoryId: item.value,
+                language: "VI",
+                page: 1,
+                size: 20,
+                productName: "",
+              };
+              const apiData: any = await handleProductsClient.getProductsByCategoryID(body);
+              return apiData.data;
+            }
+          });
+      
+          const resultArray = await Promise.all(promises);
+          return {
+            props: {
+              dataPages: JSON.parse(DatapageEN.value) || {},
+              dataMenu:  JSON.parse(MenuEN.value) || {},
+              dataFooter: JSON.parse(FooterEN.value) || {},
+              dataContact: JSON.parse(ContactEN.value) || {},
+              dataProductHighlight: ListProduct.data?.products,
+              dataListProducts: resultArray
+            },
+          };
+        }
+      } catch (e) {
+        // Xử lý lỗi
+      }
+      if(ListProduct.meta?.status === 200) {
+        return {
+          props: {
+            dataPages: JSON.parse(DatapageEN.value) || {},
+            dataMenu:  JSON.parse(MenuEN.value) || {},
+            dataFooter: JSON.parse(FooterEN.value) || {},
+            dataContact: JSON.parse(ContactEN.value) || {},
+            dataProductHighlight: ListProduct.data?.products,
+            dataListProducts: null
+          },
+        };
+      }
+      return {
+        props: {
+          dataPages: JSON.parse(DatapageEN.value) || {},
+          dataMenu:  JSON.parse(MenuEN.value) || {},
+          dataFooter: JSON.parse(FooterEN.value) || {},
+          dataContact: JSON.parse(ContactEN.value) || {},
+          dataProductHighlight: null,
+          dataListProducts: null
+        },
+      };
+    } else {
+      const DatapageVI :any = await webInformationClient.handleGetWebInformation("6");
+      const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
+      const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
+      const ContactVI :any = await webInformationClient.handleGetWebInformation("12");
+      const ListProduct: any = await handleProductsClient.handleGetHighlight();
+      try {
+        const dataPages = JSON.parse(DatapageVI.value);
+        if (dataPages.dataProduct && dataPages.dataProduct.length > 0) {
+          const promises = dataPages.dataProduct.map(async (item: any) => {
+            if (item.value) {
+              const body = {
+                categoryId: item.value,
+                language: "VI",
+                page: 1,
+                size: 20,
+                productName: "",
+              };
+              const apiData: any = await handleProductsClient.getProductsByCategoryID(body);
+              return apiData.data;
+            }
+          });
+      
+          const resultArray = await Promise.all(promises);
+          return {
+            props: {
+              dataPages: JSON.parse(DatapageVI.value) || {},
+              dataMenu:  JSON.parse(MenuVI.value) || {},
+              dataFooter: JSON.parse(FooterVI.value) || {},
+              dataContact: JSON.parse(ContactVI.value) || {},
+              dataProductHighlight: ListProduct.data?.products,
+              dataListProducts: resultArray
+            },
+          };
+        }
+      } catch (e) {
+        // Xử lý lỗi
+      }
+      if(ListProduct.meta?.status === 200) {
         return {
           props: {
             dataPages: JSON.parse(DatapageVI.value) || {},
@@ -119,36 +193,22 @@ export async function getServerSideProps(context: any) {
             dataFooter: JSON.parse(FooterVI.value) || {},
             dataContact: JSON.parse(ContactVI.value) || {},
             dataProductHighlight: ListProduct.data?.products,
-            dataListProducts: resultArray
+            dataListProducts: null
           },
         };
       }
-    } catch (e) {
-      // Xử lý lỗi
-    }
-    
-    if(ListProduct.meta?.status === 200) {
       return {
         props: {
           dataPages: JSON.parse(DatapageVI.value) || {},
           dataMenu:  JSON.parse(MenuVI.value) || {},
           dataFooter: JSON.parse(FooterVI.value) || {},
           dataContact: JSON.parse(ContactVI.value) || {},
-          dataProductHighlight: ListProduct.data?.products,
+          dataProductHighlight: null,
           dataListProducts: null
         },
       };
     }
-    return {
-      props: {
-        dataPages: JSON.parse(DatapageVI.value) || {},
-        dataMenu:  JSON.parse(MenuVI.value) || {},
-        dataFooter: JSON.parse(FooterVI.value) || {},
-        dataContact: JSON.parse(ContactVI.value) || {},
-        dataProductHighlight: null,
-        dataListProducts: null
-      },
-    };
+
 
   } catch (e) {
     return { props: {} };

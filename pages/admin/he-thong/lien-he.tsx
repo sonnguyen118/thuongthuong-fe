@@ -196,7 +196,7 @@ const App: React.FC = () => {
 			content: contentVI,
 			iconBlock: newArrayIcon,
 			titleBlock: titleBlockVI,
-      underlineBlock: uderlineBlock,
+      		underlineBlock: uderlineBlock,
 
 		};
 		let dataEN = {
@@ -207,7 +207,9 @@ const App: React.FC = () => {
 			adress1: adress1,
 			adress2: adress2,
 			content: contentEN,
+			iconBlock: newArrayIcon,
 			titleBlock: titleBlockEN,
+      		underlineBlock: uderlineBlock,
 		}
 		const body1 = {
 			id: 12,

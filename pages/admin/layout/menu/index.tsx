@@ -225,6 +225,18 @@ const App: React.FC = () => {
 		});
 		setData(datafromState);
 	};
+	const handleAddMenuEN  = () => {
+		let datafromState = [...dataEN];
+		let lastItem = datafromState[datafromState.length - 1];
+		let newKey = lastItem ? lastItem.key + 1 : 1;
+		datafromState.push({
+			key: newKey,
+			title: "",
+			isActivate: true,
+			link: ""
+		});
+		setDataEN(datafromState);
+	};
 	// hàm thay đổi giá trị của các menu
 	const handleInputChange = (event:any, index:any, field:any) => {
 		const { value } = event.target;
@@ -317,7 +329,7 @@ const App: React.FC = () => {
 				// Xử lý khi có lỗi xảy ra
 			});
 	};
-	console.log(data, "data")
+	// console.log(data, "data")
 	return (
 		<Dashboard>
 			<div className="admin__main-wrap">
@@ -332,9 +344,9 @@ const App: React.FC = () => {
 					<div className="admin__main-content">
 						<Button type={"primary"} onClick={()=> handleChangePosition()} style={{marginBottom: 15}}><EditOutlined style={{marginRight: 5}}/>Sửa vị trí</Button>
 						<Tabs activeKey={activeTab} items={item} onChange={onChange}/>
-						<div className="admin__main-cards">
 							{activeTab === "1" ? (
-								<>
+							<>
+							<div className="admin__main-cards">
 									{data.map((item, index)=> (
 										<div style={{display: "flex", alignItems: "center", marginBottom: 30}} key={item.key}>
 											<span style={{marginRight: 20, fontStyle: "16px", fontWeight: 500}}>{item.key}</span>
@@ -348,9 +360,13 @@ const App: React.FC = () => {
 											<Button type="default" onClick={(e) => handleDeleteMenu(item.key)}><DeleteOutlined/></Button>
 										</div>
 									))}
-								</>
+							</div>
+							<Button type={"primary"} style={{marginTop: 20}} onClick={()=> handleAddMenu()}><PlusOutlined style={{marginRight: 5}}/>Thêm Menu</Button>
+							<Button type={"primary"} style={{marginTop: 20, marginLeft: 20}} onClick={()=> handleSubmit()}>Cập nhật</Button>
+							</>
 							) : (
 								<>
+								<div className="admin__main-cards">
 									{dataEN.map((item, index)=> (
 										<div style={{display: "flex", alignItems: "center", marginBottom: 30}} key={item.key}>
 											<span style={{marginRight: 20, fontStyle: "16px", fontWeight: 500}}>{item.key}</span>
@@ -364,12 +380,11 @@ const App: React.FC = () => {
 											<Button type="default" onClick={(e) => handleDeleteMenu(item.key)}><DeleteOutlined/></Button>
 										</div>
 									))}
-								</>
+							</div>
+							<Button type={"primary"} style={{marginTop: 20}} onClick={()=> handleAddMenuEN()}><PlusOutlined style={{marginRight: 5}}/>Thêm Menu</Button>
+							<Button type={"primary"} style={{marginTop: 20, marginLeft: 20}} onClick={()=> handleSubmit()}>Cập nhật</Button>
+							</>
 							)}
-
-						</div>
-						<Button type={"primary"} style={{marginTop: 20}} onClick={()=> handleAddMenu()}><PlusOutlined style={{marginRight: 5}}/>Thêm Menu</Button>
-						<Button type={"primary"} style={{marginTop: 20, marginLeft: 20}} onClick={()=> handleSubmit()}>Cập nhật</Button>
 					</div>
 				):(
 					<div className="admin__main-content">
