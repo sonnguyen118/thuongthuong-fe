@@ -22,17 +22,12 @@ interface PiecesPuzzleProps {
   titleBlock: string;
   listSliderBlock: Array<string>;
   contentBlock: any;
+  t: any
 }
 
 const PiecesPuzzle: React.FC<PiecesPuzzleProps> = ( props) => {
-  const { isShow,uderlineBlock, iconBlock, titleBlock, listSliderBlock, contentBlock } = props;
-  const [t, setText] = useState(viText);
-  const lang = useSelector(
-    (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
-  );
-  useEffect(() => {
-    loadLanguageText(lang, setText);
-  }, [lang]);
+  const { isShow,uderlineBlock, iconBlock, titleBlock, listSliderBlock, contentBlock, t } = props;
+
   return (
     <div className="home__principles">
       <TitleBlock

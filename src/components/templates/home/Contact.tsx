@@ -8,17 +8,12 @@ import viText from "@languages/vie.json";
 import loadLanguageText from "@languages";
 interface ContactProps {
   data: any;
+  t: any;
 }
 
 const Contact: React.FC<ContactProps> = ( props) => {
-  const {data} = props;
-  const [t, setText] = useState(viText);
-  const lang = useSelector(
-    (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
-  );
-  useEffect(() => {
-    loadLanguageText(lang, setText);
-  }, [lang]);
+  const { data, t } = props;
+
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
   };
@@ -55,7 +50,7 @@ const Contact: React.FC<ContactProps> = ( props) => {
           </p>
         </div>
         <div className="home__contact-wrap-right">
-          <FormContactHome />
+          <FormContactHome t={t}/>
         </div>
       </Row>
     </div>

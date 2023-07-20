@@ -1,27 +1,18 @@
 import { useState, useEffect } from "react";
 import { SlideProductsHome } from "@components/elements/Slider";
 import { TitleProduct } from "@components/elements/block";
-import { useSelector } from "react-redux";
-import { store } from "@store";
 import viText from "@languages/vie.json";
 import loadLanguageText from "@languages";
 
 interface BlockProductsProps {
   dataProductHighlight: any;
   dataListProducts: any;
+  t: any;
 };
 
 const BlockProducts: React.FC<BlockProductsProps> = (props) => {
-  const { dataProductHighlight, dataListProducts } = props;
-  console.log(dataProductHighlight, "dataProductHighlight");
-  console.log(dataListProducts, "dataListProducts");
-  const [t, setText] = useState(viText);
-  const lang = useSelector(
-    (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
-  );
-  useEffect(() => {
-    loadLanguageText(lang, setText);
-  }, [lang]);
+  const { dataProductHighlight, dataListProducts, t } = props;
+
 
   return (
     <div className="home__products">

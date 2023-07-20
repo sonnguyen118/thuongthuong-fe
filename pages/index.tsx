@@ -12,12 +12,9 @@ import {
   ListPartner,
   ContactHome,
 } from "@components/templates/home";
-import { useSelector } from "react-redux";
-import { store } from "@store";
 import viText from "@languages/vie.json";
 import loadLanguageText from "@languages";
 import { webInformationClient, handleProductsClient } from "@service";
-import { setLoading } from "@slices/loadingState";
 import { notification } from "antd";
 interface PageSEOData {
   name: string;
@@ -44,15 +41,16 @@ interface pagesProps {
 }
 const Home: React.FC<pagesProps> = (props: pagesProps) => {
   const {dataPages, dataMenu, dataFooter, dataContact, dataProductHighlight, dataListProducts} = props;
-
-  console.log(props, "asdasd")
   const [t, setText] = useState(viText);
-  const lang = useSelector(
-    (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
-  );
   useEffect(() => {
-    loadLanguageText(lang, setText);
-  }, [lang]);
+    const lang = localStorage.getItem('lang');
+    console.log(lang, "lang");
+    if(lang) {
+      loadLanguageText(lang, setText);
+    } else {
+      loadLanguageText("vi", setText);
+    }
+  }, []);
   const pageSEOData: PageSEOData = {
     name: "Thương Thương",
     pageSEO: {
@@ -64,21 +62,20 @@ const Home: React.FC<pagesProps> = (props: pagesProps) => {
       image: "https://www.critistudio.top/images/seo.jpg",
     },
   };
-  console.log(dataContact, "dataContact");
   return (
     <>
       <HeadSEO pageSEO={pageSEOData.pageSEO} />
       <Layout dataMenu={dataMenu} dataFooter={dataFooter}>
-        <SlideBarsHome isShow={dataPages.showBlock1} dataSlider={dataPages.dataSlider}/>
+        <SlideBarsHome isShow={dataPages.showBlock1} dataSlider={dataPages.dataSlider} t={t}/>
          <PrinciplesHome isShow={dataPages.showBlockS} dataBlock={dataPages.dataBlockS}/>
-        <PiecesPuzzleHome isShow={dataPages.showBlock2} uderlineBlock={dataPages.uderlineBlock2} iconBlock={dataPages.iconBlock2} titleBlock={dataPages.titleBlock2} listSliderBlock={dataPages.listSliderBlock2} contentBlock={dataPages.contentBlock2}/>
+        <PiecesPuzzleHome isShow={dataPages.showBlock2} uderlineBlock={dataPages.uderlineBlock2} iconBlock={dataPages.iconBlock2} titleBlock={dataPages.titleBlock2} listSliderBlock={dataPages.listSliderBlock2} contentBlock={dataPages.contentBlock2} t={t}/>
         {/* <CardTabs /> */}
-        <ListProducts isShow={dataPages.showBlock3} uderlineBlock={dataPages.uderlineBlock3} iconBlock={dataPages.iconBlock3} titleBlock={dataPages.titleBlock3} listSliderBlock={dataPages.listSliderBlock3}/>
+        <ListProducts isShow={dataPages.showBlock3} uderlineBlock={dataPages.uderlineBlock3} iconBlock={dataPages.iconBlock3} titleBlock={dataPages.titleBlock3} listSliderBlock={dataPages.listSliderBlock3} t={t}/>
         {dataProductHighlight && 
-        <BlockProducts dataProductHighlight={dataProductHighlight} dataListProducts={dataListProducts}/>
+        <BlockProducts dataProductHighlight={dataProductHighlight} dataListProducts={dataListProducts} t={t}/>
         }
-        <ListPartner isShow={dataPages.showBlock5} uderlineBlock={dataPages.uderlineBlock5} iconBlock={dataPages.iconBlock5} titleBlock={dataPages.titleBlock5} listSliderBlock={dataPages.listSliderBlock5}/>
-        <ContactHome data={dataContact}/>
+        <ListPartner isShow={dataPages.showBlock5} uderlineBlock={dataPages.uderlineBlock5} iconBlock={dataPages.iconBlock5} titleBlock={dataPages.titleBlock5} listSliderBlock={dataPages.listSliderBlock5} t={t}/>
+        <ContactHome data={dataContact} t={t}/>
       </Layout>
     </>
   );

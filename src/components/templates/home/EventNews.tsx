@@ -26,12 +26,15 @@ const EventNews: React.FC<ContainerProps> = ({
   listItems,
 }) => {
   const [t, setText] = useState(viText);
-  const lang = useSelector(
-    (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
-  );
   useEffect(() => {
-    loadLanguageText(lang, setText);
-  }, [lang]);
+    const lang = localStorage.getItem('lang');
+    console.log(lang, "lang");
+    if(lang) {
+      loadLanguageText(lang, setText);
+    } else {
+      loadLanguageText("vi", setText);
+    }
+  }, []);
   return (
     <div className="home__event">
       <TitleBlock

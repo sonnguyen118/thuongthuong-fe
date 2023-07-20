@@ -15,11 +15,11 @@ interface dataSliderProps {
 interface SliderProps {
   isShow: boolean;
   dataSlider: Array<any>
+  t: any
 };
 
 const SimpleSlider: React.FC<SliderProps> = ( props) => {
-  const { isShow, dataSlider } = props;
-  console.log(dataSlider, "dataSlider")
+  const { isShow, dataSlider, t } = props;
   const settings = {
     dots: true,
     infinite: true,
@@ -41,7 +41,7 @@ const SimpleSlider: React.FC<SliderProps> = ( props) => {
   const previous = () => {
     slider.current?.slickPrev();
   };
-
+console.log(t, "t");
   return (
     <div className="home__slider">
       {isShow && (
@@ -72,7 +72,7 @@ const SimpleSlider: React.FC<SliderProps> = ( props) => {
                   {data.content}
                   </h3>
                   <Button type="primary" className="home__slider-item-wrap-btn">
-                    <Link href={data.link}>Xem chi tiết</Link>
+                    <Link href={data.link}>{t.home.SLIDER}</Link>
                   </Button>
                 </div>
                 </div>

@@ -10,21 +10,18 @@ import { Message } from '@utils/Functions'
 const { TextArea } = Input
 
 interface ContactDto {
-  name: string
-  phone: string
-  email: string
-  description: string
+  name: string;
+  phone: string;
+  email: string;
+  description: string;
 }
-const FormContactHome: React.FC = () => {
-  const [t, setText] = useState(viText)
-  const [contactForm] = Form.useForm()
+interface ContactFormProps {
+  t: any;
+}
 
-  const lang = useSelector(
-    (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
-  )
-  useEffect(() => {
-    loadLanguageText(lang, setText)
-  }, [lang])
+const FormContactHome: React.FC<ContactFormProps> = ( props) => {
+  const {t} =props
+  const [contactForm] = Form.useForm()
   const onFinish = async (values: ContactDto) => {
     try {
       await axios
