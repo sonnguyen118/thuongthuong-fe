@@ -183,16 +183,32 @@ export async function getServerSideProps(context: any) {
   try {
     const page = 1
     const size = 20
-    const cookieValue = cookie.parse(context.req.headers.cookie as string);
-    const language = cookieValue['language']
+    const lang = context.query.lang
+    if(lang === 'en') {
     const data = await articleClient
-      .getArticleClient(language, page, size)
+      .getArticleClient("EN", page, size)
+      .then(res => res.data.data)
+    const articles = data.articles
+    let pagination = data.pagination
+    const MenuEN : any = await  webInformationClient.handleGetWebInformation("5");
+    const FooterEN:any = await webInformationClient.handleGetWebInformation("3");
+    return {
+      props: {
+        dataMenu:  JSON.parse(MenuEN.value) || {},
+        dataFooter: JSON.parse(FooterEN.value) || {},
+        articles: articles,
+        pagination: pagination
+      },
+    }
+  }
+    else {
+      const data = await articleClient
+      .getArticleClient("VI", page, size)
       .then(res => res.data.data)
     const articles = data.articles
     let pagination = data.pagination
     const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
     const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
-
     return {
       props: {
         dataMenu:  JSON.parse(MenuVI.value) || {},
@@ -200,8 +216,8 @@ export async function getServerSideProps(context: any) {
         articles: articles,
         pagination: pagination
       },
-    };
-
+    }
+    }
   } catch (e) {
     return { props: {} };
   }

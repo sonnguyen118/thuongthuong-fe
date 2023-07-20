@@ -169,14 +169,14 @@ export async function getServerSideProps ({
   query: any
 }) {
   try {
-    const { id } = params
-    let { language } = query
-    language = language == undefined ? 'VI' : language
+    const lang = query.lang;
+    const { id } = params;
+    if(lang === 'en') {
     const product = await productClient
-      .getDetailProduct(id, language)
+      .getDetailProduct(id, "EN")
       .then(res => res.data.data)
-    const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
-    const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
+    const MenuVI : any = await  webInformationClient.handleGetWebInformation("5");
+    const FooterVI:any = await webInformationClient.handleGetWebInformation("3");
     const ProductHighlight: any = await handleProductsClient.handleGetHighlight();
     // Pass data to the page via props
     return {
@@ -187,6 +187,23 @@ export async function getServerSideProps ({
         dataProductHighlight: ProductHighlight.data?.products,
       },
     }
+  } else {
+    const product = await productClient
+    .getDetailProduct(id, "VI")
+    .then(res => res.data.data)
+  const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
+  const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
+  const ProductHighlight: any = await handleProductsClient.handleGetHighlight();
+  // Pass data to the page via props
+  return {
+    props: {
+      product: product,
+      dataMenu:  JSON.parse(MenuVI.value) || {},
+      dataFooter: JSON.parse(FooterVI.value) || {},
+      dataProductHighlight: ProductHighlight.data?.products,
+    },
+  }
+  }
   } catch (error) {
     return {
       props: {}

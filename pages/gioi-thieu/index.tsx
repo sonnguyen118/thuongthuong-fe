@@ -145,6 +145,22 @@ const AboutPage: React.FC<pagesProps> = (props: pagesProps) => {
 };
 export async function getServerSideProps(context: any) {
   try {
+    const lang = context.query.lang
+    if(lang === 'en') {
+      const DatapageEN :any = await webInformationClient.handleGetWebInformation("9");
+      const MenuEN : any = await  webInformationClient.handleGetWebInformation("5");
+      const FooterEN:any = await webInformationClient.handleGetWebInformation("3");
+      const ContactEN :any = await webInformationClient.handleGetWebInformation("13");
+  
+      return {
+        props: {
+          dataPages: JSON.parse(DatapageEN.value) || {},
+          dataMenu:  JSON.parse(MenuEN.value) || {},
+          dataFooter: JSON.parse(FooterEN.value) || {},
+          dataContact: JSON.parse(ContactEN.value) || {},
+        },
+      };
+  } else {
     const DatapageVI :any = await webInformationClient.handleGetWebInformation("8");
     const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
     const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
@@ -158,6 +174,7 @@ export async function getServerSideProps(context: any) {
         dataContact: JSON.parse(ContactVI.value) || {},
       },
     };
+  }
 
   } catch (e) {
     return { props: {} };

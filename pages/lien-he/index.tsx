@@ -122,6 +122,19 @@ const Contact: React.FC<pagesProps> = (props: pagesProps) => {
 
 export async function getServerSideProps(context: any) {
   try {
+    const lang = context.query.lang
+    if(lang === 'en') {
+    const MenuEN : any = await  webInformationClient.handleGetWebInformation("5");
+    const FooterEN:any = await webInformationClient.handleGetWebInformation("3");
+    const ContactEN :any = await webInformationClient.handleGetWebInformation("13");
+    return {
+      props: {
+        dataMenu:  JSON.parse(MenuEN.value) || {},
+        dataFooter: JSON.parse(FooterEN.value) || {},
+        dataContact: JSON.parse(ContactEN.value) || {},
+      },
+    };
+  } else {
     const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
     const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
     const ContactVI :any = await webInformationClient.handleGetWebInformation("12");
@@ -132,6 +145,7 @@ export async function getServerSideProps(context: any) {
         dataContact: JSON.parse(ContactVI.value) || {},
       },
     };
+  }
 
   } catch (e) {
     return { props: {} };

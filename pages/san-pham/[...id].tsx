@@ -154,20 +154,21 @@ export async function getServerSideProps ({
 }) {
   try {
     const { id } = params
-    let { language } = query
     const page = 1
     const size = 20
+    const lang = query.lang
+    if(lang === 'en') {
     const categories = await categoryClient
-      .getAllCategoryClient(language, page, size)
+      .getAllCategoryClient("EN", page, size)
       .then(res => res.data.data)
     const products = await getProductsByCategory(
       id.join('/'),
-      language,
+      "EN",
       page,
       size
     )
-    const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
-    const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
+    const MenuVI : any = await  webInformationClient.handleGetWebInformation("5");
+    const FooterVI:any = await webInformationClient.handleGetWebInformation("3");
     // Pass data to the page via props
     return {
       props: {
@@ -177,6 +178,28 @@ export async function getServerSideProps ({
         dataFooter: JSON.parse(FooterVI.value) || {}
       },
     }
+  } else {
+    const categories = await categoryClient
+    .getAllCategoryClient("VI", page, size)
+    .then(res => res.data.data)
+  const products = await getProductsByCategory(
+    id.join('/'),
+    "VI",
+    page,
+    size
+  )
+  const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
+  const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
+  // Pass data to the page via props
+  return {
+    props: {
+      categories:  categories,
+      products: products,
+      dataMenu:  JSON.parse(MenuVI.value) || {},
+      dataFooter: JSON.parse(FooterVI.value) || {}
+    },
+  }
+  }
   } catch (error) {
     return {
       props: {}

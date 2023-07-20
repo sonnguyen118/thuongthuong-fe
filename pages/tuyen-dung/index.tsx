@@ -79,17 +79,31 @@ const RecruitmentPage: React.FC<pagesProps> = (props: pagesProps) => {
 
 export async function getServerSideProps(context: any) {
   try {
-    const DatapageVI :any = await webInformationClient.handleGetWebInformation("10");
-    const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
-    const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
-    
+    const lang = context.query.lang
+    if(lang === 'en') {
+    const DatapageEN :any = await webInformationClient.handleGetWebInformation("11");
+    const MenuEN : any = await  webInformationClient.handleGetWebInformation("5");
+    const FooterEN:any = await webInformationClient.handleGetWebInformation("3");
     return {
       props: {
-        dataPages: JSON.parse(DatapageVI.value) || {},
-        dataMenu:  JSON.parse(MenuVI.value) || {},
-        dataFooter: JSON.parse(FooterVI.value) || {},
+        dataPages: JSON.parse(DatapageEN.value) || {},
+        dataMenu:  JSON.parse(MenuEN.value) || {},
+        dataFooter: JSON.parse(FooterEN.value) || {},
       },
     };
+  }
+    else {
+      const DatapageVI :any = await webInformationClient.handleGetWebInformation("10");
+      const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
+      const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
+      return {
+        props: {
+          dataPages: JSON.parse(DatapageVI.value) || {},
+          dataMenu:  JSON.parse(MenuVI.value) || {},
+          dataFooter: JSON.parse(FooterVI.value) || {},
+        },
+      };
+    }
 
   } catch (e) {
     return { props: {} };

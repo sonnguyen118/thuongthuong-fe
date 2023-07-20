@@ -215,11 +215,25 @@ const DetailNews: React.FC<pagesProps> = (props: pagesProps) => {
 
 export async function getServerSideProps(context: any) {
   try {
-    const cookieValue = cookie.parse(context.req.headers.cookie as string)
-    let language = cookieValue['language']
+    const lang = context.query.lang
     const { id } = context.query
+    if(lang === 'en') {
     const article = await articleClient
-      .getArticleDetail(language, id as string)
+      .getArticleDetail("EN", id as string)
+      .then(res => res.data.data);
+
+    const MenuEN : any = await  webInformationClient.handleGetWebInformation("5");
+    const FooterEN:any = await webInformationClient.handleGetWebInformation("3");
+    return {
+      props: {
+        dataMenu:  JSON.parse(MenuEN.value) || {},
+        dataFooter: JSON.parse(FooterEN.value) || {},
+        article: article
+      },
+    };
+  } else {
+    const article = await articleClient
+      .getArticleDetail("VI", id as string)
       .then(res => res.data.data);
 
     const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
@@ -231,6 +245,7 @@ export async function getServerSideProps(context: any) {
         article: article
       },
     };
+  }
 
   } catch (e) {
     return { props: {} };

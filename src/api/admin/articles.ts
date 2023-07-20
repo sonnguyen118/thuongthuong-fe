@@ -1,6 +1,6 @@
 import { axiosInstanceAuthorization } from '@api/AxiosInterceptor'
 import { GetArticleDto, UpdateStatusDto } from 'pages/admin/bai-viet'
-import { UpdateArticleDto } from 'pages/admin/bai-viet/cap-nhat-bai-viet2'
+import { UpdateArticleDto } from 'pages/admin/bai-viet/cap-nhat-bai-viet'
 import { CreateArticleDto } from 'pages/admin/bai-viet/them-bai-viet'
 
 const adminGetArticle = (params: GetArticleDto): Promise<any> => {

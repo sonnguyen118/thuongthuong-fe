@@ -125,18 +125,18 @@ console.log(products, "products data");
 }
 export async function getServerSideProps(context: any) {
   try {
-    // const cookieValue = cookie.parse(context.req.headers.cookie as string) || "VI";
-    const language = "VI";
+    const lang = context.query.lang
     const page = 1
     const size = 20
+    if(lang === 'en') {
     const categories = await categoryClient
-      .getAllCategoryClient(language, page, size)
+      .getAllCategoryClient("EN", page, size)
       .then(res => res.data.data)
     const products = await productClient
-      .getAllProductClient(language, page, size)
+      .getAllProductClient("EN", page, size)
       .then(res => res.data.data);
-    const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
-    const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
+    const MenuVI : any = await  webInformationClient.handleGetWebInformation("5");
+    const FooterVI:any = await webInformationClient.handleGetWebInformation("3");
     // Pass data to the page via props
     return {
       props: {
@@ -146,6 +146,25 @@ export async function getServerSideProps(context: any) {
         dataFooter: JSON.parse(FooterVI.value) || {}
       },
     }
+  } else {
+    const categories = await categoryClient
+    .getAllCategoryClient("VI", page, size)
+    .then(res => res.data.data)
+  const products = await productClient
+    .getAllProductClient("VI", page, size)
+    .then(res => res.data.data);
+  const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
+  const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
+  // Pass data to the page via props
+  return {
+    props: {
+      categories:  categories,
+      products: products,
+      dataMenu:  JSON.parse(MenuVI.value) || {},
+      dataFooter: JSON.parse(FooterVI.value) || {}
+    },
+  }
+  }
   } catch (error) {
     return {
       props: {}

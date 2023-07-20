@@ -13,6 +13,22 @@ const ButtonLanguage: React.FC = () => {
   // kiểm tra xem url có lang hay không
   const langURL = router.query['lang'];
 
+  useEffect(() => {
+    const lang = localStorage.getItem('lang');
+    if (lang === "en") {
+      const currentUrl = window.location.href;
+      const urlWithInAppParam = currentUrl.includes('?')
+        ? `${currentUrl}&lang=en`
+        : `${currentUrl}?lang=en`;
+      // Kiểm tra xem URL đã có inApp=1 hay chưa
+      if (!currentUrl.includes('lang=en')) {
+        // Thực hiện chuyển hướng đến URL mới
+        router.replace(urlWithInAppParam);
+      }
+    }
+  }, [langURL]);
+
+
   const handleLanguageChange = (newLang: string, newTitleLang: string) => {
       const currentUrl = router.asPath
       const currentLang = router.query['lang']
@@ -30,54 +46,7 @@ const ButtonLanguage: React.FC = () => {
       window.location.href = newUrl
 
   }
-  const OriginItems = [
-    {
-      key: 'vi',
-      label: (
-        <Button
-          onClick={e => handleLanguageChange('vi', 'Tiếng Việt')}
-          icon={
-            <Image
-              src='/icon/lang/vi.png'
-              alt='Thương Thương'
-              width={30}
-              height={19}
-              loading='lazy'
-              className='button-lang-img'
-            />
-          }
-          type='text'
-          className='button-lang-btn'
-          style={{ backgroundColor: 'transparent' }}
-        >
-          Tiếng Việt
-        </Button>
-      )
-    },
-    {
-      key: 'en',
-      label: (
-        <Button
-          onClick={e => handleLanguageChange('en', 'English')}
-          icon={
-            <Image
-              src='/icon/lang/en.png'
-              alt='Thương Thương'
-              width={30}
-              height={19}
-              loading='lazy'
-              className='button-lang-img'
-            />
-          }
-          type='text'
-          className='button-lang-btn'
-          style={{ backgroundColor: 'transparent' }}
-        >
-          English
-        </Button>
-      )
-    }
-  ]
+
   useEffect(()=> {
     if(langURL === 'en') {
       localStorage.setItem('lang', 'en');
@@ -90,13 +59,110 @@ const ButtonLanguage: React.FC = () => {
     }
   },[langURL])
   useEffect(()=> {
-  if(OriginItems && langURL) {
-      const itemsData: MenuProps['items'] = OriginItems.filter(
-        item => item && item.key !== langURL
-      )
-      setItems(itemsData);
+    const OriginItems = [
+      {
+        key: 'vi',
+        label: (
+          <Button
+            onClick={e => handleLanguageChange('vi', 'Tiếng Việt')}
+            icon={
+              <Image
+                src='/icon/lang/vi.png'
+                alt='Thương Thương'
+                width={30}
+                height={19}
+                loading='lazy'
+                className='button-lang-img'
+              />
+            }
+            type='text'
+            className='button-lang-btn'
+            style={{ backgroundColor: 'transparent' }}
+          >
+            Tiếng Việt
+          </Button>
+        )
+      },
+      {
+        key: 'en',
+        label: (
+          <Button
+            onClick={e => handleLanguageChange('en', 'English')}
+            icon={
+              <Image
+                src='/icon/lang/en.png'
+                alt='Thương Thương'
+                width={30}
+                height={19}
+                loading='lazy'
+                className='button-lang-img'
+              />
+            }
+            type='text'
+            className='button-lang-btn'
+            style={{ backgroundColor: 'transparent' }}
+          >
+            English
+          </Button>
+        )
       }
+    ]
+  if(langURL ==='en') {
+    setItems([      
+      {
+        key: 'vi',
+        label: (
+          <Button
+            onClick={e => handleLanguageChange('vi', 'Tiếng Việt')}
+            icon={
+              <Image
+                src='/icon/lang/vi.png'
+                alt='Thương Thương'
+                width={30}
+                height={19}
+                loading='lazy'
+                className='button-lang-img'
+              />
+            }
+            type='text'
+            className='button-lang-btn'
+            style={{ backgroundColor: 'transparent' }}
+          >
+            Tiếng Việt
+          </Button>
+        )
+      }
+  ]);
+  } else {
+    setItems([   
+      {
+        key: 'en',
+        label: (
+          <Button
+            onClick={e => handleLanguageChange('en', 'English')}
+            icon={
+              <Image
+                src='/icon/lang/en.png'
+                alt='Thương Thương'
+                width={30}
+                height={19}
+                loading='lazy'
+                className='button-lang-img'
+              />
+            }
+            type='text'
+            className='button-lang-btn'
+            style={{ backgroundColor: 'transparent' }}
+          >
+            English
+          </Button>
+        )
+      }
+    ]);
+  }
   },[langURL])
+console.log(items, "itemsData");
+console.log(langURL, "langURL");
 
   return (
     <Space direction='vertical' className='button-lang'>
