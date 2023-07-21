@@ -4,7 +4,8 @@ import { ReactNode } from "react";
 import { ButtonLanguage } from "@components/elements/button";
 import { BackTop, Button } from 'antd';
 import { UpOutlined } from '@ant-design/icons';
-
+import Image from "next/image";
+import Link from "next/link";
 interface LayoutProps {
   dataMenu: any;
   dataFooter: any;
@@ -18,7 +19,11 @@ const Layout = ( props: LayoutProps) => {
       <div>{children}</div>
       <ButtonLanguage />
       <Footer data={dataFooter}/>
-
+        <div className="icon-zalo">
+          <Link href={"/"}>
+            <Image src={"/icon/zalo-icon-circle-1.png"} alt="thuongthuong" width={55} height={55} className="icon-zalo-img"/>
+          </Link>
+        </div>
         <BackTop>
           <Button type="primary" shape="circle" size="large" className="custom-scroll-top">
             <UpOutlined />

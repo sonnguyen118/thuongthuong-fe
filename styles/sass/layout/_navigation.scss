@@ -29,3 +29,14 @@
     color: $color-description;
   }
 }
+
+// css phần nút zalo
+.icon-zalo {
+  position: fixed;
+  bottom: 120px;
+  right: 3%;
+  &-img {
+    width: 53px;
+    height: 53px;
+  }
+}

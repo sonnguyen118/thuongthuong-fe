@@ -153,31 +153,348 @@
 }
 // responsive
 @include responsive_200 {
+  .navbar__pc {
+    display: none;
+  }
 }
 @include responsive_280 {
+  .navbar__pc {
+    display: none;
+  }
 }
 @include responsive_320 {
+  .navbar__pc {
+    display: none;
+  }
 }
 
 @include responsive_375 {
+  .navbar__pc {
+    display: none;
+  }
 }
 
 @include responsive_456 {
+  .navbar__pc {
+    display: none;
+  }
+  // css phần cart
+  .cart {
+    .ant-popover-inner {
+      padding: 0;
+    }
+    &-title {
+      padding: 0.5em 0.8em 0 0.8em;
+      font-size: 1.1em;
+    }
+    &-list {
+      max-height: 300px;
+    }
+    &-item {
+      &-information {
+        &-text {
+          margin-left: 0.8em;
+          &-title {
+            font-size: 1.3em;
+          }
+          &-quantity {
+            font-size: 1.1em;
+          }
+        }
+      }
+      &-price {
+        margin-left: 3em;
+        &-text {
+          font-size: 1.3em;
+        }
+      }
+    }
+    &-btn {
+      &-item {
+        margin: 0.8em 0.8em;
+      }
+    }
+  }
 }
 
 @include responsive_768 {
+  .navbar__pc {
+    padding: 0.1em 2%;
+    margin-right: -16px;
+    &-menu {
+      width: 80%;
+    }
+    &-logo {
+      &-img {
+        margin-top: 0.3em;
+      }
+    }
+    &-item {
+      font-size: 1.4em;
+      &-active {
+        font-size: 1.4em;
+      }
+    }
+  }
+  
+  // css phần cart
+  .cart {
+    .ant-popover-inner {
+      padding: 0;
+    }
+    &-title {
+      padding: 0.5em 0.8em 0 0.8em;
+      font-size: 1.1em;
+    }
+    &-list {
+      max-height: 300px;
+    }
+    &-item {
+      &-information {
+        &-text {
+          margin-left: 0.8em;
+          &-title {
+            font-size: 1.3em;
+          }
+          &-quantity {
+            font-size: 1.1em;
+          }
+        }
+      }
+      &-price {
+        margin-left: 3em;
+        &-text {
+          font-size: 1.3em;
+        }
+      }
+    }
+    &-btn {
+      &-item {
+        margin: 0.8em 0.8em;
+      }
+    }
+  }
 }
 @include responsive_1024 {
+  .navbar__pc {
+    padding: 0.1em 5%;
+    margin-right: -16px;
+    &-logo {
+      &-img {
+        margin-top: 0.3em;
+      }
+    }
+    &-item {
+      font-size: 1.4em;
+      &-active {
+        font-size: 1.4em;
+      }
+    }
+  }
+  // css phần cart
+  .cart {
+    .ant-popover-inner {
+      padding: 0;
+    }
+    &-title {
+      padding: 0.5em 0.8em 0 0.8em;
+      font-size: 1.1em;
+    }
+    &-list {
+      max-height: 300px;
+    }
+    &-item {
+      &-information {
+        &-text {
+          margin-left: 0.8em;
+          &-title {
+            font-size: 1.3em;
+          }
+          &-quantity {
+            font-size: 1.1em;
+          }
+        }
+      }
+      &-price {
+        margin-left: 3em;
+        &-text {
+          font-size: 1.3em;
+        }
+      }
+    }
+    &-btn {
+      &-item {
+        margin: 0.8em 0.8em;
+      }
+    }
+  }
 }
 
 @include responsive_1280 {
   .navbar__pc {
-    padding: 0.1em 5%;
+    padding: 0.1em 10%;
+    margin-right: -16px;
+    &-logo {
+      &-img {
+        margin-top: 0.3em;
+      }
+    }
+    &-item {
+      font-size: 1.4em;
+      &-active {
+        font-size: 1.4em;
+      }
+    }
   }
+  
+  // css phần cart
+  .cart {
+    .ant-popover-inner {
+      padding: 0;
+    }
+    &-title {
+      padding: 0.5em 0.8em 0 0.8em;
+      font-size: 1.1em;
+    }
+    &-list {
+      max-height: 300px;
+    }
+    &-item {
+      &-information {
+        &-text {
+          margin-left: 0.8em;
+          &-title {
+            font-size: 1.3em;
+          }
+          &-quantity {
+            font-size: 1.1em;
+          }
+        }
+      }
+      &-price {
+        margin-left: 3em;
+        &-text {
+          font-size: 1.3em;
+        }
+      }
+    }
+    &-btn {
+      &-item {
+        margin: 0.8em 0.8em;
+      }
+    }
+  }
+
 }
 @include responsive_1440 {
+  .navbar__pc {
+    padding: 0.1em 13%;
+    margin-right: -16px;
+    &-logo {
+      &-img {
+        margin-top: 0.3em;
+      }
+    }
+    &-item {
+      font-size: 1.4em;
+      &-active {
+        font-size: 1.4em;
+      }
+    }
+  }
+  
+  // css phần cart
+  .cart {
+    .ant-popover-inner {
+      padding: 0;
+    }
+    &-title {
+      padding: 0.5em 0.8em 0 0.8em;
+      font-size: 1.1em;
+    }
+    &-list {
+      max-height: 300px;
+    }
+    &-item {
+      &-information {
+        &-text {
+          margin-left: 0.8em;
+          &-title {
+            font-size: 1.3em;
+          }
+          &-quantity {
+            font-size: 1.1em;
+          }
+        }
+      }
+      &-price {
+        margin-left: 3em;
+        &-text {
+          font-size: 1.3em;
+        }
+      }
+    }
+    &-btn {
+      &-item {
+        margin: 0.8em 0.8em;
+      }
+    }
+  }
 }
 @include responsive_1650 {
+  .navbar__pc {
+    padding: 0.1em 16%;
+    margin-right: -16px;
+    &-logo {
+      &-img {
+        margin-top: 0.3em;
+      }
+    }
+    &-item {
+      font-size: 1.4em;
+      &-active {
+        font-size: 1.4em;
+      }
+    }
+  }
+  
+  // css phần cart
+  .cart {
+    .ant-popover-inner {
+      padding: 0;
+    }
+    &-title {
+      padding: 0.5em 0.8em 0 0.8em;
+      font-size: 1.1em;
+    }
+    &-list {
+      max-height: 320px;
+    }
+    &-item {
+      &-information {
+        &-text {
+          margin-left: 0.8em;
+          &-title {
+            font-size: 1.3em;
+          }
+          &-quantity {
+            font-size: 1.1em;
+          }
+        }
+      }
+      &-price {
+        margin-left: 3em;
+        &-text {
+          font-size: 1.3em;
+        }
+      }
+    }
+    &-btn {
+      &-item {
+        margin: 0.8em 0.8em;
+      }
+    }
+  }
 }
 @include responsive_1900 {
 }
