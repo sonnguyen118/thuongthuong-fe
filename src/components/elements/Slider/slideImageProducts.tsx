@@ -40,6 +40,7 @@ const SliderSync: React.FC<listSliderProps> = (props) => {
     beforeChange: () => {
       console.log("slider1 before change");
     },
+    
   };
 
   const settings2: Settings = {
@@ -50,6 +51,48 @@ const SliderSync: React.FC<listSliderProps> = (props) => {
     beforeChange: () => {
       console.log("slider2 before change");
     },
+    responsive: [
+      {
+        breakpoint: 420,
+        settings: {
+          speed: 500,
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: false,
+        },
+      },
+      {
+        breakpoint: 620,
+        settings: {
+          speed: 500,
+          slidesToShow: 5,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: false,
+        },
+      },
+      {
+        breakpoint: 800,
+        settings: {
+          speed: 500,
+          slidesToShow: 6,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: false,
+        },
+      },
+      {
+        breakpoint: 1300,
+        settings: {
+          speed: 500,
+          slidesToShow: 7,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: false,
+        },
+      },
+    ],
   };
 
   return (

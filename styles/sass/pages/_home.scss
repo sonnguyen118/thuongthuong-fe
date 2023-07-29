@@ -765,22 +765,2212 @@
 }
 
 @include responsive_320 {
+  .home {
+    &__slider {
+      width: 100%;
+      &-item {
+        width: 100%;
+        height: 80vh;
+        &-wrap {
+          top: 35%;
+          padding-left: 2vw;
+          &-title {
+            font-weight: 700;
+            font-size: 1.8em;
+            line-height: 1.2em;
+            width: 88vw;
+            height: 2.4em;
+            letter-spacing: 1.5px;
+          }
+          &-description {
+            font-weight: 400;
+            font-size: 1.5em;
+            line-height: 1.7em;
+            width: 77vw;
+            height: 3.8em;
+          }
+  
+          &-btn {
+            font-weight: 500;
+            margin-top: 1.1em;
+            font-size: 1.1em;
+            height: 2.3em;
+          }
+        }
+      }
+      &-btn1 {
+        right: 1em;
+        &-icon {
+          font-size: 3em;
+        }
+      }
+  
+      &-btn2 {
+        left: 1em;
+        &-icon {
+          font-size: 3em;
+        }
+      }
+    }
+    &__principles {
+      padding: 2em 2% 0em 2%;
+      top: -60px;
+      &-block {
+        padding: 10px;
+        width: calc(30%);
+        height: 60px;
+        &:hover {
+          scale: 1.2;
+        }
+        &-title {
+          font-size: 1.2em;
+          font-weight: 600;
+          margin-top: 10px;
+        }
+        &-description {
+          display:none;
+          font-size: 0.9em;
+        }
+        &-active {
+          padding: 10px 10px 10px 10px;
+          width: calc(40%);
+          height: 70px;
+          &-title {
+            font-size: 1.6em;
+            font-weight: 600;
+            margin-top: 10px;
+          }
+          &-description {
+            display:none;
+            font-size: 1.1em;
+          }
+        }
+      }
+      &-puzzle {
+        margin-top: 30px;
+        width: 100%;
+        display: block;
+        text-align: center;
+        &-image {
+          width: 98vw;
+          height: 50vw;
+          position: relative;
+        }
+        &-infor {
+          margin-left: 0px;
+          margin-top: 15px;
+          h2:where(.css-dev-only-do-not-override-1e3x2xa).ant-typography,
+          div:where(.css-dev-only-do-not-override-1e3x2xa).ant-typography-h2,
+          div:where(.css-dev-only-do-not-override-1e3x2xa).ant-typography-h2
+            > textarea,
+          :where(.css-dev-only-do-not-override-1e3x2xa).ant-typography h2 {
+            color: $color-blue;
+          }
+          :where(.css-dev-only-do-not-override-1e3x2xa).ant-typography {
+            color: $color-blue;
+          }
+          &-title {
+            font-size: 1.6em;
+            font-family: $font-title;
+          }
+          &-text {
+          }
+          &-btn {
+            margin-top: 20px;
+          }
+        }
+      }
+    }
+  
+    &__cardtabs {
+      margin: 2em 2%;
+  
+      &-wrap {
+        margin-top: 2em;
+        width: 100%;
+      }
+    }
+  
+    &__listproducts {
+      padding: 0em 2% 0em 2%;
+      margin-top: -3.5em;
+      &-slider {
+        margin-top: 3em;
+        &-big {
+          &-btn1 {
+            font-size: 40px;
+          }
+          &-btn2 {
+            font-size: 40px;
+          }
+          &-item {
+            &-wrap {
+              width: 80vw;
+              height: 30vw;
+              padding: 0 5em;
+            }
+            width: 100%;
+          }
+        }
+  
+        &-small {
+          margin-top: 2em;
+          &-btn1 {
+            top: 40%;
+            right: -10px;
+            font-size: 20px;
+          }
+  
+          &-btn2 {
+            top: 40%;
+            font-size: 20px;
+          }
+  
+          &-item {
+            &-wrap {
+              width: calc(8vw);
+              height: 4vw;
+              padding: 0 10px;
+            }
+            height: 3vw;
+          }
+        }
+      }
+    }
+  
+    &__products {
+      padding: 3em 2%;
+      &-header {
+        &-title {
+          font-size: 1.5em;
+          font-weight: 800;
+          letter-spacing: 0.2px;
+        }
+  
+        &-btn {
+          padding-left: 1em !important;
+          padding-right: 1em !important;
+  
+          &-text {
+            font-size: 1em;
+            line-height: 0em;
+          }
+        }
+      }
+  
+      &-slider {
+        margin: 1em -1em;
+        &-btn1 {
+          right: -1em;
+          font-size: 3em;
+        }
+  
+        &-btn2 {
+          left: -1em;
+          font-size: 3em;
+        }
+        &-item {
+          padding: 0.5em 0.5em;
+        }
+      }
+    }
+  
+    &__event {
+      padding: 1em 2%;
+  
+      &-wrap {
+        margin-top: 2em;
+      }
+  
+      &-list {
+        margin-left: 3em;
+  
+        .ant-card-body {
+          padding: 0;
+          box-shadow: none !important;
+        }
+  
+        .ant-card.css-dev-only-do-not-override-1e3x2xa {
+          box-shadow: none !important;
+          padding: 1em 0;
+        }
+  
+        .ant-list-item.ant-list-item-no-flex {
+          padding: 0;
+          box-shadow: none !important;
+          border-bottom: 1px solid #333;
+        }
+  
+        &-card {
+          &:hover {
+            cursor: pointer;
+  
+            .home__event-list-card-infor-title {
+              color: $color-primary;
+              transition: all 0.2s ease-in-out;
+            }
+          }
+  
+          &-img {
+          }
+  
+          &-infor {
+            margin-left: 1em;
+  
+            &-title {
+              font-size: 1.2em;
+              font-weight: 600;
+              color: $color-title;
+              font-family: $font-title;
+              transition: all 0.2s ease-in-out;
+            }
+  
+            &-description {
+              font-size: 1em;
+              font-weight: 400;
+              color: $color-description;
+              font-family: $font-document;
+            }
+  
+            &-time {
+              margin-top: 0.5em;
+              font-weight: 600;
+              font-family: $font-document;
+              color: $color-description;
+            }
+          }
+        }
+      }
+    }
+  
+    &__partner {
+      padding: 0px 2%;
+      margin-top: -50px;
+      &-slider {
+        margin: 3em -5em 1em -5em;
+        &-btn1 {
+          right: 0em;
+          font-size: 1em;
+        }
+  
+        &-btn2 {
+          left: 0em;
+          font-size: 1em;
+        }
+      }
+    }
+  
+    &__contact {
+      margin: 3em 2% 0em 2%;
+  
+      &-map {
+        width: 100%;
+        height: 20em;
+      }
+  
+      &-wrap {
+        margin-top: 3em;
+        display: block;
+        &-left {
+          margin-right: 0em;
+          width: calc(100%);
+          text-align: center;
+          &-title {
+            font-size: 1.2em;
+            line-height: 1.6em;
+            font-weight: 600;
+            text-align: center;
+          }
+  
+          &-text {
+            margin-top: 4em;
+            font-size: 1em;
+            line-height: 1.3em;
+            font-weight: 400;
+            font-style: italic;
+            text-align: center;
+          }
+        }
+  
+        &-right {
+          width: 100%;
+  
+          &-form {
+            .ant-form-item-required {
+              font-size: 1.2em !important;
+              line-height: 1.4em !important;
+            }
+  
+            .ant-input-affix-wrapper {
+              height: 50px !important;
+            }
+            .anticon {
+              font-size: 24px;
+            }
+  
+            .ant-input {
+              font-size: 1.1em !important;
+            }
+  
+            .ant-form-item-label {
+              label {
+                font-size: 1.2em !important;
+                line-height: 1.4em !important;
+                font-weight: 600 !important;
+              }
+            }
+            .ant-btn {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 @include responsive_375 {
+  .home {
+    &__slider {
+      width: 100%;
+      &-item {
+        width: 100%;
+        height: 80vh;
+        &-wrap {
+          top: 35%;
+          padding-left: 2vw;
+          &-title {
+            font-weight: 700;
+            font-size: 1.8em;
+            line-height: 1.2em;
+            width: 88vw;
+            height: 2.4em;
+            letter-spacing: 1.5px;
+          }
+          &-description {
+            font-weight: 400;
+            font-size: 1.5em;
+            line-height: 1.7em;
+            width: 77vw;
+            height: 3.8em;
+          }
+  
+          &-btn {
+            font-weight: 500;
+            margin-top: 1.1em;
+            font-size: 1.1em;
+            height: 2.3em;
+          }
+        }
+      }
+      &-btn1 {
+        right: 1em;
+        &-icon {
+          font-size: 3em;
+        }
+      }
+  
+      &-btn2 {
+        left: 1em;
+        &-icon {
+          font-size: 3em;
+        }
+      }
+    }
+    &__principles {
+      padding: 2em 2% 0em 2%;
+      top: -60px;
+      &-block {
+        padding: 10px;
+        width: calc(30%);
+        height: 60px;
+        &:hover {
+          scale: 1.2;
+        }
+        &-title {
+          font-size: 1.2em;
+          font-weight: 600;
+          margin-top: 10px;
+        }
+        &-description {
+          display:none;
+          font-size: 0.9em;
+        }
+        &-active {
+          padding: 10px 10px 10px 10px;
+          width: calc(40%);
+          height: 70px;
+          &-title {
+            font-size: 1.6em;
+            font-weight: 600;
+            margin-top: 10px;
+          }
+          &-description {
+            display:none;
+            font-size: 1.1em;
+          }
+        }
+      }
+      &-puzzle {
+        margin-top: 30px;
+        width: 100%;
+        display: block;
+        text-align: center;
+        &-image {
+          width: 98vw;
+          height: 50vw;
+          position: relative;
+        }
+        &-infor {
+          margin-left: 0px;
+          margin-top: 15px;
+          h2:where(.css-dev-only-do-not-override-1e3x2xa).ant-typography,
+          div:where(.css-dev-only-do-not-override-1e3x2xa).ant-typography-h2,
+          div:where(.css-dev-only-do-not-override-1e3x2xa).ant-typography-h2
+            > textarea,
+          :where(.css-dev-only-do-not-override-1e3x2xa).ant-typography h2 {
+            color: $color-blue;
+          }
+          :where(.css-dev-only-do-not-override-1e3x2xa).ant-typography {
+            color: $color-blue;
+          }
+          &-title {
+            font-size: 1.6em;
+            font-family: $font-title;
+          }
+          &-text {
+          }
+          &-btn {
+            margin-top: 20px;
+          }
+        }
+      }
+    }
+  
+    &__cardtabs {
+      margin: 2em 2%;
+  
+      &-wrap {
+        margin-top: 2em;
+        width: 100%;
+      }
+    }
+  
+    &__listproducts {
+      padding: 0em 2% 0em 2%;
+      margin-top: -3.5em;
+      &-slider {
+        margin-top: 3em;
+        &-big {
+          &-btn1 {
+            font-size: 40px;
+          }
+          &-btn2 {
+            font-size: 40px;
+          }
+          &-item {
+            &-wrap {
+              width: 80vw;
+              height: 30vw;
+              padding: 0 5em;
+            }
+            width: 100%;
+          }
+        }
+  
+        &-small {
+          margin-top: 2em;
+          &-btn1 {
+            top: 40%;
+            right: -10px;
+            font-size: 20px;
+          }
+  
+          &-btn2 {
+            top: 40%;
+            font-size: 20px;
+          }
+  
+          &-item {
+            &-wrap {
+              width: calc(8vw);
+              height: 4vw;
+              padding: 0 10px;
+            }
+            height: 3vw;
+          }
+        }
+      }
+    }
+  
+    &__products {
+      padding: 3em 2%;
+      &-header {
+        &-title {
+          font-size: 1.5em;
+          font-weight: 800;
+          letter-spacing: 0.2px;
+        }
+  
+        &-btn {
+          padding-left: 1em !important;
+          padding-right: 1em !important;
+  
+          &-text {
+            font-size: 1em;
+            line-height: 0em;
+          }
+        }
+      }
+  
+      &-slider {
+        margin: 1em -1em;
+        &-btn1 {
+          right: -1em;
+          font-size: 3em;
+        }
+  
+        &-btn2 {
+          left: -1em;
+          font-size: 3em;
+        }
+        &-item {
+          padding: 0.5em 0.5em;
+        }
+      }
+    }
+  
+    &__event {
+      padding: 1em 2%;
+  
+      &-wrap {
+        margin-top: 2em;
+      }
+  
+      &-list {
+        margin-left: 3em;
+  
+        .ant-card-body {
+          padding: 0;
+          box-shadow: none !important;
+        }
+  
+        .ant-card.css-dev-only-do-not-override-1e3x2xa {
+          box-shadow: none !important;
+          padding: 1em 0;
+        }
+  
+        .ant-list-item.ant-list-item-no-flex {
+          padding: 0;
+          box-shadow: none !important;
+          border-bottom: 1px solid #333;
+        }
+  
+        &-card {
+          &:hover {
+            cursor: pointer;
+  
+            .home__event-list-card-infor-title {
+              color: $color-primary;
+              transition: all 0.2s ease-in-out;
+            }
+          }
+  
+          &-img {
+          }
+  
+          &-infor {
+            margin-left: 1em;
+  
+            &-title {
+              font-size: 1.2em;
+              font-weight: 600;
+              color: $color-title;
+              font-family: $font-title;
+              transition: all 0.2s ease-in-out;
+            }
+  
+            &-description {
+              font-size: 1em;
+              font-weight: 400;
+              color: $color-description;
+              font-family: $font-document;
+            }
+  
+            &-time {
+              margin-top: 0.5em;
+              font-weight: 600;
+              font-family: $font-document;
+              color: $color-description;
+            }
+          }
+        }
+      }
+    }
+  
+    &__partner {
+      padding: 0px 2%;
+      margin-top: -50px;
+      &-slider {
+        margin: 3em -5em 1em -5em;
+        &-btn1 {
+          right: 0em;
+          font-size: 1em;
+        }
+  
+        &-btn2 {
+          left: 0em;
+          font-size: 1em;
+        }
+      }
+    }
+  
+    &__contact {
+      margin: 3em 2% 0em 2%;
+  
+      &-map {
+        width: 100%;
+        height: 20em;
+      }
+  
+      &-wrap {
+        margin-top: 3em;
+        display: block;
+        &-left {
+          margin-right: 0em;
+          width: calc(100%);
+          text-align: center;
+          &-title {
+            font-size: 1.2em;
+            line-height: 1.6em;
+            font-weight: 600;
+            text-align: center;
+          }
+  
+          &-text {
+            margin-top: 4em;
+            font-size: 1em;
+            line-height: 1.3em;
+            font-weight: 400;
+            font-style: italic;
+            text-align: center;
+          }
+        }
+  
+        &-right {
+          width: 100%;
+  
+          &-form {
+            .ant-form-item-required {
+              font-size: 1.2em !important;
+              line-height: 1.4em !important;
+            }
+  
+            .ant-input-affix-wrapper {
+              height: 50px !important;
+            }
+            .anticon {
+              font-size: 24px;
+            }
+  
+            .ant-input {
+              font-size: 1.1em !important;
+            }
+  
+            .ant-form-item-label {
+              label {
+                font-size: 1.2em !important;
+                line-height: 1.4em !important;
+                font-weight: 600 !important;
+              }
+            }
+            .ant-btn {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 @include responsive_456 {
+  .home {
+    &__slider {
+      width: 100%;
+      &-item {
+        width: 100%;
+        height: 80h;
+        &-wrap {
+          top: 30%;
+          padding-left: 2vw;
+          &-title {
+            font-weight: 700;
+            font-size: 2em;
+            line-height: 1.2em;
+            width: 80vw;
+            height: 2.5em;
+            letter-spacing: 2px;
+          }
+          &-description {
+            font-weight: 400;
+            font-size: 1.6em;
+            line-height: 1.8em;
+            width: 70vw;
+            height: 4em;
+          }
+  
+          &-btn {
+            font-weight: 500;
+            margin-top: 1.2em;
+            font-size: 1.2em;
+            height: 2.2em;
+          }
+        }
+      }
+      &-btn1 {
+        right: 1em;
+        &-icon {
+          font-size: 3em;
+        }
+      }
+  
+      &-btn2 {
+        left: 1em;
+        &-icon {
+          font-size: 3em;
+        }
+      }
+    }
+    &__principles {
+      padding: 2em 2% 0em 2%;
+      top: -120px;
+      &-block {
+        padding: 10px;
+        width: calc(30%);
+        height: 160px;
+        &:hover {
+          scale: 1.2;
+        }
+        &-title {
+          font-size: 1.2em;
+          font-weight: 600;
+          margin-top: 10px;
+        }
+        &-description {
+          font-size: 0.9em;
+        }
+        &-active {
+          padding: 10px 10px 10px 10px;
+          width: calc(40%);
+          height: 190px;
+          &-title {
+            font-size: 1.6em;
+            font-weight: 600;
+            margin-top: 10px;
+          }
+          &-description {
+            font-size: 1.1em;
+          }
+        }
+      }
+      &-puzzle {
+        margin-top: 30px;
+        width: 100%;
+        display: block;
+        text-align: center;
+        &-image {
+          width: 98vw;
+          height: 45vw;
+          position: relative;
+        }
+        &-infor {
+          margin-left: 0px;
+          margin-top: 15px;
+          h2:where(.css-dev-only-do-not-override-1e3x2xa).ant-typography,
+          div:where(.css-dev-only-do-not-override-1e3x2xa).ant-typography-h2,
+          div:where(.css-dev-only-do-not-override-1e3x2xa).ant-typography-h2
+            > textarea,
+          :where(.css-dev-only-do-not-override-1e3x2xa).ant-typography h2 {
+            color: $color-blue;
+          }
+          :where(.css-dev-only-do-not-override-1e3x2xa).ant-typography {
+            color: $color-blue;
+          }
+          &-title {
+            font-size: 1.6em;
+            font-family: $font-title;
+          }
+          &-text {
+          }
+          &-btn {
+            margin-top: 20px;
+          }
+        }
+      }
+    }
+  
+    &__cardtabs {
+      margin: 2em 2%;
+  
+      &-wrap {
+        margin-top: 2em;
+        width: 100%;
+      }
+    }
+  
+    &__listproducts {
+      padding: 0em 2% 0em 2%;
+      margin-top: -6em;
+      &-slider {
+        margin-top: 3em;
+        &-big {
+          &-btn1 {
+            font-size: 40px;
+          }
+          &-btn2 {
+            font-size: 40px;
+          }
+          &-item {
+            &-wrap {
+              width: 80vw;
+              height: 30vw;
+              padding: 0 5em;
+            }
+            width: 100%;
+          }
+        }
+  
+        &-small {
+          margin-top: 2em;
+          &-btn1 {
+            top: 40%;
+            right: -10px;
+            font-size: 20px;
+          }
+  
+          &-btn2 {
+            top: 40%;
+            font-size: 20px;
+          }
+  
+          &-item {
+            &-wrap {
+              width: calc(8vw);
+              height: 4vw;
+              padding: 0 10px;
+            }
+            height: 3vw;
+          }
+        }
+      }
+    }
+  
+    &__products {
+      padding: 3em 2%;
+      &-header {
+        &-title {
+          font-size: 1.5em;
+          font-weight: 800;
+          letter-spacing: 0.5px;
+        }
+  
+        &-btn {
+          padding-left: 1.5em !important;
+          padding-right: 1.5em !important;
+  
+          &-text {
+            font-size: 1em;
+            line-height: 1em;
+          }
+        }
+      }
+  
+      &-slider {
+        margin: 2em -1em;
+        &-btn1 {
+          right: -1em;
+          font-size: 3em;
+        }
+  
+        &-btn2 {
+          left: -1em;
+          font-size: 3em;
+        }
+        &-item {
+          padding: 0.5em 0.5em;
+        }
+      }
+    }
+  
+    &__event {
+      padding: 1em 2%;
+  
+      &-wrap {
+        margin-top: 2em;
+      }
+  
+      &-list {
+        margin-left: 3em;
+  
+        .ant-card-body {
+          padding: 0;
+          box-shadow: none !important;
+        }
+  
+        .ant-card.css-dev-only-do-not-override-1e3x2xa {
+          box-shadow: none !important;
+          padding: 1em 0;
+        }
+  
+        .ant-list-item.ant-list-item-no-flex {
+          padding: 0;
+          box-shadow: none !important;
+          border-bottom: 1px solid #333;
+        }
+  
+        &-card {
+          &:hover {
+            cursor: pointer;
+  
+            .home__event-list-card-infor-title {
+              color: $color-primary;
+              transition: all 0.2s ease-in-out;
+            }
+          }
+  
+          &-img {
+          }
+  
+          &-infor {
+            margin-left: 1em;
+  
+            &-title {
+              font-size: 1.2em;
+              font-weight: 600;
+              color: $color-title;
+              font-family: $font-title;
+              transition: all 0.2s ease-in-out;
+            }
+  
+            &-description {
+              font-size: 1em;
+              font-weight: 400;
+              color: $color-description;
+              font-family: $font-document;
+            }
+  
+            &-time {
+              margin-top: 0.5em;
+              font-weight: 600;
+              font-family: $font-document;
+              color: $color-description;
+            }
+          }
+        }
+      }
+    }
+  
+    &__partner {
+      padding: 0px 2%;
+      margin-top: -30px;
+      &-slider {
+        margin: 3em -5em 1em -5em;
+        &-btn1 {
+          right: 0em;
+          font-size: 1em;
+        }
+  
+        &-btn2 {
+          left: 0em;
+          font-size: 1em;
+        }
+      }
+    }
+  
+    &__contact {
+      margin: 3em 2% 0em 2%;
+  
+      &-map {
+        width: 100%;
+        height: 20em;
+      }
+  
+      &-wrap {
+        margin-top: 3em;
+        display: block;
+        &-left {
+          margin-right: 0em;
+          width: calc(100%);
+          text-align: center;
+          &-title {
+            font-size: 1.2em;
+            line-height: 1.6em;
+            font-weight: 600;
+            text-align: center;
+          }
+  
+          &-text {
+            margin-top: 4em;
+            font-size: 1em;
+            line-height: 1.3em;
+            font-weight: 400;
+            font-style: italic;
+            text-align: center;
+          }
+        }
+  
+        &-right {
+          width: 100%;
+  
+          &-form {
+            .ant-form-item-required {
+              font-size: 1.2em !important;
+              line-height: 1.4em !important;
+            }
+  
+            .ant-input-affix-wrapper {
+              height: 50px !important;
+            }
+            .anticon {
+              font-size: 24px;
+            }
+  
+            .ant-input {
+              font-size: 1.1em !important;
+            }
+  
+            .ant-form-item-label {
+              label {
+                font-size: 1.2em !important;
+                line-height: 1.4em !important;
+                font-weight: 600 !important;
+              }
+            }
+            .ant-btn {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 @include responsive_768 {
+  .home {
+    &__slider {
+      width: 100%;
+      &-item {
+        width: 100%;
+        height: 75h;
+        &-wrap {
+          top: 25%;
+          padding-left: 2vw;
+          &-title {
+            font-weight: 700;
+            font-size: 3em;
+            line-height: 1.3em;
+            width: 35vw;
+            height: 2.5em;
+            letter-spacing: 2px;
+          }
+          &-description {
+            font-weight: 400;
+            font-size: 1.6em;
+            line-height: 1.8em;
+            width: 35vw;
+            height: 4em;
+          }
+  
+          &-btn {
+            font-weight: 500;
+            margin-top: 1.5em;
+            font-size: 1.4em;
+            height: 2.4em;
+          }
+        }
+      }
+      &-btn1 {
+        right: 1em;
+        &-icon {
+          font-size: 3em;
+        }
+      }
+  
+      &-btn2 {
+        left: 1em;
+        &-icon {
+          font-size: 3em;
+        }
+      }
+    }
+  
+    &__title {
+      text-align: center;
+      &-text {
+        font-size: 2.1em;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        margin-top: 0.5em;
+      }
+  
+      &-wall {
+        margin: 1em auto;
+        height: 0.3em;
+        width: 5em;
+      }
+    }
+  
+    &__principles {
+      padding: 2em 2% 0em 2%;
+      top: -120px;
+      &-block {
+        padding: 30px;
+        width: calc(30%);
+        height: 180px;
+        &:hover {
+          scale: 1.2;
+        }
+        &-title {
+          font-size: 1.6em;
+          font-weight: 600;
+          margin-top: 10px;
+        }
+        &-description {
+          font-size: 1em;
+        }
+        &-active {
+          padding: 40px 50px 50px 50px;
+          width: calc(40%);
+          height: 216px;
+          &-title {
+            font-size: 1.92em;
+            font-weight: 600;
+            margin-top: 10px;
+          }
+          &-description {
+            font-size: 1.2em;
+          }
+        }
+      }
+      &-puzzle {
+        margin-top: 50px;
+        width: 100%;
+        &-image {
+          width: 30vw;
+          height: 20vw;
+          position: relative;
+        }
+        &-infor {
+          margin-left: 30px;
+          h2:where(.css-dev-only-do-not-override-1e3x2xa).ant-typography,
+          div:where(.css-dev-only-do-not-override-1e3x2xa).ant-typography-h2,
+          div:where(.css-dev-only-do-not-override-1e3x2xa).ant-typography-h2
+            > textarea,
+          :where(.css-dev-only-do-not-override-1e3x2xa).ant-typography h2 {
+            color: $color-blue;
+          }
+          :where(.css-dev-only-do-not-override-1e3x2xa).ant-typography {
+            color: $color-blue;
+          }
+          &-title {
+            font-size: 1.6em;
+            font-family: $font-title;
+          }
+          &-text {
+          }
+          &-btn {
+            margin-top: 20px;
+          }
+        }
+      }
+    }
+  
+    &__cardtabs {
+      margin: 2em 2%;
+  
+      &-wrap {
+        margin-top: 2em;
+        width: 100%;
+      }
+    }
+  
+    &__listproducts {
+      padding: 0em 2% 0em 2%;
+      margin-top: -3em;
+      &-slider {
+        margin-top: 3em;
+        &-big {
+          &-btn1 {
+            font-size: 40px;
+          }
+          &-btn2 {
+            font-size: 40px;
+          }
+          &-item {
+            &-wrap {
+              width: 80vw;
+              height: 30vw;
+              padding: 0 5em;
+            }
+            width: 100%;
+          }
+        }
+  
+        &-small {
+          margin-top: 2em;
+          &-btn1 {
+            top: 40%;
+            right: -10px;
+            font-size: 20px;
+          }
+  
+          &-btn2 {
+            top: 40%;
+            font-size: 20px;
+          }
+  
+          &-item {
+            &-wrap {
+              width: calc(8vw);
+              height: 4vw;
+              padding: 0 10px;
+            }
+            height: 3vw;
+          }
+        }
+      }
+    }
+  
+    &__products {
+      padding: 3em 2%;
+  
+      &-header {
+        &-title {
+          font-size: 1.8em;
+          font-weight: 800;
+          letter-spacing: 0.5px;
+        }
+  
+        &-btn {
+          padding-left: 3em !important;
+          padding-right: 3em !important;
+  
+          &-text {
+            font-size: 1.1em;
+            line-height: 1.1em;
+          }
+        }
+      }
+  
+      &-slider {
+        margin: 2em -1em;
+        &-btn1 {
+          right: -1em;
+          font-size: 3em;
+        }
+  
+        &-btn2 {
+          left: -1em;
+          font-size: 3em;
+        }
+        &-item {
+          padding: 0.5em 0.5em;
+        }
+      }
+    }
+  
+    &__event {
+      padding: 1em 2%;
+  
+      &-wrap {
+        margin-top: 2em;
+      }
+  
+      &-list {
+        margin-left: 3em;
+  
+        .ant-card-body {
+          padding: 0;
+          box-shadow: none !important;
+        }
+  
+        .ant-card.css-dev-only-do-not-override-1e3x2xa {
+          box-shadow: none !important;
+          padding: 1em 0;
+        }
+  
+        .ant-list-item.ant-list-item-no-flex {
+          padding: 0;
+          box-shadow: none !important;
+          border-bottom: 1px solid #333;
+        }
+  
+        &-card {
+          &:hover {
+            cursor: pointer;
+  
+            .home__event-list-card-infor-title {
+              color: $color-primary;
+              transition: all 0.2s ease-in-out;
+            }
+          }
+  
+          &-img {
+          }
+  
+          &-infor {
+            margin-left: 1em;
+  
+            &-title {
+              font-size: 1.2em;
+              font-weight: 600;
+              color: $color-title;
+              font-family: $font-title;
+              transition: all 0.2s ease-in-out;
+            }
+  
+            &-description {
+              font-size: 1em;
+              font-weight: 400;
+              color: $color-description;
+              font-family: $font-document;
+            }
+  
+            &-time {
+              margin-top: 0.5em;
+              font-weight: 600;
+              font-family: $font-document;
+              color: $color-description;
+            }
+          }
+        }
+      }
+    }
+  
+    &__partner {
+      padding: 1em 2%;
+  
+      &-slider {
+        margin: 3em -5em 1em -5em;
+
+        &-btn1 {
+          right: 0em;
+          font-size: 3em;
+        }
+  
+        &-btn2 {
+          left: 0em;
+          font-size: 3em;
+        }
+      }
+    }
+  
+    &__contact {
+      margin: 1em 2%;
+  
+      &-map {
+        width: 100%;
+        height: 30em;
+      }
+  
+      &-wrap {
+        margin-top: 5em;
+        &-left {
+          margin-right: 3em;
+          width: calc(50% - 3em);
+          &-title {
+            font-size: 1.2em;
+            line-height: 1.6em;
+            font-weight: 600;
+          }
+  
+          &-text {
+            margin-top: 4em;
+            font-size: 1em;
+            line-height: 1.3em;
+            font-weight: 400;
+            font-style: italic;
+          }
+        }
+  
+        &-right {
+          width: 50%;
+  
+          &-form {
+            .ant-form-item-required {
+              font-size: 1.2em !important;
+              line-height: 1.4em !important;
+            }
+  
+            .ant-input-affix-wrapper {
+              height: 50px !important;
+            }
+            .anticon {
+              font-size: 24px;
+            }
+  
+            .ant-input {
+              font-size: 1.1em !important;
+            }
+  
+            .ant-form-item-label {
+              label {
+                font-size: 1.2em !important;
+                line-height: 1.4em !important;
+                font-weight: 600 !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 @include responsive_1024 {
+  .home {
+    &__slider {
+      width: 100%;
+      &-item {
+        width: 100%;
+        height: 75h;
+        &-wrap {
+          top: 25%;
+          padding-left: 5vw;
+          &-title {
+            font-weight: 700;
+            font-size: 3em;
+            line-height: 1.3em;
+            width: 35vw;
+            height: 2.5em;
+            letter-spacing: 2px;
+          }
+          &-description {
+            font-weight: 400;
+            font-size: 1.6em;
+            line-height: 1.8em;
+            width: 35vw;
+            height: 4em;
+          }
+  
+          &-btn {
+            font-weight: 500;
+            margin-top: 1.5em;
+            font-size: 1.4em;
+            height: 2.4em;
+          }
+        }
+      }
+      &-btn1 {
+        right: 1em;
+        &-icon {
+          font-size: 3em;
+        }
+      }
+  
+      &-btn2 {
+        left: 1em;
+        &-icon {
+          font-size: 3em;
+        }
+      }
+    }
+  
+    &__title {
+      text-align: center;
+      &-text {
+        font-size: 2.1em;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        margin-top: 0.5em;
+      }
+  
+      &-wall {
+        margin: 1em auto;
+        height: 0.3em;
+        width: 5em;
+      }
+    }
+  
+    &__principles {
+      padding: 2em 5% 0em 5%;
+      top: -120px;
+      &-block {
+        padding: 30px;
+        width: calc(30%);
+        height: 180px;
+        &:hover {
+          scale: 1.2;
+        }
+        &-title {
+          font-size: 1.6em;
+          font-weight: 600;
+          margin-top: 10px;
+        }
+        &-description {
+          font-size: 1em;
+        }
+        &-active {
+          padding: 40px 50px 50px 50px;
+          width: calc(40%);
+          height: 216px;
+          &-title {
+            font-size: 1.92em;
+            font-weight: 600;
+            margin-top: 10px;
+          }
+          &-description {
+            font-size: 1.2em;
+          }
+        }
+      }
+      &-puzzle {
+        margin-top: 50px;
+        width: 100%;
+        &-image {
+          width: 30vw;
+          height: 20vw;
+          position: relative;
+        }
+        &-infor {
+          margin-left: 30px;
+          h2:where(.css-dev-only-do-not-override-1e3x2xa).ant-typography,
+          div:where(.css-dev-only-do-not-override-1e3x2xa).ant-typography-h2,
+          div:where(.css-dev-only-do-not-override-1e3x2xa).ant-typography-h2
+            > textarea,
+          :where(.css-dev-only-do-not-override-1e3x2xa).ant-typography h2 {
+            color: $color-blue;
+          }
+          :where(.css-dev-only-do-not-override-1e3x2xa).ant-typography {
+            color: $color-blue;
+          }
+          &-title {
+            font-size: 1.6em;
+            font-family: $font-title;
+          }
+          &-text {
+          }
+          &-btn {
+            margin-top: 20px;
+          }
+        }
+      }
+    }
+  
+    &__cardtabs {
+      margin: 2em 5%;
+  
+      &-wrap {
+        margin-top: 2em;
+        width: 100%;
+      }
+    }
+  
+    &__listproducts {
+      padding: 0em 5% 0em 5%;
+      margin-top: -3em;
+      &-slider {
+        margin-top: 3em;
+        &-big {
+          &-btn1 {
+            font-size: 40px;
+          }
+          &-btn2 {
+            font-size: 40px;
+          }
+          &-item {
+            &-wrap {
+              width: 80vw;
+              height: 30vw;
+              padding: 0 5em;
+            }
+            width: 100%;
+          }
+        }
+  
+        &-small {
+          margin-top: 2em;
+          &-btn1 {
+            top: 40%;
+            right: -10px;
+            font-size: 20px;
+          }
+  
+          &-btn2 {
+            top: 40%;
+            font-size: 20px;
+          }
+  
+          &-item {
+            &-wrap {
+              width: calc(8vw);
+              height: 4vw;
+              padding: 0 10px;
+            }
+            height: 3vw;
+          }
+        }
+      }
+    }
+  
+    &__products {
+      padding: 3em 5%;
+  
+      &-header {
+        &-title {
+          font-size: 1.8em;
+          font-weight: 800;
+          letter-spacing: 0.5px;
+        }
+  
+        &-btn {
+          padding-left: 3em !important;
+          padding-right: 3em !important;
+  
+          &-text {
+            font-size: 1.1em;
+            line-height: 1.1em;
+          }
+        }
+      }
+  
+      &-slider {
+        margin: 2em -1em;
+        &-btn1 {
+          right: -1em;
+          font-size: 3em;
+        }
+  
+        &-btn2 {
+          left: -1em;
+          font-size: 3em;
+        }
+        &-item {
+          padding: 0.5em 0.5em;
+        }
+      }
+    }
+  
+    &__event {
+      padding: 1em 10%;
+  
+      &-wrap {
+        margin-top: 2em;
+      }
+  
+      &-list {
+        margin-left: 3em;
+  
+        .ant-card-body {
+          padding: 0;
+          box-shadow: none !important;
+        }
+  
+        .ant-card.css-dev-only-do-not-override-1e3x2xa {
+          box-shadow: none !important;
+          padding: 1em 0;
+        }
+  
+        .ant-list-item.ant-list-item-no-flex {
+          padding: 0;
+          box-shadow: none !important;
+          border-bottom: 1px solid #333;
+        }
+  
+        &-card {
+          &:hover {
+            cursor: pointer;
+  
+            .home__event-list-card-infor-title {
+              color: $color-primary;
+              transition: all 0.2s ease-in-out;
+            }
+          }
+  
+          &-img {
+          }
+  
+          &-infor {
+            margin-left: 1em;
+  
+            &-title {
+              font-size: 1.2em;
+              font-weight: 600;
+              color: $color-title;
+              font-family: $font-title;
+              transition: all 0.2s ease-in-out;
+            }
+  
+            &-description {
+              font-size: 1em;
+              font-weight: 400;
+              color: $color-description;
+              font-family: $font-document;
+            }
+  
+            &-time {
+              margin-top: 0.5em;
+              font-weight: 600;
+              font-family: $font-document;
+              color: $color-description;
+            }
+          }
+        }
+      }
+    }
+  
+    &__partner {
+      padding: 1em 5%;
+  
+      &-slider {
+        margin: 3em -5em 1em -5em;
+
+        &-btn1 {
+          right: 0em;
+          font-size: 3em;
+        }
+  
+        &-btn2 {
+          left: 0em;
+          font-size: 3em;
+        }
+      }
+    }
+  
+    &__contact {
+      margin: 1em 10%;
+  
+      &-map {
+        width: 100%;
+        height: 30em;
+      }
+  
+      &-wrap {
+        margin-top: 5em;
+        &-left {
+          margin-right: 3em;
+          width: calc(50% - 3em);
+          &-title {
+            font-size: 1.2em;
+            line-height: 1.6em;
+            font-weight: 600;
+          }
+  
+          &-text {
+            margin-top: 4em;
+            font-size: 1em;
+            line-height: 1.3em;
+            font-weight: 400;
+            font-style: italic;
+          }
+        }
+  
+        &-right {
+          width: 50%;
+  
+          &-form {
+            .ant-form-item-required {
+              font-size: 1.2em !important;
+              line-height: 1.4em !important;
+            }
+  
+            .ant-input-affix-wrapper {
+              height: 50px !important;
+            }
+            .anticon {
+              font-size: 24px;
+            }
+  
+            .ant-input {
+              font-size: 1.1em !important;
+            }
+  
+            .ant-form-item-label {
+              label {
+                font-size: 1.2em !important;
+                line-height: 1.4em !important;
+                font-weight: 600 !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 @include responsive_1280 {
+  .home {
+    &__slider {
+      width: 100%;
+      &-item {
+        width: 100%;
+        height: 75h;
+        &-wrap {
+          top: 25%;
+          padding-left: 10vw;
+          &-title {
+            font-weight: 700;
+            font-size: 3em;
+            line-height: 1.3em;
+            width: 35vw;
+            height: 2.5em;
+            letter-spacing: 2px;
+          }
+          &-description {
+            font-weight: 400;
+            font-size: 1.6em;
+            line-height: 1.8em;
+            width: 35vw;
+            height: 4em;
+          }
+  
+          &-btn {
+            font-weight: 500;
+            margin-top: 1.5em;
+            font-size: 1.4em;
+            height: 2.4em;
+          }
+        }
+      }
+      &-btn1 {
+        right: 1em;
+        &-icon {
+          font-size: 3em;
+        }
+      }
+  
+      &-btn2 {
+        left: 1em;
+        &-icon {
+          font-size: 3em;
+        }
+      }
+    }
+  
+    &__title {
+      text-align: center;
+      &-text {
+        font-size: 2.1em;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        margin-top: 0.5em;
+      }
+  
+      &-wall {
+        margin: 1em auto;
+        height: 0.3em;
+        width: 5em;
+      }
+    }
+  
+    &__principles {
+      padding: 2em 10% 0em 10%;
+      top: -120px;
+      &-block {
+        padding: 30px;
+        width: calc(30%);
+        height: 180px;
+        &:hover {
+          scale: 1.2;
+        }
+        &-title {
+          font-size: 1.6em;
+          font-weight: 600;
+          margin-top: 10px;
+        }
+        &-description {
+          font-size: 1em;
+        }
+        &-active {
+          padding: 40px 50px 50px 50px;
+          width: calc(40%);
+          height: 216px;
+          &-title {
+            font-size: 1.92em;
+            font-weight: 600;
+            margin-top: 10px;
+          }
+          &-description {
+            font-size: 1.2em;
+          }
+        }
+      }
+      &-puzzle {
+        margin-top: 50px;
+        width: 100%;
+        &-image {
+          width: 30vw;
+          height: 20vw;
+          position: relative;
+        }
+        &-infor {
+          margin-left: 30px;
+          h2:where(.css-dev-only-do-not-override-1e3x2xa).ant-typography,
+          div:where(.css-dev-only-do-not-override-1e3x2xa).ant-typography-h2,
+          div:where(.css-dev-only-do-not-override-1e3x2xa).ant-typography-h2
+            > textarea,
+          :where(.css-dev-only-do-not-override-1e3x2xa).ant-typography h2 {
+            color: $color-blue;
+          }
+          :where(.css-dev-only-do-not-override-1e3x2xa).ant-typography {
+            color: $color-blue;
+          }
+          &-title {
+            font-size: 1.6em;
+            font-family: $font-title;
+          }
+          &-text {
+          }
+          &-btn {
+            margin-top: 20px;
+          }
+        }
+      }
+    }
+  
+    &__cardtabs {
+      margin: 2em 10%;
+  
+      &-wrap {
+        margin-top: 2em;
+        width: 100%;
+      }
+    }
+  
+    &__listproducts {
+      padding: 0em 10% 0em 10%;
+      margin-top: -3em;
+      &-slider {
+        margin-top: 3em;
+        &-big {
+          &-btn1 {
+            font-size: 40px;
+          }
+          &-btn2 {
+            font-size: 40px;
+          }
+          &-item {
+            &-wrap {
+              width: 80vw;
+              height: 30vw;
+              padding: 0 5em;
+            }
+            width: 100%;
+          }
+        }
+  
+        &-small {
+          margin-top: 2em;
+          &-btn1 {
+            top: 40%;
+            right: -10px;
+            font-size: 20px;
+          }
+  
+          &-btn2 {
+            top: 40%;
+            font-size: 20px;
+          }
+  
+          &-item {
+            &-wrap {
+              width: calc(8vw);
+              height: 4vw;
+              padding: 0 10px;
+            }
+            height: 3vw;
+          }
+        }
+      }
+    }
+  
+    &__products {
+      padding: 3em 10%;
+  
+      &-header {
+        &-title {
+          font-size: 1.8em;
+          font-weight: 800;
+          letter-spacing: 0.5px;
+        }
+  
+        &-btn {
+          padding-left: 3em !important;
+          padding-right: 3em !important;
+  
+          &-text {
+            font-size: 1.1em;
+            line-height: 1.1em;
+          }
+        }
+      }
+  
+      &-slider {
+        margin: 2em -1em;
+        &-btn1 {
+          right: -1em;
+          font-size: 3em;
+        }
+  
+        &-btn2 {
+          left: -1em;
+          font-size: 3em;
+        }
+        &-item {
+          padding: 0.5em 0.5em;
+        }
+      }
+    }
+  
+    &__event {
+      padding: 1em 10%;
+  
+      &-wrap {
+        margin-top: 2em;
+      }
+  
+      &-list {
+        margin-left: 3em;
+  
+        .ant-card-body {
+          padding: 0;
+          box-shadow: none !important;
+        }
+  
+        .ant-card.css-dev-only-do-not-override-1e3x2xa {
+          box-shadow: none !important;
+          padding: 1em 0;
+        }
+  
+        .ant-list-item.ant-list-item-no-flex {
+          padding: 0;
+          box-shadow: none !important;
+          border-bottom: 1px solid #333;
+        }
+  
+        &-card {
+          &:hover {
+            cursor: pointer;
+  
+            .home__event-list-card-infor-title {
+              color: $color-primary;
+              transition: all 0.2s ease-in-out;
+            }
+          }
+  
+          &-img {
+          }
+  
+          &-infor {
+            margin-left: 1em;
+  
+            &-title {
+              font-size: 1.2em;
+              font-weight: 600;
+              color: $color-title;
+              font-family: $font-title;
+              transition: all 0.2s ease-in-out;
+            }
+  
+            &-description {
+              font-size: 1em;
+              font-weight: 400;
+              color: $color-description;
+              font-family: $font-document;
+            }
+  
+            &-time {
+              margin-top: 0.5em;
+              font-weight: 600;
+              font-family: $font-document;
+              color: $color-description;
+            }
+          }
+        }
+      }
+    }
+  
+    &__partner {
+      padding: 1em 10%;
+  
+      &-slider {
+        margin: 3em -5em 1em -5em;
 
+        &-btn1 {
+          right: 0em;
+          font-size: 3em;
+        }
+  
+        &-btn2 {
+          left: 0em;
+          font-size: 3em;
+        }
+      }
+    }
+  
+    &__contact {
+      margin: 1em 10%;
+  
+      &-map {
+        width: 100%;
+        height: 30em;
+      }
+  
+      &-wrap {
+        margin-top: 5em;
+        &-left {
+          margin-right: 3em;
+          width: calc(50% - 3em);
+          &-title {
+            font-size: 1.2em;
+            line-height: 1.6em;
+            font-weight: 600;
+          }
+  
+          &-text {
+            margin-top: 4em;
+            font-size: 1em;
+            line-height: 1.3em;
+            font-weight: 400;
+            font-style: italic;
+          }
+        }
+  
+        &-right {
+          width: 50%;
+  
+          &-form {
+            .ant-form-item-required {
+              font-size: 1.2em !important;
+              line-height: 1.4em !important;
+            }
+  
+            .ant-input-affix-wrapper {
+              height: 50px !important;
+            }
+            .anticon {
+              font-size: 24px;
+            }
+  
+            .ant-input {
+              font-size: 1.1em !important;
+            }
+  
+            .ant-form-item-label {
+              label {
+                font-size: 1.2em !important;
+                line-height: 1.4em !important;
+                font-weight: 600 !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 @include responsive_1440 {

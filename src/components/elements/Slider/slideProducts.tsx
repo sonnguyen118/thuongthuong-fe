@@ -8,7 +8,6 @@ import { useSelector } from "react-redux";
 import { store } from "@store";
 import viText from "@languages/vie.json";
 import loadLanguageText from "@languages";
-import exp from "constants";
 interface dataProps {
   data: any;
 }
@@ -30,7 +29,37 @@ const SimpleSlider: React.FC<dataProps> = (props) => {
     slidesToScroll: 1,
     responsive: [
       {
-        breakpoint: 1281,
+        breakpoint: 420,
+        settings: {
+          speed: 500,
+          slidesToShow: 1.3,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: false,
+        },
+      },
+      {
+        breakpoint: 620,
+        settings: {
+          speed: 500,
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: false,
+        },
+      },
+      {
+        breakpoint: 800,
+        settings: {
+          speed: 500,
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: false,
+        },
+      },
+      {
+        breakpoint: 1300,
         settings: {
           speed: 500,
           slidesToShow: 4,

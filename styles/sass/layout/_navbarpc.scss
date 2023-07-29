@@ -1,6 +1,6 @@
 .navbar__pc {
   padding: 0.1em 20%;
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
   left: 0;
@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #092e5cd0;
+  background-color: transparent;
   margin-right: -16px;
   &-logo {
     &-img {
@@ -100,6 +100,7 @@
     font-size: 1.1em;
   }
   &-list {
+    min-width: 400px;
     max-height: 320px;
     overflow-y: auto;
     overflow-x: hidden;
@@ -150,6 +151,17 @@
       margin: 0.8em 0.8em;
     }
   }
+  &-none {
+    &-image {
+      width: 340px;
+      height: 240px;
+    }
+    &-text {
+      font-size: 1.2em;
+      font-family: $font-title;
+      text-align: center;
+    }
+  }
 }
 // responsive
 @include responsive_200 {
@@ -188,6 +200,7 @@
       font-size: 1.1em;
     }
     &-list {
+      min-width: 280px;
       max-height: 300px;
     }
     &-item {
@@ -247,6 +260,7 @@
       font-size: 1.1em;
     }
     &-list {
+      min-width: 280px;
       max-height: 300px;
     }
     &-item {
@@ -301,6 +315,7 @@
       font-size: 1.1em;
     }
     &-list {
+      min-width: 310px;
       max-height: 300px;
     }
     &-item {
@@ -357,6 +372,7 @@
       font-size: 1.1em;
     }
     &-list {
+      min-width: 340px;
       max-height: 300px;
     }
     &-item {
@@ -413,6 +429,7 @@
       font-size: 1.1em;
     }
     &-list {
+      min-width: 380px;
       max-height: 300px;
     }
     &-item {
@@ -468,6 +485,7 @@
       font-size: 1.1em;
     }
     &-list {
+      min-width: 380px;
       max-height: 320px;
     }
     &-item {

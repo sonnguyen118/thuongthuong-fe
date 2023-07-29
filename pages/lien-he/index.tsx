@@ -109,7 +109,7 @@ const Contact: React.FC<pagesProps> = (props: pagesProps) => {
           </p>
         </div>
         <div className="home__contact-wrap-right">
-          <FormContactHome />
+          <FormContactHome t={t}/>
         </div>
       </Row>
     </div>

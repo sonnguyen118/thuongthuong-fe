@@ -213,8 +213,7 @@ const Cart: React.FC<CartProps> = (props:CartProps) => {
               className="products-cart-embty-img"
             />
             <h3 className="products-cart-embty-text">
-              {/* {text.carts.NOTICAL_TEXT3} */}
-              sida thế
+              {text.carts.NOTICAL_TEXT3}
             </h3>
           </div>
         )}

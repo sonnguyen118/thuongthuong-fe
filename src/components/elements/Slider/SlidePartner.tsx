@@ -21,6 +21,38 @@ const SlidePartner: React.FC<SlidePartnerProps> = (props) => {
     speed: 500,
     slidesToShow: 5,
     slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 420,
+        settings: {
+          speed: 500,
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: false,
+        },
+      },
+      {
+        breakpoint: 620,
+        settings: {
+          speed: 500,
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: false,
+        },
+      },
+      {
+        breakpoint: 800,
+        settings: {
+          speed: 500,
+          slidesToShow: 4,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: false,
+        },
+      }
+    ],
   };
   const slider = useRef<Slider>(null);
 

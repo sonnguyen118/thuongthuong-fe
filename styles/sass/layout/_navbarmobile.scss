@@ -1,0 +1,220 @@
+.navbar__mobile {
+    display: none;
+}
+
+// responsive
+@include responsive_200 {
+}
+
+@include responsive_280 {
+}
+
+@include responsive_320 {
+    .navbar__mobile {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 5000;
+        background-color: #092e5c;
+        &-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 10px;
+            &-icon {
+                &-item {
+                    color: #fff;
+                    font-size: 20px;
+                    margin-right: 20px;
+            }
+            }
+            &-title {
+                &-item {
+                    a {
+                        color: #fff;
+                        font-size: 16px;
+                        font-family: $font-title;
+                        margin-left: 15px;
+                    }
+                }
+            }
+        }
+        &-body {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0px 10px 6px 10px; 
+
+            &-logo{
+                margin: 0 !important;
+                &-img {
+
+                }
+            }
+            &-icon {
+                color: #fff;
+                font-size: 20px;
+                &-dropdown {
+                    width : 100%;
+                    &-item {
+                        .ant-dropdown-menu-title-content {
+                            font-family : $font-title;
+                            font-weight : 500;
+                            font-size: 16px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .ant-dropdown.ant-dropdown-placement-bottomRight {
+        width : 100% !important;
+        min-width: 100% !important;
+    }
+    .ant-dropdown-placement-bottomLeft {
+        width : 100% !important;
+        min-width: 100% !important;
+    }
+}
+
+@include responsive_375 {
+    .navbar__mobile {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 5000;
+        background-color: #092e5c;
+        &-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 10px;
+            &-icon {
+                &-item {
+                    color: #fff;
+                    font-size: 20px;
+                    margin-right: 20px;
+            }
+            }
+            &-title {
+                &-item {
+                    a {
+                        color: #fff;
+                        font-size: 16px;
+                        font-family: $font-title;
+                        margin-left: 15px;
+                    }
+                }
+            }
+        }
+        &-body {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0px 10px 6px 10px; 
+
+            &-logo{
+                margin: 0 !important;
+                &-img {
+
+                }
+            }
+            &-icon {
+                color: #fff;
+                font-size: 20px;
+                &-dropdown {
+                    width : 100%;
+                    &-item {
+                        .ant-dropdown-menu-title-content {
+                            font-family : $font-title;
+                            font-weight : 500;
+                            font-size: 16px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .ant-dropdown.ant-dropdown-placement-bottomRight {
+        width : 100% !important;
+        min-width: 100% !important;
+    }
+    .ant-dropdown-placement-bottomLeft {
+        width : 100% !important;
+        min-width: 100% !important;
+    }
+}
+
+@include responsive_456 {
+    .navbar__mobile {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 5000;
+        background-color: #092e5c;
+        &-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 10px;
+            &-icon {
+                &-item {
+                    color: #fff;
+                    font-size: 20px;
+                    margin-right: 20px;
+            }
+            }
+            &-title {
+                &-item {
+                    a {
+                        color: #fff;
+                        font-size: 16px;
+                        font-family: $font-title;
+                        margin-left: 15px;
+                    }
+                }
+            }
+        }
+        &-body {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0px 10px 6px 10px; 
+
+            &-logo{
+                margin: 0 !important;
+                &-img {
+
+                }
+            }
+            &-icon {
+                color: #fff;
+                font-size: 20px;
+                &-dropdown {
+                    width : 100%;
+                    &-item {
+                        .ant-dropdown-menu-title-content {
+                            font-family : $font-title;
+                            font-weight : 500;
+                            font-size: 16px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .ant-dropdown.ant-dropdown-placement-bottomRight {
+        width : 100% !important;
+        min-width: 100% !important;
+    }
+    .ant-dropdown-placement-bottomLeft {
+        width : 100% !important;
+        min-width: 100% !important;
+    }
+}

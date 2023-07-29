@@ -46,13 +46,16 @@ function formatExacthlyTime(inputDateTime: string | null | undefined): string {
 	return formattedDate;
   }
 
-  function formatExacthlyTimeTable (inputDateTime: string | null | undefined): string {
+  function formatExacthlyTimeTable(inputDateTime: string | null | undefined): string {
 	if (inputDateTime === null || inputDateTime === undefined) {
 	  return "";
 	}
   
 	const dateObj = new Date(inputDateTime);
-
+  
+	// Chuyển múi giờ từ UTC sang múi giờ Việt Nam (GPT +7)
+	const vietnamTimeZoneOffset = 7 * 60; // Đổi thành phút
+	dateObj.setMinutes(dateObj.getMinutes() + vietnamTimeZoneOffset);
   
 	// Lấy ngày, tháng và năm
 	const day: number = dateObj.getDate();
@@ -68,5 +71,6 @@ function formatExacthlyTime(inputDateTime: string | null | undefined): string {
   
 	return formattedDate;
   }
+  
 
 export default { formatDateTime, formatExacthlyTime, formatExacthlyTimeTable };
