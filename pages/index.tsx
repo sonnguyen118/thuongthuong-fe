@@ -40,12 +40,21 @@ interface pagesProps {
   dataListProducts: any;
 }
 const Home: React.FC<pagesProps> = (props: pagesProps) => {
-  const {dataPages, dataMenu, dataFooter, dataContact, dataProductHighlight, dataListProducts} = props;
+  const {
+    dataPages,
+    dataMenu,
+    dataFooter,
+    dataContact,
+    dataProductHighlight,
+    dataListProducts,
+  } = props;
+  console.log(props, "props");
+  console.log(dataPages, "dataPages");
   const [t, setText] = useState(viText);
   useEffect(() => {
-    const lang = localStorage.getItem('lang');
+    const lang = localStorage.getItem("lang");
     console.log(lang, "lang");
-    if(lang) {
+    if (lang) {
       loadLanguageText(lang, setText);
     } else {
       loadLanguageText("vi", setText);
@@ -66,16 +75,49 @@ const Home: React.FC<pagesProps> = (props: pagesProps) => {
     <>
       <HeadSEO pageSEO={pageSEOData.pageSEO} />
       <Layout dataMenu={dataMenu} dataFooter={dataFooter}>
-        <SlideBarsHome isShow={dataPages.showBlock1} dataSlider={dataPages.dataSlider} t={t}/>
-         <PrinciplesHome isShow={dataPages.showBlockS} dataBlock={dataPages.dataBlockS}/>
-        <PiecesPuzzleHome isShow={dataPages.showBlock2} uderlineBlock={dataPages.uderlineBlock2} iconBlock={dataPages.iconBlock2} titleBlock={dataPages.titleBlock2} listSliderBlock={dataPages.listSliderBlock2} contentBlock={dataPages.contentBlock2} t={t}/>
+        <SlideBarsHome
+          isShow={dataPages.showBlock1}
+          dataSlider={dataPages.dataSlider}
+          t={t}
+        />
+        <PrinciplesHome
+          isShow={dataPages.showBlockS}
+          dataBlock={dataPages.dataBlockS}
+        />
+        <PiecesPuzzleHome
+          isShow={dataPages.showBlock2}
+          uderlineBlock={dataPages.uderlineBlock2}
+          iconBlock={dataPages.iconBlock2}
+          titleBlock={dataPages.titleBlock2}
+          listSliderBlock={dataPages.listSliderBlock2}
+          contentBlock={dataPages.contentBlock2}
+          t={t}
+        />
         {/* <CardTabs /> */}
-        <ListProducts isShow={dataPages.showBlock3} uderlineBlock={dataPages.uderlineBlock3} iconBlock={dataPages.iconBlock3} titleBlock={dataPages.titleBlock3} listSliderBlock={dataPages.listSliderBlock3} t={t}/>
-        {dataProductHighlight && 
-        <BlockProducts dataProductHighlight={dataProductHighlight} dataListProducts={dataListProducts} t={t}/>
-        }
-        <ListPartner isShow={dataPages.showBlock5} uderlineBlock={dataPages.uderlineBlock5} iconBlock={dataPages.iconBlock5} titleBlock={dataPages.titleBlock5} listSliderBlock={dataPages.listSliderBlock5} t={t}/>
-        <ContactHome data={dataContact} t={t}/>
+        <ListProducts
+          isShow={dataPages.showBlock3}
+          uderlineBlock={dataPages.uderlineBlock3}
+          iconBlock={dataPages.iconBlock3}
+          titleBlock={dataPages.titleBlock3}
+          listSliderBlock={dataPages.listSliderBlock3}
+          t={t}
+        />
+        {dataProductHighlight && (
+          <BlockProducts
+            dataProductHighlight={dataProductHighlight}
+            dataListProducts={dataListProducts}
+            t={t}
+          />
+        )}
+        <ListPartner
+          isShow={dataPages.showBlock5}
+          uderlineBlock={dataPages.uderlineBlock5}
+          iconBlock={dataPages.iconBlock5}
+          titleBlock={dataPages.titleBlock5}
+          listSliderBlock={dataPages.listSliderBlock5}
+          t={t}
+        />
+        <ContactHome data={dataContact} t={t} />
       </Layout>
     </>
   );
@@ -83,12 +125,19 @@ const Home: React.FC<pagesProps> = (props: pagesProps) => {
 
 export async function getServerSideProps(context: any) {
   try {
-    const lang = context.query.lang
-    if(lang === 'en') {
-      const DatapageEN :any = await webInformationClient.handleGetWebInformation("7");
-      const MenuEN : any = await  webInformationClient.handleGetWebInformation("5");
-      const FooterEN:any = await webInformationClient.handleGetWebInformation("3");
-      const ContactEN :any = await webInformationClient.handleGetWebInformation("13");
+    const lang = context.query.lang;
+    if (lang === "en") {
+      const DatapageEN: any =
+        await webInformationClient.handleGetWebInformation("7");
+      const MenuEN: any = await webInformationClient.handleGetWebInformation(
+        "5"
+      );
+      const FooterEN: any = await webInformationClient.handleGetWebInformation(
+        "3"
+      );
+      const ContactEN: any = await webInformationClient.handleGetWebInformation(
+        "13"
+      );
       const ListProduct: any = await handleProductsClient.handleGetHighlight();
       try {
         const dataPages = JSON.parse(DatapageEN.value);
@@ -102,53 +151,61 @@ export async function getServerSideProps(context: any) {
                 size: 20,
                 productName: "",
               };
-              const apiData: any = await handleProductsClient.getProductsByCategoryID(body);
+              const apiData: any =
+                await handleProductsClient.getProductsByCategoryID(body);
               return apiData.data;
             }
           });
-      
+
           const resultArray = await Promise.all(promises);
           return {
             props: {
               dataPages: JSON.parse(DatapageEN.value) || {},
-              dataMenu:  JSON.parse(MenuEN.value) || {},
+              dataMenu: JSON.parse(MenuEN.value) || {},
               dataFooter: JSON.parse(FooterEN.value) || {},
               dataContact: JSON.parse(ContactEN.value) || {},
               dataProductHighlight: ListProduct.data?.products,
-              dataListProducts: resultArray
+              dataListProducts: resultArray,
             },
           };
         }
       } catch (e) {
         // Xử lý lỗi
       }
-      if(ListProduct.meta?.status === 200) {
+      if (ListProduct.meta?.status === 200) {
         return {
           props: {
             dataPages: JSON.parse(DatapageEN.value) || {},
-            dataMenu:  JSON.parse(MenuEN.value) || {},
+            dataMenu: JSON.parse(MenuEN.value) || {},
             dataFooter: JSON.parse(FooterEN.value) || {},
             dataContact: JSON.parse(ContactEN.value) || {},
             dataProductHighlight: ListProduct.data?.products,
-            dataListProducts: null
+            dataListProducts: null,
           },
         };
       }
       return {
         props: {
           dataPages: JSON.parse(DatapageEN.value) || {},
-          dataMenu:  JSON.parse(MenuEN.value) || {},
+          dataMenu: JSON.parse(MenuEN.value) || {},
           dataFooter: JSON.parse(FooterEN.value) || {},
           dataContact: JSON.parse(ContactEN.value) || {},
           dataProductHighlight: null,
-          dataListProducts: null
+          dataListProducts: null,
         },
       };
     } else {
-      const DatapageVI :any = await webInformationClient.handleGetWebInformation("6");
-      const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
-      const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
-      const ContactVI :any = await webInformationClient.handleGetWebInformation("12");
+      const DatapageVI: any =
+        await webInformationClient.handleGetWebInformation("6");
+      const MenuVI: any = await webInformationClient.handleGetWebInformation(
+        "4"
+      );
+      const FooterVI: any = await webInformationClient.handleGetWebInformation(
+        "2"
+      );
+      const ContactVI: any = await webInformationClient.handleGetWebInformation(
+        "12"
+      );
       const ListProduct: any = await handleProductsClient.handleGetHighlight();
       try {
         const dataPages = JSON.parse(DatapageVI.value);
@@ -162,51 +219,53 @@ export async function getServerSideProps(context: any) {
                 size: 20,
                 productName: "",
               };
-              const apiData: any = await handleProductsClient.getProductsByCategoryID(body);
+              console.log(body, "body");
+              const apiData: any =
+                await handleProductsClient.getProductsByCategoryID(body);
               return apiData.data;
             }
           });
-      
+
           const resultArray = await Promise.all(promises);
           return {
             props: {
               dataPages: JSON.parse(DatapageVI.value) || {},
-              dataMenu:  JSON.parse(MenuVI.value) || {},
+              dataMenu: JSON.parse(MenuVI.value) || {},
               dataFooter: JSON.parse(FooterVI.value) || {},
               dataContact: JSON.parse(ContactVI.value) || {},
               dataProductHighlight: ListProduct.data?.products,
-              dataListProducts: resultArray
+              dataListProducts: resultArray,
             },
           };
         }
       } catch (e) {
         // Xử lý lỗi
+        console.log("lol");
       }
-      if(ListProduct.meta?.status === 200) {
+
+      if (ListProduct.meta?.status === 200) {
         return {
           props: {
             dataPages: JSON.parse(DatapageVI.value) || {},
-            dataMenu:  JSON.parse(MenuVI.value) || {},
+            dataMenu: JSON.parse(MenuVI.value) || {},
             dataFooter: JSON.parse(FooterVI.value) || {},
             dataContact: JSON.parse(ContactVI.value) || {},
             dataProductHighlight: ListProduct.data?.products,
-            dataListProducts: null
+            dataListProducts: null,
           },
         };
       }
       return {
         props: {
           dataPages: JSON.parse(DatapageVI.value) || {},
-          dataMenu:  JSON.parse(MenuVI.value) || {},
+          dataMenu: JSON.parse(MenuVI.value) || {},
           dataFooter: JSON.parse(FooterVI.value) || {},
           dataContact: JSON.parse(ContactVI.value) || {},
           dataProductHighlight: null,
-          dataListProducts: null
+          dataListProducts: null,
         },
       };
     }
-
-
   } catch (e) {
     return { props: {} };
   }

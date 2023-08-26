@@ -356,10 +356,16 @@
           }
         }
         &-item {
+          height: 25vw !important;
+          width: auto !important;
+          text-align: center !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
           &-wrap {
             width: 80vw;
-            height: 30vw;
+            height: 25vw;
             padding: 0 5em;
+            text-align: center;
           }
           width: 100%;
         }
@@ -789,7 +795,7 @@
             width: 77vw;
             height: 3.8em;
           }
-  
+
           &-btn {
             font-weight: 500;
             margin-top: 1.1em;
@@ -804,7 +810,7 @@
           font-size: 3em;
         }
       }
-  
+
       &-btn2 {
         left: 1em;
         &-icon {
@@ -828,7 +834,7 @@
           margin-top: 10px;
         }
         &-description {
-          display:none;
+          display: none;
           font-size: 0.9em;
         }
         &-active {
@@ -841,7 +847,7 @@
             margin-top: 10px;
           }
           &-description {
-            display:none;
+            display: none;
             font-size: 1.1em;
           }
         }
@@ -881,16 +887,16 @@
         }
       }
     }
-  
+
     &__cardtabs {
       margin: 2em 2%;
-  
+
       &-wrap {
         margin-top: 2em;
         width: 100%;
       }
     }
-  
+
     &__listproducts {
       padding: 0em 2% 0em 2%;
       margin-top: -3.5em;
@@ -912,7 +918,7 @@
             width: 100%;
           }
         }
-  
+
         &-small {
           margin-top: 2em;
           &-btn1 {
@@ -920,12 +926,12 @@
             right: -10px;
             font-size: 20px;
           }
-  
+
           &-btn2 {
             top: 40%;
             font-size: 20px;
           }
-  
+
           &-item {
             &-wrap {
               width: calc(8vw);
@@ -937,7 +943,7 @@
         }
       }
     }
-  
+
     &__products {
       padding: 3em 2%;
       &-header {
@@ -946,25 +952,25 @@
           font-weight: 800;
           letter-spacing: 0.2px;
         }
-  
+
         &-btn {
           padding-left: 1em !important;
           padding-right: 1em !important;
-  
+
           &-text {
             font-size: 1em;
             line-height: 0em;
           }
         }
       }
-  
+
       &-slider {
         margin: 1em -1em;
         &-btn1 {
           right: -1em;
           font-size: 3em;
         }
-  
+
         &-btn2 {
           left: -1em;
           font-size: 3em;
@@ -974,49 +980,49 @@
         }
       }
     }
-  
+
     &__event {
       padding: 1em 2%;
-  
+
       &-wrap {
         margin-top: 2em;
       }
-  
+
       &-list {
         margin-left: 3em;
-  
+
         .ant-card-body {
           padding: 0;
           box-shadow: none !important;
         }
-  
+
         .ant-card.css-dev-only-do-not-override-1e3x2xa {
           box-shadow: none !important;
           padding: 1em 0;
         }
-  
+
         .ant-list-item.ant-list-item-no-flex {
           padding: 0;
           box-shadow: none !important;
           border-bottom: 1px solid #333;
         }
-  
+
         &-card {
           &:hover {
             cursor: pointer;
-  
+
             .home__event-list-card-infor-title {
               color: $color-primary;
               transition: all 0.2s ease-in-out;
             }
           }
-  
+
           &-img {
           }
-  
+
           &-infor {
             margin-left: 1em;
-  
+
             &-title {
               font-size: 1.2em;
               font-weight: 600;
@@ -1024,14 +1030,14 @@
               font-family: $font-title;
               transition: all 0.2s ease-in-out;
             }
-  
+
             &-description {
               font-size: 1em;
               font-weight: 400;
               color: $color-description;
               font-family: $font-document;
             }
-  
+
             &-time {
               margin-top: 0.5em;
               font-weight: 600;
@@ -1042,7 +1048,7 @@
         }
       }
     }
-  
+
     &__partner {
       padding: 0px 2%;
       margin-top: -50px;
@@ -1052,22 +1058,22 @@
           right: 0em;
           font-size: 1em;
         }
-  
+
         &-btn2 {
           left: 0em;
           font-size: 1em;
         }
       }
     }
-  
+
     &__contact {
       margin: 3em 2% 0em 2%;
-  
+
       &-map {
         width: 100%;
         height: 20em;
       }
-  
+
       &-wrap {
         margin-top: 3em;
         display: block;
@@ -1081,7 +1087,7 @@
             font-weight: 600;
             text-align: center;
           }
-  
+
           &-text {
             margin-top: 4em;
             font-size: 1em;
@@ -1091,27 +1097,27 @@
             text-align: center;
           }
         }
-  
+
         &-right {
           width: 100%;
-  
+
           &-form {
             .ant-form-item-required {
               font-size: 1.2em !important;
               line-height: 1.4em !important;
             }
-  
+
             .ant-input-affix-wrapper {
               height: 50px !important;
             }
             .anticon {
               font-size: 24px;
             }
-  
+
             .ant-input {
               font-size: 1.1em !important;
             }
-  
+
             .ant-form-item-label {
               label {
                 font-size: 1.2em !important;
@@ -1154,7 +1160,7 @@
             width: 77vw;
             height: 3.8em;
           }
-  
+
           &-btn {
             font-weight: 500;
             margin-top: 1.1em;
@@ -1169,7 +1175,7 @@
           font-size: 3em;
         }
       }
-  
+
       &-btn2 {
         left: 1em;
         &-icon {
@@ -1193,7 +1199,7 @@
           margin-top: 10px;
         }
         &-description {
-          display:none;
+          display: none;
           font-size: 0.9em;
         }
         &-active {
@@ -1206,7 +1212,7 @@
             margin-top: 10px;
           }
           &-description {
-            display:none;
+            display: none;
             font-size: 1.1em;
           }
         }
@@ -1246,16 +1252,16 @@
         }
       }
     }
-  
+
     &__cardtabs {
       margin: 2em 2%;
-  
+
       &-wrap {
         margin-top: 2em;
         width: 100%;
       }
     }
-  
+
     &__listproducts {
       padding: 0em 2% 0em 2%;
       margin-top: -3.5em;
@@ -1277,7 +1283,7 @@
             width: 100%;
           }
         }
-  
+
         &-small {
           margin-top: 2em;
           &-btn1 {
@@ -1285,12 +1291,12 @@
             right: -10px;
             font-size: 20px;
           }
-  
+
           &-btn2 {
             top: 40%;
             font-size: 20px;
           }
-  
+
           &-item {
             &-wrap {
               width: calc(8vw);
@@ -1302,7 +1308,7 @@
         }
       }
     }
-  
+
     &__products {
       padding: 3em 2%;
       &-header {
@@ -1311,25 +1317,25 @@
           font-weight: 800;
           letter-spacing: 0.2px;
         }
-  
+
         &-btn {
           padding-left: 1em !important;
           padding-right: 1em !important;
-  
+
           &-text {
             font-size: 1em;
             line-height: 0em;
           }
         }
       }
-  
+
       &-slider {
         margin: 1em -1em;
         &-btn1 {
           right: -1em;
           font-size: 3em;
         }
-  
+
         &-btn2 {
           left: -1em;
           font-size: 3em;
@@ -1339,49 +1345,49 @@
         }
       }
     }
-  
+
     &__event {
       padding: 1em 2%;
-  
+
       &-wrap {
         margin-top: 2em;
       }
-  
+
       &-list {
         margin-left: 3em;
-  
+
         .ant-card-body {
           padding: 0;
           box-shadow: none !important;
         }
-  
+
         .ant-card.css-dev-only-do-not-override-1e3x2xa {
           box-shadow: none !important;
           padding: 1em 0;
         }
-  
+
         .ant-list-item.ant-list-item-no-flex {
           padding: 0;
           box-shadow: none !important;
           border-bottom: 1px solid #333;
         }
-  
+
         &-card {
           &:hover {
             cursor: pointer;
-  
+
             .home__event-list-card-infor-title {
               color: $color-primary;
               transition: all 0.2s ease-in-out;
             }
           }
-  
+
           &-img {
           }
-  
+
           &-infor {
             margin-left: 1em;
-  
+
             &-title {
               font-size: 1.2em;
               font-weight: 600;
@@ -1389,14 +1395,14 @@
               font-family: $font-title;
               transition: all 0.2s ease-in-out;
             }
-  
+
             &-description {
               font-size: 1em;
               font-weight: 400;
               color: $color-description;
               font-family: $font-document;
             }
-  
+
             &-time {
               margin-top: 0.5em;
               font-weight: 600;
@@ -1407,7 +1413,7 @@
         }
       }
     }
-  
+
     &__partner {
       padding: 0px 2%;
       margin-top: -50px;
@@ -1417,22 +1423,22 @@
           right: 0em;
           font-size: 1em;
         }
-  
+
         &-btn2 {
           left: 0em;
           font-size: 1em;
         }
       }
     }
-  
+
     &__contact {
       margin: 3em 2% 0em 2%;
-  
+
       &-map {
         width: 100%;
         height: 20em;
       }
-  
+
       &-wrap {
         margin-top: 3em;
         display: block;
@@ -1446,7 +1452,7 @@
             font-weight: 600;
             text-align: center;
           }
-  
+
           &-text {
             margin-top: 4em;
             font-size: 1em;
@@ -1456,27 +1462,27 @@
             text-align: center;
           }
         }
-  
+
         &-right {
           width: 100%;
-  
+
           &-form {
             .ant-form-item-required {
               font-size: 1.2em !important;
               line-height: 1.4em !important;
             }
-  
+
             .ant-input-affix-wrapper {
               height: 50px !important;
             }
             .anticon {
               font-size: 24px;
             }
-  
+
             .ant-input {
               font-size: 1.1em !important;
             }
-  
+
             .ant-form-item-label {
               label {
                 font-size: 1.2em !important;
@@ -1519,7 +1525,7 @@
             width: 70vw;
             height: 4em;
           }
-  
+
           &-btn {
             font-weight: 500;
             margin-top: 1.2em;
@@ -1534,7 +1540,7 @@
           font-size: 3em;
         }
       }
-  
+
       &-btn2 {
         left: 1em;
         &-icon {
@@ -1609,16 +1615,16 @@
         }
       }
     }
-  
+
     &__cardtabs {
       margin: 2em 2%;
-  
+
       &-wrap {
         margin-top: 2em;
         width: 100%;
       }
     }
-  
+
     &__listproducts {
       padding: 0em 2% 0em 2%;
       margin-top: -6em;
@@ -1640,7 +1646,7 @@
             width: 100%;
           }
         }
-  
+
         &-small {
           margin-top: 2em;
           &-btn1 {
@@ -1648,12 +1654,12 @@
             right: -10px;
             font-size: 20px;
           }
-  
+
           &-btn2 {
             top: 40%;
             font-size: 20px;
           }
-  
+
           &-item {
             &-wrap {
               width: calc(8vw);
@@ -1665,7 +1671,7 @@
         }
       }
     }
-  
+
     &__products {
       padding: 3em 2%;
       &-header {
@@ -1674,25 +1680,25 @@
           font-weight: 800;
           letter-spacing: 0.5px;
         }
-  
+
         &-btn {
           padding-left: 1.5em !important;
           padding-right: 1.5em !important;
-  
+
           &-text {
             font-size: 1em;
             line-height: 1em;
           }
         }
       }
-  
+
       &-slider {
         margin: 2em -1em;
         &-btn1 {
           right: -1em;
           font-size: 3em;
         }
-  
+
         &-btn2 {
           left: -1em;
           font-size: 3em;
@@ -1702,49 +1708,49 @@
         }
       }
     }
-  
+
     &__event {
       padding: 1em 2%;
-  
+
       &-wrap {
         margin-top: 2em;
       }
-  
+
       &-list {
         margin-left: 3em;
-  
+
         .ant-card-body {
           padding: 0;
           box-shadow: none !important;
         }
-  
+
         .ant-card.css-dev-only-do-not-override-1e3x2xa {
           box-shadow: none !important;
           padding: 1em 0;
         }
-  
+
         .ant-list-item.ant-list-item-no-flex {
           padding: 0;
           box-shadow: none !important;
           border-bottom: 1px solid #333;
         }
-  
+
         &-card {
           &:hover {
             cursor: pointer;
-  
+
             .home__event-list-card-infor-title {
               color: $color-primary;
               transition: all 0.2s ease-in-out;
             }
           }
-  
+
           &-img {
           }
-  
+
           &-infor {
             margin-left: 1em;
-  
+
             &-title {
               font-size: 1.2em;
               font-weight: 600;
@@ -1752,14 +1758,14 @@
               font-family: $font-title;
               transition: all 0.2s ease-in-out;
             }
-  
+
             &-description {
               font-size: 1em;
               font-weight: 400;
               color: $color-description;
               font-family: $font-document;
             }
-  
+
             &-time {
               margin-top: 0.5em;
               font-weight: 600;
@@ -1770,7 +1776,7 @@
         }
       }
     }
-  
+
     &__partner {
       padding: 0px 2%;
       margin-top: -30px;
@@ -1780,22 +1786,22 @@
           right: 0em;
           font-size: 1em;
         }
-  
+
         &-btn2 {
           left: 0em;
           font-size: 1em;
         }
       }
     }
-  
+
     &__contact {
       margin: 3em 2% 0em 2%;
-  
+
       &-map {
         width: 100%;
         height: 20em;
       }
-  
+
       &-wrap {
         margin-top: 3em;
         display: block;
@@ -1809,7 +1815,7 @@
             font-weight: 600;
             text-align: center;
           }
-  
+
           &-text {
             margin-top: 4em;
             font-size: 1em;
@@ -1819,27 +1825,27 @@
             text-align: center;
           }
         }
-  
+
         &-right {
           width: 100%;
-  
+
           &-form {
             .ant-form-item-required {
               font-size: 1.2em !important;
               line-height: 1.4em !important;
             }
-  
+
             .ant-input-affix-wrapper {
               height: 50px !important;
             }
             .anticon {
               font-size: 24px;
             }
-  
+
             .ant-input {
               font-size: 1.1em !important;
             }
-  
+
             .ant-form-item-label {
               label {
                 font-size: 1.2em !important;
@@ -1882,7 +1888,7 @@
             width: 35vw;
             height: 4em;
           }
-  
+
           &-btn {
             font-weight: 500;
             margin-top: 1.5em;
@@ -1897,7 +1903,7 @@
           font-size: 3em;
         }
       }
-  
+
       &-btn2 {
         left: 1em;
         &-icon {
@@ -1905,7 +1911,7 @@
         }
       }
     }
-  
+
     &__title {
       text-align: center;
       &-text {
@@ -1914,14 +1920,14 @@
         letter-spacing: 0.05em;
         margin-top: 0.5em;
       }
-  
+
       &-wall {
         margin: 1em auto;
         height: 0.3em;
         width: 5em;
       }
     }
-  
+
     &__principles {
       padding: 2em 2% 0em 2%;
       top: -120px;
@@ -1986,16 +1992,16 @@
         }
       }
     }
-  
+
     &__cardtabs {
       margin: 2em 2%;
-  
+
       &-wrap {
         margin-top: 2em;
         width: 100%;
       }
     }
-  
+
     &__listproducts {
       padding: 0em 2% 0em 2%;
       margin-top: -3em;
@@ -2017,7 +2023,7 @@
             width: 100%;
           }
         }
-  
+
         &-small {
           margin-top: 2em;
           &-btn1 {
@@ -2025,12 +2031,12 @@
             right: -10px;
             font-size: 20px;
           }
-  
+
           &-btn2 {
             top: 40%;
             font-size: 20px;
           }
-  
+
           &-item {
             &-wrap {
               width: calc(8vw);
@@ -2042,35 +2048,35 @@
         }
       }
     }
-  
+
     &__products {
       padding: 3em 2%;
-  
+
       &-header {
         &-title {
           font-size: 1.8em;
           font-weight: 800;
           letter-spacing: 0.5px;
         }
-  
+
         &-btn {
           padding-left: 3em !important;
           padding-right: 3em !important;
-  
+
           &-text {
             font-size: 1.1em;
             line-height: 1.1em;
           }
         }
       }
-  
+
       &-slider {
         margin: 2em -1em;
         &-btn1 {
           right: -1em;
           font-size: 3em;
         }
-  
+
         &-btn2 {
           left: -1em;
           font-size: 3em;
@@ -2080,49 +2086,49 @@
         }
       }
     }
-  
+
     &__event {
       padding: 1em 2%;
-  
+
       &-wrap {
         margin-top: 2em;
       }
-  
+
       &-list {
         margin-left: 3em;
-  
+
         .ant-card-body {
           padding: 0;
           box-shadow: none !important;
         }
-  
+
         .ant-card.css-dev-only-do-not-override-1e3x2xa {
           box-shadow: none !important;
           padding: 1em 0;
         }
-  
+
         .ant-list-item.ant-list-item-no-flex {
           padding: 0;
           box-shadow: none !important;
           border-bottom: 1px solid #333;
         }
-  
+
         &-card {
           &:hover {
             cursor: pointer;
-  
+
             .home__event-list-card-infor-title {
               color: $color-primary;
               transition: all 0.2s ease-in-out;
             }
           }
-  
+
           &-img {
           }
-  
+
           &-infor {
             margin-left: 1em;
-  
+
             &-title {
               font-size: 1.2em;
               font-weight: 600;
@@ -2130,14 +2136,14 @@
               font-family: $font-title;
               transition: all 0.2s ease-in-out;
             }
-  
+
             &-description {
               font-size: 1em;
               font-weight: 400;
               color: $color-description;
               font-family: $font-document;
             }
-  
+
             &-time {
               margin-top: 0.5em;
               font-weight: 600;
@@ -2148,10 +2154,10 @@
         }
       }
     }
-  
+
     &__partner {
       padding: 1em 2%;
-  
+
       &-slider {
         margin: 3em -5em 1em -5em;
 
@@ -2159,22 +2165,22 @@
           right: 0em;
           font-size: 3em;
         }
-  
+
         &-btn2 {
           left: 0em;
           font-size: 3em;
         }
       }
     }
-  
+
     &__contact {
       margin: 1em 2%;
-  
+
       &-map {
         width: 100%;
         height: 30em;
       }
-  
+
       &-wrap {
         margin-top: 5em;
         &-left {
@@ -2185,7 +2191,7 @@
             line-height: 1.6em;
             font-weight: 600;
           }
-  
+
           &-text {
             margin-top: 4em;
             font-size: 1em;
@@ -2194,27 +2200,27 @@
             font-style: italic;
           }
         }
-  
+
         &-right {
           width: 50%;
-  
+
           &-form {
             .ant-form-item-required {
               font-size: 1.2em !important;
               line-height: 1.4em !important;
             }
-  
+
             .ant-input-affix-wrapper {
               height: 50px !important;
             }
             .anticon {
               font-size: 24px;
             }
-  
+
             .ant-input {
               font-size: 1.1em !important;
             }
-  
+
             .ant-form-item-label {
               label {
                 font-size: 1.2em !important;
@@ -2254,7 +2260,7 @@
             width: 35vw;
             height: 4em;
           }
-  
+
           &-btn {
             font-weight: 500;
             margin-top: 1.5em;
@@ -2269,7 +2275,7 @@
           font-size: 3em;
         }
       }
-  
+
       &-btn2 {
         left: 1em;
         &-icon {
@@ -2277,7 +2283,7 @@
         }
       }
     }
-  
+
     &__title {
       text-align: center;
       &-text {
@@ -2286,14 +2292,14 @@
         letter-spacing: 0.05em;
         margin-top: 0.5em;
       }
-  
+
       &-wall {
         margin: 1em auto;
         height: 0.3em;
         width: 5em;
       }
     }
-  
+
     &__principles {
       padding: 2em 5% 0em 5%;
       top: -120px;
@@ -2358,16 +2364,16 @@
         }
       }
     }
-  
+
     &__cardtabs {
       margin: 2em 5%;
-  
+
       &-wrap {
         margin-top: 2em;
         width: 100%;
       }
     }
-  
+
     &__listproducts {
       padding: 0em 5% 0em 5%;
       margin-top: -3em;
@@ -2389,7 +2395,7 @@
             width: 100%;
           }
         }
-  
+
         &-small {
           margin-top: 2em;
           &-btn1 {
@@ -2397,12 +2403,12 @@
             right: -10px;
             font-size: 20px;
           }
-  
+
           &-btn2 {
             top: 40%;
             font-size: 20px;
           }
-  
+
           &-item {
             &-wrap {
               width: calc(8vw);
@@ -2414,35 +2420,35 @@
         }
       }
     }
-  
+
     &__products {
       padding: 3em 5%;
-  
+
       &-header {
         &-title {
           font-size: 1.8em;
           font-weight: 800;
           letter-spacing: 0.5px;
         }
-  
+
         &-btn {
           padding-left: 3em !important;
           padding-right: 3em !important;
-  
+
           &-text {
             font-size: 1.1em;
             line-height: 1.1em;
           }
         }
       }
-  
+
       &-slider {
         margin: 2em -1em;
         &-btn1 {
           right: -1em;
           font-size: 3em;
         }
-  
+
         &-btn2 {
           left: -1em;
           font-size: 3em;
@@ -2452,49 +2458,49 @@
         }
       }
     }
-  
+
     &__event {
       padding: 1em 10%;
-  
+
       &-wrap {
         margin-top: 2em;
       }
-  
+
       &-list {
         margin-left: 3em;
-  
+
         .ant-card-body {
           padding: 0;
           box-shadow: none !important;
         }
-  
+
         .ant-card.css-dev-only-do-not-override-1e3x2xa {
           box-shadow: none !important;
           padding: 1em 0;
         }
-  
+
         .ant-list-item.ant-list-item-no-flex {
           padding: 0;
           box-shadow: none !important;
           border-bottom: 1px solid #333;
         }
-  
+
         &-card {
           &:hover {
             cursor: pointer;
-  
+
             .home__event-list-card-infor-title {
               color: $color-primary;
               transition: all 0.2s ease-in-out;
             }
           }
-  
+
           &-img {
           }
-  
+
           &-infor {
             margin-left: 1em;
-  
+
             &-title {
               font-size: 1.2em;
               font-weight: 600;
@@ -2502,14 +2508,14 @@
               font-family: $font-title;
               transition: all 0.2s ease-in-out;
             }
-  
+
             &-description {
               font-size: 1em;
               font-weight: 400;
               color: $color-description;
               font-family: $font-document;
             }
-  
+
             &-time {
               margin-top: 0.5em;
               font-weight: 600;
@@ -2520,10 +2526,10 @@
         }
       }
     }
-  
+
     &__partner {
       padding: 1em 5%;
-  
+
       &-slider {
         margin: 3em -5em 1em -5em;
 
@@ -2531,22 +2537,22 @@
           right: 0em;
           font-size: 3em;
         }
-  
+
         &-btn2 {
           left: 0em;
           font-size: 3em;
         }
       }
     }
-  
+
     &__contact {
       margin: 1em 10%;
-  
+
       &-map {
         width: 100%;
         height: 30em;
       }
-  
+
       &-wrap {
         margin-top: 5em;
         &-left {
@@ -2557,7 +2563,7 @@
             line-height: 1.6em;
             font-weight: 600;
           }
-  
+
           &-text {
             margin-top: 4em;
             font-size: 1em;
@@ -2566,27 +2572,27 @@
             font-style: italic;
           }
         }
-  
+
         &-right {
           width: 50%;
-  
+
           &-form {
             .ant-form-item-required {
               font-size: 1.2em !important;
               line-height: 1.4em !important;
             }
-  
+
             .ant-input-affix-wrapper {
               height: 50px !important;
             }
             .anticon {
               font-size: 24px;
             }
-  
+
             .ant-input {
               font-size: 1.1em !important;
             }
-  
+
             .ant-form-item-label {
               label {
                 font-size: 1.2em !important;
@@ -2626,7 +2632,7 @@
             width: 35vw;
             height: 4em;
           }
-  
+
           &-btn {
             font-weight: 500;
             margin-top: 1.5em;
@@ -2641,7 +2647,7 @@
           font-size: 3em;
         }
       }
-  
+
       &-btn2 {
         left: 1em;
         &-icon {
@@ -2649,7 +2655,7 @@
         }
       }
     }
-  
+
     &__title {
       text-align: center;
       &-text {
@@ -2658,14 +2664,14 @@
         letter-spacing: 0.05em;
         margin-top: 0.5em;
       }
-  
+
       &-wall {
         margin: 1em auto;
         height: 0.3em;
         width: 5em;
       }
     }
-  
+
     &__principles {
       padding: 2em 10% 0em 10%;
       top: -120px;
@@ -2730,16 +2736,16 @@
         }
       }
     }
-  
+
     &__cardtabs {
       margin: 2em 10%;
-  
+
       &-wrap {
         margin-top: 2em;
         width: 100%;
       }
     }
-  
+
     &__listproducts {
       padding: 0em 10% 0em 10%;
       margin-top: -3em;
@@ -2761,7 +2767,7 @@
             width: 100%;
           }
         }
-  
+
         &-small {
           margin-top: 2em;
           &-btn1 {
@@ -2769,12 +2775,12 @@
             right: -10px;
             font-size: 20px;
           }
-  
+
           &-btn2 {
             top: 40%;
             font-size: 20px;
           }
-  
+
           &-item {
             &-wrap {
               width: calc(8vw);
@@ -2786,35 +2792,35 @@
         }
       }
     }
-  
+
     &__products {
       padding: 3em 10%;
-  
+
       &-header {
         &-title {
           font-size: 1.8em;
           font-weight: 800;
           letter-spacing: 0.5px;
         }
-  
+
         &-btn {
           padding-left: 3em !important;
           padding-right: 3em !important;
-  
+
           &-text {
             font-size: 1.1em;
             line-height: 1.1em;
           }
         }
       }
-  
+
       &-slider {
         margin: 2em -1em;
         &-btn1 {
           right: -1em;
           font-size: 3em;
         }
-  
+
         &-btn2 {
           left: -1em;
           font-size: 3em;
@@ -2824,49 +2830,49 @@
         }
       }
     }
-  
+
     &__event {
       padding: 1em 10%;
-  
+
       &-wrap {
         margin-top: 2em;
       }
-  
+
       &-list {
         margin-left: 3em;
-  
+
         .ant-card-body {
           padding: 0;
           box-shadow: none !important;
         }
-  
+
         .ant-card.css-dev-only-do-not-override-1e3x2xa {
           box-shadow: none !important;
           padding: 1em 0;
         }
-  
+
         .ant-list-item.ant-list-item-no-flex {
           padding: 0;
           box-shadow: none !important;
           border-bottom: 1px solid #333;
         }
-  
+
         &-card {
           &:hover {
             cursor: pointer;
-  
+
             .home__event-list-card-infor-title {
               color: $color-primary;
               transition: all 0.2s ease-in-out;
             }
           }
-  
+
           &-img {
           }
-  
+
           &-infor {
             margin-left: 1em;
-  
+
             &-title {
               font-size: 1.2em;
               font-weight: 600;
@@ -2874,14 +2880,14 @@
               font-family: $font-title;
               transition: all 0.2s ease-in-out;
             }
-  
+
             &-description {
               font-size: 1em;
               font-weight: 400;
               color: $color-description;
               font-family: $font-document;
             }
-  
+
             &-time {
               margin-top: 0.5em;
               font-weight: 600;
@@ -2892,10 +2898,10 @@
         }
       }
     }
-  
+
     &__partner {
       padding: 1em 10%;
-  
+
       &-slider {
         margin: 3em -5em 1em -5em;
 
@@ -2903,22 +2909,22 @@
           right: 0em;
           font-size: 3em;
         }
-  
+
         &-btn2 {
           left: 0em;
           font-size: 3em;
         }
       }
     }
-  
+
     &__contact {
       margin: 1em 10%;
-  
+
       &-map {
         width: 100%;
         height: 30em;
       }
-  
+
       &-wrap {
         margin-top: 5em;
         &-left {
@@ -2929,7 +2935,7 @@
             line-height: 1.6em;
             font-weight: 600;
           }
-  
+
           &-text {
             margin-top: 4em;
             font-size: 1em;
@@ -2938,27 +2944,27 @@
             font-style: italic;
           }
         }
-  
+
         &-right {
           width: 50%;
-  
+
           &-form {
             .ant-form-item-required {
               font-size: 1.2em !important;
               line-height: 1.4em !important;
             }
-  
+
             .ant-input-affix-wrapper {
               height: 50px !important;
             }
             .anticon {
               font-size: 24px;
             }
-  
+
             .ant-input {
               font-size: 1.1em !important;
             }
-  
+
             .ant-form-item-label {
               label {
                 font-size: 1.2em !important;
@@ -2998,7 +3004,7 @@
             width: 35vw;
             height: 4em;
           }
-  
+
           &-btn {
             font-weight: 500;
             margin-top: 1.5em;
@@ -3013,7 +3019,7 @@
           font-size: 3em;
         }
       }
-  
+
       &-btn2 {
         left: 1em;
         &-icon {
@@ -3021,7 +3027,7 @@
         }
       }
     }
-  
+
     &__title {
       text-align: center;
       &-text {
@@ -3030,14 +3036,14 @@
         letter-spacing: 0.05em;
         margin-top: 0.5em;
       }
-  
+
       &-wall {
         margin: 1em auto;
         height: 0.3em;
         width: 5em;
       }
     }
-  
+
     &__principles {
       padding: 2em 13% 0em 13%;
       top: -100px;
@@ -3102,16 +3108,16 @@
         }
       }
     }
-  
+
     &__cardtabs {
       margin: 2em 13%;
-  
+
       &-wrap {
         margin-top: 2em;
         width: 100%;
       }
     }
-  
+
     &__listproducts {
       padding: 0em 13% 0em 13%;
       margin-top: -3em;
@@ -3133,7 +3139,7 @@
             width: 100%;
           }
         }
-  
+
         &-small {
           margin-top: 2em;
           &-btn1 {
@@ -3141,12 +3147,12 @@
             right: -10px;
             font-size: 20px;
           }
-  
+
           &-btn2 {
             top: 40%;
             font-size: 20px;
           }
-  
+
           &-item {
             &-wrap {
               width: calc(8vw);
@@ -3158,35 +3164,35 @@
         }
       }
     }
-  
+
     &__products {
       padding: 3em 13%;
-  
+
       &-header {
         &-title {
           font-size: 1.8em;
           font-weight: 800;
           letter-spacing: 0.5px;
         }
-  
+
         &-btn {
           padding-left: 3em !important;
           padding-right: 3em !important;
-  
+
           &-text {
             font-size: 1.1em;
             line-height: 1.1em;
           }
         }
       }
-  
+
       &-slider {
         margin: 2em -1em;
         &-btn1 {
           right: -1em;
           font-size: 3em;
         }
-  
+
         &-btn2 {
           left: -1em;
           font-size: 3em;
@@ -3196,49 +3202,49 @@
         }
       }
     }
-  
+
     &__event {
       padding: 1em 13%;
-  
+
       &-wrap {
         margin-top: 2em;
       }
-  
+
       &-list {
         margin-left: 3em;
-  
+
         .ant-card-body {
           padding: 0;
           box-shadow: none !important;
         }
-  
+
         .ant-card.css-dev-only-do-not-override-1e3x2xa {
           box-shadow: none !important;
           padding: 1em 0;
         }
-  
+
         .ant-list-item.ant-list-item-no-flex {
           padding: 0;
           box-shadow: none !important;
           border-bottom: 1px solid #333;
         }
-  
+
         &-card {
           &:hover {
             cursor: pointer;
-  
+
             .home__event-list-card-infor-title {
               color: $color-primary;
               transition: all 0.2s ease-in-out;
             }
           }
-  
+
           &-img {
           }
-  
+
           &-infor {
             margin-left: 1em;
-  
+
             &-title {
               font-size: 1.2em;
               font-weight: 600;
@@ -3246,14 +3252,14 @@
               font-family: $font-title;
               transition: all 0.2s ease-in-out;
             }
-  
+
             &-description {
               font-size: 1em;
               font-weight: 400;
               color: $color-description;
               font-family: $font-document;
             }
-  
+
             &-time {
               margin-top: 0.5em;
               font-weight: 600;
@@ -3264,10 +3270,10 @@
         }
       }
     }
-  
+
     &__partner {
       padding: 1em 13%;
-  
+
       &-slider {
         margin: 3em -5em 1em -5em;
 
@@ -3275,22 +3281,22 @@
           right: 0em;
           font-size: 3em;
         }
-  
+
         &-btn2 {
           left: 0em;
           font-size: 3em;
         }
       }
     }
-  
+
     &__contact {
       margin: 1em 13%;
-  
+
       &-map {
         width: 100%;
         height: 30em;
       }
-  
+
       &-wrap {
         margin-top: 5em;
         &-left {
@@ -3301,7 +3307,7 @@
             line-height: 1.6em;
             font-weight: 600;
           }
-  
+
           &-text {
             margin-top: 4em;
             font-size: 1em;
@@ -3310,27 +3316,27 @@
             font-style: italic;
           }
         }
-  
+
         &-right {
           width: 50%;
-  
+
           &-form {
             .ant-form-item-required {
               font-size: 1.2em !important;
               line-height: 1.4em !important;
             }
-  
+
             .ant-input-affix-wrapper {
               height: 50px !important;
             }
             .anticon {
               font-size: 24px;
             }
-  
+
             .ant-input {
               font-size: 1.1em !important;
             }
-  
+
             .ant-form-item-label {
               label {
                 font-size: 1.2em !important;
@@ -3370,7 +3376,7 @@
             width: 35vw;
             height: 4em;
           }
-  
+
           &-btn {
             font-weight: 500;
             margin-top: 1.5em;
@@ -3385,7 +3391,7 @@
           font-size: 3em;
         }
       }
-  
+
       &-btn2 {
         left: 1em;
         &-icon {
@@ -3393,7 +3399,7 @@
         }
       }
     }
-  
+
     &__title {
       text-align: center;
       &-text {
@@ -3402,14 +3408,14 @@
         letter-spacing: 0.05em;
         margin-top: 0.5em;
       }
-  
+
       &-wall {
         margin: 1em auto;
         height: 0.3em;
         width: 5em;
       }
     }
-  
+
     &__principles {
       padding: 2em 16% 0em 16%;
       top: -100px;
@@ -3474,16 +3480,16 @@
         }
       }
     }
-  
+
     &__cardtabs {
       margin: 2em 16%;
-  
+
       &-wrap {
         margin-top: 2em;
         width: 100%;
       }
     }
-  
+
     &__listproducts {
       padding: 0em 16% 0em 16%;
       margin-top: -3em;
@@ -3505,7 +3511,7 @@
             width: 100%;
           }
         }
-  
+
         &-small {
           margin-top: 2em;
           &-btn1 {
@@ -3513,12 +3519,12 @@
             right: -10px;
             font-size: 20px;
           }
-  
+
           &-btn2 {
             top: 40%;
             font-size: 20px;
           }
-  
+
           &-item {
             &-wrap {
               width: calc(8vw);
@@ -3530,35 +3536,35 @@
         }
       }
     }
-  
+
     &__products {
       padding: 3em 16%;
-  
+
       &-header {
         &-title {
           font-size: 1.8em;
           font-weight: 800;
           letter-spacing: 0.5px;
         }
-  
+
         &-btn {
           padding-left: 3em !important;
           padding-right: 3em !important;
-  
+
           &-text {
             font-size: 1.1em;
             line-height: 1.1em;
           }
         }
       }
-  
+
       &-slider {
         margin: 2em -1em;
         &-btn1 {
           right: -1em;
           font-size: 3em;
         }
-  
+
         &-btn2 {
           left: -1em;
           font-size: 3em;
@@ -3568,49 +3574,49 @@
         }
       }
     }
-  
+
     &__event {
       padding: 1em 16%;
-  
+
       &-wrap {
         margin-top: 2em;
       }
-  
+
       &-list {
         margin-left: 3em;
-  
+
         .ant-card-body {
           padding: 0;
           box-shadow: none !important;
         }
-  
+
         .ant-card.css-dev-only-do-not-override-1e3x2xa {
           box-shadow: none !important;
           padding: 1em 0;
         }
-  
+
         .ant-list-item.ant-list-item-no-flex {
           padding: 0;
           box-shadow: none !important;
           border-bottom: 1px solid #333;
         }
-  
+
         &-card {
           &:hover {
             cursor: pointer;
-  
+
             .home__event-list-card-infor-title {
               color: $color-primary;
               transition: all 0.2s ease-in-out;
             }
           }
-  
+
           &-img {
           }
-  
+
           &-infor {
             margin-left: 1em;
-  
+
             &-title {
               font-size: 1.2em;
               font-weight: 600;
@@ -3618,14 +3624,14 @@
               font-family: $font-title;
               transition: all 0.2s ease-in-out;
             }
-  
+
             &-description {
               font-size: 1em;
               font-weight: 400;
               color: $color-description;
               font-family: $font-document;
             }
-  
+
             &-time {
               margin-top: 0.5em;
               font-weight: 600;
@@ -3636,10 +3642,10 @@
         }
       }
     }
-  
+
     &__partner {
       padding: 1em 16%;
-  
+
       &-slider {
         margin: 3em -5em 1em -5em;
 
@@ -3647,22 +3653,22 @@
           right: 0em;
           font-size: 3em;
         }
-  
+
         &-btn2 {
           left: 0em;
           font-size: 3em;
         }
       }
     }
-  
+
     &__contact {
       margin: 1em 16%;
-  
+
       &-map {
         width: 100%;
         height: 30em;
       }
-  
+
       &-wrap {
         margin-top: 5em;
         &-left {
@@ -3673,7 +3679,7 @@
             line-height: 1.6em;
             font-weight: 600;
           }
-  
+
           &-text {
             margin-top: 4em;
             font-size: 1em;
@@ -3682,27 +3688,27 @@
             font-style: italic;
           }
         }
-  
+
         &-right {
           width: 50%;
-  
+
           &-form {
             .ant-form-item-required {
               font-size: 1.2em !important;
               line-height: 1.4em !important;
             }
-  
+
             .ant-input-affix-wrapper {
               height: 50px !important;
             }
             .anticon {
               font-size: 24px;
             }
-  
+
             .ant-input {
               font-size: 1.1em !important;
             }
-  
+
             .ant-form-item-label {
               label {
                 font-size: 1.2em !important;

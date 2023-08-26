@@ -11,7 +11,7 @@ interface ContactProps {
   t: any;
 }
 
-const Contact: React.FC<ContactProps> = ( props) => {
+const Contact: React.FC<ContactProps> = (props) => {
   const { data, t } = props;
 
   const onFinish = (values: any) => {
@@ -21,7 +21,7 @@ const Contact: React.FC<ContactProps> = ( props) => {
     <div className="home__contact">
       <TitleBlock
         title={data.titleBlock}
-        urlImage={data.iconBlock[0]}
+        urlImage={data.iconBlock ? data.iconBlock[0] : ""}
         underlined={data.underlineBlock}
       />
       <div
@@ -50,7 +50,7 @@ const Contact: React.FC<ContactProps> = ( props) => {
           </p>
         </div>
         <div className="home__contact-wrap-right">
-          <FormContactHome t={t}/>
+          <FormContactHome t={t} />
         </div>
       </Row>
     </div>

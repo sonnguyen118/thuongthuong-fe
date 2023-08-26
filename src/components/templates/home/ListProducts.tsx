@@ -17,20 +17,22 @@ interface ListProductsProps {
 }
 
 const ListProducts: React.FC<ListProductsProps> = (props) => {
-  const { isShow, uderlineBlock, iconBlock, titleBlock, listSliderBlock, t} = props;
+  const { isShow, uderlineBlock, iconBlock, titleBlock, listSliderBlock, t } =
+    props;
 
   return (
     <>
-      {isShow && <div className="home__listproducts">
-        <TitleBlock
-          title={titleBlock}
-          urlImage={iconBlock[0]}
-          underlined={uderlineBlock}
-        />
-        <SlideBarsImageProductsHome listSlider={listSliderBlock}/>
-      </div>}
+      {isShow && (
+        <div className="home__listproducts">
+          <TitleBlock
+            title={titleBlock}
+            urlImage={iconBlock[0]}
+            underlined={uderlineBlock}
+          />
+          <SlideBarsImageProductsHome listSlider={listSliderBlock} />
+        </div>
+      )}
     </>
-
   );
 };
 export default ListProducts;
