@@ -14,7 +14,7 @@
     "build:production": "env-cmd -f .env.production next build",
     "start:production": "env-cmd -f .env.production node server.js",
     "build": "next build",
-    "start": "node server.js"
+    "start": "next start"
   },
   "dependencies": {
     "@ant-design/icons": "^5.0.1",
