@@ -49,7 +49,6 @@ const CardProduct: React.FC<{ props: CardProductProps }> = ({ props }) => {
       handleProductsClient
       .getDetailProductsID(id, "VI")
       .then((result:any) => {
-        console.log(result, "result");
         if(result.meta.status === 200) {
           setDataDetailProduct(result.data);
         }

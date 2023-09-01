@@ -23,6 +23,12 @@
     :where(.css-dev-only-do-not-override-1e3x2xa).ant-menu-horizontal {
       border-bottom: none;
     }
+    ul {
+      background-color: transparent !important;
+      .ant-menu-light, .ant-menu-light>.ant-menu, .ant-btn-default {
+        background-color: transparent !important;
+      }
+    }
   }
   &-item {
     font-size: 1.4em;

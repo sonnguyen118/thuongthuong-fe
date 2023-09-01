@@ -41,7 +41,6 @@ const SimpleSlider: React.FC<SliderProps> = ( props) => {
   const previous = () => {
     slider.current?.slickPrev();
   };
-console.log(t, "t");
   return (
     <div className="home__slider">
       {isShow && (

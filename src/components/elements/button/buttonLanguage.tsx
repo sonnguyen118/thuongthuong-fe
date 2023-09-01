@@ -161,8 +161,6 @@ const ButtonLanguage: React.FC = () => {
     ]);
   }
   },[langURL])
-console.log(items, "itemsData");
-console.log(langURL, "langURL");
 
   return (
     <Space direction='vertical' className='button-lang'>

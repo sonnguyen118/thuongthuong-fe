@@ -72,3 +72,15 @@
     margin: 2em 7%;
   }
 }
+
+@include responsive_1440 {
+  .news {
+    margin: 2em 13%;
+  }
+}
+
+@include responsive_1650 {
+  .news {
+    margin: 2em 16%;
+  }
+}

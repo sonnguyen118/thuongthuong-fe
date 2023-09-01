@@ -2,6 +2,11 @@
   &__baner {
     width: 100%;
     height: 60vh;
+    margin-top: 85px;
+    img {
+      width: 100% !important;
+      height: auto;
+    }
   }
   &__block {
     background-color: $color-secondary;
@@ -80,9 +85,13 @@
 @include responsive_1280 {
   .about {
     &__baner {
-      margin-top: 5em;
       width: 100%;
       height: 60vh;
+      margin-top: 85px;
+      img {
+        width: 100% !important;
+        height: auto;
+      }
     }
     &__block {
       background-color: $color-secondary;
@@ -90,7 +99,177 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 3em 7%;
+      padding: 3em 10%;
+      &-image {
+        width: calc(50% - 2em);
+        height: 26em;
+        position: relative;
+        &-btn1 {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 10;
+          right: 0em;
+          scale: 0;
+          transition: all 0.3s ease-in-out;
+          font-size: 3em;
+          color: $color-white-tranparent;
+          &:hover {
+            cursor: pointer;
+            color: $color-white;
+            transition: all 0.3s ease-in-out;
+          }
+        }
+        &-btn2 {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 10;
+          left: 0em;
+          scale: 0;
+          font-size: 3em;
+          color: $color-white-tranparent;
+          transition: all 0.3s ease-in-out;
+          &:hover {
+            cursor: pointer;
+            color: $color-white;
+            transition: all 0.3s ease-in-out;
+          }
+        }
+        &:hover {
+          .about__block-image-btn1,
+          .about__block-image-btn2 {
+            scale: 1;
+            transition: all 0.3s ease-in-out;
+          }
+        }
+        &-item {
+          height: 26em;
+          width: 40vw;
+        }
+      }
+      &-information {
+        width: calc(50% - 2em);
+        &-title {
+          font-size: 2em;
+          line-height: 1.4em;
+          color: $color-primary;
+          font-weight: 700;
+        }
+        &-description {
+          font-size: 1.2em;
+          line-height: 1.4em;
+          color: $color-description;
+          font-weight: 400;
+          text-align: justify;
+        }
+      }
+    }
+  }
+}
+@include responsive_1440 {
+  .about {
+    &__baner {
+      width: 100%;
+      height: 60vh;
+      margin-top: 85px;
+      img {
+        width: 100% !important;
+        height: auto;
+      }
+    }
+    &__block {
+      background-color: $color-secondary;
+      margin-bottom: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 3em 13%;
+      &-image {
+        width: calc(50% - 2em);
+        height: 26em;
+        position: relative;
+        &-btn1 {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 10;
+          right: 0em;
+          scale: 0;
+          transition: all 0.3s ease-in-out;
+          font-size: 3em;
+          color: $color-white-tranparent;
+          &:hover {
+            cursor: pointer;
+            color: $color-white;
+            transition: all 0.3s ease-in-out;
+          }
+        }
+        &-btn2 {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 10;
+          left: 0em;
+          scale: 0;
+          font-size: 3em;
+          color: $color-white-tranparent;
+          transition: all 0.3s ease-in-out;
+          &:hover {
+            cursor: pointer;
+            color: $color-white;
+            transition: all 0.3s ease-in-out;
+          }
+        }
+        &:hover {
+          .about__block-image-btn1,
+          .about__block-image-btn2 {
+            scale: 1;
+            transition: all 0.3s ease-in-out;
+          }
+        }
+        &-item {
+          height: 26em;
+          width: 40vw;
+        }
+      }
+      &-information {
+        width: calc(50% - 2em);
+        &-title {
+          font-size: 2em;
+          line-height: 1.4em;
+          color: $color-primary;
+          font-weight: 700;
+        }
+        &-description {
+          font-size: 1.2em;
+          line-height: 1.4em;
+          color: $color-description;
+          font-weight: 400;
+          text-align: justify;
+        }
+      }
+    }
+  }
+}
+@include responsive_1650 {
+  .about {
+    &__baner {
+      width: 100%;
+      height: 60vh;
+      margin-top: 85px;
+      img {
+        width: 100% !important;
+        height: auto;
+      }
+    }
+    &__block {
+      background-color: $color-secondary;
+      margin-bottom: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 3em 16%;
       &-image {
         width: calc(50% - 2em);
         height: 26em;

@@ -17,7 +17,6 @@ interface CardProductProps {
 
 const ProductsModal: React.FC<{ props: CardProductProps, dataDetailProduct: any }> = ({ props, dataDetailProduct }) => {
   const { id, title, imageUrl, name, link, price } = props;
-  console.log(dataDetailProduct, "dataDetailProduct");
   const imageUrlProduct = `${process.env.NEXT_PUBLIC_API_URL}/${imageUrl}`;
   const [t, setText] = useState(viText);
   const lang = useSelector(

@@ -44,7 +44,6 @@ const App: React.FC = () => {
     .then((result:any)=>{
       const {meta, data} = result;
       setDataProducts(data.products);
-      console.log(result, "result");
     })
     .catch((error) => {
       console.log(error, "error");

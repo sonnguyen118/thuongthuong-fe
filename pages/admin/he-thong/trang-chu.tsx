@@ -857,7 +857,6 @@ const App: React.FC = () => {
       });
   };
 
-  console.log(dataProduct, "dataProduct");
   return (
     <Dashboard>
       <div className="admin__main-wrap">
