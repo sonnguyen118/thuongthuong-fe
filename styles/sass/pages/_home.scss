@@ -111,11 +111,12 @@
     text-align: center;
 
     &-text {
+      font-family: $font-title;
       text-align: center;
-      font-size: 2.1em;
+      font-size: 2.5em !important;
       font-weight: 700;
       color: $color-primary;
-      letter-spacing: 0.05em;
+      // letter-spacing: 0.05em;
       margin-top: 0.5em;
     }
 
@@ -187,6 +188,7 @@
     &-puzzle {
       margin-top: 50px;
       width: 100%;
+      // background-color: red;
       &-image {
         width: 30vw;
         height: 20vw;
@@ -194,6 +196,7 @@
       }
       &-infor {
         margin-left: 30px;
+        width: calc(100% - 30px - 30vw);
         h2:where(.css-dev-only-do-not-override-1e3x2xa).ant-typography,
         div:where(.css-dev-only-do-not-override-1e3x2xa).ant-typography-h2,
         div:where(.css-dev-only-do-not-override-1e3x2xa).ant-typography-h2
@@ -372,7 +375,7 @@
       }
 
       &-small {
-        margin-top: 2em;
+        top: -3em;
         position: relative;
 
         &:hover {
@@ -421,8 +424,9 @@
 
         &-item {
           &-wrap {
-            width: calc(8vw);
-            height: 4vw;
+            width: calc(8vw) !important;
+            // height: 4vw !important;
+            // width: auto !important;
             padding: 0 10px;
           }
 
@@ -467,6 +471,7 @@
     &-slider {
       margin: 2em -1em;
       position: relative;
+      margin-bottom: 60px !important;
 
       &:hover {
         .home__products-slider-btn1,
@@ -520,7 +525,6 @@
 
   &__event {
     padding: 1em 20%;
-
     &-wrap {
       margin-top: 2em;
 
@@ -615,7 +619,7 @@
 
   &__partner {
     padding: 1em 20%;
-
+    margin-top: -50px;
     &-slider {
       position: relative;
       margin: 3em -5em 1em -5em;
@@ -665,14 +669,17 @@
       }
 
       &-item {
-        &-img {
+        img {
+          height: 100px;
+          width: auto;
         }
       }
     }
   }
 
   &__contact {
-    margin: 1em 20%;
+    // margin: 2em 15% !important;
+    margin-top: 30px !important;
 
     &-map {
       width: 100%;

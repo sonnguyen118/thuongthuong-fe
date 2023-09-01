@@ -6,9 +6,9 @@ export default function Document() {
       <Head>
         <link rel="icon" href="/icon/logo.png" sizes="32x32" />
         <link rel="icon" href="/icon/logo.png" sizes="192x192" />
-          <script
-              dangerouslySetInnerHTML={{
-                  __html: `
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
             var chatbox = document.getElementById('fb-customer-chat');
             chatbox.setAttribute("page_id", "1447139348842481");
             chatbox.setAttribute("attribution", "biz_inbox");
@@ -26,12 +26,14 @@ export default function Document() {
               fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
             `,
-              }}
-          />
+          }}
+        />
       </Head>
       <body>
         <Main />
         <NextScript />
+        <div id="fb-root"></div>
+        <div id="fb-customer-chat" className="fb-customerchat"></div>
       </body>
     </Html>
   );
