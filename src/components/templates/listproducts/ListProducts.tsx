@@ -120,7 +120,7 @@ const ListProducts: React.FC<ListProductsProps> = (
             <Image
               src="/images/noproducts.png"
               alt="Thuong thuong handmade"
-              width={400}
+              width={1019}
               height={400}
               className="list-products-empty"
             />

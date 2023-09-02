@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, InputNumber } from "antd";
@@ -43,7 +43,7 @@ const CartItem: React.FC<CartItemProps> = (props) => {
       )}
       <td className="products-cart-table-body-item-1">
         <Image
-          src={item.imageUrl}
+          src={`${process.env.NEXT_PUBLIC_FULL_URL}/${item.imageUrl}`}
           alt={item.title}
           width={80}
           height={80}
@@ -54,7 +54,7 @@ const CartItem: React.FC<CartItemProps> = (props) => {
         </span>
       </td>
       <td className="products-cart-table-body-item-2">
-        {!item.price ? text.products.PRICE: item.price + " ₫"}
+        {!item.price ? text.products.PRICE : item.price + " ₫"}
       </td>
       <td className="products-cart-table-body-item-3">
         <div style={{ display: "flex", alignItems: "center" }}>
@@ -82,14 +82,20 @@ const CartItem: React.FC<CartItemProps> = (props) => {
               disabled
             />
           )}
-          {!props.showCheckbox && <div style={{
+          {!props.showCheckbox && (
+            <div
+              style={{
                 color: "black",
                 fontWeight: "bold",
                 fontSize: 16.5,
                 margin: "0 2.2em",
                 background: "#fafafa",
                 pointerEvents: "none",
-              }}>x{item.quantity}</div>}{" "}
+              }}
+            >
+              x{item.quantity}
+            </div>
+          )}{" "}
           {props.showCheckbox && (
             <Button
               onClick={props.onAddItem.bind(null, item)}
@@ -103,7 +109,7 @@ const CartItem: React.FC<CartItemProps> = (props) => {
         </div>
       </td>
       <td className="products-cart-table-body-item-4">
-        {item.price ? (item.price * item.quantity + " ₫" ) : text.products.PRICE}
+        {item.price ? item.price * item.quantity + " ₫" : text.products.PRICE}
       </td>{" "}
       {props.showCheckbox && (
         <td className="products-cart-table-body-item-5">

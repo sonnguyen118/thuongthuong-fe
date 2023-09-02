@@ -18,7 +18,7 @@ interface NavbarProps {
   data: any;
 }
 
-const NavbarPC: React.FC<NavbarProps> = ( props) => {
+const NavbarPC: React.FC<NavbarProps> = (props) => {
   const router = useRouter();
   const currentUrl = router.asPath;
   const { data } = props;
@@ -27,22 +27,27 @@ const NavbarPC: React.FC<NavbarProps> = ( props) => {
   const [category, setCategory] = useState([]);
   const [items, setItems] = useState<MenuProps["items"]>([]);
   useEffect(() => {
-    handleCategoryClient.handleGetAllCategory("VI")
+    handleCategoryClient
+      .handleGetAllCategory("VI")
       .then((result: any) => {
         setCategory(result);
       })
-      .catch((error) => {
-      });
+      .catch((error) => {});
   }, []);
   useEffect(() => {
     if (category && category.length > 0) {
       const newArray: MenuProps["items"] = category.map((item: any) => ({
         key: item.id,
         label: (
-          <Link target="_blank" rel="noopener noreferrer" href={item.link} className="navbar__pc-item-dropdown-item">
+          <Link
+            target="_blank"
+            rel="noopener noreferrer"
+            href={item.link}
+            className="navbar__pc-item-dropdown-item"
+          >
             {item.name}
           </Link>
-        )
+        ),
       }));
       setItems(newArray);
     }
@@ -66,31 +71,33 @@ const NavbarPC: React.FC<NavbarProps> = ( props) => {
   const [searchVisible, setSearchVisible] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [btnClasses, setBtnCalss] = useState("");
-  const [numberOfCartItems, setNumberOfCartItems] = useState<number| undefined>();
+  const [numberOfCartItems, setNumberOfCartItems] = useState<
+    number | undefined
+  >();
   console.log(cartItems, "cartItems");
 
   // const numberOfCartItems = cartItems.reduce((currNumber, item) => {
   //   return currNumber + item.quantity;
   // }, 0);
 
-  useEffect(()=> {
-    if(cartItems) {
+  useEffect(() => {
+    if (cartItems) {
       setBtnCalss(`"cart" ${isBtnHighlighted ? classes.bump : ""}`);
       const number = cartItems.reduce((currNumber, item) => {
-          return currNumber + item.quantity;
-        }, 0);
-        setNumberOfCartItems(number);
+        return currNumber + item.quantity;
+      }, 0);
+      setNumberOfCartItems(number);
     }
-  },[cartItems])
+  }, [cartItems]);
 
   useEffect(() => {
-    if(totalQuantity) {
+    if (totalQuantity) {
       setIsBtnHighlighted(true);
 
       const timer = setTimeout(() => {
         setIsBtnHighlighted(false);
       }, 300);
-  
+
       return () => {
         clearTimeout(timer);
       };
@@ -118,11 +125,11 @@ const NavbarPC: React.FC<NavbarProps> = ( props) => {
             size="small"
             dataSource={cartItems}
             className="cart-list"
-            renderItem={item => (
+            renderItem={(item) => (
               <List.Item className="cart-item">
                 <div className="cart-item-information">
                   <Image
-                    src={item.imageUrl}
+                    src={`${process.env.NEXT_PUBLIC_FULL_URL}/${item.imageUrl}`}
                     alt={item.title}
                     className="cart-item-information-img"
                     width={60}
@@ -174,9 +181,6 @@ const NavbarPC: React.FC<NavbarProps> = ( props) => {
       )}
     </>
   );
-  ;
-
-
   return (
     <>
       <div className="navbar__pc">
@@ -198,27 +202,41 @@ const NavbarPC: React.FC<NavbarProps> = ( props) => {
               if (item.link === "/san-pham") {
                 return (
                   <Dropdown menu={{ items }} placement="bottom" key={item.key}>
-                    <h2 className={currentUrl.includes(item.link) ? "navbar__pc-item-active" : "navbar__pc-item"}>
-                      <Link href={item.link}>
-                        {item.title}
-                      </Link>
+                    <h2
+                      className={
+                        currentUrl.includes(item.link)
+                          ? "navbar__pc-item-active"
+                          : "navbar__pc-item"
+                      }
+                    >
+                      <Link href={item.link}>{item.title}</Link>
                     </h2>
                   </Dropdown>
                 );
               } else if (item.link.includes("tin-tuc")) {
                 return (
-                  <h2 key={item.key} className={currentUrl.includes("tin-tuc") ? "navbar__pc-item-active" : "navbar__pc-item"}>
-                    <Link href={item.link}>
-                      {item.title}
-                    </Link>
+                  <h2
+                    key={item.key}
+                    className={
+                      currentUrl.includes("tin-tuc")
+                        ? "navbar__pc-item-active"
+                        : "navbar__pc-item"
+                    }
+                  >
+                    <Link href={item.link}>{item.title}</Link>
                   </h2>
                 );
               } else {
                 return (
-                  <h2 key={item.key} className={item.link === currentUrl ? "navbar__pc-item-active" : "navbar__pc-item"}>
-                    <Link href={item.link}>
-                      {item.title}
-                    </Link>
+                  <h2
+                    key={item.key}
+                    className={
+                      item.link === currentUrl
+                        ? "navbar__pc-item-active"
+                        : "navbar__pc-item"
+                    }
+                  >
+                    <Link href={item.link}>{item.title}</Link>
                   </h2>
                 );
               }
@@ -231,7 +249,7 @@ const NavbarPC: React.FC<NavbarProps> = ( props) => {
             style={{
               display: "flex",
               justifyContent: "space-between",
-              alignItems: "center"
+              alignItems: "center",
             }}
             items={[
               {
@@ -250,25 +268,29 @@ const NavbarPC: React.FC<NavbarProps> = ( props) => {
                       <Link href="/gio-hang">
                         <Button
                           icon={
-                            <ShoppingCartOutlined style={{ fontSize: "18px", color: "#fff" }} />
+                            <ShoppingCartOutlined
+                              style={{ fontSize: "18px", color: "#fff" }}
+                            />
                           }
                           style={{
                             border: "none",
                             textDecoration: "underline",
-                            boxShadow: "none"
+                            boxShadow: "none",
                           }}
                         />
                       </Link>
                     </Badge>
                   </Popover>
                 ),
-                className: "navbar__pc-icon"
+                className: "navbar__pc-icon",
               },
               {
                 key: "search",
                 label: (
                   <div style={{ position: "relative" }}>
-                    <SearchOutlined style={{ fontSize: "18px", color: "#fff" }} />
+                    <SearchOutlined
+                      style={{ fontSize: "18px", color: "#fff" }}
+                    />
                     {searchVisible && (
                       <div
                         style={{
@@ -276,7 +298,7 @@ const NavbarPC: React.FC<NavbarProps> = ( props) => {
                           top: "100%",
                           right: 0,
                           width: "300px",
-                          zIndex: 1
+                          zIndex: 1,
                         }}
                       >
                         <Input
@@ -290,8 +312,8 @@ const NavbarPC: React.FC<NavbarProps> = ( props) => {
                   </div>
                 ),
                 className: "navbar__pc-icon",
-                onClick: toggleSearchVisible
-              }
+                onClick: toggleSearchVisible,
+              },
             ]}
           />
         </div>
