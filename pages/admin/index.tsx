@@ -25,7 +25,7 @@ interface PageSEOData {
   pageSEO: {
     title: string;
     url: string;
-    keywords: string[];
+    keywords: string;
     description: string;
     image: string;
   };
@@ -95,12 +95,12 @@ const items: MenuProps["items"] = [
 const AdminMain: React.FC = () => {
   const [current, setCurrent] = useState("mail");
   const router = useRouter();
-  const [cookies] = useCookies(['accessToken']);
+  const [cookies] = useCookies(["accessToken"]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (!cookies.accessToken) {
-      router.push('/login');
+      router.push("/login");
     } else {
       setIsLoading(false);
     }
@@ -115,7 +115,7 @@ const AdminMain: React.FC = () => {
     pageSEO: {
       title: "Trang Quản Trị | Thương Thương",
       url: "https://www.critistudio.top",
-      keywords: ["website", "home", "page"],
+      keywords: "website",
       description:
         "Thuong Thuong tổ chức đào tạo nghề cho đối tượng người khuyết tật và người yếu thế nhằm giảm gánh nặng cho gia đình và xã hội.",
       image: "https://www.critistudio.top/images/seo.jpg",
@@ -139,10 +139,11 @@ const AdminMain: React.FC = () => {
     console.log("click ", e);
     setCurrent(e.key);
   };
-
+  const url = `${process.env.NEXT_PUBLIC_BASE_URL}/`;
+  const image = "";
   return (
     <>
-      <HeadSEO pageSEO={pageSEOData.pageSEO} />
+      <HeadSEO pageSEO={pageSEOData.pageSEO} url={url} image={image} />
       <Dashboard>
         <div className="admin__main-wrap">
           <NavigationAdmin

@@ -16,7 +16,7 @@ interface PageSEOData {
   pageSEO: {
     title: string;
     url: string;
-    keywords: string[];
+    keywords: string;
     description: string;
     image: string;
   };
@@ -26,15 +26,15 @@ interface NavigationProps {
   id: number;
   title: string;
   link: string;
-};
+}
 
 interface pagesProps {
   dataMenu: any;
   dataFooter: any;
-  dataContact: any
+  dataContact: any;
 }
 const Contact: React.FC<pagesProps> = (props: pagesProps) => {
-  const {dataMenu, dataFooter, dataContact} = props;
+  const { dataMenu, dataFooter, dataContact } = props;
   const [t, setText] = useState(viText);
   const lang = useSelector(
     (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
@@ -50,7 +50,7 @@ const Contact: React.FC<pagesProps> = (props: pagesProps) => {
     pageSEO: {
       title: "Liên Hệ | Thương Thương",
       url: "https://www.critistudio.top/gioi-thieu",
-      keywords: ["website", "home", "page"],
+      keywords: "website",
       description:
         "Thuong Thuong tổ chức đào tạo nghề cho đối tượng người khuyết tật và người yếu thế nhằm giảm gánh nặng cho gia đình và xã hội.",
       image: "https://www.critistudio.top/images/seo.jpg",
@@ -68,51 +68,53 @@ const Contact: React.FC<pagesProps> = (props: pagesProps) => {
       link: "/",
     },
   ];
+  const url = `${process.env.NEXT_PUBLIC_BASE_URL}/`;
+  const image = "";
   return (
     <>
-      <HeadSEO pageSEO={pageSEOData.pageSEO} />
+      <HeadSEO pageSEO={pageSEOData.pageSEO} url={url} image={image} />
       <Layout dataMenu={dataMenu} dataFooter={dataFooter}>
         <div className="list-products">
           <div className="list-products-navigation">
             <NavigationTopBar data={dataNavigation} />
           </div>
           <div>
-          <div className="home__contact">
-      <TitleBlock
-        title={dataContact.titleBlock}
-        urlImage={dataContact.iconBlock[0]}
-        underlined={dataContact.underlineBlock}
-      />
-      <div
-        className="home__contact-map"
-        dangerouslySetInnerHTML={{ __html: dataContact.map }}
-      />
-      <Row className="home__contact-wrap">
-        <div className="home__contact-wrap-left">
-          <p className="home__contact-wrap-left-title">
-            {dataContact.phone}
-            <br></br>
-            {dataContact.hotline}
-            <br></br>
-            {dataContact.email}
-            <br></br>
-            {dataContact.adress1}
-            <br></br>
-            {dataContact.adress2}
-          </p>
-          <p className="home__contact-wrap-left-text">
-            {dataContact.content?.content1}
-            <br></br>
-            {dataContact.content?.content2}
-            <br></br>
-            {dataContact.content?.content3}
-          </p>
-        </div>
-        <div className="home__contact-wrap-right">
-          <FormContactHome t={t}/>
-        </div>
-      </Row>
-    </div>
+            <div className="home__contact">
+              <TitleBlock
+                title={dataContact.titleBlock}
+                urlImage={dataContact.iconBlock[0]}
+                underlined={dataContact.underlineBlock}
+              />
+              <div
+                className="home__contact-map"
+                dangerouslySetInnerHTML={{ __html: dataContact.map }}
+              />
+              <Row className="home__contact-wrap">
+                <div className="home__contact-wrap-left">
+                  <p className="home__contact-wrap-left-title">
+                    {dataContact.phone}
+                    <br></br>
+                    {dataContact.hotline}
+                    <br></br>
+                    {dataContact.email}
+                    <br></br>
+                    {dataContact.adress1}
+                    <br></br>
+                    {dataContact.adress2}
+                  </p>
+                  <p className="home__contact-wrap-left-text">
+                    {dataContact.content?.content1}
+                    <br></br>
+                    {dataContact.content?.content2}
+                    <br></br>
+                    {dataContact.content?.content3}
+                  </p>
+                </div>
+                <div className="home__contact-wrap-right">
+                  <FormContactHome t={t} />
+                </div>
+              </Row>
+            </div>
           </div>
         </div>
       </Layout>
@@ -122,31 +124,42 @@ const Contact: React.FC<pagesProps> = (props: pagesProps) => {
 
 export async function getServerSideProps(context: any) {
   try {
-    const lang = context.query.lang
-    if(lang === 'en') {
-    const MenuEN : any = await  webInformationClient.handleGetWebInformation("5");
-    const FooterEN:any = await webInformationClient.handleGetWebInformation("3");
-    const ContactEN :any = await webInformationClient.handleGetWebInformation("13");
-    return {
-      props: {
-        dataMenu:  JSON.parse(MenuEN.value) || {},
-        dataFooter: JSON.parse(FooterEN.value) || {},
-        dataContact: JSON.parse(ContactEN.value) || {},
-      },
-    };
-  } else {
-    const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
-    const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
-    const ContactVI :any = await webInformationClient.handleGetWebInformation("12");
-    return {
-      props: {
-        dataMenu:  JSON.parse(MenuVI.value) || {},
-        dataFooter: JSON.parse(FooterVI.value) || {},
-        dataContact: JSON.parse(ContactVI.value) || {},
-      },
-    };
-  }
-
+    const lang = context.query.lang;
+    if (lang === "en") {
+      const MenuEN: any = await webInformationClient.handleGetWebInformation(
+        "5"
+      );
+      const FooterEN: any = await webInformationClient.handleGetWebInformation(
+        "3"
+      );
+      const ContactEN: any = await webInformationClient.handleGetWebInformation(
+        "13"
+      );
+      return {
+        props: {
+          dataMenu: JSON.parse(MenuEN.value) || {},
+          dataFooter: JSON.parse(FooterEN.value) || {},
+          dataContact: JSON.parse(ContactEN.value) || {},
+        },
+      };
+    } else {
+      const MenuVI: any = await webInformationClient.handleGetWebInformation(
+        "4"
+      );
+      const FooterVI: any = await webInformationClient.handleGetWebInformation(
+        "2"
+      );
+      const ContactVI: any = await webInformationClient.handleGetWebInformation(
+        "12"
+      );
+      return {
+        props: {
+          dataMenu: JSON.parse(MenuVI.value) || {},
+          dataFooter: JSON.parse(FooterVI.value) || {},
+          dataContact: JSON.parse(ContactVI.value) || {},
+        },
+      };
+    }
   } catch (e) {
     return { props: {} };
   }

@@ -21,7 +21,7 @@ interface PageSEOData {
   pageSEO: {
     title: string;
     url: string;
-    keywords: string[];
+    keywords: string;
     description: string;
     image: string;
   };
@@ -48,7 +48,6 @@ const Home: React.FC<pagesProps> = (props: pagesProps) => {
     dataProductHighlight,
     dataListProducts,
   } = props;
-  console.log(dataPages, "dataPages");
   const [t, setText] = useState(viText);
   useEffect(() => {
     const lang = localStorage.getItem("lang");

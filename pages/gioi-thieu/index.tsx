@@ -13,7 +13,7 @@ interface PageSEOData {
   pageSEO: {
     title: string;
     url: string;
-    keywords: string[];
+    keywords: string;
     description: string;
     image: string;
   };
@@ -51,7 +51,7 @@ const AboutPage: React.FC<pagesProps> = (props: pagesProps) => {
     pageSEO: {
       title: "Giới Thiệu | Thương Thương",
       url: "https://www.critistudio.top/gioi-thieu",
-      keywords: ["website", "home", "page"],
+      keywords: "website",
       description:
         "Thuong Thuong tổ chức đào tạo nghề cho đối tượng người khuyết tật và người yếu thế nhằm giảm gánh nặng cho gia đình và xã hội.",
       image: "https://www.critistudio.top/images/seo.jpg",
@@ -83,9 +83,11 @@ const AboutPage: React.FC<pagesProps> = (props: pagesProps) => {
       },
     },
   ];
+  const url = `${process.env.NEXT_PUBLIC_BASE_URL}/`;
+  const image = "";
   return (
     <>
-      <HeadSEO pageSEO={pageSEOData.pageSEO} />
+      <HeadSEO pageSEO={pageSEOData.pageSEO} url={url} image={image} />
       <Layout dataMenu={dataMenu} dataFooter={dataFooter}>
         <BanerAbout imageUrl={dataPages.imageBaner[0]} />
         {/*quá trình render dữ liệu cho 5 block*/}

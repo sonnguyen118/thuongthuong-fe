@@ -24,7 +24,7 @@ interface PageSEOData {
   pageSEO: {
     title: string;
     url: string;
-    keywords: string[];
+    keywords: string;
     description: string;
     image: string;
   };
@@ -68,7 +68,7 @@ const OrdersCart: React.FC<pagesProps> = (props: pagesProps) => {
   }, [lang]);
 
   useEffect(() => {
-    if(cart) {
+    if (cart) {
       saveCartData(cart);
     }
   }, [cart]);
@@ -94,7 +94,7 @@ const OrdersCart: React.FC<pagesProps> = (props: pagesProps) => {
     pageSEO: {
       title: "Đơn Hàng | Thương Thương",
       url: "https://www.critistudio.top/gioi-thieu",
-      keywords: ["website", "home", "page"],
+      keywords: "website",
       description:
         "Thuong Thuong tổ chức đào tạo nghề cho đối tượng người khuyết tật và người yếu thế nhằm giảm gánh nặng cho gia đình và xã hội.",
       image: "https://www.critistudio.top/images/seo.jpg",
@@ -123,8 +123,8 @@ const OrdersCart: React.FC<pagesProps> = (props: pagesProps) => {
   // const selectedItems = cartItems.filter((item) => item.selected);
   const [selectedItems, setSelectedItems] = useState<Product[]>([]);
   const [totalOrderItems, setTotalOrderItems] = useState<number>(0);
-  useEffect(()=> {
-    if(cartItems) {
+  useEffect(() => {
+    if (cartItems) {
       const selecteditem = cartItems.filter((item) => item.selected);
       setSelectedItems(selecteditem);
       const totalorderItems = selecteditem.reduce(
@@ -134,7 +134,6 @@ const OrdersCart: React.FC<pagesProps> = (props: pagesProps) => {
       setTotalOrderItems(totalorderItems);
     }
   }, [cartItems]);
-
 
   async function submitHandler(event: FormEvent) {
     event.preventDefault();
@@ -217,7 +216,8 @@ const OrdersCart: React.FC<pagesProps> = (props: pagesProps) => {
     }
     setSubmitted(false);
   };
-
+  const url = `${process.env.NEXT_PUBLIC_BASE_URL}/`;
+  const image = "";
   return (
     <>
       (
@@ -240,7 +240,7 @@ const OrdersCart: React.FC<pagesProps> = (props: pagesProps) => {
         </div>
       </Modal>
       )
-      <HeadSEO pageSEO={pageSEOData.pageSEO} />
+      <HeadSEO pageSEO={pageSEOData.pageSEO} url={url} image={image} />
       <Layout dataMenu={dataMenu} dataFooter={dataFooter}>
         <form className={classes.form} onSubmit={submitHandler}>
           <div className="list-products">
@@ -409,29 +409,36 @@ const OrdersCart: React.FC<pagesProps> = (props: pagesProps) => {
 
 export async function getServerSideProps(context: any) {
   try {
-    const lang = context.query.lang
-    if(lang === 'en') {
-    const MenuEN : any = await  webInformationClient.handleGetWebInformation("5");
-    const FooterEN:any = await webInformationClient.handleGetWebInformation("3");
-    
-    return {
-      props: {
-        dataMenu:  JSON.parse(MenuEN.value) || {},
-        dataFooter: JSON.parse(FooterEN.value) || {},
-      },
-    };
-  } else {
-    const MenuVI : any = await  webInformationClient.handleGetWebInformation("4");
-    const FooterVI:any = await webInformationClient.handleGetWebInformation("2");
-    
-    return {
-      props: {
-        dataMenu:  JSON.parse(MenuVI.value) || {},
-        dataFooter: JSON.parse(FooterVI.value) || {},
-      },
-    };
-  }
+    const lang = context.query.lang;
+    if (lang === "en") {
+      const MenuEN: any = await webInformationClient.handleGetWebInformation(
+        "5"
+      );
+      const FooterEN: any = await webInformationClient.handleGetWebInformation(
+        "3"
+      );
 
+      return {
+        props: {
+          dataMenu: JSON.parse(MenuEN.value) || {},
+          dataFooter: JSON.parse(FooterEN.value) || {},
+        },
+      };
+    } else {
+      const MenuVI: any = await webInformationClient.handleGetWebInformation(
+        "4"
+      );
+      const FooterVI: any = await webInformationClient.handleGetWebInformation(
+        "2"
+      );
+
+      return {
+        props: {
+          dataMenu: JSON.parse(MenuVI.value) || {},
+          dataFooter: JSON.parse(FooterVI.value) || {},
+        },
+      };
+    }
   } catch (e) {
     return { props: {} };
   }
