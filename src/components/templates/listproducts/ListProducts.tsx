@@ -98,7 +98,7 @@ const ListProducts: React.FC<ListProductsProps> = (
             <div className="list-products-right-wrap">
               {products.map((data: any, index: number) => (
                 <div className="list-products-right-wrap-item" key={index}>
-                  <CardProduct props={data} />
+                  <CardProduct props={data} t={t} />
                 </div>
               ))}
             </div>

@@ -10,17 +10,11 @@ import viText from "@languages/vie.json";
 import loadLanguageText from "@languages";
 interface dataProps {
   data: any;
+  t: any;
 }
 
 const SimpleSlider: React.FC<dataProps> = (props) => {
-  const { data } = props;
-  const [t, setText] = useState(viText);
-  const lang = useSelector(
-    (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
-  );
-  useEffect(() => {
-    loadLanguageText(lang, setText);
-  }, [lang]);
+  const { data, t } = props;
   const settings = {
     dots: false,
     infinite: true,
@@ -90,14 +84,14 @@ const SimpleSlider: React.FC<dataProps> = (props) => {
       </div>
       <Slider ref={slider} {...settings}>
         {data &&
-          data.map((item :any, i:number) => (
+          data.map((item: any, i: number) => (
             <div key={item.id} className="home__products-slider-item">
-              <CardProduct props={item} />
+              <CardProduct props={item} t={t} />
             </div>
           ))}
       </Slider>
     </div>
   );
-}
+};
 
 export default SimpleSlider;

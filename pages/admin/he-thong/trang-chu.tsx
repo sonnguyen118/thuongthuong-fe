@@ -134,6 +134,9 @@ const App: React.FC = () => {
   const [showBlock5, setShowBlock5] = useState(true);
 
   const [dataProduct, setDataProducts] = useState<Array<dataProducts>>([]);
+  const [titleSEO, setTitleSEO] = useState("");
+  const [descriptionSEO, setDescriptionSEO] = useState("");
+  const [keywordsSEO, setKeywordsSEO] = useState("");
 
   // lấy dữ liệu
   useEffect(() => {
@@ -152,9 +155,9 @@ const App: React.FC = () => {
 
     Promise.all(promises)
       .then((results: any) => {
-        console.log(results, "results");
         if (results[0]) {
           const data = JSON.parse(results[0].value);
+          console.log(data);
           setIsShowBlockS(data.showBlockS);
           setTitleBlockS1VI(data.dataBlockS[0]?.title);
           setContentBlockS1VI(data.dataBlockS[0]?.content);
@@ -199,10 +202,15 @@ const App: React.FC = () => {
           setTitleBlock5VI(data.titleBlock5);
           setShowBlock5(data.showBlock5);
           setDataProducts(data.dataProduct ? data.dataProduct : []);
+          if (data.SEO) {
+            setTitleSEO(data.SEO.title);
+            setDescriptionSEO(data.SEO.description);
+            setKeywordsSEO(data.SEO.keywords);
+          }
         }
         if (results[1]) {
           const data = JSON.parse(results[1].value);
-
+          // console.log(data, "dataEN");
           setTitleBlockS1EN(data.dataBlockS[0]?.title);
           setContentBlockS1EN(data.dataBlockS[0]?.content);
           setTitleBlockS2EN(data.dataBlockS[1]?.title);
@@ -769,6 +777,11 @@ const App: React.FC = () => {
       titleBlock5: titleBlock5VI,
       showBlock5: showBlock5,
       dataProduct: dataProduct,
+      SEO: {
+        title: titleSEO,
+        description: descriptionSEO,
+        keywords: keywordsSEO,
+      },
     };
     let dataEN = {
       showBlock1: showBlock1,
@@ -779,7 +792,7 @@ const App: React.FC = () => {
       uderlineBlock2: uderlineBlock2,
       titleBlock2: titleBlock2EN,
       listSliderBlock2: newArray2,
-      contentBlock2: contentBlock2VI,
+      contentBlock2: contentBlock2EN,
       showBlock2: showBlock2,
       listSliderBlock3: newArray3,
       iconBlock3: newArrayIcon3,
@@ -793,6 +806,11 @@ const App: React.FC = () => {
       titleBlock5: titleBlock5EN,
       showBlock5: showBlock5,
       dataProduct: dataProduct,
+      SEO: {
+        title: titleSEO,
+        description: descriptionSEO,
+        keywords: keywordsSEO,
+      },
     };
     const body1 = {
       id: 6,
@@ -1589,6 +1607,8 @@ const App: React.FC = () => {
               maxLength={60}
               style={{ height: 40, marginBottom: 12 }}
               placeholder="Title SEO"
+              value={titleSEO}
+              onChange={(e) => setTitleSEO(e.target.value)}
             />
             <label className="admin__main-label">
               <StarFilled style={{ marginRight: 5 }} />
@@ -1599,6 +1619,8 @@ const App: React.FC = () => {
               maxLength={150}
               style={{ height: 80, marginBottom: 12 }}
               placeholder="Description SEO"
+              value={descriptionSEO}
+              onChange={(e) => setDescriptionSEO(e.target.value)}
             />
             <label className="admin__main-label">
               <StarFilled style={{ marginRight: 5 }} />
@@ -1609,6 +1631,8 @@ const App: React.FC = () => {
               maxLength={120}
               style={{ height: 60, marginBottom: 12 }}
               placeholder="Keywords SEO"
+              value={keywordsSEO}
+              onChange={(e) => setKeywordsSEO(e.target.value)}
             />
           </div>
 

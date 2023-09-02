@@ -8,15 +8,9 @@ import loadLanguageText from "@languages";
 interface TitleProps {
   title: string;
   link: string;
+  t: any;
 }
-const TitleProduct: React.FC<TitleProps> = ({ title, link }) => {
-  const [t, setText] = useState(viText);
-  const lang = useSelector(
-    (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
-  );
-  useEffect(() => {
-    loadLanguageText(lang, setText);
-  }, [lang]);
+const TitleProduct: React.FC<TitleProps> = ({ title, link, t }) => {
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
       <h2 className="home__products-header-title">{title}</h2>

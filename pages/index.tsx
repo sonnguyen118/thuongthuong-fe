@@ -48,32 +48,23 @@ const Home: React.FC<pagesProps> = (props: pagesProps) => {
     dataProductHighlight,
     dataListProducts,
   } = props;
-  console.log(props, "props");
   console.log(dataPages, "dataPages");
   const [t, setText] = useState(viText);
   useEffect(() => {
     const lang = localStorage.getItem("lang");
-    console.log(lang, "lang");
     if (lang) {
       loadLanguageText(lang, setText);
     } else {
       loadLanguageText("vi", setText);
     }
   }, []);
-  const pageSEOData: PageSEOData = {
-    name: "Thương Thương",
-    pageSEO: {
-      title: "Trang Chủ | Thương Thương",
-      url: "https://www.critistudio.top",
-      keywords: ["website", "home", "page"],
-      description:
-        "Thuong Thuong tổ chức đào tạo nghề cho đối tượng người khuyết tật và người yếu thế nhằm giảm gánh nặng cho gia đình và xã hội.",
-      image: "https://www.critistudio.top/images/seo.jpg",
-    },
-  };
+
+  const url = `${process.env.NEXT_PUBLIC_BASE_URL}/`;
+  const image = "";
+
   return (
     <>
-      <HeadSEO pageSEO={pageSEOData.pageSEO} />
+      <HeadSEO pageSEO={dataPages.SEO} url={url} image={image} />
       <Layout dataMenu={dataMenu} dataFooter={dataFooter}>
         <SlideBarsHome
           isShow={dataPages.showBlock1}
