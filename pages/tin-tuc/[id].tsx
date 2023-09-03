@@ -14,7 +14,6 @@ import { store } from "@store";
 import viText from "@languages/vie.json";
 import loadLanguageText from "@languages";
 import { useRouter } from "next/router";
-import * as cookie from "cookie";
 import { articleClient } from "@api";
 import { webInformationClient } from "@service";
 import { DateTime } from "@utils/Functions";
@@ -70,7 +69,6 @@ const DetailNews: React.FC<pagesProps> = (props: pagesProps) => {
   const { dataMenu, dataFooter, article } = props;
   const router = useRouter();
   const currentUrl = typeof window !== "undefined" ? window.location.href : "";
-  console.log(article, "article");
   const { id, language } = router.query;
   const [t, setText] = useState(viText);
   const lang = useSelector(
@@ -105,11 +103,19 @@ const DetailNews: React.FC<pagesProps> = (props: pagesProps) => {
   ];
   const [dataNavigation, setDataNavigation] =
     useState<NavigationProps[]>(initDataNavigation);
-
   useEffect(() => {
-    loadLanguageText(lang, setText);
+    const lang = localStorage.getItem("lang");
+    if (lang) {
+      loadLanguageText(lang, setText);
+    } else {
+      loadLanguageText("vi", setText);
+    }
     getArticleDetail();
-  }, [id, lang, language]);
+  }, []);
+  // useEffect(() => {
+  //   loadLanguageText(lang, setText);
+  //   getArticleDetail();
+  // }, [id, lang, language]);
 
   const getArticleDetail = async () => {
     const data = props.article;

@@ -53,7 +53,6 @@ interface pagesProps {
 }
 const ListNews: React.FC<pagesProps> = (props: pagesProps) => {
   const { dataMenu, dataFooter, articles, pagination } = props;
-  console.log(articles, "articles");
   const router = useRouter();
   const { id, language } = router.query;
   const [t, setText] = useState(viText);
@@ -90,9 +89,18 @@ const ListNews: React.FC<pagesProps> = (props: pagesProps) => {
     },
   ];
   useEffect(() => {
-    loadLanguageText(lang, setText);
+    const lang = localStorage.getItem("lang");
+    if (lang) {
+      loadLanguageText(lang, setText);
+    } else {
+      loadLanguageText("vi", setText);
+    }
     getAllArticles(props);
-  }, [lang, language]);
+  }, []);
+  // useEffect(() => {
+  //   loadLanguageText(lang, setText);
+  //   getAllArticles(props);
+  // }, [lang, language]);
 
   const getAllArticles = async (props: any) => {
     const articles = props.articles;
