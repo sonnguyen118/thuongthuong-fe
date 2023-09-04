@@ -32,7 +32,7 @@ export const cartSlice = createSlice({
     },
 
     replaceCart(state, action: PayloadAction<CartState>) {
-      console.log(state, "state");
+      // console.log(state, "state");
       state.items = action.payload.items;
       state.items.forEach((item) => {
         if (item.selected) {
@@ -108,14 +108,14 @@ export const cartSlice = createSlice({
 
     removeItemFromCart(state, action: PayloadAction<number[]>) {
       const ids = action.payload;
-      ids.forEach(id => {
+      ids.forEach((id) => {
         const existingItem = state.items.find((item) => item.id === id);
         if (!existingItem) {
           return;
         }
         state.items = state.items.filter((item) => item.id !== id);
         state.totalQuantity -= existingItem.quantity;
-      })
+      });
       state.changed = true;
     },
   },

@@ -27,23 +27,47 @@ const NavbarPC: React.FC<NavbarProps> = (props) => {
   const [category, setCategory] = useState([]);
   const [items, setItems] = useState<MenuProps["items"]>([]);
   useEffect(() => {
-    handleCategoryClient
-      .handleGetAllCategory("VI")
-      .then((result: any) => {
-        setCategory(result);
-      })
-      .catch((error) => {});
+    const lang = localStorage.getItem("lang");
+    if (lang) {
+      loadLanguageText(lang, setText);
+    } else {
+      loadLanguageText("vi", setText);
+    }
+    if (lang === "en") {
+      handleCategoryClient
+        .handleGetAllCategory("EN")
+        .then((result: any) => {
+          setCategory(result);
+        })
+        .catch((error) => {});
+    } else {
+      handleCategoryClient
+        .handleGetAllCategory("VI")
+        .then((result: any) => {
+          setCategory(result);
+        })
+        .catch((error) => {});
+    }
   }, []);
+  // useEffect(() => {
+  //   handleCategoryClient
+  //     .handleGetAllCategory("VI")
+  //     .then((result: any) => {
+  //       setCategory(result);
+  //     })
+  //     .catch((error) => {});
+  // }, []);
   useEffect(() => {
     if (category && category.length > 0) {
       const newArray: MenuProps["items"] = category.map((item: any) => ({
         key: item.id,
         label: (
           <Link
-            target="_blank"
-            rel="noopener noreferrer"
-            href={item.link}
+            // target="_blank"
+            // rel="noopener noreferrer"
+            href={`/san-pham/` + item.link}
             className="navbar__pc-item-dropdown-item"
+            style={{ width: 500 }}
           >
             {item.name}
           </Link>
@@ -74,7 +98,7 @@ const NavbarPC: React.FC<NavbarProps> = (props) => {
   const [numberOfCartItems, setNumberOfCartItems] = useState<
     number | undefined
   >();
-  console.log(cartItems, "cartItems");
+  // console.log(cartItems, "cartItems");
 
   // const numberOfCartItems = cartItems.reduce((currNumber, item) => {
   //   return currNumber + item.quantity;
@@ -201,7 +225,13 @@ const NavbarPC: React.FC<NavbarProps> = (props) => {
             if (item.isActivate) {
               if (item.link === "/san-pham") {
                 return (
-                  <Dropdown menu={{ items }} placement="bottom" key={item.key}>
+                  <Dropdown
+                    menu={{ items }}
+                    placement="bottom"
+                    key={item.key}
+                    // trigger={["click"]}
+                    className="navbar__pc-menu-products"
+                  >
                     <h2
                       className={
                         currentUrl.includes(item.link)

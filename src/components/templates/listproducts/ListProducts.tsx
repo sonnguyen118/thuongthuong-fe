@@ -73,7 +73,7 @@ const ListProducts: React.FC<ListProductsProps> = (
   //   setProductName(value)
   //   getProducts(categoryId, lang, 1, pagination.size, value)
   // };
-  console.log(categoryName, "categoryName");
+  // console.log(categoryName, "categoryName");
   return (
     <div className="list-products-right">
       <div className="list-products-right-title">

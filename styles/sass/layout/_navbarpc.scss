@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #092F5c;
+  background-color: #092f5c;
   margin-right: -16px;
   &-logo {
     &-img {
@@ -25,7 +25,9 @@
     }
     ul {
       background-color: transparent !important;
-      .ant-menu-light, .ant-menu-light>.ant-menu, .ant-btn-default {
+      .ant-menu-light,
+      .ant-menu-light > .ant-menu,
+      .ant-btn-default {
         background-color: transparent !important;
       }
     }
@@ -79,8 +81,12 @@
         width: 100%;
       }
     }
+    &-dropdown-item {
+      width: 200px !important;
+    }
   }
-  :where(.css-dev-only-do-not-override-1e3x2xa).ant-menu-light, :where(.css-dev-only-do-not-override-1e3x2xa).ant-menu-light>.ant-menu {
+  :where(.css-dev-only-do-not-override-1e3x2xa).ant-menu-light,
+  :where(.css-dev-only-do-not-override-1e3x2xa).ant-menu-light > .ant-menu {
     background-color: transparent !important;
   }
   :where(.css-dev-only-do-not-override-1e3x2xa).ant-btn-default {
@@ -93,7 +99,9 @@
     }
   }
 }
-
+.ant-dropdown-menu {
+  width: 160px !important;
+}
 // css phần cart
 .cart {
   .ant-popover-inner {
@@ -255,7 +263,7 @@
       }
     }
   }
-  
+
   // css phần cart
   .cart {
     .ant-popover-inner {
@@ -367,7 +375,7 @@
       }
     }
   }
-  
+
   // css phần cart
   .cart {
     .ant-popover-inner {
@@ -406,7 +414,6 @@
       }
     }
   }
-
 }
 @include responsive_1440 {
   .navbar__pc {
@@ -424,7 +431,7 @@
       }
     }
   }
-  
+
   // css phần cart
   .cart {
     .ant-popover-inner {
@@ -480,7 +487,7 @@
       }
     }
   }
-  
+
   // css phần cart
   .cart {
     .ant-popover-inner {

@@ -82,7 +82,7 @@ const CardProduct: React.FC<any> = ({ props, t }) => {
   const addItemHandler = () => {
     const item = {
       id: id,
-      imageUrl: imageUrlProduct,
+      imageUrl: imageUrl,
       title: title,
       name: name,
       price: price,
@@ -95,7 +95,7 @@ const CardProduct: React.FC<any> = ({ props, t }) => {
   const buyItemHandler = () => {
     const item = {
       id: id,
-      imageUrl: imageUrlProduct,
+      imageUrl: imageUrl,
       title: title,
       name: name,
       price: price,
