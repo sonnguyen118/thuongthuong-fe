@@ -69,11 +69,11 @@ const DetailNews: React.FC<pagesProps> = (props: pagesProps) => {
   const { dataMenu, dataFooter, article } = props;
   const router = useRouter();
   const currentUrl = typeof window !== "undefined" ? window.location.href : "";
-  const { id, language } = router.query;
+  const [leng, setLeng] = useState<any>("VI");
   const [t, setText] = useState(viText);
-  const lang = useSelector(
-    (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
-  );
+  // const lang = useSelector(
+  //   (state: ReturnType<typeof store.getState>) => state.language.currentLanguage
+  // );
   const [articleDetail, setArticleDetail] = useState<ArticleDetail>(
     new ArticleDetail()
   );
@@ -105,6 +105,7 @@ const DetailNews: React.FC<pagesProps> = (props: pagesProps) => {
     useState<NavigationProps[]>(initDataNavigation);
   useEffect(() => {
     const lang = localStorage.getItem("lang");
+    setLeng(lang);
     if (lang) {
       loadLanguageText(lang, setText);
     } else {
@@ -161,6 +162,7 @@ const DetailNews: React.FC<pagesProps> = (props: pagesProps) => {
 
   const url = `${process.env.NEXT_PUBLIC_BASE_URL}/`;
   const image = "";
+  // console.log(t, "đây là t");
   return (
     <>
       <HeadSEO pageSEO={pageSEOData.pageSEO} url={url} image={image} />
@@ -169,7 +171,7 @@ const DetailNews: React.FC<pagesProps> = (props: pagesProps) => {
           <div className="news-navigation">
             <NavigationTopBar data={dataNavigation} />
             <div className="news-navigation-time">
-              {DateTime.formatDateTime(articleDetail.createdAt)}
+              {DateTime.formatDateTime(articleDetail.createdAt, leng)}
             </div>
           </div>
           <div className="news-wrap">

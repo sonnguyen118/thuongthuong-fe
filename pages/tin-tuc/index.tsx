@@ -56,7 +56,7 @@ const ListNews: React.FC<pagesProps> = (props: pagesProps) => {
   const router = useRouter();
   const { id, language } = router.query;
   const [t, setText] = useState(viText);
-
+  const [leng, setLeng] = useState<any>("VI");
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [total, setTotal] = useState(0);
@@ -90,6 +90,7 @@ const ListNews: React.FC<pagesProps> = (props: pagesProps) => {
   ];
   useEffect(() => {
     const lang = localStorage.getItem("lang");
+    setLeng(lang);
     if (lang) {
       loadLanguageText(lang, setText);
     } else {
@@ -166,7 +167,7 @@ const ListNews: React.FC<pagesProps> = (props: pagesProps) => {
                 description={data.description}
                 imageSrc={process.env.NEXT_PUBLIC_API_URL + "/" + data.imageUrl}
                 link={data.link}
-                time={DateTime.formatDateTime(data.createdAt)}
+                time={DateTime.formatDateTime(data.createdAt, leng)}
               />
             </div>
           ))}

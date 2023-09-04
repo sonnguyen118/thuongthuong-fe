@@ -67,12 +67,13 @@ const RecruitmentPage: React.FC<pagesProps> = (props: pagesProps) => {
       <HeadSEO pageSEO={pageSEOData.pageSEO} url={url} image={image} />
       <Layout dataMenu={dataMenu} dataFooter={dataFooter}>
         <div className="list-products">
-          <div className="list-products-navigation">
+          <div
+            className="list-products-navigation"
+            style={{ marginBottom: 30 }}
+          >
             <NavigationTopBar data={dataNavigation} />
           </div>
-          <div>
-            <CkeditorDisable data={dataPages} />
-          </div>
+          <div>{dataPages && <CkeditorDisable data={dataPages} />}</div>
         </div>
       </Layout>
     </>
