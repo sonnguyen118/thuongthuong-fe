@@ -1,41 +1,21 @@
-// server.js
-const { createServer } = require("http");
-const { parse } = require("url");
-const next = require("next");
+const { exec } = require("child_process");
 
-const dev = process.env.NODE_ENV !== "production";
-const hostname = "localhost";
-const port = 3000;
-// when using middleware `hostname` and `port` must be provided below
-const app = next({ dev, hostname, port });
-const handle = app.getRequestHandler();
+// Sử dụng child_process để chạy lệnh npm start
+const child = exec("next start");
 
-app.prepare().then(() => {
-  createServer(async (req, res) => {
-    try {
-      // Be sure to pass `true` as the second argument to `url.parse`.
-      // This tells it to parse the query portion of the URL.
-      const parsedUrl = parse(req.url, true);
-      const { pathname, query } = parsedUrl;
+child.stdout.on("data", (data) => {
+  console.log(data);
+});
 
-      if (pathname === "/a") {
-        await app.render(req, res, "/a", query);
-      } else if (pathname === "/b") {
-        await app.render(req, res, "/b", query);
-      } else {
-        await handle(req, res, parsedUrl);
-      }
-    } catch (err) {
-      console.error("Error occurred handling", req.url, err);
-      res.statusCode = 500;
-      res.end("internal server error");
-    }
-  })
-    .once("error", (err) => {
-      console.error(err);
-      process.exit(1);
-    })
-    .listen(port, () => {
-      console.log(`> Ready on http://${hostname}:${port}`);
-    });
+child.stderr.on("data", (data) => {
+  console.error(data);
+});
+
+child.on("close", (code) => {
+  console.log(`Child process exited with code ${code}`);
+});
+
+process.on("exit", () => {
+  // Khi tiến trình thoát, hãy chắc chắn kết thúc tiến trình con (npm start)
+  child.kill();
 });
