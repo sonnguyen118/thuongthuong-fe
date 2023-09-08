@@ -26,7 +26,7 @@ const SimpleSlider: React.FC<dataProps> = (props) => {
         breakpoint: 420,
         settings: {
           speed: 500,
-          slidesToShow: 1.3,
+          slidesToShow: 2,
           slidesToScroll: 1,
           infinite: true,
           dots: false,

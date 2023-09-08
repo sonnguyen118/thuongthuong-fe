@@ -26,7 +26,7 @@ const SlidePartner: React.FC<SlidePartnerProps> = (props) => {
         breakpoint: 420,
         settings: {
           speed: 500,
-          slidesToShow: 2,
+          slidesToShow: 3,
           slidesToScroll: 1,
           infinite: true,
           dots: false,
@@ -51,7 +51,7 @@ const SlidePartner: React.FC<SlidePartnerProps> = (props) => {
           infinite: true,
           dots: false,
         },
-      }
+      },
     ],
   };
   const slider = useRef<Slider>(null);
@@ -77,7 +77,7 @@ const SlidePartner: React.FC<SlidePartnerProps> = (props) => {
           listSliderBlock.map((data, i) => (
             <div key={i} className="home__partner-slider-item">
               <Image
-                src={process.env.NEXT_PUBLIC_API_URL + "/" +data}
+                src={process.env.NEXT_PUBLIC_API_URL + "/" + data}
                 alt="ThuongThuong"
                 width={120}
                 height={120}
@@ -90,5 +90,5 @@ const SlidePartner: React.FC<SlidePartnerProps> = (props) => {
       </Slider>
     </div>
   );
-}
-export default   SlidePartner;
+};
+export default SlidePartner;

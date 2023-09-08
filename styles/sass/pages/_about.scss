@@ -337,3 +337,253 @@
     }
   }
 }
+
+// mobile
+@include responsive_320 {
+  .about {
+    &__baner {
+      width: 100%;
+      height: 20vh;
+      margin-top: 85px;
+      img {
+        width: 100% !important;
+        height: auto;
+      }
+    }
+    &__block {
+      background-color: $color-secondary;
+      margin-bottom: 0;
+      display: block;
+      padding: 1em 5%;
+      &-image {
+        width: calc(100%);
+        height: 26em;
+        &-btn1 {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 10;
+          right: 0em;
+          scale: 0;
+          transition: all 0.3s ease-in-out;
+          font-size: 3em;
+          color: $color-white-tranparent;
+          &:hover {
+            cursor: pointer;
+            color: $color-white;
+            transition: all 0.3s ease-in-out;
+          }
+        }
+        &-btn2 {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 10;
+          left: 0em;
+          scale: 0;
+          font-size: 3em;
+          color: $color-white-tranparent;
+          transition: all 0.3s ease-in-out;
+          &:hover {
+            cursor: pointer;
+            color: $color-white;
+            transition: all 0.3s ease-in-out;
+          }
+        }
+        &:hover {
+          .about__block-image-btn1,
+          .about__block-image-btn2 {
+            scale: 1;
+            transition: all 0.3s ease-in-out;
+          }
+        }
+        &-item {
+          height: 26em;
+          width: 40vw;
+        }
+      }
+      &-information {
+        width: calc(100%);
+        &-title {
+          font-size: 2em;
+          line-height: 1.4em;
+          color: $color-primary;
+          font-weight: 700;
+        }
+        &-description {
+          font-size: 1.2em;
+          line-height: 1.4em;
+          color: $color-description;
+          font-weight: 400;
+          text-align: justify;
+        }
+      }
+    }
+  }
+}
+
+@include responsive_375 {
+  .about {
+    &__baner {
+      width: 100%;
+      height: 20vh;
+      margin-top: 85px;
+      img {
+        width: 100% !important;
+        height: auto;
+      }
+    }
+    &__block {
+      background-color: $color-secondary;
+      margin-bottom: 0;
+      display: block;
+      padding: 1em 5%;
+      &-image {
+        width: calc(100%);
+        height: 26em;
+        &-btn1 {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 10;
+          right: 0em;
+          scale: 0;
+          transition: all 0.3s ease-in-out;
+          font-size: 3em;
+          color: $color-white-tranparent;
+          &:hover {
+            cursor: pointer;
+            color: $color-white;
+            transition: all 0.3s ease-in-out;
+          }
+        }
+        &-btn2 {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 10;
+          left: 0em;
+          scale: 0;
+          font-size: 3em;
+          color: $color-white-tranparent;
+          transition: all 0.3s ease-in-out;
+          &:hover {
+            cursor: pointer;
+            color: $color-white;
+            transition: all 0.3s ease-in-out;
+          }
+        }
+        &:hover {
+          .about__block-image-btn1,
+          .about__block-image-btn2 {
+            scale: 1;
+            transition: all 0.3s ease-in-out;
+          }
+        }
+        &-item {
+          height: 26em;
+          width: 40vw;
+        }
+      }
+      &-information {
+        width: calc(100%);
+        &-title {
+          font-size: 2em;
+          line-height: 1.4em;
+          color: $color-primary;
+          font-weight: 700;
+        }
+        &-description {
+          font-size: 1.2em;
+          line-height: 1.4em;
+          color: $color-description;
+          font-weight: 400;
+          text-align: justify;
+        }
+      }
+    }
+  }
+}
+
+@include responsive_456 {
+  .about {
+    &__baner {
+      width: 100%;
+      height: 20vh;
+      margin-top: 85px;
+      img {
+        width: 100% !important;
+        height: auto;
+      }
+    }
+    &__block {
+      background-color: $color-secondary;
+      margin-bottom: 0;
+      display: block;
+      padding: 1em 5%;
+      &-image {
+        width: calc(100%);
+        height: 26em;
+        &-btn1 {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 10;
+          right: 0em;
+          scale: 0;
+          transition: all 0.3s ease-in-out;
+          font-size: 3em;
+          color: $color-white-tranparent;
+          &:hover {
+            cursor: pointer;
+            color: $color-white;
+            transition: all 0.3s ease-in-out;
+          }
+        }
+        &-btn2 {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 10;
+          left: 0em;
+          scale: 0;
+          font-size: 3em;
+          color: $color-white-tranparent;
+          transition: all 0.3s ease-in-out;
+          &:hover {
+            cursor: pointer;
+            color: $color-white;
+            transition: all 0.3s ease-in-out;
+          }
+        }
+        &:hover {
+          .about__block-image-btn1,
+          .about__block-image-btn2 {
+            scale: 1;
+            transition: all 0.3s ease-in-out;
+          }
+        }
+        &-item {
+          height: 26em;
+          width: 40vw;
+        }
+      }
+      &-information {
+        width: calc(100%);
+        &-title {
+          font-size: 2em;
+          line-height: 1.4em;
+          color: $color-primary;
+          font-weight: 700;
+        }
+        &-description {
+          font-size: 1.2em;
+          line-height: 1.4em;
+          color: $color-description;
+          font-weight: 400;
+          text-align: justify;
+        }
+      }
+    }
+  }
+}

@@ -99,9 +99,6 @@
     }
   }
 }
-.ant-dropdown-menu {
-  width: 160px !important;
-}
 // css phần cart
 .cart {
   .ant-popover-inner {
@@ -319,6 +316,9 @@
       }
     }
   }
+  .ant-dropdown-menu {
+    width: 160px !important;
+  }
   // css phần cart
   .cart {
     .ant-popover-inner {
@@ -375,7 +375,9 @@
       }
     }
   }
-
+  .ant-dropdown-menu {
+    width: 160px !important;
+  }
   // css phần cart
   .cart {
     .ant-popover-inner {
@@ -431,7 +433,9 @@
       }
     }
   }
-
+  .ant-dropdown-menu {
+    width: 160px !important;
+  }
   // css phần cart
   .cart {
     .ant-popover-inner {
@@ -487,7 +491,9 @@
       }
     }
   }
-
+  .ant-dropdown-menu {
+    width: 160px !important;
+  }
   // css phần cart
   .cart {
     .ant-popover-inner {
@@ -528,4 +534,7 @@
   }
 }
 @include responsive_1900 {
+  .ant-dropdown-menu {
+    width: 160px !important;
+  }
 }
