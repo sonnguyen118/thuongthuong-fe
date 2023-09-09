@@ -14,8 +14,8 @@ import Link from "next/link";
 interface FooterProps {
   data: any;
 }
-const Footer: React.FC<FooterProps> = ( props) => {
-  const { data} = props;
+const Footer: React.FC<FooterProps> = (props) => {
+  const { data } = props;
   console.log(data.subMenu1);
   const [menu1, setMenu1] = useState([]);
   const [menu2, setMenu2] = useState([]);
@@ -26,12 +26,12 @@ const Footer: React.FC<FooterProps> = ( props) => {
   useEffect(() => {
     loadLanguageText(lang, setText);
   }, [lang]);
-  useEffect(()=> {
-    if(data) {
+  useEffect(() => {
+    if (data) {
       setMenu1(data.subMenu1);
       setMenu2(data.subMenu2);
     }
-  },[data])
+  }, [data]);
   return (
     <footer className="footer">
       <div className="footer__wrap">
@@ -39,7 +39,7 @@ const Footer: React.FC<FooterProps> = ( props) => {
           <Col lg={8} sm={24} xs={24}>
             <div className="footer__wrap-item">
               <h2 className="footer__wrap-item-title">{data.title1}</h2>
-              {menu1.map((item:any, index:number)=> (
+              {menu1.map((item: any, index: number) => (
                 <div key={item.key}>
                   <Link target="_blank " href={item.link}>
                     <h3>{item.title}</h3>
@@ -51,7 +51,7 @@ const Footer: React.FC<FooterProps> = ( props) => {
           <Col lg={8} sm={24} xs={24}>
             <div className="footer__wrap-item">
               <h2 className="footer__wrap-item-title">{data.title2}</h2>
-              {menu2.map((item:any, index:number)=> (
+              {menu2.map((item: any, index: number) => (
                 <div key={item.key}>
                   <Link target="_blank " href={item.link}>
                     <h3>{item.title}</h3>
@@ -68,9 +68,7 @@ const Footer: React.FC<FooterProps> = ( props) => {
                   style={{ marginRight: 8 }}
                   className="footer__wrap-item-infor-icon"
                 />
-                <h3 className="footer__wrap-item-infor-text">
-                  {data.adress}
-                </h3>
+                <h3 className="footer__wrap-item-infor-text">{data.adress}</h3>
               </div>
               <div className="footer__wrap-item-infor">
                 <PhoneOutlined
@@ -78,7 +76,9 @@ const Footer: React.FC<FooterProps> = ( props) => {
                   className="footer__wrap-item-infor-icon"
                 />
                 <h3 className="footer__wrap-item-infor-text">
-                  {data.hotLine}
+                  <a href={`tel: ${data.hotLine}`} style={{ color: "#fff" }}>
+                    {data.hotLine}
+                  </a>
                 </h3>
               </div>
               <div className="footer__wrap-item-infor">
@@ -87,7 +87,9 @@ const Footer: React.FC<FooterProps> = ( props) => {
                   className="footer__wrap-item-infor-icon"
                 />
                 <h3 className="footer__wrap-item-infor-text">
-                  {data.email}
+                  <a href={`mailto: ${data.email}`} style={{ color: "#fff" }}>
+                    {data.email}
+                  </a>
                 </h3>
               </div>
             </div>
@@ -95,7 +97,7 @@ const Footer: React.FC<FooterProps> = ( props) => {
         </Row>
       </div>
       <Row className="footer__bottom">
-        <div style={{textAlign : "center", width: "100%"}}>
+        <div style={{ textAlign: "center", width: "100%" }}>
           <span style={{ marginRight: 12 }}>©2023</span>
           <span style={{ marginRight: 12 }}>{t.footer.LISTMENU5_3}</span>
         </div>

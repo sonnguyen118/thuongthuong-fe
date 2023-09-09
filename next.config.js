@@ -1,7 +1,6 @@
 // const withPlugins = require("next-compose-plugins");
 // const withPWA = require("next-pwa");
 // const runtimeCaching = require("next-pwa/cache");
-// const Debug = require("debug");
 
 // const withBundleAnalyzer = require("@next/bundle-analyzer")({
 //   enabled: true,
@@ -68,29 +67,31 @@
 //   ],
 //   {
 //     images: {
-//       domains: [],
+//       domains: [
+//         "https://api.thuongthuonghandmade.vn",
+//         "https://api.thuongthuonghandmade.vn/",
+//       ],
 //       unoptimized: true,
 //     },
 //   }
 // );
 
-
-/**
- * @type {import('next').NextConfig}
- */
+// /**
+//  * @type {import('next').NextConfig}
+//  */
 const nextConfig = {
   images: {
-    domains: ['https://www.kymviet.com.vn'],
+    domains: ["https://www.kymviet.com.vn"],
     unoptimized: true,
   },
   async headers() {
     return [
       {
-        source: '/socket.io/:path*',
+        source: "/socket.io/:path*",
         headers: [
           {
-            key: 'Access-Control-Allow-Origin',
-            value: 'http://localhost:5000', // Địa chỉ Nest.js server
+            key: "Access-Control-Allow-Origin",
+            value: "http://localhost:5000", // Địa chỉ Nest.js server
           },
         ],
       },
@@ -99,5 +100,3 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
-
-
