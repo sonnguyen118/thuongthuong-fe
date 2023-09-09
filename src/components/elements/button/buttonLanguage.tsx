@@ -58,54 +58,6 @@ const ButtonLanguage: React.FC = () => {
     }
   }, [langURL]);
   useEffect(() => {
-    const OriginItems = [
-      {
-        key: "vi",
-        label: (
-          <Button
-            onClick={(e) => handleLanguageChange("vi", "Tiếng Việt")}
-            icon={
-              <Image
-                src="/icon/lang/vi.png"
-                alt="Thương Thương"
-                width={30}
-                height={19}
-                loading="lazy"
-                className="button-lang-img"
-              />
-            }
-            type="text"
-            className="button-lang-btn"
-            style={{ backgroundColor: "transparent" }}
-          >
-            Tiếng Việt
-          </Button>
-        ),
-      },
-      {
-        key: "en",
-        label: (
-          <Button
-            onClick={(e) => handleLanguageChange("en", "English")}
-            icon={
-              <Image
-                src="/icon/lang/en.png"
-                alt="Thương Thương"
-                width={30}
-                height={19}
-                loading="lazy"
-                className="button-lang-img"
-              />
-            }
-            type="text"
-            className="button-lang-btn"
-            style={{ backgroundColor: "transparent" }}
-          >
-            English
-          </Button>
-        ),
-      },
-    ];
     if (langURL === "en") {
       setItems([
         {
@@ -127,7 +79,7 @@ const ButtonLanguage: React.FC = () => {
               className="button-lang-btn"
               style={{ backgroundColor: "transparent" }}
             >
-              Tiếng Việt
+              <span>Tiếng Việt</span>
             </Button>
           ),
         },
@@ -153,7 +105,7 @@ const ButtonLanguage: React.FC = () => {
               className="button-lang-btn"
               style={{ backgroundColor: "transparent" }}
             >
-              English
+              <span>English</span>
             </Button>
           ),
         },
@@ -164,7 +116,7 @@ const ButtonLanguage: React.FC = () => {
   return (
     <Space direction="vertical" className="button-lang">
       <Space wrap>
-        <Dropdown menu={{ items }} placement="top">
+        <Dropdown menu={{ items }} placement="topLeft">
           <Button
             icon={
               <Image
@@ -179,7 +131,8 @@ const ButtonLanguage: React.FC = () => {
             type="text"
             className="button-lang-btn"
           >
-            {titleLang} <CaretRightOutlined className="button-lang-btn-icon" />
+            <span className="button-lang-btn-text">{titleLang}</span>
+            <CaretRightOutlined className="button-lang-btn-icon" />
           </Button>
         </Dropdown>
       </Space>

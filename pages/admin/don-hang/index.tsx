@@ -7,8 +7,8 @@ import { NavigationAdmin } from "@components/elements/navigation";
 import { FilterAdminTable } from "@components/molecules/FilterAdmin";
 import { OrderAdmin } from "@service";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { useDispatch } from 'react-redux';
-import { setLoading } from '@slices/loadingState';
+import { useDispatch } from "react-redux";
+import { setLoading } from "@slices/loadingState";
 import { useRouter } from "next/router";
 import { DateTime } from "@utils/Functions";
 interface DataType {
@@ -55,31 +55,30 @@ const App: React.FC = () => {
     console.log("selectedRowKeys changed: ", newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };
-  useEffect(()=> {
+  useEffect(() => {
     const body = {
       page: 1,
-      size: 20 // chỉ lấy ra 5 loại thông báo mới nhất !
-    }
+      size: 20, // chỉ lấy ra 5 loại thông báo mới nhất !
+    };
     dispatch(setLoading(true));
-    OrderAdmin
-      .handleGetOrder(body)
-      .then((result:any) => {
+    OrderAdmin.handleGetOrder(body)
+      .then((result: any) => {
         // Xử lý kết quả trả về ở đây
-        const {data, meta} = result;
-        if(meta.status === 200) {
+        const { data, meta } = result;
+        if (meta.status === 200) {
           setData(data.orders);
           setTotal(data.pagination?.totalRecords ?? 0);
         }
         dispatch(setLoading(false));
       })
-      .catch((error:any) => {
+      .catch((error: any) => {
         // Xử lý lỗi ở đây
         console.log(error);
         dispatch(setLoading(false));
       });
-  },[]);
+  }, []);
   const handleGoDetailt = (record: any) => {
-    router.push(`/admin/danh-muc/danh-muc-cap-1/${record.id}`);
+    router.push(`/admin/don-hang/${record.id}`);
   };
   const rowSelection: TableRowSelection<DataType> = {
     selectedRowKeys,
@@ -109,9 +108,7 @@ const App: React.FC = () => {
     {
       title: "Thời gian đặt hàng",
       dataIndex: "createdAt",
-      render: (createdAt) => (
-        <>{DateTime.formatExacthlyTimeTable(createdAt)}</>
-      )
+      render: (createdAt) => <>{DateTime.formatExacthlyTimeTable(createdAt)}</>,
     },
     {
       title: "Địa chỉ",
@@ -121,12 +118,11 @@ const App: React.FC = () => {
       title: "Trạng thái",
       render: (record) => (
         <>
-        {record.status ? (
-          <span style={{color: "red"}}>Chưa xử lý</span>
-        ):(
-          <span style={{color: "green"}}>Đã duyệt</span>
-        )}
-          
+          {record.status ? (
+            <span style={{ color: "red" }}>Chưa xử lý</span>
+          ) : (
+            <span style={{ color: "green" }}>Đã duyệt</span>
+          )}
         </>
       ),
     },
@@ -134,7 +130,9 @@ const App: React.FC = () => {
       title: "Thao tác",
       render: (record) => (
         <>
-          <Button onClick={(e)=> handleGoDetailt(record)}><EditOutlined /></Button>
+          <Button onClick={(e) => handleGoDetailt(record)}>
+            <EditOutlined />
+          </Button>
         </>
       ),
     },

@@ -778,6 +778,11 @@
 }
 
 @include responsive_320 {
+  .button-lang-btn {
+    &-text {
+      display: none;
+    }
+  }
   .home {
     &__slider {
       width: 100%;
@@ -1157,6 +1162,11 @@
 }
 
 @include responsive_375 {
+  .button-lang-btn {
+    &-text {
+      display: none !important;
+    }
+  }
   .home {
     &__slider {
       width: 100%;
@@ -1536,6 +1546,11 @@
 }
 
 @include responsive_456 {
+  .button-lang-btn {
+    &-text {
+      display: none;
+    }
+  }
   .home {
     &__slider {
       width: 100%;

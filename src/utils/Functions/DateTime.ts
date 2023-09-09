@@ -129,4 +129,8 @@ function formatExacthlyTimeTable(
   return formattedDate;
 }
 
-export default { formatDateTime, formatExacthlyTime, formatExacthlyTimeTable };
+export default {
+  formatDateTime,
+  formatExacthlyTime,
+  formatExacthlyTimeTable,
+};

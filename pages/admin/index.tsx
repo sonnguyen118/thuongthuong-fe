@@ -153,7 +153,7 @@ const AdminMain: React.FC = () => {
             }
             data={navigationData}
           />
-          <div className="admin__main">
+          {/* <div className="admin__main">
             <div className="admin__main-card">
               <CardStatisticalAdmin
                 header={"Số lượng đơn hàng"}
@@ -265,6 +265,10 @@ const AdminMain: React.FC = () => {
                 </div>
               </div>
             </div>
+          </div> */}
+          <div style={{ color: "red", fontWeight: 600, fontSize: 30 }}>
+            Vui Lòng thanh toán phí 2.000.000 VNĐ cọc dịch vụ sử dụng website...
+            <br></br>
           </div>
         </div>
       </Dashboard>

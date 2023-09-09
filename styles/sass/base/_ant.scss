@@ -64,3 +64,8 @@
 :where(.css-dev-only-do-not-override-1e3x2xa).ant-btn-default {
   background-color: transparent !important;
 }
+.ant-space-item {
+  background-color: #fff;
+  z-index: 1000;
+  border-radius: 5px;
+}

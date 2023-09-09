@@ -7,8 +7,8 @@ import { NavigationAdmin } from "@components/elements/navigation";
 import { FilterAdminTable } from "@components/molecules/FilterAdmin";
 import { OrderAdmin } from "@service";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { useDispatch } from 'react-redux';
-import { setLoading } from '@slices/loadingState';
+import { useDispatch } from "react-redux";
+import { setLoading } from "@slices/loadingState";
 import { useRouter } from "next/router";
 import { DateTime } from "@utils/Functions";
 interface DataType {
@@ -55,30 +55,29 @@ const App: React.FC = () => {
     console.log("selectedRowKeys changed: ", newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };
-  useEffect(()=> {
+  useEffect(() => {
     const body = {
       status: 1,
       page: 1,
-      size: 20 // chỉ lấy ra 5 loại thông báo mới nhất !
-    }
+      size: 20, // chỉ lấy ra 5 loại thông báo mới nhất !
+    };
     dispatch(setLoading(true));
-    OrderAdmin
-      .handleGetOrder(body)
-      .then((result:any) => {
+    OrderAdmin.handleGetOrder(body)
+      .then((result: any) => {
         // Xử lý kết quả trả về ở đây
-        const {data, meta} = result;
-        if(meta.status === 200) {
+        const { data, meta } = result;
+        if (meta.status === 200) {
           setData(data.orders);
           setTotal(data.pagination?.totalRecords ?? 0);
         }
         dispatch(setLoading(false));
       })
-      .catch((error:any) => {
+      .catch((error: any) => {
         // Xử lý lỗi ở đây
         console.log(error);
         dispatch(setLoading(false));
       });
-  },[]);
+  }, []);
   const handleGoDetailt = (record: any) => {
     router.push(`/admin/don-hang/${record.id}`);
   };
@@ -110,9 +109,7 @@ const App: React.FC = () => {
     {
       title: "Thời gian đặt hàng",
       dataIndex: "createdAt",
-      render: (createdAt) => (
-        <>{DateTime.formatExacthlyTimeTable(createdAt)}</>
-      )
+      render: (createdAt) => <>{DateTime.formatExacthlyTimeTable(createdAt)}</>,
     },
     {
       title: "Địa chỉ",
@@ -122,7 +119,9 @@ const App: React.FC = () => {
       title: "Thao tác",
       render: (link, record) => (
         <>
-          <Button onClick={(e)=> handleGoDetailt(record)}><EditOutlined /></Button>
+          <Button onClick={(e) => handleGoDetailt(record)}>
+            <EditOutlined />
+          </Button>
         </>
       ),
     },

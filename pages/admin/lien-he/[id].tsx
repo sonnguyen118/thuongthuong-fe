@@ -5,12 +5,12 @@ import { Tabs, Button, Input, Select, Form, notification } from "antd";
 import type { TabsProps } from "antd";
 import { StarFilled } from "@ant-design/icons";
 import { useRouter } from "next/router";
-import { OrderAdmin } from "@service";
+import { ContactAdmin } from "@service";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { setLoading } from "@slices/loadingState";
-import { normalizeString } from "@utils/Mocks";
+import DateTime from "@utils/Functions/DateTime";
 
 interface RootState {
   loading: {
@@ -23,18 +23,18 @@ interface NavigationProps {
   link: string;
 }
 interface dataOrder {
-    id: 1,
-    name: string;
-    address: string;
-    phone: string;
-    email: string;
-    time: null | string;
-    description: null | string;
-    status: 1;
-    softDeleted: 0;
-    createdAt: "2023-07-15T04:31:44.326Z";
-    updatedAt: "2023-07-15T04:31:44.326Z";
-    products: any;
+  id: 1;
+  name: string;
+  address: string;
+  phone: string;
+  email: string;
+  time: null | string;
+  description: null | string;
+  status: 1;
+  softDeleted: 0;
+  createdAt: "2023-07-15T04:31:44.326Z";
+  updatedAt: "2023-07-15T04:31:44.326Z";
+  products: any;
 }
 
 const App: React.FC = () => {
@@ -44,29 +44,24 @@ const App: React.FC = () => {
   const [data, setData] = useState<dataOrder>();
   const { id } = router.query;
   // lấy toàn bộ dữ liệu
-  useEffect(()=> {
-    const body = {
-        id: id,
+  useEffect(() => {
+    if (id) {
+      dispatch(setLoading(true));
+      ContactAdmin.handleGetDetail(id)
+        .then((result: any) => {
+          // Xử lý kết quả trả về ở đây
+          const { data } = result;
+          setData(result);
+
+          dispatch(setLoading(false));
+        })
+        .catch((error: any) => {
+          // Xử lý lỗi ở đây
+          console.log(error);
+          dispatch(setLoading(false));
+        });
     }
-    dispatch(setLoading(true));
-    OrderAdmin
-      .handleGetOrder(body)
-      .then((result:any) => {
-        // Xử lý kết quả trả về ở đây
-        const {data, meta} = result;
-        if(meta.status === 200) {
-            if(data.orders?.length > 0) {
-                setData(data.orders[0]);
-            }
-        }
-        dispatch(setLoading(false));
-      })
-      .catch((error:any) => {
-        // Xử lý lỗi ở đây
-        console.log(error);
-        dispatch(setLoading(false));
-      });
-  },[]);
+  }, [id]);
 
   const navigationData: NavigationProps[] = [
     {
@@ -82,25 +77,24 @@ const App: React.FC = () => {
     {
       id: 3,
       title: "Chi tiết đơn hàng",
-      link:"/admin/don-hang/chi-tiet-don-hang",
-    }
+      link: "/admin/don-hang/chi-tiet-don-hang",
+    },
   ];
   const handleSubmit = () => {
     const body = {
-      id: Number(id),
+      ids: [Number(id)],
       status: 0,
     };
     dispatch(setLoading(true));
-    OrderAdmin
-      .handleChangeStatus(body)
+    ContactAdmin.handleUpdateStatus(body)
       .then((result: any) => {
         notification.success({
           message: "Duyệt thành công",
-          description: "Bạn đã tiến hành xác nhận đơn hàng này đã được duyệt",
+          description: "Bạn đã tiến hành xác nhận Liên hệ này đã được duyệt",
           duration: 1.5,
           onClose: () => {
             dispatch(setLoading(false));
-            router.push("/admin/don-hang");
+            router.push("/admin/lien-he");
           },
         });
       })
@@ -117,50 +111,73 @@ const App: React.FC = () => {
         });
       });
   };
+  console.log(data, "data");
   return (
     <Dashboard>
       <div className="admin__main-wrap">
         <NavigationAdmin
           header={"Chi tiết Liên Hệ"}
-          description={
-            "Trang quản lý chi tiết Liên Hệ"
-          }
+          description={"Trang quản lý chi tiết Liên Hệ"}
           data={navigationData}
         />
-            {data && 
-                <div className="admin-order-wrap">
-                    <div className="admin-order-wrap-title">Khách hàng: <span className="admin-order-wrap-title-hightlight">{data.name}</span></div>
-                    <div className="admin-order-wrap-title">Số điện thoại: <span className="admin-order-wrap-title-hightlight">{data.phone}</span></div>
-                    <div className="admin-order-wrap-title">Địa chỉ: <span className="admin-order-wrap-title-hightlight">{data.address}</span></div>
-                    <div className="admin-order-wrap-title">Email: <span className="admin-order-wrap-title-hightlight">{data.email}</span></div>
-                    <div className="admin-order-wrap-cart">
-                    <div className="admin-order-wrap-cart-title">
-                        Khách đã đặt hàng gồm các sản phẩm sau
-                    </div>
-                    <div className="admin-order-wrap-cart-list">
-                        {data.products?.map((product:any, index:any)=> (
-                            <div className="admin-order-wrap-cart-list-item" key={index}>
-                                <div className="admin-order-wrap-cart-list-item-stt">{index + 1}. </div>
-                            <div className="admin-order-wrap-cart-list-item-name">{product.name}</div>
-                            <div className="admin-order-wrap-cart-list-item-sl">Số lượng: {product.quantity}</div>
-                            </div>
-                        ))}
-                    </div>
-                    </div>
-                </div>
-            }
-
-        <div className="admin__main-save">
-              <Button type="default">Hủy</Button>
-              <Button
-                type="primary"
-                style={{ marginLeft: 10 }}
-                onClick={handleSubmit}
-              >
-                Duyệt đơn
-              </Button>
+        {data && (
+          <>
+            <div className="admin-order-wrap">
+              <div className="admin-order-wrap-title">
+                Khách hàng:{" "}
+                <span className="admin-order-wrap-title-hightlight">
+                  {data.name}
+                </span>
+              </div>
+              <div className="admin-order-wrap-title">
+                Số điện thoại:{" "}
+                <span className="admin-order-wrap-title-hightlight">
+                  {data.phone}
+                </span>
+              </div>
+              <div className="admin-order-wrap-title">
+                Email:{" "}
+                <span className="admin-order-wrap-title-hightlight">
+                  {data.email}
+                </span>
+              </div>
+              <div className="admin-order-wrap-title">
+                Lời nhắn:{" "}
+                <span className="admin-order-wrap-title-hightlight">
+                  {data.description}
+                </span>
+              </div>
+              <div className="admin-order-wrap-title">
+                Thời gian gửi:{" "}
+                <span className="admin-order-wrap-title-hightlight">
+                  {DateTime.formatExacthlyTime(data.createdAt)}
+                </span>
+              </div>
             </div>
-        </div>
+            <div className="admin__main-save">
+              {!data.status ? (
+                <>
+                  <span style={{ color: "red", marginRight: 20 }}>
+                    Liên Hệ này đã được duyệt vào lúc{" "}
+                    {DateTime.formatExacthlyTime(data.updatedAt)}
+                  </span>
+                </>
+              ) : (
+                <>
+                  <Button type="default">Hủy</Button>
+                  <Button
+                    type="primary"
+                    style={{ marginLeft: 10 }}
+                    onClick={handleSubmit}
+                  >
+                    Duyệt
+                  </Button>
+                </>
+              )}
+            </div>
+          </>
+        )}
+      </div>
     </Dashboard>
   );
 };
