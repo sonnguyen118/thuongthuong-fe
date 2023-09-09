@@ -49,22 +49,13 @@ const NavbarPC: React.FC<NavbarProps> = (props) => {
         .catch((error) => {});
     }
   }, []);
-  // useEffect(() => {
-  //   handleCategoryClient
-  //     .handleGetAllCategory("VI")
-  //     .then((result: any) => {
-  //       setCategory(result);
-  //     })
-  //     .catch((error) => {});
-  // }, []);
+
   useEffect(() => {
     if (category && category.length > 0) {
       const newArray: MenuProps["items"] = category.map((item: any) => ({
         key: item.id,
         label: (
           <Link
-            // target="_blank"
-            // rel="noopener noreferrer"
             href={`/san-pham/` + item.link}
             className="navbar__pc-item-dropdown-item"
             style={{ width: 500 }}

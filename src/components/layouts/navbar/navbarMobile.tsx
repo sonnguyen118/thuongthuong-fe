@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Menu, Input, Button, Popover, List, Badge, Dropdown } from "antd";
-// Import thư viện Ant Design
+import { CaretRightOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -118,72 +118,7 @@ const NavbarMobile: React.FC<NavbarProps> = (props) => {
   const handleInputClick = (e: any) => {
     e.stopPropagation();
   };
-  console.log(data, "data");
-  const cartContent = (
-    <>
-      {cartItems.length > 0 ? (
-        <>
-          <h5 className="cart-title">{t.button.BUTTON8}</h5>
-          <List
-            size="small"
-            dataSource={cartItems}
-            className="cart-list"
-            renderItem={(item) => (
-              <List.Item className="cart-item">
-                <div className="cart-item-information">
-                  <Image
-                    src={item.imageUrl}
-                    alt={item.title}
-                    className="cart-item-information-img"
-                    width={60}
-                    height={60}
-                  />
-                  <div className="cart-item-information-text">
-                    <h3 className="cart-item-information-text-title">
-                      {item.title}
-                    </h3>
-                    <p className="cart-item-information-text-quantity">
-                      {t.products.QUANTITY}: x{item.quantity}
-                    </p>
-                  </div>
-                </div>
-                <div className="cart-item-price">
-                  <p className="cart-item-price-text">
-                    {item.price === 0 ? (
-                      <>{t.products.PRICE}</>
-                    ) : (
-                      <>{item.price}</>
-                    )}
-                  </p>
-                </div>
-              </List.Item>
-            )}
-          />
-          <div className="cart-btn">
-            <Link href="/gio-hang">
-              <Button
-                type={"primary"}
-                className="btn btn-primary cart-btn-item"
-              >
-                {t.button.BUTTON9}
-              </Button>
-            </Link>
-          </div>
-        </>
-      ) : (
-        <>
-          <Image
-            src="images/cart_empty.png"
-            alt="Thương Thương giỏ hàng"
-            className="cart-none-image"
-            width={360}
-            height={260}
-          />
-          <h3 className="cart-none-text">{t.notical.TITLE1}</h3>
-        </>
-      )}
-    </>
-  );
+
   const menu = (
     <Menu
       className="navbar__mobile-body-icon-dropdown"
@@ -208,14 +143,36 @@ const NavbarMobile: React.FC<NavbarProps> = (props) => {
         <div className="navbar__mobile-header">
           <div className="navbar__mobile-header-icon">
             <SearchOutlined className="navbar__mobile-header-icon-item" />
-            <ShoppingCartOutlined className="navbar__mobile-header-icon-item" />
+            <Badge
+              count={numberOfCartItems}
+              overflowCount={99}
+              style={{ backgroundColor: "red" }}
+            >
+              <Link href="/gio-hang">
+                <Button
+                  icon={
+                    <ShoppingCartOutlined
+                      className="navbar__mobile-header-icon-item"
+                    />
+                  }
+                  style={{
+                    border: "none",
+                    textDecoration: "underline",
+                    boxShadow: "none",
+                  }}
+                />
+              </Link>
+            </Badge>
           </div>
           <div className="navbar__mobile-header-title">
-            <span className="navbar__mobile-header-title-item">
+            {/* <span className="navbar__mobile-header-title-item">
               <Link href={"/"}>Tin Tức</Link>
-            </span>
+            </span> */}
             <span className="navbar__mobile-header-title-item">
-              <Link href={"/"}>Sản Phẩm</Link>
+              <Link href={"/san-pham/danh-muc"}>
+                Danh Mục Sản Phẩm
+                <CaretRightOutlined className="navbar__mobile-header-title-item-icon" />
+              </Link>
             </span>
           </div>
         </div>

@@ -18,6 +18,9 @@
     right: 0;
     z-index: 5000;
     background-color: #092e5c;
+    .ant-scroll-number.ant-badge-count {
+      top: 5px !important;
+    }
     &-header {
       display: flex;
       align-items: center;
@@ -91,6 +94,9 @@
     right: 0;
     z-index: 5000;
     background-color: #092e5c;
+    .ant-scroll-number.ant-badge-count {
+      top: 5px !important;
+    }
     &-header {
       display: flex;
       align-items: center;
@@ -110,6 +116,11 @@
             font-size: 16px;
             font-family: $font-title;
             margin-left: 15px;
+          }
+          &-icon {
+            position: relative;
+            top: 1px;
+            left: 2px;
           }
         }
       }
@@ -164,6 +175,9 @@
     right: 0;
     z-index: 5000;
     background-color: #092e5c;
+    .ant-scroll-number.ant-badge-count {
+      top: 5px !important;
+    }
     &-header {
       display: flex;
       align-items: center;

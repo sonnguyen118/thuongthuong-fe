@@ -60,3 +60,7 @@
   .ant-pagination-item-active {
   border-color: $color-primary !important;
 }
+
+:where(.css-dev-only-do-not-override-1e3x2xa).ant-btn-default {
+  background-color: transparent !important;
+}

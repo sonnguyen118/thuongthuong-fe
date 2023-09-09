@@ -257,7 +257,7 @@ const OrdersCart: React.FC<pagesProps> = (props: pagesProps) => {
                     </div>
                   </div>
                   <div className={classes.control}>
-                    <input
+                    <Input
                       type="text"
                       required
                       id="name"
@@ -267,7 +267,7 @@ const OrdersCart: React.FC<pagesProps> = (props: pagesProps) => {
                     />
                   </div>
                   <div className={classes.control}>
-                    <input
+                    <Input
                       type="text"
                       required
                       id="phone"
@@ -278,7 +278,7 @@ const OrdersCart: React.FC<pagesProps> = (props: pagesProps) => {
                     />
                   </div>
                   <div className={classes.control}>
-                    <input
+                    <Input
                       type="email"
                       required
                       id="email"
@@ -288,14 +288,14 @@ const OrdersCart: React.FC<pagesProps> = (props: pagesProps) => {
                     />
                   </div>
                   <div className={classes.control}>
-                    <textarea
+                    <TextArea
                       id="address"
                       required
                       rows={5}
                       placeholder={t.bills.TITLE8}
                       value={addressInputRef}
                       onChange={addressChangeHandler}
-                    ></textarea>
+                    ></TextArea>
                   </div>
                 </div>
                 <div className="products-bill-block-b1 products-bill-block-b2">
