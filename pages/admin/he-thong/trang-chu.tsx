@@ -1133,7 +1133,7 @@ const App: React.FC = () => {
                 <>
                   <TextArea
                     showCount
-                    maxLength={400}
+                    maxLength={800}
                     style={{ height: 60, marginBottom: 20 }}
                     placeholder="Nhập nội dung (tiếng việt)"
                     onChange={(event) => setTitleBlockS1VI(event.target.value)}
@@ -1141,7 +1141,7 @@ const App: React.FC = () => {
                   />
                   <TextArea
                     showCount
-                    maxLength={400}
+                    maxLength={800}
                     style={{ height: 60, marginBottom: 24 }}
                     placeholder="Nhập nội dung (tiếng việt)"
                     onChange={(event) =>
@@ -1154,7 +1154,7 @@ const App: React.FC = () => {
                 <>
                   <TextArea
                     showCount
-                    maxLength={400}
+                    maxLength={800}
                     style={{ height: 60, marginBottom: 20 }}
                     placeholder="Nhập nội dung (tiếng anh)"
                     onChange={(event) => setTitleBlockS1EN(event.target.value)}
@@ -1162,7 +1162,7 @@ const App: React.FC = () => {
                   />
                   <TextArea
                     showCount
-                    maxLength={400}
+                    maxLength={800}
                     style={{ height: 60, marginBottom: 24 }}
                     placeholder="Nhập nội dung (tiếng anh)"
                     onChange={(event) =>
@@ -1181,7 +1181,7 @@ const App: React.FC = () => {
                 <>
                   <TextArea
                     showCount
-                    maxLength={400}
+                    maxLength={800}
                     style={{ height: 60, marginBottom: 20 }}
                     placeholder="Nhập nội dung (tiếng việt)"
                     onChange={(event) => setTitleBlockS2VI(event.target.value)}
@@ -1189,7 +1189,7 @@ const App: React.FC = () => {
                   />
                   <TextArea
                     showCount
-                    maxLength={400}
+                    maxLength={800}
                     style={{ height: 60, marginBottom: 24 }}
                     placeholder="Nhập nội dung (tiếng việt)"
                     onChange={(event) =>
@@ -1202,7 +1202,7 @@ const App: React.FC = () => {
                 <>
                   <TextArea
                     showCount
-                    maxLength={400}
+                    maxLength={800}
                     style={{ height: 60, marginBottom: 20 }}
                     placeholder="Nhập nội dung (tiếng anh)"
                     onChange={(event) => setTitleBlockS2EN(event.target.value)}
@@ -1210,7 +1210,7 @@ const App: React.FC = () => {
                   />
                   <TextArea
                     showCount
-                    maxLength={400}
+                    maxLength={800}
                     style={{ height: 60, marginBottom: 24 }}
                     placeholder="Nhập nội dung (tiếng anh)"
                     onChange={(event) =>
@@ -1227,7 +1227,7 @@ const App: React.FC = () => {
                 <>
                   <TextArea
                     showCount
-                    maxLength={400}
+                    maxLength={800}
                     style={{ height: 60, marginBottom: 20 }}
                     placeholder="Nhập nội dung (tiếng việt)"
                     onChange={(event) => setTitleBlockS3VI(event.target.value)}
@@ -1235,7 +1235,7 @@ const App: React.FC = () => {
                   />
                   <TextArea
                     showCount
-                    maxLength={400}
+                    maxLength={800}
                     style={{ height: 60, marginBottom: 24 }}
                     placeholder="Nhập nội dung (tiếng việt)"
                     onChange={(event) =>
@@ -1248,7 +1248,7 @@ const App: React.FC = () => {
                 <>
                   <TextArea
                     showCount
-                    maxLength={400}
+                    maxLength={800}
                     style={{ height: 60, marginBottom: 20 }}
                     placeholder="Nhập nội dung (tiếng anh)"
                     onChange={(event) => setTitleBlockS3EN(event.target.value)}
@@ -1256,7 +1256,7 @@ const App: React.FC = () => {
                   />
                   <TextArea
                     showCount
-                    maxLength={400}
+                    maxLength={800}
                     style={{ height: 60, marginBottom: 24 }}
                     placeholder="Nhập nội dung (tiếng anh)"
                     onChange={(event) =>
@@ -1335,7 +1335,7 @@ const App: React.FC = () => {
                   <>
                     <TextArea
                       showCount
-                      maxLength={400}
+                      maxLength={800}
                       style={{ height: 80, marginBottom: 24 }}
                       placeholder="Nhập nội dung (tiếng việt)"
                       onChange={(event) =>
@@ -1345,7 +1345,7 @@ const App: React.FC = () => {
                     />
                     <TextArea
                       showCount
-                      maxLength={400}
+                      maxLength={800}
                       style={{ height: 80, marginBottom: 24 }}
                       placeholder="Nhập nội dung (tiếng việt)"
                       onChange={(event) =>
@@ -1355,7 +1355,7 @@ const App: React.FC = () => {
                     />
                     <TextArea
                       showCount
-                      maxLength={400}
+                      maxLength={800}
                       style={{ height: 80, marginBottom: 24 }}
                       placeholder="Nhập nội dung (tiếng việt)"
                       onChange={(event) =>
@@ -1368,7 +1368,7 @@ const App: React.FC = () => {
                   <>
                     <TextArea
                       showCount
-                      maxLength={400}
+                      maxLength={800}
                       style={{ height: 80, marginBottom: 20 }}
                       placeholder="Nhập nội dung (tiếng anh)"
                       onChange={(event) =>
@@ -1378,7 +1378,7 @@ const App: React.FC = () => {
                     />
                     <TextArea
                       showCount
-                      maxLength={400}
+                      maxLength={800}
                       style={{ height: 80, marginBottom: 20 }}
                       placeholder="Nhập nội dung (tiếng anh)"
                       onChange={(event) =>
@@ -1388,7 +1388,7 @@ const App: React.FC = () => {
                     />
                     <TextArea
                       showCount
-                      maxLength={400}
+                      maxLength={800}
                       style={{ height: 80, marginBottom: 20 }}
                       placeholder="Nhập nội dung (tiếng anh)"
                       onChange={(event) =>

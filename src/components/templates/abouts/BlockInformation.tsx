@@ -18,7 +18,11 @@ interface dataSource {
 }
 
 const BlockInformation: React.FC<dataSource> = ({
-  isShow, image, title, description, position
+  isShow,
+  image,
+  title,
+  description,
+  position,
 }) => {
   console.log(image);
   const settings = {
@@ -27,6 +31,8 @@ const BlockInformation: React.FC<dataSource> = ({
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
   };
   const slider = useRef<Slider>(null);
   const next = () => {
@@ -37,47 +43,54 @@ const BlockInformation: React.FC<dataSource> = ({
   };
   return (
     <>
-    {
-      isShow && (
-      <div className="about__block">
-        <div className="about__block-image" style={{ order:  position ? 2 : 1}}>
-          {image.length > 1 && (
-            <>
-              <div className="about__block-image-btn1" onClick={previous}>
-                <RightCircleOutlined />
-              </div>
-              <div className="about__block-image-btn2" onClick={next}>
-                <LeftCircleOutlined />
-              </div>
-            </>
-          )}
+      {isShow && (
+        <div className="about__block">
+          <div
+            className="about__block-image"
+            style={{ order: position ? 2 : 1 }}
+          >
+            {image.length > 1 && (
+              <>
+                <div className="about__block-image-btn1" onClick={previous}>
+                  <RightCircleOutlined />
+                </div>
+                <div className="about__block-image-btn2" onClick={next}>
+                  <LeftCircleOutlined />
+                </div>
+              </>
+            )}
 
-          <Slider ref={slider} {...settings}>
-            {image &&
-              image.map((data, i) => (
-                <Image
-                  key={i}
-                  src={process.env.NEXT_PUBLIC_API_URL +"/"+ data}
-                  alt="Thương Thương Giới thiệu"
-                  className="about__block-image-item"
-                  width={500}
-                  height={500}
-                />
-              ))}
-          </Slider>
+            <Slider ref={slider} {...settings}>
+              {image &&
+                image.map((data, i) => (
+                  <Image
+                    key={i}
+                    src={process.env.NEXT_PUBLIC_API_URL + "/" + data}
+                    alt="Thương Thương Giới thiệu"
+                    className="about__block-image-item"
+                    width={500}
+                    height={500}
+                  />
+                ))}
+            </Slider>
+          </div>
+          <div
+            className="about__block-information"
+            style={{ order: position ? 1 : 2 }}
+          >
+            <h3 className="about__block-information-title">{title}</h3>
+            <p className="about__block-information-description">
+              {description.content1}
+            </p>
+            <p className="about__block-information-description">
+              {description.content2}
+            </p>
+            <p className="about__block-information-description">
+              {description.content3}
+            </p>
+          </div>
         </div>
-        <div
-          className="about__block-information"
-          style={{ order: position ? 1 : 2 }}
-        >
-          <h3 className="about__block-information-title">{title}</h3>
-          <p className="about__block-information-description">{description.content1}</p>
-          <p className="about__block-information-description">{description.content2}</p>
-          <p className="about__block-information-description">{description.content3}</p>
-        </div>
-      </div>
-    )
-    }
+      )}
     </>
   );
 };

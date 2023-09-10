@@ -266,10 +266,10 @@ const AdminMain: React.FC = () => {
               </div>
             </div>
           </div> */}
-          <div style={{ color: "red", fontWeight: 600, fontSize: 30 }}>
+          {/* <div style={{ color: "red", fontWeight: 600, fontSize: 30 }}>
             Vui Lòng thanh toán phí 2.000.000 VNĐ cọc dịch vụ sử dụng website...
             <br></br>
-          </div>
+          </div> */}
         </div>
       </Dashboard>
     </>

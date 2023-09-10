@@ -40,7 +40,6 @@ const SliderSync: React.FC<listSliderProps> = (props) => {
     beforeChange: () => {
       console.log("slider1 before change");
     },
-    
   };
 
   const settings2: Settings = {
@@ -48,6 +47,8 @@ const SliderSync: React.FC<listSliderProps> = (props) => {
     slidesToShow: 10,
     swipeToSlide: true,
     focusOnSelect: true,
+    autoplay: true,
+    autoplaySpeed: 2000,
     beforeChange: () => {
       console.log("slider2 before change");
     },
@@ -106,10 +107,7 @@ const SliderSync: React.FC<listSliderProps> = (props) => {
         </div>
         <Slider {...settings1} ref={slider1Ref}>
           {listSlider.map((data, i) => (
-            <div
-              key={i}
-              className="home__listproducts-slider-big-item-wrap"
-            >
+            <div key={i} className="home__listproducts-slider-big-item-wrap">
               {/* <div
                 className="home__listproducts-slider-big-item"
                 style={{
@@ -122,12 +120,14 @@ const SliderSync: React.FC<listSliderProps> = (props) => {
               <Image
                 className="home__listproducts-slider-big-item"
                 style={{
-                  backgroundImage: `url(${process.env.NEXT_PUBLIC_API_URL + "/" + data})`,
+                  backgroundImage: `url(${
+                    process.env.NEXT_PUBLIC_API_URL + "/" + data
+                  })`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat",
                 }}
-                src={process.env.NEXT_PUBLIC_API_URL + "/" +data}
+                src={process.env.NEXT_PUBLIC_API_URL + "/" + data}
                 alt="Thương Thương"
               />
             </div>
@@ -146,25 +146,21 @@ const SliderSync: React.FC<listSliderProps> = (props) => {
         </div>
         <Slider {...settings2} ref={slider2Ref}>
           {listSlider.map((data, i) => (
-            <div
-              key={i}
-              className="home__listproducts-slider-small-item-wrap"
-            >
+            <div key={i} className="home__listproducts-slider-small-item-wrap">
               <img
                 className="home__listproducts-slider-small-item"
-                src={process.env.NEXT_PUBLIC_API_URL +"/"+ data}
+                src={process.env.NEXT_PUBLIC_API_URL + "/" + data}
                 style={{
                   objectFit: "cover",
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat",
                 }}
-              >
-              </img>
+              ></img>
             </div>
           ))}
         </Slider>
       </div>
     </div>
   );
-}
+};
 export default SliderSync;
