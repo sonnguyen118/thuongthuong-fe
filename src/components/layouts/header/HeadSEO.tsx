@@ -20,6 +20,7 @@ const HeadSEO: React.FC<PageSEOProps> = ({ pageSEO, url, image }) => {
       <meta name="title" content={orEmpty("title", pageSEO)} />
       <meta name="keywords" content={orEmpty("keywords", pageSEO)} />
       <meta name="description" content={orEmpty("description", pageSEO)} />
+      <meta property="og:locale" content="vi_VN"></meta>
       <meta property="og:type" content="website" />
       <meta property="og:url" content={url} />
       <meta property="og:title" content={orEmpty("title", pageSEO)} />
@@ -28,7 +29,10 @@ const HeadSEO: React.FC<PageSEOProps> = ({ pageSEO, url, image }) => {
         content={orEmpty("description", pageSEO)}
       />
       {image && <meta property="og:image" content={image} />}
-      php Copy code
+      <meta
+        property="article:modified_time"
+        content="2023-08-28T09:39:44+00:00"
+      ></meta>
       <meta property="twitter:card" content="summary_large_image" />
       <meta property="twitter:url" content={orEmpty("url", pageSEO)} />
       <meta property="twitter:title" content={orEmpty("title", pageSEO)} />
@@ -43,10 +47,19 @@ const HeadSEO: React.FC<PageSEOProps> = ({ pageSEO, url, image }) => {
       />
       <meta
         httpEquiv="Content-Security-Policy"
-        content="frame-src *.30shine.com *.30shine.org *.google.com *.facebook.com *.appcues.com *.useinsider.com http://useinsider.com https://useinsider.com *.youtube.com https://www.youtube.com"
+        content="frame-src *.google.com *.facebook.com https://thuongthuonghandmade.vn/ https://thuongthuonghandmade.vn http://thuongthuonghandmade.vn http://thuongthuonghandmade.vn/ http://thuongthuong.net http://thuongthuong.net/ *.youtube.com https://www.youtube.com"
       />
+      <meta
+        name="robots"
+        content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+      ></meta>
+      <meta name="dlm-version" content="4.8.6"></meta>
       <link rel="canonical" href={url} />
       <link rel="alternate" href={url} hrefLang="vi-vn" />
+      {/* <!-- / Yoast SEO Premium plugin. --> */}
+      <link rel="dns-prefetch" href="//thuongthuonghandmade.vn"></link>
+      <meta name="generator" content="Nextjs13"></meta>
+      <link rel="shortlink" href="https://thuongthuonghandmade.vn/"></link>
     </Head>
   );
 };
